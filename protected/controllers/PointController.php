@@ -41,7 +41,7 @@ class PointController extends Controller
 		$model=new Point;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Point']))
 		{
@@ -65,7 +65,7 @@ class PointController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Point']))
 		{
@@ -97,7 +97,9 @@ class PointController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Point');
+		$dataProvider=new CActiveDataProvider('Point', array('criteria' =>
+			array('order' => 'date DESC, id'), 'pagination' => array('pagesize'
+			=> 10)));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
