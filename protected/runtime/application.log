@@ -1,0 +1,31 @@
+2013/08/26 18:45:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to find the code you requested.' in /home/istarstein/web/yii/framework/gii/CCodeGenerator.php:90
+Stack trace:
+#0 /home/istarstein/web/yii/framework/web/actions/CInlineAction.php(49): CCodeGenerator->actionCode()
+#1 /home/istarstein/web/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#2 /home/istarstein/web/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#3 /home/istarstein/web/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 /home/istarstein/web/yii/framework/web/CWebApplication.php(282): CController->run('code')
+#5 /home/istarstein/web/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('gii/model/code')
+#6 /home/istarstein/web/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/istarstein/web/diary/index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/web/diary/index.php?r=gii/model/code&id=0
+HTTP_REFERER=http://localhost/web/diary/index.php?r=gii/model/index
+---
+2013/08/26 18:50:53 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /home/istarstein/web/yii/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /home/istarstein/web/yii/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#1 /home/istarstein/web/yii/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /home/istarstein/web/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /home/istarstein/web/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /home/istarstein/web/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /home/istarstein/web/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /home/istarstein/web/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /home/istarstein/web/yii/framework/web/CWebApplication.php(282): CController->run('admin')
+#8 /home/istarstein/web/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('point/admin')
+#9 /home/istarstein/web/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /home/istarstein/web/diary/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/web/diary/index.php?r=point/admin
+HTTP_REFERER=http://localhost/web/diary/index.php?r=point/create
+---
