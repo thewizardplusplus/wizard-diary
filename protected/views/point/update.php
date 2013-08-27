@@ -2,20 +2,6 @@
 /* @var $this PointController */
 /* @var $model Point */
 
-$this->breadcrumbs=array(
-	'Points'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
-);
+$this->pageTitle = Yii::app()->name . ' - Изменить пункт';
 
-$this->menu=array(
-	array('label'=>'List Point', 'url'=>array('index')),
-	array('label'=>'Create Point', 'url'=>array('create')),
-	array('label'=>'View Point', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Point', 'url'=>array('admin')),
-);
-?>
-
-<h1>Update Point <?php echo $model->id; ?></h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+$this->renderPartial('_form', array('model' => $model));
