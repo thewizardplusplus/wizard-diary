@@ -33,29 +33,6 @@ class PointController extends Controller
 	}
 
 	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Point;
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Point']))
-		{
-			$model->attributes=$_POST['Point'];
-			if($model->save())
-				$this->redirect(array('index'));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
@@ -97,10 +74,24 @@ class PointController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$model=new Point;
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['Point']))
+		{
+			$model->attributes=$_POST['Point'];
+			$model->save();
+
+			$model=new Point;
+		}
+
 		$dataProvider=new CActiveDataProvider('Point', array('criteria' =>
-			array('order' => 'date DESC, id'), 'pagination' => array('pagesize'
+			array('order' => 'date, id'), 'pagination' => array('pagesize'
 			=> 10)));
 		$this->render('index',array(
+			'model'=>$model,
 			'dataProvider'=>$dataProvider,
 		));
 	}

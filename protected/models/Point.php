@@ -26,11 +26,17 @@ class Point extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('text', 'required'),
+		/*return array(
 			array('state', 'in', 'range' => array('INITIAL', 'SATISFIED',
 				'NOT_SATISFIED','CANCELED'))
-		);
+		);*/
+		$rules = array(array('state', 'in', 'range' => array('INITIAL',
+			'SATISFIED', 'NOT_SATISFIED','CANCELED')));
+		if(!$this->isNewRecord) {
+			$rules[] = array('text', 'required');
+		}
+
+		return $rules;
 	}
 
 	/**

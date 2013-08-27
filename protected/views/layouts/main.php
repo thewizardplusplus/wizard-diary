@@ -18,23 +18,18 @@
 					<?php echo CHtml::encode(Yii::app()->name); ?>
 				</div>
 			</div>
+			<?php if (!Yii::app()->user->isGuest) { ?>
 			<div id = "mainmenu">
 				<?php $this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
 						array('label' => 'Главная', 'url' => array(
-							'/point/index'), 'visible' => !Yii::app()->user->
-							isGuest),
-						array('label' => 'Добавить', 'url' => array(
-							'/point/create'), 'visible' => !Yii::app()->user->
-							isGuest),
-						array('label' => 'Вход', 'url' => array('/site/login'),
-							'visible' => Yii::app()->user->isGuest),
+							'/point/index')),
 						array('label' => 'Выход', 'url' => array(
-							'/site/logout'), 'visible' => !Yii::app()->user->
-							isGuest)
+							'/site/logout'))
 					),
 				)); ?>
 			</div>
+			<?php } ?>
 			<?php echo $content; ?>
 			<div class = "clear"></div>
 			<div id = "footer">

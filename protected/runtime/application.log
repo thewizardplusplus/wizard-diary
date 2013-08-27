@@ -1150,3 +1150,389 @@ Stack trace:
 REQUEST_URI=/web/diary/index.php?r=point/index
 HTTP_REFERER=http://localhost/web/diary/index.php?r=point/create
 ---
+2013/08/27 19:28:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "create".' in /home/istarstein/web/yii/framework/web/CController.php:483
+Stack trace:
+#0 /home/istarstein/web/yii/framework/web/CController.php(270): CController->missingAction('create')
+#1 /home/istarstein/web/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#2 /home/istarstein/web/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('point/create')
+#3 /home/istarstein/web/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /home/istarstein/web/diary/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/web/diary/index.php?r=point/create
+HTTP_REFERER=http://localhost/web/diary/index.php?r=point/index
+---
+2013/08/27 19:33:52 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (122)
+in /home/istarstein/web/diary/protected/controllers/PointController.php (80)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 19:33:56 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 19:36:59 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (122)
+in /home/istarstein/web/diary/protected/controllers/PointController.php (80)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 19:39:01 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 19:48:01 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (49)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 19:57:39 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 19:58:13 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:12:11 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:13:04 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (122)
+in /home/istarstein/web/diary/protected/controllers/PointController.php (80)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:22:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dfkjdfkl".' in /home/istarstein/web/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /home/istarstein/web/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dfkjdfkl')
+#1 /home/istarstein/web/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /home/istarstein/web/diary/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/web/diary/index.php?r=dfkjdfkl
+---
+2013/08/27 20:23:35 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:23:35 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (122)
+in /home/istarstein/web/diary/protected/controllers/PointController.php (80)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:41 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:41 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:41 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:42 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:42 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:42 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:43 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:43 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:43 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:44 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:44 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:44 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:45 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:45 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:45 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:46 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:46 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:47 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:47 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:47 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:48 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:48 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:48 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:49 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:49 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:50 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:50 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:50 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:51 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:51 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:51 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:52 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:52 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:53 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:53 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:54 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:54 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:54 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:55 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:55 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:55 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:56 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:56 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:57 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:57 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:58 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:58 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:58 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:59 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:27:59 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:00 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:00 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:00 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:01 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:01 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:02 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:02 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:03 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:03 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:03 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:04 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:04 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:07 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:08 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:08 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:08 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:09 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:09 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:10 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:10 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:10 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:11 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:11 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:12 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:12 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:12 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:13 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:13 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:14 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:14 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:15 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:15 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:15 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:16 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:16 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:17 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:17 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:17 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:18 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:18 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:19 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:19 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:19 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:20 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:20 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:20 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:21 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:21 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:22 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:22 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:22 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:23 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:23 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:24 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:24 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:24 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:25 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:25 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:25 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
+2013/08/27 20:28:26 [warning] [application] Failed to set unsafe attribute "text" of "Point".
+in /home/istarstein/web/diary/protected/controllers/PointController.php (84)
+in /home/istarstein/web/diary/index.php (13)
