@@ -12,11 +12,6 @@ class PointColumn extends CDataColumn {
 			return;
 		}
 
-		if ($data->state == 'SATISFIED' or $data->state == 'CANCELED') {
-			$result = sprintf('<span style = "text-decoration: ' .
-				'line-through;">%s</span>', $result);
-		}
-
 		$result = CHtml::dropDownList('point' . $data->id . '_state_list',
 			$data->state, array(
 				'INITIAL' => 'Активный',
@@ -25,14 +20,15 @@ class PointColumn extends CDataColumn {
 				'CANCELED' => 'Отменён'
 			), array(
 				'onchange' =>
-				'jQuery("#point_list").yiiGridView("update", {' .
-				'type: "POST",' .
-				'url: "?r=point/update&id=' . $data->id . '",' .
-				'data: { "Point[state]": jQuery(this).attr("value") },' .
-				'success: function(data) {' .
-				'jQuery("#point_list").yiiGridView("update");' .
-				'}' .
-				'});'
+					'jQuery("#point_list").yiiGridView("update", {' .
+						'type: "POST",' .
+						'url: "?r=point/update&id=' . $data->id . '",' .
+						'data: { "Point[state]": jQuery(this).attr("value") ' .
+							'},' .
+						'success: function(data) {' .
+							'jQuery("#point_list").yiiGridView("update");' .
+						'}' .
+					'});'
 			)) . ' ' . $result;
 
 		echo $result;

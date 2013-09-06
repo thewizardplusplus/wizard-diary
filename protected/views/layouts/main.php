@@ -1,4 +1,5 @@
 <?php /* @var $this Controller */ ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,20 +19,24 @@
 					<?php echo CHtml::encode(Yii::app()->name); ?>
 				</div>
 			</div>
+
 			<?php if (!Yii::app()->user->isGuest) { ?>
 			<div id = "mainmenu">
 				<?php $this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
 						array('label' => 'Главная', 'url' => array(
-							'/point/index')),
-						array('label' => 'Выход', 'url' => array(
-							'/site/logout'))
+							'point/list')),
+						array('label' => 'Параметры', 'url' => array(
+							'parameters/update')),
+						array('label' => 'Выход', 'url' => array('site/logout'))
 					),
 				)); ?>
 			</div>
 			<?php } ?>
+
 			<?php echo $content; ?>
 			<div class = "clear"></div>
+
 			<div id = "footer">
 				&copy; <?php echo date('Y'); ?>, thewizardplusplus.<br />
 				<?php echo Yii::powered(); ?>

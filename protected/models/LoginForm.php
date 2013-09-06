@@ -1,77 +1,50 @@
 <?php
 
-/**
- * LoginForm class.
- * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'SiteController'.
- */
-class LoginForm extends CFormModel
-{
-	public $password;
-	public $rememberMe;
+class LoginForm extends CFormModel {
+	const REMEMBER_DURATION_IN_S = 2592000; // 30 days
 
-	private $_identity;
+	public  $password;
+	public  $remember_me;
 
-	/**
-	 * Declares the validation rules.
-	 * The rules state that username and password are required,
-	 * and password needs to be authenticated.
-	 */
-	public function rules()
-	{
+	public function rules() {
 		return array(
-			// username and password are required
 			array('password', 'required'),
-			// rememberMe needs to be a boolean
-			array('rememberMe', 'boolean'),
-			// password needs to be authenticated
 			array('password', 'authenticate'),
+			array('remember_me', 'boolean')
 		);
 	}
 
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 			'password' => 'Пароль:',
-			'rememberMe' => 'Запомнить',
+			'remember_me' => 'Запомнить',
 		);
 	}
 
-	/**
-	 * Authenticates the password.
-	 * This is the 'authenticate' validator as declared in rules().
-	 */
-	public function authenticate($attribute,$params)
-	{
-		if(!$this->hasErrors())
-		{
-			$this->_identity=new UserIdentity('admin',$this->password);
-			if(!$this->_identity->authenticate())
-				$this->addError('password','Incorrect username or password.');
+	public function authenticate($attribute, $params) {
+		if (!$this->hasErrors()) {
+			$this->identity = new UserIdentity($this->password);
+			if (!$this->identity->authenticate()) {
+				$this->addError('password', 'Неверный пароль.');
+			}
 		}
 	}
 
-	/**
-	 * Logs in the user using the given username and password in the model.
-	 * @return boolean whether login is successful
-	 */
-	public function login()
-	{
-		if($this->_identity===null)
-		{
-			$this->_identity=new UserIdentity('admin',$this->password);
-			$this->_identity->authenticate();
+	public function login() {
+		if(is_null($this->identity)) {
+			$this->identity = new UserIdentity($this->password);
+			$this->identity->authenticate();
 		}
-		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
-		{
-			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-			Yii::app()->user->login($this->_identity,$duration);
+
+		if ($this->identity->errorCode === UserIdentity::ERROR_NONE) {
+			Yii::app()->user->login($this->identity, $this->remember_me ?
+				LoginForm::REMEMBER_DURATION_IN_S : 0);
+
 			return true;
-		}
-		else
+		} else {
 			return false;
+		}
 	}
+
+	private $identity;
 }

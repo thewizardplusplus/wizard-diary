@@ -1,4 +1,5 @@
 <?php
+
 /* @var $this PointController */
 /* @var $model Point */
 
