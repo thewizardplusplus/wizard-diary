@@ -22,13 +22,6 @@
 			<?php echo $form->error($model, 'text'); ?>
 		<?php if (!$model->isNewRecord) { ?>
 		</div>
-		<div class="row">
-			<?php echo $form->label($model, 'state'); ?>
-			<?php echo $form->dropDownList($model, 'state', array('INITIAL' =>
-				'Активный', 'SATISFIED' => 'Выполненный', 'NOT_SATISFIED' =>
-				'Не выполненный', 'CANCELED' => 'Отменённый')); ?>
-			<?php echo $form->error($model, 'state'); ?>
-		</div>
 		<div class = "row buttons">
 		<?php } ?>
 			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' :

@@ -8,26 +8,32 @@ class PointColumn extends CDataColumn {
 
 	protected function renderDataCellContent($row, $data) {
 		$result = $data->text;
-		if (!empty($result)) {
-			if ($data->state == 'SATISFIED') {
-				$result = sprintf('<span style = "text-decoration: ' .
-					'line-through;">%s</span>', $result);
-			}
-
-			$prefix = '<input type = "checkbox" disabled = "disabled"%s /> ';
-			if ($data->state == 'NOT_SATISFIED') {
-				$prefix = '<strong>[X]</strong> ';
-			}
-			$result = $prefix . $result;
-
-			$result = sprintf($result, $data->state == 'SATISFIED' ? ' checked '
-				. '= "checked"' : '');
-
-			if ($data->state == 'CANCELED') {
-				$result = sprintf('<span style = "text-decoration: ' .
-					'line-through;">%s</span>', $result);
-			}
+		if (empty($result)) {
+			return;
 		}
+
+		if ($data->state == 'SATISFIED' or $data->state == 'CANCELED') {
+			$result = sprintf('<span style = "text-decoration: ' .
+				'line-through;">%s</span>', $result);
+		}
+
+		$result = CHtml::dropDownList('point' . $data->id . '_state_list',
+			$data->state, array(
+				'INITIAL' => 'Активный',
+				'SATISFIED' => 'Выполнен',
+				'NOT_SATISFIED' => 'Не выполнен',
+				'CANCELED' => 'Отменён'
+			), array(
+				'onchange' =>
+				'jQuery("#point_list").yiiGridView("update", {' .
+				'type: "POST",' .
+				'url: "?r=point/update&id=' . $data->id . '",' .
+				'data: { "Point[state]": jQuery(this).attr("value") },' .
+				'success: function(data) {' .
+				'jQuery("#point_list").yiiGridView("update");' .
+				'}' .
+				'});'
+			)) . ' ' . $result;
 
 		echo $result;
 	}

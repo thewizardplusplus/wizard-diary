@@ -31,7 +31,7 @@ class Point extends CActiveRecord
 				'NOT_SATISFIED','CANCELED'))
 		);*/
 		$rules = array(array('state', 'in', 'range' => array('INITIAL',
-			'SATISFIED', 'NOT_SATISFIED','CANCELED')));
+			'SATISFIED', 'NOT_SATISFIED', 'CANCELED')));
 		if(!$this->isNewRecord) {
 			$rules[] = array('text', 'required');
 		}

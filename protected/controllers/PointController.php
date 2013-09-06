@@ -47,13 +47,15 @@ class PointController extends Controller
 		if(isset($_POST['Point']))
 		{
 			$model->attributes=$_POST['Point'];
-			if($model->save())
+			if($model->save() and !isset($_GET['ajax']))
 				$this->redirect(array('index'));
 		}
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
+		if (!isset($_GET['ajax'])) {
+			$this->render('update',array(
+				'model'=>$model,
+			));
+		}
 	}
 
 	/**

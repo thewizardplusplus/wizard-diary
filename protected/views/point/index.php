@@ -7,6 +7,7 @@ $this->pageTitle = Yii::app()->name;
 $this->renderPartial('_form', array('model' => $model));
 
 $this->widget('ext.groupgridview.GroupGridView', array(
+	'id' => 'point_list',
 	'dataProvider' => $dataProvider,
 	'extraRowColumns' => array('date'),
 	'extraRowExpression' => '"<span style = \"font-weight: bold; ' .
