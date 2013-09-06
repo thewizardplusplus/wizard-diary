@@ -1,3 +1,5 @@
+-- for MySQL
+
 CREATE TABLE `diary_points` (
 	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`date` DATE NOT NULL,

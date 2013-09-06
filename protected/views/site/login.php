@@ -6,32 +6,40 @@
 	$this->pageTitle = Yii::app()->name;
 ?>
 
-<div class = "form">
-	<?php $form = $this->beginWidget('CActiveForm', array(
-		'id' => 'login-form',
-		'enableAjaxValidation' => true,
-		'enableClientValidation' => true
-	)); ?>
+<?php $form = $this->beginWidget('CActiveForm', array(
+	'id' => 'login-form',
+	'enableAjaxValidation' => true,
+	'enableClientValidation' => true,
+	'errorMessageCssClass' => 'alert alert-danger'
+)); ?>
 
+<div class = "panel panel-default">
 	<fieldset>
 		<legend>Вход:</legend>
 
-		<div class = "row">
+		<div class = "form-group">
 			<?php echo $form->labelEx($model, 'password'); ?>
-			<?php echo $form->passwordField($model, 'password'); ?>
+			<?php echo $form->passwordField($model, 'password', array('class' =>
+				'form-control')); ?>
 			<?php echo $form->error($model, 'password'); ?>
 		</div>
 
-		<div class="row rememberMe">
+		<div class = "checkbox">
 			<?php echo $form->checkBox($model,'remember_me'); ?>
 			<?php echo $form->label($model,'remember_me'); ?>
 			<?php echo $form->error($model,'remember_me'); ?>
 		</div>
 
-		<div class="row buttons">
-			<?php echo CHtml::submitButton('Вход'); ?>
-		</div>
+		<?php echo CHtml::submitButton('Вход', array('class' =>
+			'btn btn-primary')); ?>
 	</fieldset>
-
-	<?php $this->endWidget(); ?>
 </div>
+
+<?php $this->endWidget(); ?>
+
+<?php
+	echo CHtml::script(
+		'jQuery("#LoginForm_remember_me").styler();' .
+		'jQuery(".jq-checkbox div").addClass("glyphicon glyphicon-ok");'
+	);
+?>

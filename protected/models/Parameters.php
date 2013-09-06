@@ -6,7 +6,7 @@ class Parameters extends CActiveRecord {
 		'$2a$13$7RC2CWHDqafP4dvl7t5PCucccPVl7spVT4FiALXEaxWCnzCTskqAK';
 	const DEFAULT_POINTS_ON_PAGE = 10;
 	const MINIMUM_POINTS_ON_PAGE = 1;
-	const MAXIMUM_POINTS_ON_PAGE = 25;
+	const MAXIMUM_POINTS_ON_PAGE = 100;
 
 	public static function model($className = __CLASS__) {
 		return parent::model($className);

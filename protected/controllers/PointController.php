@@ -1,6 +1,8 @@
 <?php
 
 class PointController extends CController {
+	const MAXIMUM_PAGINATION_BUTTON_COUNT = 5;
+
 	public function __construct($id, $module = NULL) {
 		parent::__construct($id, $module);
 		$this->defaultAction = 'list';
@@ -39,7 +41,7 @@ class PointController extends CController {
 		}
 
 		$dataProvider = new CActiveDataProvider('Point', array(
-			'criteria' => array('order' => 'date DESC, id'),
+			'criteria' => array('order' => 'date DESC, id DESC'),
 			'pagination' => array('pagesize' => Parameters::get()->
 				points_on_page)
 		));

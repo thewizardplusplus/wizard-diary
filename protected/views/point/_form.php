@@ -4,15 +4,16 @@
 	/* @var $form CActiveForm */
 ?>
 
-<div class = "form">
-	<?php
-		$form = $this->beginWidget('CActiveForm', array(
-			'id' => 'point-form',
-			'enableAjaxValidation' => true,
-			'enableClientValidation' => true
-		));
-	?>
+<?php
+	$form = $this->beginWidget('CActiveForm', array(
+		'id' => 'point-form',
+		'enableAjaxValidation' => true,
+		'enableClientValidation' => true,
+		'errorMessageCssClass' => 'alert alert-danger'
+	));
+?>
 
+<div class = "panel panel-default">
 	<fieldset>
 		<legend>
 			<?php echo ($model->isNewRecord ? 'Добавить пункт:' : 'Изменить'
@@ -21,20 +22,16 @@
 
 		<?php echo $form->errorSummary($model); ?>
 
-		<div class = "row">
-			<?php if (!$model->isNewRecord) { echo $form->labelEx($model,
-				'text'); } ?>
-			<?php echo $form->textField($model, 'text'); ?>
+		<div class = "form-group">
+			<?php echo $form->labelEx($model, 'text'); ?>
+			<?php echo $form->textField($model, 'text', array('class' =>
+				'form-control')); ?>
 			<?php echo $form->error($model, 'text'); ?>
-			<?php if (!$model->isNewRecord) { ?>
 		</div>
 
-		<div class = "row buttons">
-			<?php } ?>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' :
-				'Сохранить'); ?>
-		</div>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' :
+			'Сохранить', array('class' => 'btn btn-primary')); ?>
 	</fieldset>
-
-	<?php $this->endWidget(); ?>
 </div>
+
+<?php $this->endWidget(); ?>
