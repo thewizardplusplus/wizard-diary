@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'language' => 'ru',
 	'name' => 'Online-дневник',
 	'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
 	'defaultController' => 'point/list',

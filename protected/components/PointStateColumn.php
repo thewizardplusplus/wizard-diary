@@ -1,14 +1,13 @@
 <?php
 
-class PointColumn extends CDataColumn {
+class PointStateColumn extends CDataColumn {
 	public function __construct(CGridView $grid) {
 		parent::__construct($grid);
-		$this->value = '$data->text';
+		$this->value = '';
 	}
 
 	protected function renderDataCellContent($row, $data) {
-		$result = $data->text;
-		if (empty($result)) {
+		if (empty($data->text)) {
 			return;
 		}
 
@@ -29,7 +28,7 @@ class PointColumn extends CDataColumn {
 							'jQuery("#point_list").yiiGridView("update");' .
 						'}' .
 					'});'
-			)) . ' ' . $result;
+			));
 
 		echo $result;
 	}

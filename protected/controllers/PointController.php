@@ -38,7 +38,7 @@ class PointController extends Controller {
 		}
 
 		$dataProvider = new CActiveDataProvider('Point', array(
-			'criteria' => array('order' => 'date DESC, id'),
+			'criteria' => array('order' => 'date DESC, `order`'),
 			'pagination' => array('pagesize' => Parameters::get()->
 				points_on_page)
 		));
@@ -49,7 +49,7 @@ class PointController extends Controller {
 	}
 
 	public function actionUpdate($id) {
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 
 		if (isset($_POST['ajax']) && $_POST['ajax'] === 'point-form') {
 			echo CActiveForm::validate($model);
@@ -59,12 +59,30 @@ class PointController extends Controller {
 		if (isset($_POST['Point'])) {
 			$model->attributes = $_POST['Point'];
 			$result = $model->save();
-			if (!isset($_GET['ajax']) and $result) {
+			if (!isset($_POST['ajax']) and $result) {
 				$this->redirect(array('list'));
 			}
 		}
+		if (isset($_POST['ajax']) and isset($_GET['shift']) and $_GET['shift']
+			== 'up' and $_GET['shift'] == 'down')
+		{
+			if ($_GET['shift'] == 'down') {
+				if ($model->order < Point::getOrderBound('maximal', $model->
+					date))
+				{
+					$model->order = $model->order + 1;
+				}
+			} else if ($_GET['shift'] == 'up') {
+				if ($model->order > Point::getOrderBound('minimal', $model->
+						date))
+				{
+					$model->order = $model->order - 1;
+				}
+			}
+			$model->save();
+		}
 
-		if (!isset($_GET['ajax'])) {
+		if (!isset($_POST['ajax'])) {
 			$this->render('update', array('model' => $model));
 		}
 	}
@@ -72,7 +90,7 @@ class PointController extends Controller {
 	public function actionDelete($id) {
 		$this->loadModel($id)->delete();
 
-		if (!isset($_GET['ajax'])) {
+		if (!isset($_POST['ajax'])) {
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] :
 				array('list'));
 		}
