@@ -34,8 +34,9 @@
 			</div>
 			<?php } ?>
 
-			<?php echo $content; ?>
-			<div class = "clear"></div>
+			<div id = "content">
+				<?php echo $content; ?>
+			</div>
 
 			<div id = "footer">
 				&copy; <?php echo date('Y'); ?>, thewizardplusplus.<br />

@@ -6,8 +6,7 @@ class UserIdentity extends CUserIdentity {
 	}
 
 	public function authenticate() {
-		$parameters = Parameters::get();
-		if (CPasswordHelper::verifyPassword($this->password, $parameters->
+		if (CPasswordHelper::verifyPassword($this->password, Parameters::get()->
 			password_hash))
 		{
 			$this->errorCode = self::ERROR_NONE;

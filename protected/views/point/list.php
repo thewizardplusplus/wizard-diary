@@ -29,49 +29,6 @@ $this->widget('ext.groupgridview.GroupGridView', array(
 		),
 		array(
 			'class' => 'CButtonColumn',
-			'template' => '{down} {up}',
-			'buttons' => array(
-				'down' => array(
-					'label' => 'Вниз',
-					'url' => '"?r=point/update&id=" . $data->id . ' .
-						'"&shift=down"',
-					'imageUrl' => 'images/down.png',
-					'click' => 'function() {' .
-							'jQuery("#point_list").yiiGridView("update", {' .
-								'type: "POST",' .
-								'url: jQuery(this).attr("href"),' .
-								'success: function(data) {' .
-									'jQuery("#point_list").yiiGridView(' .
-										'"update");' .
-								'}' .
-							'});' .
-							'return false;' .
-						'}',
-					'visible' => '$data->order < Point::getOrderBound(' .
-						'"maximal", $data->date)'
-				),
-				'up' => array(
-					'label' => 'Вверх',
-					'url' => '"?r=point/update&id=" . $data->id . "&shift=up"',
-					'imageUrl' => 'images/up.png',
-					'click' => 'function() {' .
-						'jQuery("#point_list").yiiGridView("update", {' .
-							'type: "POST",' .
-							'url: jQuery(this).attr("href"),' .
-							'success: function(data) {' .
-								'jQuery("#point_list").yiiGridView(' .
-									'"update");' .
-							'}' .
-						'});' .
-						'return false;' .
-					'}',
-					'visible' => '$data->order > Point::getOrderBound(' .
-						'"minimal", $data->date)'
-				)
-			)
-		),
-		array(
-			'class' => 'CButtonColumn',
 			'buttons' => array(
 				'view' => array('visible' => 'FALSE'),
 				'update' => array(

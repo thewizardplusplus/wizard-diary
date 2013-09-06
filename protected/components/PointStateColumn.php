@@ -11,8 +11,8 @@ class PointStateColumn extends CDataColumn {
 			return;
 		}
 
-		$result = CHtml::dropDownList('point' . $data->id . '_state_list',
-			$data->state, array(
+		echo CHtml::dropDownList('point' . $data->id . '_state_list', $data->
+			state, array(
 				'INITIAL' => 'Активный',
 				'SATISFIED' => 'Выполнен',
 				'NOT_SATISFIED' => 'Не выполнен',
@@ -29,7 +29,5 @@ class PointStateColumn extends CDataColumn {
 						'}' .
 					'});'
 			));
-
-		echo $result;
 	}
 }

@@ -29,11 +29,14 @@ class ParametersForm extends CFormModel {
 	}
 
 	public function getParameters() {
+		$attributes = array('points_on_page' => $this->points_on_page);
+		if (!empty($this->password)) {
+			$attributes['password_hash'] = CPasswordHelper::hashPassword($this->
+				password);
+		}
+
 		$parameters = Parameters::get();
-		$parameters->attributes = array(
-			'password_hash' => CPasswordHelper::hashPassword($this->password),
-			'points_on_page' => $this->points_on_page
-		);
+		$parameters->attributes = $attributes;
 
 		return $parameters;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-class PointController extends Controller {
+class PointController extends CController {
 	public function __construct($id, $module = NULL) {
 		parent::__construct($id, $module);
 		$this->defaultAction = 'list';
@@ -29,8 +29,9 @@ class PointController extends Controller {
 
 	public function actionList() {
 		$model = new Point;
+		$this->performAjaxValidation($model);
 
-		if (isset($_POST['Point'])) {
+		if (!isset($_POST['ajax']) and isset($_POST['Point'])) {
 			$model->attributes = $_POST['Point'];
 			$model->save();
 
@@ -38,7 +39,7 @@ class PointController extends Controller {
 		}
 
 		$dataProvider = new CActiveDataProvider('Point', array(
-			'criteria' => array('order' => 'date DESC, `order`'),
+			'criteria' => array('order' => 'date DESC, id'),
 			'pagination' => array('pagesize' => Parameters::get()->
 				points_on_page)
 		));
@@ -50,11 +51,7 @@ class PointController extends Controller {
 
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id);
-
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'point-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
+		$this->performAjaxValidation($model);
 
 		if (isset($_POST['Point'])) {
 			$model->attributes = $_POST['Point'];
@@ -62,24 +59,6 @@ class PointController extends Controller {
 			if (!isset($_POST['ajax']) and $result) {
 				$this->redirect(array('list'));
 			}
-		}
-		if (isset($_POST['ajax']) and isset($_GET['shift']) and $_GET['shift']
-			== 'up' and $_GET['shift'] == 'down')
-		{
-			if ($_GET['shift'] == 'down') {
-				if ($model->order < Point::getOrderBound('maximal', $model->
-					date))
-				{
-					$model->order = $model->order + 1;
-				}
-			} else if ($_GET['shift'] == 'up') {
-				if ($model->order > Point::getOrderBound('minimal', $model->
-						date))
-				{
-					$model->order = $model->order - 1;
-				}
-			}
-			$model->save();
 		}
 
 		if (!isset($_POST['ajax'])) {
@@ -103,5 +82,12 @@ class PointController extends Controller {
 		}
 
 		return $model;
+	}
+
+	private function performAjaxValidation($model) {
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'point-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
 	}
 }

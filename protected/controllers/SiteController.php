@@ -1,13 +1,14 @@
 <?php
 
-class SiteController extends Controller {
+class SiteController extends CController {
 	public function __construct($id, $module = NULL) {
 		parent::__construct($id, $module);
 		$this->defaultAction = 'login';
 	}
 
 	public function actionError() {
-		if ($error = Yii::app()->errorHandler->error) {
+		$error = Yii::app()->errorHandler->error;
+		if ($error) {
 			if (Yii::app()->request->isAjaxRequest) {
 				echo $error['message'];
 			} else {
@@ -28,7 +29,7 @@ class SiteController extends Controller {
 			Yii::app()->end();
 		}
 
-		if (isset($_POST['LoginForm'])) {
+		if (!isset($_POST['ajax']) and isset($_POST['LoginForm'])) {
 			$model->attributes = $_POST['LoginForm'];
 			if ($model->validate()) {
 				$result = $model->login();
@@ -38,7 +39,9 @@ class SiteController extends Controller {
 			}
 		}
 
-		$this->render('login', array('model' => $model));
+		if (!isset($_POST['ajax'])) {
+			$this->render('login', array('model' => $model));
+		}
 	}
 
 	public function actionLogout() {

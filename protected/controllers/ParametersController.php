@@ -1,6 +1,6 @@
 <?php
 
-class ParametersController extends Controller {
+class ParametersController extends CController {
 	public function __construct($id, $module = NULL) {
 		parent::__construct($id, $module);
 		$this->defaultAction = 'update';
@@ -39,6 +39,8 @@ class ParametersController extends Controller {
 			}
 		}
 
-		$this->render('update', array('model' => $model));
+		if (!isset($_POST['ajax'])) {
+			$this->render('update', array('model' => $model));
+		}
 	}
 }

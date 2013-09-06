@@ -8,7 +8,7 @@
 	<?php
 		$form = $this->beginWidget('CActiveForm', array(
 			'id' => 'parameters-form',
-			'enableAjaxValidation' => false,
+			'enableAjaxValidation' => true,
 			'enableClientValidation' => true
 		));
 	?>
@@ -23,13 +23,13 @@
 
 			<div class = "row">
 				<?php echo $form->labelEx($model, 'password'); ?>
-				<?php echo $form->textField($model, 'password'); ?>
+				<?php echo $form->passwordField($model, 'password'); ?>
 				<?php echo $form->error($model, 'password'); ?>
 			</div>
 
 			<div class = "row">
 				<?php echo $form->labelEx($model, 'password_copy'); ?>
-				<?php echo $form->textField($model, 'password_copy'); ?>
+				<?php echo $form->passwordField($model, 'password_copy'); ?>
 				<?php echo $form->error($model, 'password_copy'); ?>
 			</div>
 		</fieldset>
