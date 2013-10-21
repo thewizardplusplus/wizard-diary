@@ -1,8 +1,6 @@
 <?php
 
 class PointController extends CController {
-	const MAXIMUM_PAGINATION_BUTTON_COUNT = 5;
-
 	public function __construct($id, $module = NULL) {
 		parent::__construct($id, $module);
 		$this->defaultAction = 'list';
@@ -40,14 +38,21 @@ class PointController extends CController {
 			$model = new Point;
 		}
 
-		$dataProvider = new CActiveDataProvider('Point', array(
-			'criteria' => array('order' => 'date DESC, id DESC'),
+		$data_provider = new CActiveDataProvider('Point', array(
+			'criteria' => array('order' => 'date, id'),
 			'pagination' => array('pagesize' => Parameters::get()->
 				points_on_page)
 		));
+
+		if (!isset($_GET['ajax']) || $_GET['ajax'] != 'point_list') {
+			$pagination = $data_provider->pagination;
+			$pagination->setItemCount($data_provider->getTotalItemCount());
+			$pagination->currentPage = $pagination->pageCount - 1;
+		}
+
 		$this->render('list', array(
 			'model' => $model,
-			'dataProvider' => $dataProvider
+			'data_provider' => $data_provider
 		));
 	}
 

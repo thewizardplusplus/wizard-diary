@@ -4,7 +4,17 @@
 <html>
 	<head>
 		<meta charset = "utf-8" />
+		<meta name = "MobileOptimized" content = "320" />
+		<meta name = "HandheldFriendly" content = "true" />
+		<meta name = "viewport" content = "width=device-width" />
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+		<link rel = "icon" type = "image/png" href = "<?php echo Yii::app()->
+			request->baseUrl; ?>/images/logo.png" />
+		<link rel = "shortcut icon" type = "image/vnd.microsoft.icon" href =
+			"<?php echo Yii::app()->request->baseUrl;
+			?>/images/favicon_for_ie.ico" />
+		<link rel = "apple-touch-icon" href = "<?php echo Yii::app()->request->
+			baseUrl; ?>/images/favicon_for_ios.png" />
 		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
 			baseUrl; ?>/bootstrap/css/bootstrap.min.css" />
 		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
@@ -26,8 +36,11 @@
 		<section class = "container panel panel-default">
 			<header class = "page-header">
 				<h1>
-					<span class = "glyphicon glyphicon-list-alt"></span> <?php
-						echo CHtml::encode(Yii::app()->name); ?>
+					<!-- <span class = "glyphicon glyphicon-list-alt"></span>
+						-->
+					<img src = "<?php echo Yii::app()->request->baseUrl;
+						?>/images/logo.png" alt = "logo" /> <?php echo CHtml::
+						encode(Yii::app()->name); ?>
 				</h1>
 			</header>
 

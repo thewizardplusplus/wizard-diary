@@ -1,7 +1,7 @@
 <?php
 	/* @var $this PointController */
 	/* @var $model Point */
-	/* @var $dataProvider CActiveDataProvider */
+	/* @var $data_provider CActiveDataProvider */
 
 	$this->pageTitle = Yii::app()->name;
 
@@ -12,8 +12,8 @@
 	<?php
 		$this->widget('ext.groupgridview.GroupGridView', array(
 			'id' => 'point_list',
-			'dataProvider' => $dataProvider,
-			'template' => '{items} {pager}',
+			'dataProvider' => $data_provider,
+			'template' => '{pager} {items} {pager}',
 			'hideHeader' => TRUE,
 			'selectableRows' => 0,
 			'columns' => array(
@@ -56,15 +56,13 @@
 			),
 			'itemsCssClass' => 'table',
 			'pager' => array(
-				'maxButtonCount' => PointController::
-					MAXIMUM_PAGINATION_BUTTON_COUNT,
+				'maxButtonCount' => 0,
 				'header' => '',
-				'firstPageLabel' => '&lt;&lt;',
 				'prevPageLabel' => '&lt;',
 				'nextPageLabel' => '&gt;',
-				'lastPageLabel' => '&gt;&gt;',
+				'firstPageCssClass' => 'hidden',
+				'lastPageCssClass' => 'hidden',
 				'hiddenPageCssClass' => 'disabled',
-				'selectedPageCssClass' => 'active',
 				'htmlOptions' => array('class' => 'pagination')
 			),
 			'extraRowColumns' => array('date'),
