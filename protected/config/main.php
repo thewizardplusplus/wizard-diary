@@ -5,6 +5,7 @@ return array(
 	'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
 	'defaultController' => 'point/list',
 	'language' => 'ru',
+	'preload' => array('log'),
 	'import' => array(
 		'application.models.*',
 		'application.components.*',
@@ -31,6 +32,19 @@ return array(
 			'password' => '',
 			'charset' => 'utf8',
 			'tablePrefix' => 'diary_'
+		),
+		'log' => array(
+			'class'=>'CLogRouter',
+			'routes' => array(
+				array(
+					'class' => 'CFileLogRoute',
+					'levels' => 'trace, info, warning, error'
+				),
+				array(
+					'class' => 'CWebLogRoute',
+					'levels' => 'trace, info, warning, error'
+				)
+			),
 		),
 		'errorHandler' => array('errorAction' => 'site/error')
 	)
