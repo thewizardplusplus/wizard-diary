@@ -14,7 +14,8 @@ class Point extends CActiveRecord {
 			array('text', 'safe'),
 			array('text', 'required', 'on' => 'update'),
 			array('state', 'in', 'range' => array('INITIAL', 'SATISFIED',
-				'NOT_SATISFIED', 'CANCELED'), 'on' => 'update')
+				'NOT_SATISFIED', 'CANCELED'), 'on' => 'update'),
+			array('check', 'boolean', 'trueValue' => 1, 'falseValue' => 0)
 		);
 	}
 

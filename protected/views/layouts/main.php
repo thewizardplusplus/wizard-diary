@@ -1,4 +1,12 @@
-<?php /* @var $this Controller */ ?>
+<?php
+	/* @var $this CController */
+
+	$copyright_years = Constants::COPYRIGHT_START_YEAR;
+	$current_year = date('Y');
+	if ($current_year > Constants::COPYRIGHT_START_YEAR) {
+		$copyright_years .= '-' . $current_year;
+	}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -36,8 +44,6 @@
 		<section class = "container panel panel-default">
 			<header class = "page-header">
 				<h1>
-					<!-- <span class = "glyphicon glyphicon-list-alt"></span>
-						-->
 					<img src = "<?php echo Yii::app()->request->baseUrl;
 						?>/images/logo.png" alt = "logo" /> <?php echo CHtml::
 						encode(Yii::app()->name); ?>
@@ -63,7 +69,9 @@
 
 			<footer>
 				<hr />
-				&copy; <?php echo date('Y'); ?>, thewizardplusplus.<br />
+				<!-- Format of copyright symbol: http://www.copyright.ru/documents/zashita_prav_internet/copyright_in_site/ -->
+				Copyright &copy; thewizardplusplus <?php echo $copyright_years;
+					?> Все права защищены<br />
 				<?php echo Yii::powered(); ?>
 			</footer>
 		</section>

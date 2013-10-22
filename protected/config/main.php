@@ -7,7 +7,8 @@ return array(
 	'language' => 'ru',
 	'import' => array(
 		'application.models.*',
-		'application.components.*'
+		'application.components.*',
+		'application.config.Constants'
 	),
 	'components' => array(
 		'user' => array('allowAutoLogin' => true),

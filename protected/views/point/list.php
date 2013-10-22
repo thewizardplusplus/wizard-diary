@@ -18,6 +18,16 @@
 			'selectableRows' => 0,
 			'columns' => array(
 				array(
+					'class' => 'CCheckBoxColumn',
+					'id' => 'point_check',
+					'checked' => '$data->check',
+					'selectableRows' => 2,
+					'htmlOptions' => array('style' => 'width: 45px; text-align:'
+						. ' center;'),
+					'checkBoxHtmlOptions' => array('onclick' => 'return ' .
+						'processPointChecked(this);')
+				),
+				array(
 					'class' => 'PointStateColumn',
 					'htmlOptions' => array('style' => 'width: 45px; text-align:'
 						. ' center;')

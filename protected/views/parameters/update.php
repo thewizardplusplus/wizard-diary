@@ -25,15 +25,24 @@
 
 				<div class = "form-group">
 					<?php echo $form->labelEx($model, 'password'); ?>
-					<?php echo $form->passwordField($model, 'password', array(
-						'class' => 'form-control')); ?>
+					<?php
+						echo $form->passwordField($model, 'password', array(
+							'class' => 'form-control',
+							'autocomplete' => 'off'
+						));
+					?>
 					<?php echo $form->error($model, 'password'); ?>
 				</div>
 
 				<div class = "form-group">
 					<?php echo $form->labelEx($model, 'password_copy'); ?>
-					<?php echo $form->passwordField($model, 'password_copy',
-						array('class' => 'form-control')); ?>
+					<?php
+						echo $form->passwordField($model, 'password_copy',
+							array(
+								'class' => 'form-control',
+								'autocomplete' => 'off'
+							)
+						); ?>
 					<?php echo $form->error($model, 'password_copy'); ?>
 				</div>
 			</fieldset>
