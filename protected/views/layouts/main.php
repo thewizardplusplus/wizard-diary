@@ -58,6 +58,8 @@
 							'point/list')),
 						array('label' => 'Параметры', 'url' => array(
 							'parameters/update')),
+						array('label' => 'Бекапы', 'url' => array(
+							'backup/list')),
 						array('label' => 'Выход', 'url' => array('site/logout'))
 					),
 					'htmlOptions' => array('class' => 'nav nav-pills')

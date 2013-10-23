@@ -65,6 +65,7 @@
 				)
 			),
 			'itemsCssClass' => 'table',
+			'loadingCssClass' => 'wait',
 			'pager' => array(
 				'maxButtonCount' => 0,
 				'header' => '',

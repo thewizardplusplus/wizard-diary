@@ -22,7 +22,9 @@ return array(
 				'points' => 'point/list',
 				'point/<id:\d+>/update' => 'point/update',
 				'point/<id:\d+>/delete' => 'point/delete',
-				'parameters' => 'parameters/update'
+				'parameters' => 'parameters/update',
+				'backups' => 'backup/list',
+				'backups/new' => 'backup/new'
 			)
 		),
 		'db' => array(

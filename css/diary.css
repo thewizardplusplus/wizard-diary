@@ -96,6 +96,14 @@ span.state-initial {
 	text-decoration: none;
 }
 
+.wait {
+	pointer-events: none;
+}
+
+.wait * {
+	opacity: 0.75;
+}
+
 footer {
 	font-size: smaller;
 }
