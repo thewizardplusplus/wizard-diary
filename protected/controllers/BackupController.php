@@ -68,22 +68,29 @@ class BackupController extends CController {
 			'pagination' => FALSE
 		));
 
-		$log = file_get_contents(__DIR__ . '/../runtime/backups.log');
-		$log_lines = explode("\n", $log);
-		$log_lines = array_filter($log_lines, function($log_line) {
-			return preg_match('/^\d.*/', $log_line);
-		});
-		$log_lines = array_map(function($log_line) {
-			$log_line = preg_replace('/^(\d{4})\/(\d{2})\/(\d{2}) (\d{2}:\d{2}:'
-				. '\d{2})/', '($3.$2.$1 $4)', $log_line);
-			$log_line = preg_replace('/\[\w+\]/', '', $log_line);
-			$log_line = preg_replace('/\s+/', ' ', $log_line);
-			return $log_line;
-		}, $log_lines);
-		$log_lines = array_reverse($log_lines);
-		$log_lines = array_slice($log_lines, 0, Parameters::get()->
-			versions_of_backups);
-		$log = implode("\n", $log_lines);
+		$log_filename = __DIR__ . '/../runtime/backups.log';
+		if (file_exists($log_filename)) {
+			$log = file_get_contents($log_filename);
+			$log_lines = explode("\n", $log);
+			$log_lines = array_filter($log_lines, function($log_line) {
+				return preg_match('/^\d.*/', $log_line);
+			});
+			$log_lines = array_map(function($log_line) {
+				$log_line = preg_replace('/^(\d{4})\/(\d{2})\/(\d{2}) (\d{2}:\d{2}:'
+					. '\d{2})/', '($3.$2.$1 $4)', $log_line);
+				$log_line = preg_replace('/\[\w+\]/', '', $log_line);
+				$log_line = preg_replace('/\s+/', ' ', $log_line);
+
+				return $log_line;
+			}, $log_lines);
+			$log_lines = array_reverse($log_lines);
+			$log_lines = array_slice($log_lines, 0, Parameters::get()->
+				versions_of_backups);
+			$log = implode("\n", $log_lines);
+		} else {
+			file_put_contents($log_filename, '');
+			$log = '';
+		}
 
 		$this->render('list', array(
 			'data_provider' => $data_provider,
@@ -129,8 +136,6 @@ class BackupController extends CController {
 				if ($result !== FALSE) {
 					$result = $context['archive']->addFile($temporary_filename,
 						$context['backup_name'] . '/database_dump.sql');
-					//unlink($temporary_filename));
-
 					$new_result = $this->backup($source_directory, $context);
 					if ($result) {
 						$result = $new_result;

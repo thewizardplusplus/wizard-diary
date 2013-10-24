@@ -3,7 +3,7 @@
 return array(
 	'name' => 'Online-дневник',
 	'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-	'defaultController' => 'point/list',
+	'defaultController' => 'site/redirect',
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
