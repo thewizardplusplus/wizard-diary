@@ -11,7 +11,8 @@ CREATE TABLE `diary_points` (
 CREATE TABLE `diary_parameters` (
 	`id` INT NOT NULL DEFAULT '1' PRIMARY KEY,
 	`password_hash` TEXT NOT NULL,
-	`points_on_page` INT NOT NULL DEFAULT '10'
+	`points_on_page` INT NOT NULL DEFAULT '10',
+	`versions_of_backups` INT NOT NULL DEFAULT '3'
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 INSERT INTO `diary_parameters` (`password_hash`)

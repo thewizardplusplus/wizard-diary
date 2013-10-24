@@ -7,6 +7,9 @@ class Parameters extends CActiveRecord {
 	const DEFAULT_POINTS_ON_PAGE = 10;
 	const MINIMUM_POINTS_ON_PAGE = 1;
 	const MAXIMUM_POINTS_ON_PAGE = 100;
+	const DEFAULT_VERSIONS_OF_BACKUPS = 3;
+	const MINIMUM_VERSIONS_OF_BACKUPS = 1;
+	const MAXIMUM_VERSIONS_OF_BACKUPS = 10;
 
 	public static function model($className = __CLASS__) {
 		return parent::model($className);
@@ -18,8 +21,11 @@ class Parameters extends CActiveRecord {
 			return $parameters;
 		} else {
 			$parameters = new Parameters;
-			$parameters->attributes = array('password_hash' => Parameters::
-				DEFAULT_PASSWORD_HASH);
+			$parameters->attributes = array(
+				'password_hash' => Parameters::DEFAULT_PASSWORD_HASH,
+				'points_on_page' => Parameters::DEFAULT_POINTS_ON_PAGE,
+				'versions_of_backups' => Parameters::DEFAULT_VERSIONS_OF_BACKUPS
+			);
 			$parameters->save();
 
 			return $parameters;
@@ -37,7 +43,10 @@ class Parameters extends CActiveRecord {
 			array('password_hash', 'required'),
 			array('points_on_page', 'numerical', 'min' => Parameters::
 				MINIMUM_POINTS_ON_PAGE, 'max' => Parameters::
-				MAXIMUM_POINTS_ON_PAGE)
+				MAXIMUM_POINTS_ON_PAGE),
+			array('versions_of_backups', 'numerical', 'min' => Parameters::
+				MINIMUM_VERSIONS_OF_BACKUPS, 'max' => Parameters::
+				MAXIMUM_VERSIONS_OF_BACKUPS)
 		);
 	}
 }

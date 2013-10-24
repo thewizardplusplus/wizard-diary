@@ -22,18 +22,18 @@
 				array(
 					'name' => 'Время создания',
 					'type' => 'raw',
-					'value' => '"<time>" . $data["timestamp"] . "</time>"'
+					'value' => '"<time>" . $data->timestamp . "</time>"'
 				),
 				array(
 					'name' => 'Размер',
-					'value' => '$data["size"]'
+					'value' => '$data->size'
 				),
 				array(
 					'header' => 'Скачать',
 					'class' => 'CLinkColumn',
 					'label' => '<span class="glyphicon glyphicon-download-alt">'
 						. '</span>',
-					'urlExpression' => '$data["link"]',
+					'urlExpression' => '$data->link',
 					'htmlOptions' => array('style' => 'font-size: larger;')
 				)
 			),
@@ -41,3 +41,7 @@
 		));
 	?>
 </div>
+
+<textarea class = "panel panel-default log_view" rows = "<?php echo Parameters::
+	get()->versions_of_backups; ?>" readonly = "readonly"><?php echo $log; ?>
+	</textarea>

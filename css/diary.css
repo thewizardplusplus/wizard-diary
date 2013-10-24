@@ -104,6 +104,15 @@ span.state-initial {
 	opacity: 0.75;
 }
 
+.log_view {
+	width: 100%;
+	padding: 0;
+	resize: none;
+	font-family: monospace;
+	font-size: smaller;
+	color: rgb(128, 128, 128);
+}
+
 footer {
 	font-size: smaller;
 }

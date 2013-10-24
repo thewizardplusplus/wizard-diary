@@ -40,6 +40,12 @@ return array(
 			'routes' => array(
 				array(
 					'class' => 'CFileLogRoute',
+					'logFile' => 'backups.log',
+					'levels' => 'info',
+					'categories' => 'backups'
+				),
+				array(
+					'class' => 'CFileLogRoute',
 					'levels' => 'trace, info, warning, error'
 				),
 				array(
