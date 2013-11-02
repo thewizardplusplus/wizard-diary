@@ -1,12 +1,12 @@
 <?php
 
 class Parameters extends CActiveRecord {
-	const RECORD_ID =              1;
+	const RECORD_ID =                   1;
 	const DEFAULT_PASSWORD_HASH =
 		'$2a$13$7RC2CWHDqafP4dvl7t5PCucccPVl7spVT4FiALXEaxWCnzCTskqAK';
-	const DEFAULT_POINTS_ON_PAGE = 10;
-	const MINIMUM_POINTS_ON_PAGE = 1;
-	const MAXIMUM_POINTS_ON_PAGE = 100;
+	const DEFAULT_POINTS_ON_PAGE =      10;
+	const MINIMUM_POINTS_ON_PAGE =      1;
+	const MAXIMUM_POINTS_ON_PAGE =      100;
 	const DEFAULT_VERSIONS_OF_BACKUPS = 3;
 	const MINIMUM_VERSIONS_OF_BACKUPS = 1;
 	const MAXIMUM_VERSIONS_OF_BACKUPS = 10;
@@ -21,11 +21,8 @@ class Parameters extends CActiveRecord {
 			return $parameters;
 		} else {
 			$parameters = new Parameters;
-			$parameters->attributes = array(
-				'password_hash' => Parameters::DEFAULT_PASSWORD_HASH,
-				'points_on_page' => Parameters::DEFAULT_POINTS_ON_PAGE,
-				'versions_of_backups' => Parameters::DEFAULT_VERSIONS_OF_BACKUPS
-			);
+			$parameters->attributes = array('password_hash' => Parameters::
+				DEFAULT_PASSWORD_HASH);
 			$parameters->save();
 
 			return $parameters;

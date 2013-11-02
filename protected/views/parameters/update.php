@@ -2,6 +2,11 @@
 	/* @var $this ParametersFormController */
 	/* @var $model ParametersForm */
 	/* @var $form CActiveForm */
+
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/spinner.js'), CClientScript::POS_HEAD);
+
+	$this->pageTitle = Yii::app()->name . ' - Параметры';
 ?>
 
 <?php
@@ -17,7 +22,8 @@
 	<fieldset>
 		<legend>Параметры:</legend>
 
-		<?php echo $form->errorSummary($model); ?>
+		<?php echo $form->errorSummary($model, NULL, NULL, array('class' =>
+			'alert alert-danger')); ?>
 
 		<div class = "panel panel-default">
 			<fieldset>
@@ -74,12 +80,3 @@
 </div>
 
 <?php $this->endWidget(); ?>
-
-<?php
-	echo CHtml::script(
-		'jQuery("#ParametersForm_password").val("");' .
-		'jQuery("#ParametersForm_password_copy").val("");' .
-		'jQuery("#ParametersForm_points_on_page").spinner();' .
-		'jQuery("#ParametersForm_versions_of_backups").spinner();'
-	);
-?>

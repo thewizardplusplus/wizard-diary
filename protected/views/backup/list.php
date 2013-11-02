@@ -1,6 +1,8 @@
 <?php
 	/* @var $this BackupController */
 	/* @var $data_provider CActiveDataProvider */
+
+	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
 <div class = "panel panel-default">
@@ -9,7 +11,7 @@
 			"button" class = "btn btn-primary pull-right">Создать новый бекап
 			</button></a>
 	</p>
-	<div class="clearfix"></div>
+	<div class = "clearfix"></div>
 </div>
 
 <div class = "table-responsive">
@@ -29,12 +31,18 @@
 					'value' => '$data->size'
 				),
 				array(
+					'class' => 'CButtonColumn',
 					'header' => 'Скачать',
-					'class' => 'CLinkColumn',
-					'label' => '<span class="glyphicon glyphicon-download-alt">'
-						. '</span>',
-					'urlExpression' => '$data->link',
-					'htmlOptions' => array('style' => 'font-size: larger;')
+					'template' => '{download}',
+					'buttons' => array(
+						'download' => array(
+							'label' => '<span class = "glyphicon glyphicon-'
+								. 'download-alt"></span>',
+							'url' => '$data->link',
+							'imageUrl' => FALSE,
+							'options' => array('title' => 'Скачать')
+						)
+					)
 				)
 			),
 			'itemsCssClass' => 'table'
@@ -42,6 +50,6 @@
 	?>
 </div>
 
-<textarea class = "panel panel-default log_view" rows = "<?php echo Parameters::
-	get()->versions_of_backups; ?>" readonly = "readonly"><?php echo $log; ?>
-	</textarea>
+<?php if (!empty($log_text)) { ?>
+<pre class = "log"><?php echo $log_text; ?></pre>
+<?php } ?>

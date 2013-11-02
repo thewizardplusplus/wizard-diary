@@ -3,6 +3,9 @@
 	/* @var $model Point */
 	/* @var $data_provider CActiveDataProvider */
 
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/checking.js'), CClientScript::POS_HEAD);
+
 	$this->pageTitle = Yii::app()->name;
 
 	$this->renderPartial('_form', array('model' => $model));
@@ -18,20 +21,36 @@
 			'selectableRows' => 0,
 			'columns' => array(
 				array(
-					'class' => 'CCheckBoxColumn',
-					'id' => 'point_check',
-					'checked' => '$data->check',
-					'selectableRows' => 2,
-					'htmlOptions' => array('style' => 'width: 45px; text-align:'
-						. ' center;'),
-					'checkBoxHtmlOptions' => array('onclick' => 'return ' .
-						'processPointChecked(this);')
+					'class' => 'CButtonColumn',
+					'template' => '{check} {uncheck}',
+					'buttons' => array(
+						'check' => array(
+							'label' => '<span class = "glyphicon glyphicon-' .
+								'unchecked"></span>',
+							'url' => '$this->grid->controller->createUrl("point'
+								. '/update", array("id" => $data->id))',
+							'imageUrl' => FALSE,
+							'options' => array('title' => 'Отметить пункт'),
+							'click' => 'function() { return checking($(this).' .
+								'attr("href"), true); }',
+							'visible' => '!$data->check'
+						),
+						'uncheck' => array(
+							'label' => '<span class = "glyphicon glyphicon-' .
+								'check"></span>',
+							'url' => '$this->grid->controller->createUrl("point'
+								. '/update", array("id" => $data->id))',
+							'imageUrl' => FALSE,
+							'options' => array('title' => 'Снять отметку с ' .
+								'пункта'),
+							'click' => 'function() { return checking($(this).' .
+								'attr("href"), false); }',
+							'visible' => '$data->check'
+						)
+					),
+					'htmlOptions' => array('class' => 'button-column narrow')
 				),
-				array(
-					'class' => 'PointStateColumn',
-					'htmlOptions' => array('style' => 'width: 45px; text-align:'
-						. ' center;')
-				),
+				array('class' => 'PointStateColumn'),
 				array(
 					'type' => 'html',
 					'value' => '"<span class = \"state-" . strtolower(' .
@@ -40,26 +59,21 @@
 				),
 				array(
 					'class' => 'CButtonColumn',
+					'template' => '{update} {delete}',
+					'deleteConfirmation' => 'Удалить пункт?',
 					'buttons' => array(
-						'view' => array('visible' => 'FALSE'),
 						'update' => array(
-							'label' => '<span class = ' .
-								'"glyphicon glyphicon-pencil"></span>',
+							'label' => '<span class = "glyphicon glyphicon-' .
+								'pencil"></span>',
 							'imageUrl' => FALSE,
-							'options' => array(
-								'title' => 'Изменить пункт',
-								'style' => 'font-size: larger;'
-							),
+							'options' => array('title' => 'Изменить пункт'),
 							'visible' => '!empty($data->text)'
 						),
 						'delete' => array(
-							'label' => '<span class = ' .
-								'"glyphicon glyphicon-trash"></span>',
+							'label' => '<span class = "glyphicon glyphicon-' .
+								'trash"></span>',
 							'imageUrl' => FALSE,
-							'options' => array(
-								'title' => 'Удалить пункт',
-								'style' => 'font-size: larger;'
-							)
+							'options' => array('title' => 'Удалить пункт')
 						)
 					)
 				)
@@ -71,15 +85,15 @@
 				'header' => '',
 				'prevPageLabel' => '&lt;',
 				'nextPageLabel' => '&gt;',
+				'lastPageLabel' => '&gt;&gt;',
 				'firstPageCssClass' => 'hidden',
-				'lastPageCssClass' => 'hidden',
 				'hiddenPageCssClass' => 'disabled',
 				'htmlOptions' => array('class' => 'pagination')
 			),
 			'extraRowColumns' => array('date'),
-			'extraRowExpression' => '"<h2 style = \"font-size: 24px;\"><span ' .
-				'class = \"label label-success\">" . implode(".", ' .
-				'array_reverse(explode("-", $data->date))) . ":</span></h2>"',
+			'extraRowExpression' => '"<h2 class = \"reduced\"><span class = ' .
+				'\"label label-success\">" . implode(".", array_reverse(' .
+				'explode("-", $data->date))) . ":</span></h2>"',
 			'extraRowPos' => 'above'
 		));
 	?>

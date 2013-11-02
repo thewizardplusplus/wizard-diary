@@ -1,10 +1,8 @@
 <?php
 
 class LoginForm extends CFormModel {
-	const REMEMBER_DURATION_IN_S = 2592000; // 30 days
-
-	public  $password;
-	public  $remember_me;
+	public $password;
+	public $remember_me;
 
 	public function rules() {
 		return array(
@@ -38,7 +36,7 @@ class LoginForm extends CFormModel {
 
 		if ($this->identity->errorCode === UserIdentity::ERROR_NONE) {
 			Yii::app()->user->login($this->identity, $this->remember_me ?
-				LoginForm::REMEMBER_DURATION_IN_S : 0);
+				Constants::REMEMBER_DURATION_IN_S : 0);
 
 			return true;
 		} else {

@@ -1,9 +1,11 @@
 <?php
 
+require_once('Constants.php');
+
 return array(
 	'name' => 'Online-дневник',
 	'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-	'defaultController' => 'site/redirect',
+	'defaultController' => 'point/list',
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
@@ -28,10 +30,11 @@ return array(
 			)
 		),
 		'db' => array(
-			'connectionString' => 'mysql:host=localhost;dbname=diary',
+			'connectionString' => 'mysql:host=' . Constants::DATABASE_HOST .
+				';dbname=' . Constants::DATABASE_NAME,
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => Constants::DATABASE_USER,
+			'password' => Constants::DATABASE_PASSWORD,
 			'charset' => 'utf8',
 			'tablePrefix' => 'diary_'
 		),

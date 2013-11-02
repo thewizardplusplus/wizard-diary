@@ -1,8 +1,6 @@
 <?php
 
 class BackupController extends CController {
-	const BACKUPS_RELATIVE_PATH = '/../backups';
-
 	public function __construct($id, $module = NULL) {
 		parent::__construct($id, $module);
 		$this->defaultAction = 'list';
@@ -27,7 +25,9 @@ class BackupController extends CController {
 	}
 
 	public function actionList() {
-		$backups_path = __DIR__ . BackupController::BACKUPS_RELATIVE_PATH;
+		$this->testBackupDirectory();
+
+		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
 		$filenames = scandir($backups_path);
 		$backups = array();
 		foreach ($filenames as $filename) {
@@ -35,26 +35,23 @@ class BackupController extends CController {
 			if (is_file($filename) and strtolower(pathinfo($filename,
 				PATHINFO_EXTENSION)) == 'zip')
 			{
-				$backup = new stdClass;
+				$backup = new stdClass();
 				$backup->timestamp = date('d.m.Y H:i:s', filemtime($filename));
 				$backup->size = filesize($filename);
 				if ($backup->size > 1024 and $backup->size < 1024 * 1024) {
-					$backup->size /= 1024;
-					$backup->size = round($backup->size, 2);
-					$backup->size .= ' KB';
+					$backup->size = round($backup->size / 1024, 2) . ' KB';
 				} else if ($backup->size > 1024 * 1024 and $backup->size < 1024
 					* 1024 * 1024)
 				{
-					$backup->size /= 1024 * 1024;
-					$backup->size = round($backup->size, 2);
-					$backup->size .= ' MB';
+					$backup->size = round($backup->size / 1024 * 1024, 2) .
+						' MB';
 				} else {
-					$backup->size /= 1024 * 1024 * 1024;
-					$backup->size = round($backup->size, 2);
-					$backup->size .= ' GB';
+					$backup->size = round($backup->size / 1024 * 1024 * 1024, 2)
+						. ' GB';
 				}
-				$backup->link = 'http://' . $_SERVER['HTTP_HOST'] . str_replace(
-					$_SERVER['DOCUMENT_ROOT'], '', realpath($filename));
+				$backup->link = substr(realpath($filename), strlen($_SERVER[
+					'DOCUMENT_ROOT']));
+
 				$backups[] = $backup;
 			}
 		}
@@ -70,42 +67,52 @@ class BackupController extends CController {
 
 		$log_filename = __DIR__ . '/../runtime/backups.log';
 		if (file_exists($log_filename)) {
-			$log = file_get_contents($log_filename);
-			$log_lines = explode("\n", $log);
-			$log_lines = array_filter($log_lines, function($log_line) {
-				return preg_match('/^\d.*/', $log_line);
-			});
-			$log_lines = array_map(function($log_line) {
-				$log_line = preg_replace('/^(\d{4})\/(\d{2})\/(\d{2}) (\d{2}:\d{2}:'
-					. '\d{2})/', '($3.$2.$1 $4)', $log_line);
-				$log_line = preg_replace('/\[\w+\]/', '', $log_line);
-				$log_line = preg_replace('/\s+/', ' ', $log_line);
+			$log_text = file_get_contents($log_filename);
 
-				return $log_line;
-			}, $log_lines);
-			$log_lines = array_reverse($log_lines);
-			$log_lines = array_slice($log_lines, 0, Parameters::get()->
-				versions_of_backups);
-			$log = implode("\n", $log_lines);
+			if (!empty($log_text)) {
+				$lines = explode("\n", $log_text);
+				$lines = array_filter($lines, function($line) {
+					return preg_match('/^\d.*/', $line);
+				});
+				$lines = array_map(function($line) {
+					$line = preg_replace('/^(\d{4})\/(0[1-9]|1[0-2])\/(0[1-9]|'
+						. '[12]\d|3[01]) (([01]\d|2[0-3]):([0-5]\d):([0-5]' .
+						'\d))/', '($3.$2.$1 $4)', $line);
+					$line = preg_replace('/\[\w+\]/', '', $line);
+					$line = preg_replace('/\s+/', ' ', $line);
+
+					return $line;
+				}, $lines);
+				$lines = array_reverse($lines);
+				$lines = array_slice($lines, 0, Parameters::get()->
+					versions_of_backups);
+
+				$log_text = implode("\n", $lines);
+			} else {
+				$log_text = '';
+			}
 		} else {
 			file_put_contents($log_filename, '');
-			$log = '';
+			$log_text = '';
 		}
 
 		$this->render('list', array(
 			'data_provider' => $data_provider,
-			'log' => $log
+			'log_text' => $log_text
 		));
 	}
 
 	public function actionNew() {
+		$this->testBackupDirectory();
+
 		$start = date_create();
+
 		$result = $this->backup(__DIR__ . '/../..');
 		if (!$result) {
 			throw new CException('Не удалось создать бекап.');
 		}
 
-		$backups_path = __DIR__ . BackupController::BACKUPS_RELATIVE_PATH;
+		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
 		$backups = array_diff(scandir($backups_path), array('.', '..'));
 		rsort($backups, SORT_STRING);
 		$old_backups = array_slice($backups, Parameters::get()->
@@ -119,14 +126,25 @@ class BackupController extends CController {
 		$this->redirect(array('backup/list'));
 	}
 
-	private function backup($source_directory, $context = array()) {
-		if (empty($context)) {
-			$context['base_path'] = $source_directory;
-			$context['backup_name'] = 'backup_' . date('Y-m-d-H-i-s');
+	private function testBackupDirectory() {
+		if (!file_exists(__DIR__ . Constants::BACKUPS_RELATIVE_PATH)) {
+			$result = mkdir(__DIR__ . Constants::BACKUPS_RELATIVE_PATH);
+			if (!$result) {
+				throw new CException('Не удалось создать директорию для ' .
+					'бекапов.');
+			}
+		}
+	}
 
-			$context["archive"] = new ZipArchive();
-			$result = $context["archive"]->open(__DIR__ . BackupController::
-				BACKUPS_RELATIVE_PATH . '/' . $context['backup_name'] . '.zip',
+	private function backup($path, $context = NULL) {
+		if (is_null($context)) {
+			$context = new stdClass();
+			$context->base_path = $path;
+			$context->backup_name = 'backup_' . date('Y-m-d-H-i-s');
+
+			$context->archive = new ZipArchive();
+			$result = $context->archive->open(__DIR__ . Constants::
+				BACKUPS_RELATIVE_PATH . '/' . $context->backup_name . '.zip',
 				ZIPARCHIVE::CREATE);
 			if ($result === TRUE) {
 				$temporary_filename = sys_get_temp_dir() . '/' . uniqid(rand(),
@@ -134,87 +152,77 @@ class BackupController extends CController {
 				$result = file_put_contents($temporary_filename, $this->
 					dumpDatabase());
 				if ($result !== FALSE) {
-					$result = $context['archive']->addFile($temporary_filename,
-						$context['backup_name'] . '/database_dump.sql');
-					$new_result = $this->backup($source_directory, $context);
+					$result = $context->archive->addFile($temporary_filename,
+						$context->backup_name . '/database_dump.sql');
 					if ($result) {
-						$result = $new_result;
+						$result = $this->backup($path, $context);
 					}
 				}
 
-				$context['archive']->close();
-				return $result;
-			} else {
-				return FALSE;
+				$context->archive->close();
 			}
+
+			return $result;
 		} else {
-			$global_result = TRUE;
-			foreach (array_diff(scandir($source_directory), array('.', '..')) as
-				 $file)
-			{
-				$path = $source_directory . '/' . $file;
-				if (realpath($path) == realpath(__DIR__ . BackupController::
+			foreach (array_diff(scandir($path), array('.', '..')) as $file) {
+				$full_path = $path . '/' . $file;
+				if (realpath($full_path) == realpath(__DIR__ . Constants::
 					BACKUPS_RELATIVE_PATH))
 				{
 					continue;
 				}
 
-				$result = FALSE;
-				if (is_file($path)) {
-					$result = $context['archive']->addFile($path, $context[
-						'backup_name'] . str_replace($context['base_path'], '',
-						$path));
-				} else if (is_dir($path)) {
-					$result = $this->backup($path, $context);
+				if (is_file($full_path)) {
+					$result = $context->archive->addFile($path, $context->
+						backup_name . str_replace($context->base_path, '',
+						$full_path));
+				} else if (is_dir($full_path)) {
+					$result = $this->backup($full_path, $context);
 				}
-
 				if (!$result) {
-					$global_result = FALSE;
+					return FALSE;
 				}
 			}
 
-			return $global_result;
+			return TRUE;
 		}
 	}
 
 	private function dumpDatabase() {
-		$sql_dump = '';
-		$database = Yii::app()->db;
+		$connection = Yii::app()->db;
 
-		$command = $database->createCommand('SHOW TABLES;');
-		$rows = $command->queryAll();
 		$tables = array();
-		foreach ($rows as $row) {
+		foreach ($connection->createCommand('SHOW TABLES')->queryAll() as $row)
+		{
 			$tables[] = reset($row);
 		}
 
+		$dump = '';
 		foreach ($tables as $table) {
-			$command = $database->createCommand('SHOW CREATE TABLE `' . $table .
-			'`;');
-			$rows = $command->queryAll();
-			$sql_dump .= "DROP TABLE IF EXISTS `" . $table . "`;\n" . end(reset(
-				$rows)) . ";\n\n";
+			$dump .= "DROP TABLE IF EXISTS `" . $table . "`;\n" . end(reset(
+				$connection->createCommand('SHOW CREATE TABLE `' . $table . '`')
+				->queryAll())) . ";\n\n";
 
-			$command = $database->createCommand('SELECT * FROM `' . $table .
-			'`;');
-			$rows = $command->queryAll();
+			$rows = $connection->createCommand('SELECT * FROM `' . $table . '`')
+				->queryAll();
 			if (!empty($rows)) {
-				$sql_dump .= "INSERT INTO `" . $table . "` VALUES\n";
+				$dump .= "INSERT INTO `" . $table . "`\nVALUES\n";
+
 				foreach ($rows as $row) {
-					$sql_dump .= "\t('" . implode("', '", str_replace(array(
-						"\0", "\n", "\r", "\\", "'", "\"", "\x1a"), array("\\0",
-						"\\n", "\\r", "\\\\", "\\'", "\\\"", "\Z"), $row)) .
-						"'),\n";
+					$dump .= "\t(" . implode(", ", array_map(function($item)
+						use($connection)
+					{
+						return $connection->quoteValue($item);
+					}, $row)) . "),\n";
 				}
-				$sql_dump = substr($sql_dump, 0, strlen($sql_dump) - 2) .
-					";\n\n";
+
+				$dump = substr($dump, 0, strlen($dump) - 2) . ";\n\n";
 			}
 		}
-
-		if (!empty($sql_dump)) {
-			$sql_dump = substr($sql_dump, 0, strlen($sql_dump) - 1);
+		if (!empty($dump)) {
+			$dump = substr($dump, 0, strlen($dump) - 1);
 		}
 
-		return $sql_dump;
+		return $dump;
 	}
 }

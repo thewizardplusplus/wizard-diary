@@ -1,6 +1,8 @@
 <?php
 	/* @var $this CController */
 
+	Yii::app()->getClientScript()->registerCoreScript('jquery');
+
 	$copyright_years = Constants::COPYRIGHT_START_YEAR;
 	$current_year = date('Y');
 	if ($current_year > Constants::COPYRIGHT_START_YEAR) {
@@ -12,10 +14,11 @@
 <html>
 	<head>
 		<meta charset = "utf-8" />
+
 		<meta name = "MobileOptimized" content = "320" />
 		<meta name = "HandheldFriendly" content = "true" />
 		<meta name = "viewport" content = "width=device-width" />
-		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+
 		<link rel = "icon" type = "image/png" href = "<?php echo Yii::app()->
 			request->baseUrl; ?>/images/logo.png" />
 		<link rel = "shortcut icon" type = "image/vnd.microsoft.icon" href =
@@ -23,22 +26,20 @@
 			?>/images/favicon_for_ie.ico" />
 		<link rel = "apple-touch-icon" href = "<?php echo Yii::app()->request->
 			baseUrl; ?>/images/favicon_for_ios.png" />
+
 		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
 			baseUrl; ?>/bootstrap/css/bootstrap.min.css" />
 		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
 			baseUrl; ?>/jquery-ui/css/theme/jquery-ui.min.css" />
 		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
-			baseUrl; ?>/jQueryFormStyler/jquery.formstyler.css" />
-		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
-			baseUrl; ?>/css/diary.css" />
+			baseUrl; ?>/styles/diary.css" />
+
+		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+
 		<script src = "<?php echo Yii::app()->request->baseUrl;
 			?>/bootstrap/js/bootstrap.min.js"></script>
 		<script src = "<?php echo Yii::app()->request->baseUrl;
 			?>/jquery-ui/js/jquery-ui.min.js"></script>
-		<script src = "<?php echo Yii::app()->request->baseUrl;
-			?>/jQueryFormStyler/jquery.formstyler.min.js"></script>
-		<script src = "<?php echo Yii::app()->request->baseUrl; ?>/js/diary.js">
-			</script>
 	</head>
 	<body>
 		<section class = "container panel panel-default">

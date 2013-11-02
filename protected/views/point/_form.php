@@ -2,6 +2,9 @@
 	/* @var $this PointController */
 	/* @var $model Point */
 	/* @var $form CActiveForm */
+
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/specialCaseOfAdding.js'), CClientScript::POS_HEAD);
 ?>
 
 <?php
@@ -20,7 +23,8 @@
 				. ' пункт:'); ?>
 		</legend>
 
-		<?php echo $form->errorSummary($model); ?>
+		<?php echo $form->errorSummary($model, NULL, NULL, array('class' =>
+			'alert alert-danger')); ?>
 
 		<div class = "form-group">
 			<?php echo $form->labelEx($model, 'text'); ?>
@@ -31,6 +35,13 @@
 
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' :
 			'Сохранить', array('class' => 'btn btn-primary')); ?>
+		<?php
+			if ($model->isNewRecord) {
+				echo Chtml::hiddenField('Point[state]', 'INITIAL');
+				echo CHtml::button('Добавить как выполненный', array(
+					'class' => 'special-case btn btn-default'));
+			}
+		?>
 	</fieldset>
 </div>
 

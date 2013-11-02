@@ -3,6 +3,16 @@
 	/* @var $model LoginForm */
 	/* @var $form CActiveForm  */
 
+	Yii::app()->getClientScript()->registerCssFile(CHtml::asset(
+		'jQueryFormStyler/jquery.formstyler.css'));
+	Yii::app()->getClientScript()->registerCssFile(CHtml::asset(
+		'styles/styler.css'));
+
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'jQueryFormStyler/jquery.formstyler.min.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/styler.js'), CClientScript::POS_HEAD);
+
 	$this->pageTitle = Yii::app()->name;
 ?>
 
@@ -16,6 +26,9 @@
 <div class = "panel panel-default">
 	<fieldset>
 		<legend>Вход:</legend>
+
+		<?php echo $form->errorSummary($model, NULL, NULL, array('class' =>
+			'alert alert-danger')); ?>
 
 		<div class = "form-group">
 			<?php echo $form->labelEx($model, 'password'); ?>
@@ -36,10 +49,3 @@
 </div>
 
 <?php $this->endWidget(); ?>
-
-<?php
-	echo CHtml::script(
-		'jQuery("#LoginForm_remember_me").styler();' .
-		'jQuery(".jq-checkbox div").addClass("glyphicon glyphicon-ok");'
-	);
-?>

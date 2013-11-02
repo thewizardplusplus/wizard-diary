@@ -48,8 +48,4 @@ class SiteController extends CController {
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
-
-	public function actionRedirect() {
-		$this->redirect(array('point/list'));
-	}
 }

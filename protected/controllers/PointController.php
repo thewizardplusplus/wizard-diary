@@ -44,7 +44,7 @@ class PointController extends CController {
 				points_on_page)
 		));
 
-		if (!isset($_GET['ajax']) || $_GET['ajax'] != 'point_list') {
+		if (!isset($_GET['ajax']) or $_GET['ajax'] != 'point_list') {
 			$pagination = $data_provider->pagination;
 			$pagination->setItemCount($data_provider->getTotalItemCount());
 			$pagination->currentPage = $pagination->pageCount - 1;
@@ -64,7 +64,8 @@ class PointController extends CController {
 			$model->attributes = $_POST['Point'];
 			$result = $model->save();
 			if (!isset($_POST['ajax']) and $result) {
-				$this->redirect(array('list'));
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
+					: array('list'));
 			}
 		}
 
