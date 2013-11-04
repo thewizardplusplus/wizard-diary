@@ -33,7 +33,7 @@
 							'options' => array('title' => 'Отметить пункт'),
 							'click' => 'function() { return checking($(this).' .
 								'attr("href"), true); }',
-							'visible' => '!$data->check'
+							'visible' => '!empty($data->text) and !$data->check'
 						),
 						'uncheck' => array(
 							'label' => '<span class = "glyphicon glyphicon-' .
@@ -45,7 +45,7 @@
 								'пункта'),
 							'click' => 'function() { return checking($(this).' .
 								'attr("href"), false); }',
-							'visible' => '$data->check'
+							'visible' => '!empty($data->text) and $data->check'
 						)
 					),
 					'htmlOptions' => array('class' => 'button-column narrow')
