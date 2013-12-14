@@ -35,4 +35,18 @@ class Point extends CActiveRecord {
 			return false;
 		}
 	}
+
+	public function getRowClassByState() {
+		if (array_key_exists($this->state, $this->row_classes_for_states)) {
+			return $this->row_classes_for_states[$this->state];
+		} else {
+			return '';
+		}
+	}
+
+	private $row_classes_for_states = array(
+		'SATISFIED' => 'success',
+		'NOT_SATISFIED' => 'danger',
+		'CANCELED' => 'success'
+	);
 }

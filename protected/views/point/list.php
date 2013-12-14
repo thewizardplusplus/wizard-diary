@@ -80,6 +80,7 @@
 			),
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
+			'rowCssClassExpression' => '$data->getRowClassByState()',
 			'pager' => array(
 				'maxButtonCount' => 0,
 				'header' => '',
