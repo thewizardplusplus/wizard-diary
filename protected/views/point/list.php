@@ -125,8 +125,8 @@
 			),
 			'extraRowColumns' => array('date'),
 			'extraRowExpression' => '"<h2 class = \"reduced\"><span class = ' .
-				'\"label label-success\">" . implode(".", array_reverse(' .
-				'explode("-", $data->date))) . ":</span></h2>"',
+				'\"label label-success\">" . $data->getMyDate() . ":</span>' .
+				'</h2>"',
 			'extraRowPos' => 'above'
 		));
 	?>

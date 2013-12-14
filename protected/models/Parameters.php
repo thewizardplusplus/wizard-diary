@@ -4,15 +4,21 @@ class Parameters extends CActiveRecord {
 	const RECORD_ID =                   1;
 	const DEFAULT_PASSWORD_HASH =
 		'$2a$13$7RC2CWHDqafP4dvl7t5PCucccPVl7spVT4FiALXEaxWCnzCTskqAK';
-	const DEFAULT_POINTS_ON_PAGE =      10;
 	const MINIMUM_POINTS_ON_PAGE =      1;
 	const MAXIMUM_POINTS_ON_PAGE =      100;
-	const DEFAULT_VERSIONS_OF_BACKUPS = 3;
 	const MINIMUM_VERSIONS_OF_BACKUPS = 1;
 	const MAXIMUM_VERSIONS_OF_BACKUPS = 10;
 
 	public static function model($class_name = __CLASS__) {
 		return parent::model($class_name);
+	}
+
+	public static function convertDateFromDatabaseToMyFormat($date) {
+		return implode('.', array_reverse(explode('-', $date)));
+	}
+
+	public static function convertDateFromMyToDatabaseFormat($date) {
+		return implode('-', array_reverse(explode('.', $date)));
 	}
 
 	public static function get() {
@@ -38,6 +44,7 @@ class Parameters extends CActiveRecord {
 			array('id', 'default', 'value' => Parameters::RECORD_ID,
 				'setOnEmpty' => FALSE),
 			array('password_hash', 'required'),
+			array('start_date', 'date', 'format' => 'yyyy-MM-dd'),
 			array('points_on_page', 'numerical', 'min' => Parameters::
 				MINIMUM_POINTS_ON_PAGE, 'max' => Parameters::
 				MAXIMUM_POINTS_ON_PAGE),

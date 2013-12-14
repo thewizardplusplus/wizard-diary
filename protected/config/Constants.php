@@ -10,4 +10,5 @@ class Constants {
 	const BACKUPS_RELATIVE_PATH =  '/../../backups';
 	// 30 days
 	const REMEMBER_DURATION_IN_S = 2592000;
+	const DAYS_IN_MY_YEAR =        300;
 }

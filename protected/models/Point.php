@@ -65,6 +65,23 @@ class Point extends CActiveRecord {
 		}
 	}
 
+	public function getMyDate() {
+		$difference = date_create(Parameters::get()->start_date)->diff(
+			date_create($this->date));
+		$days = $difference->days;
+
+		$my_day = $days % Constants::DAYS_IN_MY_YEAR + 1;
+		if ($my_day < 10) {
+			$my_day = '0' . $my_day;
+		}
+		$my_year = round($days / Constants::DAYS_IN_MY_YEAR) + 1;
+		if ($my_year < 10) {
+			$my_year = '0' . $my_year;
+		}
+
+		return ($difference->invert ? '-' : '') . $my_day . '.' . $my_year;
+	}
+
 	private $row_classes_for_states = array(
 		'SATISFIED' => 'success',
 		'NOT_SATISFIED' => 'danger',

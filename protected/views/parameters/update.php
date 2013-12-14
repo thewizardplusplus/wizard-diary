@@ -4,6 +4,8 @@
 	/* @var $form CActiveForm */
 
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/datepicker.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/spinner.js'), CClientScript::POS_HEAD);
 
 	$this->pageTitle = Yii::app()->name . ' - Параметры';
@@ -52,6 +54,17 @@
 					<?php echo $form->error($model, 'password_copy'); ?>
 				</div>
 			</fieldset>
+		</div>
+
+		<div class = "form-group">
+			<?php echo $form->labelEx($model, 'start_date'); ?>
+			<div class="input-group">
+				<?php echo $form->numberField($model, 'start_date', array(
+					'class' => 'form-control')); ?>
+				<a class = "input-group-addon datapicker-show-button" href =
+					"#"><span class = "glyphicon glyphicon-calendar"></span></a>
+			</div>
+			<?php echo $form->error($model, 'start_date'); ?>
 		</div>
 
 		<div class = "form-group">
