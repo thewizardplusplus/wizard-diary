@@ -11,8 +11,8 @@ class Parameters extends CActiveRecord {
 	const MINIMUM_VERSIONS_OF_BACKUPS = 1;
 	const MAXIMUM_VERSIONS_OF_BACKUPS = 10;
 
-	public static function model($className = __CLASS__) {
-		return parent::model($className);
+	public static function model($class_name = __CLASS__) {
+		return parent::model($class_name);
 	}
 
 	public static function get() {

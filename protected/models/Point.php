@@ -1,8 +1,18 @@
 <?php
 
 class Point extends CActiveRecord {
-	public static function model($className = __CLASS__) {
-		return parent::model($className);
+	public static function model($class_name = __CLASS__) {
+		return parent::model($class_name);
+	}
+
+	public static function renumberOrderFieldsForDate($date) {
+		$connection = Yii::app()->db;
+		$connection->createCommand('SET @order = 0')->execute();
+		Point::model()->updateAll(array('order' => new CDbExpression('(@order '
+			. ':= @order + 2)')), array(
+				'condition' => '`date` = ' . $connection->quoteValue($date),
+				'order' => '`order`'
+			));
 	}
 
 	public function tableName() {
@@ -15,7 +25,8 @@ class Point extends CActiveRecord {
 			array('text', 'required', 'on' => 'update'),
 			array('state', 'in', 'range' => array('INITIAL', 'SATISFIED',
 				'NOT_SATISFIED', 'CANCELED')),
-			array('check', 'boolean', 'trueValue' => 1, 'falseValue' => 0)
+			array('check', 'boolean', 'trueValue' => 1, 'falseValue' => 0),
+			array('order', 'numerical')
 		);
 	}
 
@@ -30,6 +41,16 @@ class Point extends CActiveRecord {
 				$this->date = date("Y-m-d");
 			}
 
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	protected function afterSave() {
+		$result = parent::beforeSave();
+		if ($result) {
+			self::renumberOrderFieldsForDate($this->date);
 			return true;
 		} else {
 			return false;

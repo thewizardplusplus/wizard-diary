@@ -5,6 +5,10 @@
 
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/checking.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/purl.min.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/move.js'), CClientScript::POS_HEAD);
 
 	$this->pageTitle = Yii::app()->name;
 
@@ -56,6 +60,34 @@
 					'value' => '"<span class = \"state-" . strtolower(' .
 						'str_replace("_", "-", $data->state)) . "\">" . $data->'
 						. 'text . "</span>"'
+				),
+				array(
+					'class' => 'CButtonColumn',
+					'template' => '{down} {up}',
+					'buttons' => array(
+						'down' => array(
+							'label' => '<span class = "glyphicon glyphicon-' .
+								'arrow-down"></span>',
+							'url' => '$this->grid->controller->createUrl("point'
+								. '/update", array("id" => $data->id, "order" '
+								. '=> $data->order + 3))',
+							'imageUrl' => FALSE,
+							'options' => array('title' => 'Опустить'),
+							'click' => 'function() { return move($(this).' .
+								'attr("href")); }'
+						),
+						'up' => array(
+							'label' => '<span class = "glyphicon glyphicon-' .
+								'arrow-up"></span>',
+							'url' => '$this->grid->controller->createUrl("point'
+								. '/update", array("id" => $data->id, "order" '
+								. '=> $data->order - 3))',
+							'imageUrl' => FALSE,
+							'options' => array('title' => 'Поднять'),
+							'click' => 'function() { return move($(this).' .
+								'attr("href")); }'
+						)
+					)
 				),
 				array(
 					'class' => 'CButtonColumn',

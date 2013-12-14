@@ -39,7 +39,7 @@ class PointController extends CController {
 		}
 
 		$data_provider = new CActiveDataProvider('Point', array(
-			'criteria' => array('order' => 'date, id'),
+			'criteria' => array('order' => 'date, `order`'),
 			'pagination' => array('pagesize' => Parameters::get()->
 				points_on_page)
 		));
