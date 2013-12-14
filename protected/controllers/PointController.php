@@ -63,14 +63,16 @@ class PointController extends CController {
 		if (isset($_POST['Point'])) {
 			$model->attributes = $_POST['Point'];
 			$result = $model->save();
-			if (!isset($_POST['ajax']) and $result) {
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
-					: array('list'));
+
+			if (isset($_POST['Point']['text']) and $result) {
+				echo $model->text;
+				return;
 			}
 		}
 
 		if (!isset($_POST['ajax'])) {
-			$this->render('update', array('model' => $model));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
+				: array('list'));
 		}
 	}
 

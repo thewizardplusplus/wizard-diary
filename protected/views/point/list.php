@@ -6,6 +6,10 @@
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/checking.js'), CClientScript::POS_HEAD);
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/jquery.jeditable.min.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/editing.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/purl.min.js'), CClientScript::POS_HEAD);
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/move.js'), CClientScript::POS_HEAD);
@@ -56,10 +60,15 @@
 				),
 				array('class' => 'PointStateColumn'),
 				array(
-					'type' => 'html',
-					'value' => '"<span class = \"state-" . strtolower(' .
-						'str_replace("_", "-", $data->state)) . "\">" . $data->'
-						. 'text . "</span>"'
+					'type' => 'raw',
+					'value' => '!empty($data->text) ? "<span id = \"point-' .
+						'text-" . $data->id . "\" class = \"state-" . ' .
+						'strtolower(str_replace("_", "-", $data->state)) . " ' .
+						'point-text\" data-update-url = \"" . $this->grid->' .
+						'controller->createUrl("point/update", array("id" => ' .
+						'$data->id)) . "\" data-saving-icon-url = \"" . Yii::' .
+						'app()->request->baseUrl . "/images/saving-icon.gif\">"'
+						. ' . $data->text . "</span>" : ""'
 				),
 				array(
 					'class' => 'CButtonColumn',
@@ -97,8 +106,10 @@
 						'update' => array(
 							'label' => '<span class = "glyphicon glyphicon-' .
 								'pencil"></span>',
+							'url' => '"?r=point/update&id=" . $data->id',
 							'imageUrl' => FALSE,
 							'options' => array('title' => 'Изменить пункт'),
+							'click' => 'function() { return editing(this); }',
 							'visible' => '!empty($data->text)'
 						),
 						'delete' => array(
@@ -120,6 +131,7 @@
 				'nextPageLabel' => '&gt;',
 				'lastPageLabel' => '&gt;&gt;',
 				'firstPageCssClass' => 'hidden',
+				'lastPageCssClass' => 'hidden',
 				'hiddenPageCssClass' => 'disabled',
 				'htmlOptions' => array('class' => 'pagination')
 			),
@@ -127,7 +139,8 @@
 			'extraRowExpression' => '"<h2 class = \"reduced\"><span class = ' .
 				'\"label label-success\">" . $data->getMyDate() . ":</span>' .
 				'</h2>"',
-			'extraRowPos' => 'above'
+			'extraRowPos' => 'above',
+			'afterAjaxUpdate' => 'function() { initializeEditors(); }'
 		));
 	?>
 </div>

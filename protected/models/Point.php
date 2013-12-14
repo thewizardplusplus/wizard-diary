@@ -22,7 +22,6 @@ class Point extends CActiveRecord {
 	public function rules() {
 		return array(
 			array('text', 'safe'),
-			array('text', 'required', 'on' => 'update'),
 			array('state', 'in', 'range' => array('INITIAL', 'SATISFIED',
 				'NOT_SATISFIED', 'CANCELED')),
 			array('check', 'boolean', 'trueValue' => 1, 'falseValue' => 0),
