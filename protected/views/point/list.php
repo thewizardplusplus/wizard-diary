@@ -13,10 +13,10 @@
 		'scripts/purl.min.js'), CClientScript::POS_HEAD);
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/move.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/addition.js'), CClientScript::POS_HEAD);
 
 	$this->pageTitle = Yii::app()->name;
-
-	$this->renderPartial('_form', array('model' => $model));
 ?>
 
 <div class = "table-responsive">
@@ -61,14 +61,13 @@
 				array('class' => 'PointStateColumn'),
 				array(
 					'type' => 'raw',
-					'value' => '!empty($data->text) ? "<span id = \"point-' .
-						'text-" . $data->id . "\" class = \"state-" . ' .
-						'strtolower(str_replace("_", "-", $data->state)) . " ' .
-						'point-text\" data-update-url = \"" . $this->grid->' .
-						'controller->createUrl("point/update", array("id" => ' .
-						'$data->id)) . "\" data-saving-icon-url = \"" . Yii::' .
-						'app()->request->baseUrl . "/images/saving-icon.gif\">"'
-						. ' . $data->text . "</span>" : ""'
+					'value' => '"<span id = \"point-text-" . $data->id . "\" ' .
+						'class = \"state-" . strtolower(str_replace("_", "-", '
+						. '$data->state)) . " point-text\" data-update-url = ' .
+						'\"" . $this->grid->controller->createUrl("point/' .
+						'update", array("id" => $data->id)) . "\" data-saving-'
+						. 'icon-url = \"" . Yii::app()->request->baseUrl . ' .
+						'"/images/saving-icon.gif\">" . $data->text . "</span>"'
 				),
 				array(
 					'class' => 'CButtonColumn',
@@ -109,8 +108,7 @@
 							'url' => '"?r=point/update&id=" . $data->id',
 							'imageUrl' => FALSE,
 							'options' => array('title' => 'Изменить пункт'),
-							'click' => 'function() { return editing(this); }',
-							'visible' => '!empty($data->text)'
+							'click' => 'function() { return editing(this); }'
 						),
 						'delete' => array(
 							'label' => '<span class = "glyphicon glyphicon-' .
@@ -144,3 +142,15 @@
 		));
 	?>
 </div>
+
+<?php echo CHtml::beginForm('#'); ?>
+	<div class = "panel panel-default">
+		<div class = "input-group">
+			<?php echo CHtml::textField('Point_text', '', array('class' =>
+				'form-control')); ?>
+			<a class = "input-group-addon add-point-button" href = "<?php echo
+				$this->createUrl('point/create'); ?>"><span class =
+				"glyphicon glyphicon-plus"></span></a>
+		</div>
+	</div>
+<?php echo CHtml::endForm(); ?>

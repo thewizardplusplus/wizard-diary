@@ -8,11 +8,9 @@ function initializeEditors() {
 			onblur: 'ignore',
 			indicator: '<img src = "' + item.data('saving-icon-url') + '" alt ='
 				+ ' "Сохранение..." />',
-			tooltip: 'Нажмите для редактирования...',
-			callback: function(value) {
-				if (value == '') {
-					$('#point_list').yiiGridView('update');
-				}
+			placeholder: '',
+			callback: function() {
+				$('#point_list').yiiGridView('update');
 			}
 		});
 	});

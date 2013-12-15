@@ -17,7 +17,7 @@ class PointController extends CController {
 		return array(
 			array(
 				'allow',
-				'actions' => array('list', 'update', 'delete'),
+				'actions' => array('list', 'create', 'update', 'delete'),
 				'users' => array('admin')
 			),
 			array(
@@ -28,16 +28,6 @@ class PointController extends CController {
 	}
 
 	public function actionList() {
-		$model = new Point;
-		$this->performAjaxValidation($model);
-
-		if (!isset($_POST['ajax']) and isset($_POST['Point'])) {
-			$model->attributes = $_POST['Point'];
-			$model->save();
-
-			$model = new Point;
-		}
-
 		$data_provider = new CActiveDataProvider('Point', array(
 			'criteria' => array('order' => 'date, `order`'),
 			'pagination' => array('pagesize' => Parameters::get()->
@@ -50,17 +40,25 @@ class PointController extends CController {
 			$pagination->currentPage = $pagination->pageCount - 1;
 		}
 
-		$this->render('list', array(
-			'model' => $model,
-			'data_provider' => $data_provider
-		));
+		$this->render('list', array('data_provider' => $data_provider));
+	}
+
+	public function actionCreate() {
+		if (isset($_POST['Point'])) {
+			$model = new Point;
+			$model->attributes = $_POST['Point'];
+			$model->save();
+		}
+
+		if (!isset($_POST['ajax'])) {
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
+				: array('list'));
+		}
 	}
 
 	public function actionUpdate($id) {
-		$model = $this->loadModel($id);
-		$this->performAjaxValidation($model);
-
 		if (isset($_POST['Point'])) {
+			$model = $this->loadModel($id);
 			$model->attributes = $_POST['Point'];
 			$result = $model->save();
 
@@ -92,12 +90,5 @@ class PointController extends CController {
 		}
 
 		return $model;
-	}
-
-	private function performAjaxValidation($model) {
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'point-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
 	}
 }
