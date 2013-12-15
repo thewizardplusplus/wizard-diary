@@ -133,9 +133,9 @@
 				'htmlOptions' => array('class' => 'pagination')
 			),
 			'extraRowColumns' => array('date'),
-			'extraRowExpression' => '"<h2 class = \"reduced\"><span class = ' .
-				'\"label label-success\">" . $data->getMyDate() . ":</span>' .
-				'</h2>"',
+			'extraRowExpression' => '"<span class = \"date-row\"><span class = '
+				. '\"label label-success\">" . $data->getMyDate() . ":</span>' .
+				'</span>"',
 			'extraRowPos' => 'above',
 			'afterAjaxUpdate' => 'function() { initializeEditors(); }'
 		));
@@ -143,13 +143,11 @@
 </div>
 
 <?php echo CHtml::beginForm('#'); ?>
-	<div class = "panel panel-default">
-		<div class = "input-group">
-			<?php echo CHtml::textField('Point_text', '', array('class' =>
-				'form-control')); ?>
-			<a class = "input-group-addon add-point-button" href = "<?php echo
-				$this->createUrl('point/create'); ?>"><span class =
-				"glyphicon glyphicon-plus"></span></a>
-		</div>
+	<div class = "input-group">
+		<?php echo CHtml::textField('Point_text', '', array('class' =>
+			'form-control')); ?>
+		<a class = "input-group-addon add-point-button" href = "<?php echo
+			$this->createUrl('point/create'); ?>"><span class =
+			"glyphicon glyphicon-plus"></span></a>
 	</div>
 <?php echo CHtml::endForm(); ?>

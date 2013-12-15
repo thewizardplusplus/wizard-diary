@@ -8,13 +8,11 @@
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
-<div class = "panel panel-default">
-	<p>
-		<a href = "<?php echo $this->createUrl('backup/create'); ?>"><button
-			class = "btn btn-primary pull-right create-backup-button"
-			data-create-backup-url = "<?php echo $this->createUrl('backup/' .
-				'create'); ?>">Создать новый бекап</button></a>
-	</p>
+<div>
+	<a href = "<?php echo $this->createUrl('backup/create'); ?>"><button
+		class = "btn btn-primary pull-right create-backup-button"
+		data-create-backup-url = "<?php echo $this->createUrl('backup/' .
+			'create'); ?>">Создать новый бекап</button></a>
 	<div class = "clearfix"></div>
 </div>
 

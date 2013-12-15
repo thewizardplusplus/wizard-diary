@@ -11,7 +11,7 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset = "utf-8" />
 
@@ -44,32 +44,45 @@
 			?>/jquery-ui/js/jquery.ui.datepicker-ru.js"></script>
 	</head>
 	<body>
-		<section class = "container panel panel-default">
-			<header class = "page-header">
-				<h1>
-					<img src = "<?php echo Yii::app()->request->baseUrl;
-						?>/images/logo.png" alt = "logo" /> <?php echo CHtml::
+		<nav class =
+			"navbar navbar-default navbar-fixed-top navbar-inverse" role =
+			"navigation">
+			<section class = "container">
+				<div class = "navbar-header">
+					<?php if (!Yii::app()->user->isGuest) { ?>
+					<button class = "navbar-toggle" data-toggle = "collapse"
+						data-target = "#navbar-collapse">
+						<span class = "icon-bar"></span>
+						<span class = "icon-bar"></span>
+						<span class = "icon-bar"></span>
+					</button>
+					<?php } ?>
+					<a class = "navbar-brand" href = "<?php echo $this->
+						createUrl('point/list'); ?>"><?php echo CHtml::
 						encode(Yii::app()->name); ?>
-				</h1>
-			</header>
+					</a>
+				</div>
 
-			<?php if (!Yii::app()->user->isGuest) { ?>
-			<nav>
-				<?php $this->widget('zii.widgets.CMenu',array(
-					'items'=>array(
-						array('label' => 'Главная', 'url' => array(
-							'point/list')),
-						array('label' => 'Бекапы', 'url' => array(
-							'backup/list')),
-						array('label' => 'Параметры', 'url' => array(
-							'parameters/update')),
-						array('label' => 'Выход', 'url' => array('site/logout'))
-					),
-					'htmlOptions' => array('class' => 'nav nav-pills')
-				)); ?>
-			</nav>
-			<?php } ?>
+				<?php if (!Yii::app()->user->isGuest) { ?>
+				<div id = "navbar-collapse" class =
+					"collapse navbar-collapse">
+					<?php $this->widget('zii.widgets.CMenu',array(
+						'items'=>array(
+							array('label' => 'Бекапы', 'url' => array(
+								'backup/list')),
+							array('label' => 'Параметры', 'url' => array(
+								'parameters/update')),
+							array('label' => 'Выход', 'url' => array(
+								'site/logout'))
+						),
+						'htmlOptions' => array('class' => 'nav navbar-nav')
+					)); ?>
+				</div>
+				<?php } ?>
+			</section>
+		</nav>
 
+		<section class = "container">
 			<?php echo $content; ?>
 
 			<footer>

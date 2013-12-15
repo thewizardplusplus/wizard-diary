@@ -46,13 +46,23 @@ legend + .alert {
 }
 
 /* diary styles */
+body {
+	padding-top: 50px;
+}
+
 .wait {
 	pointer-events: none;
 	opacity: 0.75;
 }
 
-h2.reduced {
-	font-size: 24px;
+.date-row {
+	display: block;
+	margin: 5px;
+}
+
+.date-row .label {
+	padding-bottom: 0.2em;
+	font-size: larger;
 }
 
 .button-column {
@@ -95,6 +105,40 @@ a.state-initial:focus {
 	font-size: larger;
 }
 
+.table {
+	margin-bottom: 0;
+}
+
+.grid-view {
+	padding: 0 !important;
+}
+
+.pagination {
+	margin: 10px 0;
+}
+
+.create-backup-button {
+	margin: 15px 0;
+}
+
+#parameters-form,
+#login-form {
+	margin-top: 15px;
+}
+
+.ui-spinner .form-control {
+	box-shadow: none;
+}
+
+hr {
+	margin-top: 0;
+}
+
 footer {
+	min-height: 100px;
 	font-size: smaller;
+}
+
+form + footer {
+	margin-top: 15px;
 }

@@ -22,8 +22,6 @@
 	'enableClientValidation' => true,
 	'errorMessageCssClass' => 'alert alert-danger'
 )); ?>
-
-<div class = "panel panel-default">
 	<fieldset>
 		<legend>Вход:</legend>
 
@@ -46,6 +44,4 @@
 		<?php echo CHtml::submitButton('Вход', array('class' =>
 			'btn btn-primary')); ?>
 	</fieldset>
-</div>
-
 <?php $this->endWidget(); ?>
