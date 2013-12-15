@@ -127,7 +127,6 @@
 				'header' => '',
 				'prevPageLabel' => '&lt;',
 				'nextPageLabel' => '&gt;',
-				'lastPageLabel' => '&gt;&gt;',
 				'firstPageCssClass' => 'hidden',
 				'lastPageCssClass' => 'hidden',
 				'hiddenPageCssClass' => 'disabled',

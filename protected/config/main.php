@@ -26,7 +26,7 @@ return array(
 				'point/<id:\d+>/delete' => 'point/delete',
 				'parameters' => 'parameters/update',
 				'backups' => 'backup/list',
-				'backups/new' => 'backup/new'
+				'backups/new' => 'backup/create'
 			)
 		),
 		'db' => array(
@@ -41,12 +41,6 @@ return array(
 		'log' => array(
 			'class'=>'CLogRouter',
 			'routes' => array(
-				array(
-					'class' => 'CFileLogRoute',
-					'logFile' => 'backups.log',
-					'levels' => 'info',
-					'categories' => 'backups'
-				),
 				array(
 					'class' => 'CFileLogRoute',
 					'levels' => 'trace, info, warning, error'

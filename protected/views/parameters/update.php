@@ -77,16 +77,6 @@
 			<?php echo $form->error($model, 'points_on_page'); ?>
 		</div>
 
-		<div class = "form-group">
-			<?php echo $form->labelEx($model, 'versions_of_backups'); ?>
-			<?php echo $form->numberField($model, 'versions_of_backups', array(
-				'class' => 'form-control',
-				'min' => Parameters::MINIMUM_VERSIONS_OF_BACKUPS,
-				'max' => Parameters::MAXIMUM_VERSIONS_OF_BACKUPS
-			)); ?>
-			<?php echo $form->error($model, 'versions_of_backups'); ?>
-		</div>
-
 		<?php echo CHtml::submitButton('Сохранить', array('class' =>
 			'btn btn-primary')); ?>
 	</fieldset>

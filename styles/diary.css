@@ -16,14 +16,28 @@ legend + .alert {
 	width: 100%;
 }
 
-.pager .previous a {
+#point_list .pager .previous a {
 	border-bottom-left-radius: 4px;
 	border-top-left-radius: 4px;
 }
 
-.pager .next a {
+#point_list .pager .next a {
 	border-bottom-right-radius: 4px;
 	border-top-right-radius: 4px;
+}
+
+#backup-list .pager .first a {
+	border-bottom-left-radius: 15px;
+	border-top-left-radius: 15px;
+}
+
+#backup-list .pager .next > a {
+	float: left;
+}
+
+#backup-list .pager .last a {
+	border-bottom-right-radius: 15px;
+	border-top-right-radius: 15px;
 }
 
 /* addings for jQuery UI styles */
@@ -79,11 +93,6 @@ a.state-initial:focus {
 
 .dropdown .glyphicon {
 	font-size: larger;
-}
-
-.log {
-	font-size: smaller;
-	color: rgb(128, 128, 128);
 }
 
 footer {

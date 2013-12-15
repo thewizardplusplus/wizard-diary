@@ -14,7 +14,7 @@ class BackupController extends CController {
 		return array(
 			array(
 				'allow',
-				'actions' => array('list', 'new'),
+				'actions' => array('list', 'create'),
 				'users' => array('admin')
 			),
 			array(
@@ -32,23 +32,11 @@ class BackupController extends CController {
 		$backups = array();
 		foreach ($filenames as $filename) {
 			$filename = $backups_path . '/' . $filename;
-			if (is_file($filename) and strtolower(pathinfo($filename,
-				PATHINFO_EXTENSION)) == 'zip')
+			if (is_file($filename) and pathinfo($filename, PATHINFO_EXTENSION)
+				== 'sql')
 			{
-				$backup = new stdClass();
+				$backup = new stdClass;
 				$backup->timestamp = date('d.m.Y H:i:s', filemtime($filename));
-				$backup->size = filesize($filename);
-				if ($backup->size > 1024 and $backup->size < 1024 * 1024) {
-					$backup->size = round($backup->size / 1024, 2) . ' KB';
-				} else if ($backup->size > 1024 * 1024 and $backup->size < 1024
-					* 1024 * 1024)
-				{
-					$backup->size = round($backup->size / 1024 * 1024, 2) .
-						' MB';
-				} else {
-					$backup->size = round($backup->size / 1024 * 1024 * 1024, 2)
-						. ' GB';
-				}
 				$backup->link = substr(realpath($filename), strlen($_SERVER[
 					'DOCUMENT_ROOT']));
 
@@ -61,69 +49,32 @@ class BackupController extends CController {
 			'sort' => array(
 				'attributes' => array('timestamp'),
 				'defaultOrder' => array('timestamp' => CSort::SORT_DESC)
-			),
-			'pagination' => FALSE
+			)
 		));
 
-		$log_filename = __DIR__ . '/../runtime/backups.log';
-		if (file_exists($log_filename)) {
-			$log_text = file_get_contents($log_filename);
-
-			if (!empty($log_text)) {
-				$lines = explode("\n", $log_text);
-				$lines = array_filter($lines, function($line) {
-					return preg_match('/^\d.*/', $line);
-				});
-				$lines = array_map(function($line) {
-					$line = preg_replace('/^(\d{4})\/(0[1-9]|1[0-2])\/(0[1-9]|'
-						. '[12]\d|3[01]) (([01]\d|2[0-3]):([0-5]\d):([0-5]' .
-						'\d))/', '($3.$2.$1 $4)', $line);
-					$line = preg_replace('/\[\w+\]/', '', $line);
-					$line = preg_replace('/\s+/', ' ', $line);
-
-					return $line;
-				}, $lines);
-				$lines = array_reverse($lines);
-				$lines = array_slice($lines, 0, Parameters::get()->
-					versions_of_backups);
-
-				$log_text = implode("\n", $lines);
-			} else {
-				$log_text = '';
-			}
-		} else {
-			file_put_contents($log_filename, '');
-			$log_text = '';
-		}
-
-		$this->render('list', array(
-			'data_provider' => $data_provider,
-			'log_text' => $log_text
-		));
+		$this->render('list', array('data_provider' => $data_provider));
 	}
 
-	public function actionNew() {
+	public function actionCreate() {
 		$this->testBackupDirectory();
 
-		$start = date_create();
-
-		$result = $this->backup(__DIR__ . '/../..');
-		if (!$result) {
+		$dump = $this->dumpDatabase();
+		if (empty($dump)) {
 			throw new CException('Не удалось создать бекап.');
 		}
 
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		$backups = array_diff(scandir($backups_path), array('.', '..'));
-		rsort($backups, SORT_STRING);
-		$old_backups = array_slice($backups, Parameters::get()->
-			versions_of_backups);
-		foreach ($old_backups as $filename) {
-			unlink($backups_path . '/' . $filename);
+		$dump_name = $backups_path . '/database_dump_' . date('Y-m-d-H-i-s') .
+			'.sql';
+		$result = file_put_contents($dump_name, $dump);
+		if (!$result) {
+			throw new CException('Не удалось создать бекап.');
 		}
-		Yii::log(date_create()->diff($start)->format('Длительность создания'
-			. ' последнего бекапа: %I:%S.'), 'info', 'backups');
 
-		$this->redirect(array('backup/list'));
+		if (!isset($_POST['ajax'])) {
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
+				: array('list'));
+		}
 	}
 
 	private function testBackupDirectory() {
@@ -136,72 +87,24 @@ class BackupController extends CController {
 		}
 	}
 
-	private function backup($path, $context = NULL) {
-		if (is_null($context)) {
-			$context = new stdClass();
-			$context->base_path = $path;
-			$context->backup_name = 'backup_' . date('Y-m-d-H-i-s');
-
-			$context->archive = new ZipArchive();
-			$result = $context->archive->open(__DIR__ . Constants::
-				BACKUPS_RELATIVE_PATH . '/' . $context->backup_name . '.zip',
-				ZIPARCHIVE::CREATE);
-			if ($result === TRUE) {
-				$temporary_filename = sys_get_temp_dir() . '/' . uniqid(rand(),
-					TRUE);
-				$result = file_put_contents($temporary_filename, $this->
-					dumpDatabase());
-				if ($result !== FALSE) {
-					$result = $context->archive->addFile($temporary_filename,
-						$context->backup_name . '/database_dump.sql');
-					if ($result) {
-						$result = $this->backup($path, $context);
-					}
-				}
-
-				$context->archive->close();
-			}
-
-			return $result;
-		} else {
-			foreach (array_diff(scandir($path), array('.', '..')) as $file) {
-				$full_path = $path . '/' . $file;
-				if (realpath($full_path) == realpath(__DIR__ . Constants::
-					BACKUPS_RELATIVE_PATH))
-				{
-					continue;
-				}
-
-				if (is_file($full_path)) {
-					$result = $context->archive->addFile($path, $context->
-						backup_name . str_replace($context->base_path, '',
-						$full_path));
-				} else if (is_dir($full_path)) {
-					$result = $this->backup($full_path, $context);
-				}
-				if (!$result) {
-					return FALSE;
-				}
-			}
-
-			return TRUE;
-		}
-	}
-
 	private function dumpDatabase() {
 		$connection = Yii::app()->db;
 
 		$tables = array();
 		foreach ($connection->createCommand('SHOW TABLES')->queryAll() as $row)
 		{
-			$tables[] = reset($row);
+			$table = reset($row);
+			$table_prefix = Yii::app()->db->tablePrefix;
+			if (substr($table, 0, strlen($table_prefix)) == $table_prefix) {
+				$tables[] = $table;
+			}
 		}
 
 		$dump = '';
 		foreach ($tables as $table) {
 			$dump .= "DROP TABLE IF EXISTS `" . $table . "`;\n" . end(reset(
 				$connection->createCommand('SHOW CREATE TABLE `' . $table . '`')
-				->queryAll())) . ";\n\n";
+					->queryAll())) . ";\n\n";
 
 			$rows = $connection->createCommand('SELECT * FROM `' . $table . '`')
 				->queryAll();
