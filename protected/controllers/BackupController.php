@@ -88,35 +88,40 @@ class BackupController extends CController {
 	}
 
 	private function dumpDatabase() {
-		$xml =
-			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
-			. "<diary start-date = \""
-			. Parameters::get()->start_date
-			. "\">\n";
-
-		$points = Point::model()->findAll();
+		$points = Point::model()->findAll(array('order' => 'date, `order`'));
 		$days_xml = '';
 		$last_date = '';
+		$start_my_date = '';
 		foreach ($points as $point) {
 			if ($last_date != '' and $point->date != $last_date) {
-				$days_xml .= "\t</day>\n\t<day>\n";
+				$days_xml .=
+					"\t</day>\n\t<day date = \""
+					. $point->getMyDate()
+					. "\">\n";
 				$last_date = $point->date;
 			} elseif ($last_date == '') {
 				$last_date = $point->date;
+				$start_my_date = $point->getMyDate();
 			}
 
 			$days_xml .=
 				"\t\t<point state = \""
-				. $point->state .
-				"\"" . ($point->check ? " check = \"true\"" : "") . ">" .
-				base64_encode($point->text) .
-				"</point>\n";
+				. $point->state
+				. "\""
+				. ($point->check ? " check = \"true\"" : "")
+				. ">" .
+				base64_encode($point->text)
+				. "</point>\n";
 		}
 		if (!empty($days_xml)) {
-			$xml .= "\t<day>\n" . $days_xml . "\t</day>\n";
+			$days_xml =
+				"\t<day date = \"$start_my_date\">\n$days_xml\t</day>\n";
 		}
 
-		$xml .= '</diary>' . "\n";
-		return $xml;
+		return
+			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
+			. "<diary start-date = \""
+			. Parameters::get()->start_date
+			. "\">\n$days_xml</diary>\n";
 	}
 }

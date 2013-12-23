@@ -18,6 +18,7 @@
 		<xs:sequence>
 			<xs:element name = "point" type = "Point" maxOccurs = "unbounded" />
 		</xs:sequence>
+		<xs:attribute name = "date" type = "MyDate" use = "required" />
 	</xs:complexType>
 
 	<xs:complexType name = "Point">
@@ -39,6 +40,12 @@
 			<xs:enumeration value = "SATISFIED" />
 			<xs:enumeration value = "NOT_SATISFIED" />
 			<xs:enumeration value = "CANCELED" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name = "MyDate">
+		<xs:restriction base = "xs:string">
+			<xs:pattern value = "(0[1-9]|[1-9]{2,})\.(0[1-9]|[1-9]{2,})" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
