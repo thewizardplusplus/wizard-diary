@@ -15,6 +15,8 @@
 		'scripts/move.js'), CClientScript::POS_HEAD);
 	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
 		'scripts/addition.js'), CClientScript::POS_HEAD);
+	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
+		'scripts/deleting.js'), CClientScript::POS_HEAD);
 
 	$this->pageTitle = Yii::app()->name;
 ?>
@@ -100,12 +102,13 @@
 				array(
 					'class' => 'CButtonColumn',
 					'template' => '{update} {delete}',
-					'deleteConfirmation' => 'Удалить пункт?',
 					'buttons' => array(
 						'update' => array(
 							'label' => '<span class = "glyphicon glyphicon-' .
 								'pencil"></span>',
-							'url' => '"?r=point/update&id=" . $data->id',
+							'url' => '$this->grid->controller->createUrl("point'
+								. '/update", array("id" => $data->id, "_id" '
+								. '=> $data->id))',
 							'imageUrl' => FALSE,
 							'options' => array('title' => 'Изменить пункт'),
 							'click' => 'function() { return editing(this); }'
@@ -113,8 +116,12 @@
 						'delete' => array(
 							'label' => '<span class = "glyphicon glyphicon-' .
 								'trash"></span>',
+							'url' => '$this->grid->controller->createUrl("point'
+								. '/delete", array("id" => $data->id, "_id" '
+								. '=> $data->id))',
 							'imageUrl' => FALSE,
-							'options' => array('title' => 'Удалить пункт')
+							'options' => array('title' => 'Удалить пункт'),
+							'click' => 'function() { return deleting(this); }'
 						)
 					)
 				)
@@ -142,7 +149,11 @@
 	?>
 </div>
 
-<?php echo CHtml::beginForm('#'); ?>
+<?php echo CHtml::beginForm(
+	'#',
+	'post',
+	array('id' => 'point-addition-form')
+); ?>
 	<div class = "input-group">
 		<?php echo CHtml::textField('Point_text', '', array('class' =>
 			'form-control')); ?>
@@ -151,3 +162,25 @@
 			"glyphicon glyphicon-plus"></span></a>
 	</div>
 <?php echo CHtml::endForm(); ?>
+
+<div class = "modal">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<button type = "button" class = "close" data-dismiss = "modal"
+					aria-hidden = "true">&times;</button>
+				<h4 class = "modal-title">Подтверждение</h4>
+			</div>
+			<div class = "modal-body">
+				<p>Ты точно хочешь удалить пункт <strong>&laquo;<span class =
+					"point-text"></span>&raquo;</strong>?</p>
+			</div>
+			<div class = "modal-footer">
+				<button type = "button" class = "btn btn-primary ok-button">OK
+					</button>
+				<button type = "button" class = "btn btn-default" data-dismiss =
+					"modal">Отмена</button>
+			</div>
+		</div>
+	</div>
+</div>

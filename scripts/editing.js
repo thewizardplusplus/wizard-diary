@@ -18,7 +18,7 @@ function initializeEditors() {
 
 function editing(link) {
 	var url = $(link).attr('href');
-	var point_id = $.url(url).param('id');
+	var point_id = $.url(url).param('_id');
 	var element_id = 'point-text-' + point_id;
 	$('#' + element_id).trigger(element_id + '-edit');
 
