@@ -4,6 +4,7 @@ class Parameters extends CActiveRecord {
 	const RECORD_ID =                   1;
 	const DEFAULT_PASSWORD_HASH =
 		'$2a$13$7RC2CWHDqafP4dvl7t5PCucccPVl7spVT4FiALXEaxWCnzCTskqAK';
+	const DEFAULT_POINTS_ON_PAGE =      10;
 	const MINIMUM_POINTS_ON_PAGE =      1;
 	const MAXIMUM_POINTS_ON_PAGE =      100;
 

@@ -33,7 +33,7 @@ class BackupController extends CController {
 		foreach ($filenames as $filename) {
 			$filename = $backups_path . '/' . $filename;
 			if (is_file($filename) and pathinfo($filename, PATHINFO_EXTENSION)
-				== 'sql')
+				== 'xml')
 			{
 				$backup = new stdClass;
 				$backup->timestamp = date('d.m.Y H:i:s', filemtime($filename));
@@ -65,7 +65,7 @@ class BackupController extends CController {
 
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
 		$dump_name = $backups_path . '/database_dump_' . date('Y-m-d-H-i-s') .
-			'.sql';
+			'.xml';
 		$result = file_put_contents($dump_name, $dump);
 		if (!$result) {
 			throw new CException('Не удалось создать бекап.');
@@ -88,44 +88,35 @@ class BackupController extends CController {
 	}
 
 	private function dumpDatabase() {
-		$connection = Yii::app()->db;
+		$xml =
+			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
+			. "<diary start-date = \""
+			. Parameters::get()->start_date
+			. "\">\n";
 
-		$tables = array();
-		foreach ($connection->createCommand('SHOW TABLES')->queryAll() as $row)
-		{
-			$table = reset($row);
-			$table_prefix = Yii::app()->db->tablePrefix;
-			if (substr($table, 0, strlen($table_prefix)) == $table_prefix) {
-				$tables[] = $table;
+		$points = Point::model()->findAll();
+		$days_xml = '';
+		$last_date = '';
+		foreach ($points as $point) {
+			if ($last_date != '' and $point->date != $last_date) {
+				$days_xml .= "\t</day>\n\t<day>\n";
+				$last_date = $point->date;
+			} elseif ($last_date == '') {
+				$last_date = $point->date;
 			}
+
+			$days_xml .=
+				"\t\t<point state = \""
+				. $point->state .
+				"\"" . ($point->check ? " check = \"true\"" : "") . ">" .
+				base64_encode($point->text) .
+				"</point>\n";
+		}
+		if (!empty($days_xml)) {
+			$xml .= "\t<day>\n" . $days_xml . "\t</day>\n";
 		}
 
-		$dump = '';
-		foreach ($tables as $table) {
-			$dump .= "DROP TABLE IF EXISTS `" . $table . "`;\n" . end(reset(
-				$connection->createCommand('SHOW CREATE TABLE `' . $table . '`')
-					->queryAll())) . ";\n\n";
-
-			$rows = $connection->createCommand('SELECT * FROM `' . $table . '`')
-				->queryAll();
-			if (!empty($rows)) {
-				$dump .= "INSERT INTO `" . $table . "`\nVALUES\n";
-
-				foreach ($rows as $row) {
-					$dump .= "\t(" . implode(", ", array_map(function($item)
-						use($connection)
-					{
-						return $connection->quoteValue($item);
-					}, $row)) . "),\n";
-				}
-
-				$dump = substr($dump, 0, strlen($dump) - 2) . ";\n\n";
-			}
-		}
-		if (!empty($dump)) {
-			$dump = substr($dump, 0, strlen($dump) - 1);
-		}
-
-		return $dump;
+		$xml .= '</diary>' . "\n";
+		return $xml;
 	}
 }
