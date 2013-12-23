@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<xs:schema xmlns:xs = "http://www.w3.org/2001/XMLSchema">
+	<xs:element name = "diary" type = "Diary" />
+
+	<xs:complexType name = "Diary">
+		<xs:sequence>
+			<xs:element
+				name = "day"
+				type = "Day"
+				minOccurs = "0"
+				maxOccurs = "unbounded"
+			/>
+		</xs:sequence>
+		<xs:attribute name = "start-date" type = "xs:date" use = "required" />
+		<xs:attribute
+			name = "points-on-page"
+			type = "NumberOfPages"
+			default = "10"
+		/>
+	</xs:complexType>
+
+	<xs:simpleType name = "NumberOfPages">
+		<xs:restriction base = "xs:integer">
+			<xs:minInclusive value = "1" />
+			<xs:maxInclusive value = "100" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name = "Day">
+		<xs:sequence>
+			<xs:element name = "point" type = "Point" maxOccurs = "unbounded" />
+		</xs:sequence>
+		<xs:attribute name = "date" type = "xs:date" use = "required" />
+	</xs:complexType>
+
+	<xs:complexType name = "Point">
+		<xs:simpleContent>
+			<xs:extension base = "xs:string">
+				<xs:attribute name = "state" type = "State" use = "required" />
+				<xs:attribute
+					name = "check"
+					type = "xs:boolean"
+					default = "false"
+				/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name = "State">
+		<xs:restriction base = "xs:string">
+			<xs:enumeration value = "INITIAL" />
+			<xs:enumeration value = "SATISFIED" />
+			<xs:enumeration value = "NOT_SATISFIED" />
+			<xs:enumeration value = "CANCELED" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
