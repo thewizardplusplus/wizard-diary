@@ -13,12 +13,5 @@ CREATE TABLE `diary_points` (
 DROP TABLE IF EXISTS `diary_parameters`;
 CREATE TABLE `diary_parameters` (
 	`id` BIGINT UNSIGNED NOT NULL DEFAULT 1 PRIMARY KEY,
-	`password_hash` TEXT NOT NULL,
-	`start_date` DATE NOT NULL
+	`password_hash` TEXT NOT NULL
 ) ENGINE = MYISAM;
-
-INSERT INTO `diary_parameters` (`password_hash`, `start_date`)
-VALUES (
-	'$2a$13$7RC2CWHDqafP4dvl7t5PCucccPVl7spVT4FiALXEaxWCnzCTskqAK',
-	CURDATE()
-);

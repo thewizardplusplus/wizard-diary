@@ -14,7 +14,6 @@ class Parameters extends CActiveRecord {
 			$model->password_hash = CPasswordHelper::hashPassword(
 				Constants::DEFAULT_PASSWORD
 			);
-			$model->start_date = new CDbExpression('CURDATE()');
 			$model->save();
 		}
 
@@ -33,8 +32,7 @@ class Parameters extends CActiveRecord {
 				'value' => Parameters::RECORD_ID,
 				'setOnEmpty' => false
 			),
-			array('password_hash', 'required'),
-			array('start_date', 'date', 'format' => 'yyyy-MM-dd')
+			array('password_hash', 'required')
 		);
 	}
 }

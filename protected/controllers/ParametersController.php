@@ -31,8 +31,8 @@ class ParametersController extends CController {
 			}
 		}
 
-		$start_date_container_class =
-			count($model->getErrors('start_date'))
+		$password_container_class =
+			count($model->getErrors('password'))
 				? ' has-error'
 				: '';
 		$password_copy_container_class =
@@ -43,7 +43,7 @@ class ParametersController extends CController {
 			'update',
 			array(
 				'model' => $model,
-				'start_date_container_class' => $start_date_container_class,
+				'password_container_class' => $password_container_class,
 				'password_copy_container_class' =>
 					$password_copy_container_class
 			)

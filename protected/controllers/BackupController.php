@@ -101,9 +101,8 @@ class BackupController extends CController {
 			$days_dump .= "\t<day date = \"$date\">\n$points_tags\t</day>\n";
 		}
 
-		$start_date = Parameters::getModel()->start_date;
 		return
 			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
-			. "<diary start-date = \"$start_date\">\n$days_dump</diary>\n";
+			. "<diary>\n$days_dump</diary>\n";
 	}
 }

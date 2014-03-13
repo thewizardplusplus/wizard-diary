@@ -47,8 +47,14 @@ class Point extends CActiveRecord {
 	}
 
 	public function getMyDate() {
+		$start_date =
+			Yii::app()
+			->db
+			->createCommand('SELECT MIN(date) FROM ' . $this->tableName())
+			->queryScalar();
+
 		$difference = date_diff(
-			date_create(Parameters::getModel()->start_date),
+			date_create($start_date),
 			date_create($this->date)
 		);
 		$days = $difference->days;
@@ -57,10 +63,6 @@ class Point extends CActiveRecord {
 		if ($my_day < 10) {
 			$my_day = '0' . $my_day;
 		}
-		if ($difference->invert) {
-			$my_day = '-' . $my_day;
-		}
-
 		$my_year = round($days / Constants::DAYS_IN_MY_YEAR) + 1;
 		if ($my_year < 10) {
 			$my_year = '0' . $my_year;
