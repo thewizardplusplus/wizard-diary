@@ -25,11 +25,11 @@ class PointController extends CController {
 			)
 		);
 
-		/*if (!isset($_GET['ajax']) or $_GET['ajax'] != 'point_list') {
+		if (!isset($_GET['ajax']) or $_GET['ajax'] != 'point-list') {
 			$pagination = $data_provider->pagination;
 			$pagination->setItemCount($data_provider->getTotalItemCount());
 			$pagination->currentPage = $pagination->pageCount - 1;
-		}*/
+		}
 
 		$this->render('list', array('data_provider' => $data_provider));
 	}

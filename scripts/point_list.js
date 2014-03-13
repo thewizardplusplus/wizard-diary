@@ -12,7 +12,15 @@ $(document).ready(function() {
 				url: url,
 				data: data,
 				success: function() {
-					point_list.yiiGridView('update');
+					point_list.yiiGridView(
+						'update',
+						{
+							url:
+								location.pathname
+								+ location.search
+								+ location.hash
+						}
+					);
 				}
 			}
 		);

@@ -17,15 +17,26 @@
 	<head>
 		<meta charset = "utf-8" />
 		<meta name = "viewport" content = "width=device-width" />
-		<link rel = "icon" type = "image/png" href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
-		<link rel = "stylesheet" href = "<?= Yii::app()->request->baseUrl ?>/bootstrap/css/bootstrap.min.css" />
-		<link rel = "stylesheet" href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
+		<link
+			rel = "icon"
+			type = "image/png"
+			href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
+		<link
+			rel = "stylesheet"
+			href = "<?= Yii::app()->request->baseUrl ?>/bootstrap/css/bootstrap.min.css" />
+		<link
+			rel = "stylesheet"
+			href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
 
 		<title><?= $this->pageTitle ?></title>
 
-		<script src = "<?= Yii::app()->request->baseUrl ?>/bootstrap/js/bootstrap.min.js"></script>
+		<script
+			src = "<?= Yii::app()->request->baseUrl ?>/bootstrap/js/bootstrap.min.js">
+		</script>
 		<?php if (!Yii::app()->user->isGuest) { ?>
-			<script src = "<?= Yii::app()->request->baseUrl ?>/scripts/backuping.min.js"></script>
+			<script
+				src = "<?= Yii::app()->request->baseUrl ?>/scripts/backuping.min.js">
+			</script>
 		<?php } ?>
 	</head>
 	<body>
@@ -33,18 +44,25 @@
 			<section class = "container">
 				<div class = "navbar-header">
 					<?php if (!Yii::app()->user->isGuest) { ?>
-						<button class = "navbar-toggle" data-toggle = "collapse" data-target = "#navbar-collapse">
+						<button
+							class = "navbar-toggle"
+							data-toggle = "collapse"
+							data-target = "#navbar-collapse">
 							<span class = "icon-bar"></span>
 							<span class = "icon-bar"></span>
 							<span class = "icon-bar"></span>
 						</button>
 					<?php } ?>
-					<a class = "navbar-brand" href = "<?= Yii::app()->homeUrl ?>">
+					<a
+						class = "navbar-brand"
+						href = "<?= Yii::app()->homeUrl ?>">
 						<?= Yii::app()->name ?>
 					</a>
 				</div>
 				<?php if (!Yii::app()->user->isGuest) { ?>
-					<div id = "navbar-collapse" class = "collapse navbar-collapse">
+					<div
+						id = "navbar-collapse"
+						class = "collapse navbar-collapse">
 						<?php $this->widget(
 							'zii.widgets.CMenu',
 							array(
@@ -59,9 +77,14 @@
 								)
 							)
 						); ?>
-						<button class = "btn btn-primary navbar-btn navbar-left create-backup-button" data-create-backup-url = "<?= $this->createUrl('backup/create') ?>">
-							<img src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif" alt = "..." />
-							<span class = "glyphicon glyphicon-compressed"></span>
+						<button
+							class = "btn btn-primary navbar-btn navbar-left create-backup-button"
+							data-create-backup-url = "<?= $this->createUrl('backup/create') ?>">
+							<img
+								src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
+								alt = "..." />
+							<span class = "glyphicon glyphicon-compressed">
+							</span>
 							<span>Создать бекап</span>
 						</button>
 						<?php $this->widget(

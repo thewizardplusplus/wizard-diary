@@ -39,7 +39,8 @@
 		array('class' => 'alert alert-danger')
 	) ?>
 
-	<div class = "form-group start-date-input-container<?= $start_date_container_class ?>">
+	<div
+		class = "form-group start-date-input-container<?= $start_date_container_class ?>">
 		<?= $form->labelEx(
 			$model,
 			'start_date',
