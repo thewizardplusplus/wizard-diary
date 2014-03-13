@@ -12,39 +12,6 @@ legend + .alert {
 	margin-top: 0;
 }
 
-.pager .pagination {
-	width: 100%;
-}
-
-#point_list .pager .previous a {
-	border-bottom-left-radius: 4px;
-	border-top-left-radius: 4px;
-}
-
-#point_list .pager .next a {
-	border-bottom-right-radius: 4px;
-	border-top-right-radius: 4px;
-}
-
-#backup-list .pager .first a {
-	border-bottom-left-radius: 15px;
-	border-top-left-radius: 15px;
-}
-
-#backup-list .pager .next > a {
-	float: left;
-}
-
-#backup-list .pager .last a {
-	border-bottom-right-radius: 15px;
-	border-top-right-radius: 15px;
-}
-
-/* addings for jQuery UI styles */
-.ui-spinner {
-	display: block;
-}
-
 /* diary styles */
 body {
 	padding-top: 50px;
@@ -117,11 +84,8 @@ a.state-initial:focus {
 	margin: 10px 0;
 }
 
-.create-backup-button {
-	margin: 15px 0;
-}
-
 #parameters-form,
+#backup-list,
 #login-form {
 	margin-top: 15px;
 }
@@ -135,10 +99,51 @@ hr {
 }
 
 footer {
-	min-height: 100px;
 	font-size: smaller;
 }
 
 form + footer {
 	margin-top: 15px;
+}
+
+.error-description {
+	margin-top: 15px;
+}
+
+.navbar-form {
+	margin-right: -15px;
+	padding-right: 0;
+}
+
+.create-backup-button img {
+	display: none;
+	height: 18px;
+}
+
+.page-header {
+	margin: 15px 0 10px;
+	padding-bottom: 0;
+}
+
+.table-responsive {
+	border: none;
+	overflow: visible;
+}
+
+.create-backup-button {
+	height: 32px;
+}
+
+.verify-code-container {
+	margin: 5px 0 10px;
+}
+
+.verify-code {
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.verify-code + button {
+	height: 60px;
+	font-size: larger;
 }

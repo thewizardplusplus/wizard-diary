@@ -1,10 +1,12 @@
 <?php
 
-$yii = dirname(__FILE__) . '/yii/yii.php';
-$config = dirname(__FILE__) . '/protected/config/main.php';
+require_once(__DIR__ . '/protected/config/Constants.php');
 
-//defined('YII_DEBUG') or define('YII_DEBUG', TRUE);
-//defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 12);
+define('YII_DEBUG', Constants::DEBUG);
+if (Constants::DEBUG) {
+	define('YII_TRACE_LEVEL', Constants::TRACE_LEVEL);
+}
 
-require_once($yii);
-Yii::createWebApplication($config)->run();
+require_once(__DIR__ . '/yii/framework/yii.php');
+
+Yii::createWebApplication(__DIR__ . '/protected/config/main.php')->run();

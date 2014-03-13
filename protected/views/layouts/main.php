@@ -1,5 +1,7 @@
 <?php
-	/* @var $this CController */
+	/**
+	 * @var CController $this
+	 */
 
 	Yii::app()->getClientScript()->registerCoreScript('jquery');
 
@@ -11,86 +13,97 @@
 ?>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 	<head>
 		<meta charset = "utf-8" />
-
-		<meta name = "MobileOptimized" content = "320" />
-		<meta name = "HandheldFriendly" content = "true" />
 		<meta name = "viewport" content = "width=device-width" />
+		<link rel = "icon" type = "image/png" href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
+		<link rel = "stylesheet" href = "<?= Yii::app()->request->baseUrl ?>/bootstrap/css/bootstrap.min.css" />
+		<link rel = "stylesheet" href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
 
-		<link rel = "icon" type = "image/png" href = "<?php echo Yii::app()->
-			request->baseUrl; ?>/images/logo.png" />
-		<link rel = "shortcut icon" type = "image/vnd.microsoft.icon" href =
-			"<?php echo Yii::app()->request->baseUrl;
-			?>/images/favicon_for_ie.ico" />
-		<link rel = "apple-touch-icon" href = "<?php echo Yii::app()->request->
-			baseUrl; ?>/images/favicon_for_ios.png" />
+		<title><?= $this->pageTitle ?></title>
 
-		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
-			baseUrl; ?>/bootstrap/css/bootstrap.min.css" />
-		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
-			baseUrl; ?>/jquery-ui/css/theme/jquery-ui.min.css" />
-		<link rel = "stylesheet" href = "<?php echo Yii::app()->request->
-			baseUrl; ?>/styles/diary.css" />
-
-		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-
-		<script src = "<?php echo Yii::app()->request->baseUrl;
-			?>/bootstrap/js/bootstrap.min.js"></script>
-		<script src = "<?php echo Yii::app()->request->baseUrl;
-			?>/jquery-ui/js/jquery-ui.min.js"></script>
-		<script src = "<?php echo Yii::app()->request->baseUrl;
-			?>/jquery-ui/js/jquery.ui.datepicker-ru.js"></script>
+		<script src = "<?= Yii::app()->request->baseUrl ?>/bootstrap/js/bootstrap.min.js"></script>
+		<?php if (!Yii::app()->user->isGuest) { ?>
+			<script src = "<?= Yii::app()->request->baseUrl ?>/scripts/backuping.min.js"></script>
+		<?php } ?>
 	</head>
 	<body>
-		<nav class =
-			"navbar navbar-default navbar-fixed-top navbar-inverse" role =
-			"navigation">
+		<nav class = "navbar navbar-default navbar-fixed-top navbar-inverse">
 			<section class = "container">
 				<div class = "navbar-header">
 					<?php if (!Yii::app()->user->isGuest) { ?>
-					<button class = "navbar-toggle" data-toggle = "collapse"
-						data-target = "#navbar-collapse">
-						<span class = "icon-bar"></span>
-						<span class = "icon-bar"></span>
-						<span class = "icon-bar"></span>
-					</button>
+						<button class = "navbar-toggle" data-toggle = "collapse" data-target = "#navbar-collapse">
+							<span class = "icon-bar"></span>
+							<span class = "icon-bar"></span>
+							<span class = "icon-bar"></span>
+						</button>
 					<?php } ?>
-					<a class = "navbar-brand" href = "<?php echo $this->
-						createUrl('point/list'); ?>"><?php echo CHtml::
-						encode(Yii::app()->name); ?>
+					<a class = "navbar-brand" href = "<?= Yii::app()->homeUrl ?>">
+						<?= Yii::app()->name ?>
 					</a>
 				</div>
-
 				<?php if (!Yii::app()->user->isGuest) { ?>
-				<div id = "navbar-collapse" class =
-					"collapse navbar-collapse">
-					<?php $this->widget('zii.widgets.CMenu',array(
-						'items'=>array(
-							array('label' => 'Бекапы', 'url' => array(
-								'backup/list')),
-							array('label' => 'Параметры', 'url' => array(
-								'parameters/update')),
-							array('label' => 'Выход', 'url' => array(
-								'site/logout'))
-						),
-						'htmlOptions' => array('class' => 'nav navbar-nav')
-					)); ?>
-				</div>
+					<div id = "navbar-collapse" class = "collapse navbar-collapse">
+						<?php $this->widget(
+							'zii.widgets.CMenu',
+							array(
+								'items' => array(
+									array(
+										'label' => 'Бекапы',
+										'url' => array('backup/list')
+									)
+								),
+								'htmlOptions' => array(
+									'class' => 'nav navbar-nav'
+								)
+							)
+						); ?>
+						<button class = "btn btn-primary navbar-btn navbar-left create-backup-button" data-create-backup-url = "<?= $this->createUrl('backup/create') ?>">
+							<img src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif" alt = "..." />
+							<span class = "glyphicon glyphicon-compressed"></span>
+							<span>Создать бекап</span>
+						</button>
+						<?php $this->widget(
+							'zii.widgets.CMenu',
+							array(
+								'items' => array(
+									array(
+										'label' => 'Параметры',
+										'url' => array('parameters/update')
+									)
+								),
+								'htmlOptions' => array(
+									'class' => 'nav navbar-nav'
+								)
+							)
+						); ?>
+						<?= CHtml::beginForm(
+							$this->createUrl('site/logout'),
+							'post',
+							array('class' => 'navbar-form navbar-right')
+						) ?>
+							<?= CHtml::htmlButton(
+								'<span class = "glyphicon glyphicon-log-out">'
+									. '</span> Выход',
+								array(
+									'class' => 'btn btn-primary',
+									'type' => 'submit'
+								)
+							) ?>
+						<?= CHtml::endForm() ?>
+					</div>
 				<?php } ?>
 			</section>
 		</nav>
-
 		<section class = "container">
-			<?php echo $content; ?>
+			<?= $content ?>
 
 			<footer>
 				<hr />
-				<!-- Format of copyright symbol: http://www.copyright.ru/documents/zashita_prav_internet/copyright_in_site/ -->
-				Copyright &copy; thewizardplusplus <?php echo $copyright_years;
-					?> Все права защищены<br />
-				<?php echo Yii::powered(); ?>
+				<p>
+					&copy; thewizardplusplus, <?= $copyright_years ?>
+				<p>
 			</footer>
 		</section>
 	</body>

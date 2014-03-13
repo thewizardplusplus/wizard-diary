@@ -1,33 +1,30 @@
 <?php
-	/* @var $this BackupController */
-	/* @var $data_provider CActiveDataProvider */
-
-	Yii::app()->getClientScript()->registerScriptFile(CHtml::asset(
-		'scripts/backuping.js'), CClientScript::POS_HEAD);
+	/**
+	 * @var BackupController $this
+	 * @var CArrayDataProvider $data_provider
+	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
-<div>
-	<a href = "<?php echo $this->createUrl('backup/create'); ?>"><button
-		class = "btn btn-primary pull-right create-backup-button"
-		data-create-backup-url = "<?php echo $this->createUrl('backup/' .
-			'create'); ?>">Создать новый бекап</button></a>
-	<div class = "clearfix"></div>
-</div>
+<header class = "page-header visible-xs">
+	<h4>Бекапы</h4>
+</header>
 
 <div class = "table-responsive">
-	<?php
-		$this->widget('zii.widgets.grid.CGridView', array(
+	<?php $this->widget(
+		'zii.widgets.grid.CGridView',
+		array(
 			'id' => 'backup-list',
 			'dataProvider' => $data_provider,
 			'template' => '{items} {pager}',
 			'selectableRows' => 0,
+			'enableHistory' => true,
 			'columns' => array(
 				array(
 					'name' => 'Время создания',
 					'type' => 'raw',
-					'value' => '"<time>" . $data->timestamp . "</time>"'
+					'value' => '$data->formatted_timestamp'
 				),
 				array(
 					'class' => 'CButtonColumn',
@@ -35,10 +32,11 @@
 					'template' => '{download}',
 					'buttons' => array(
 						'download' => array(
-							'label' => '<span class = "glyphicon glyphicon-'
+							'label' =>
+								'<span class = "glyphicon glyphicon-'
 								. 'download-alt"></span>',
 							'url' => '$data->link',
-							'imageUrl' => FALSE,
+							'imageUrl' => false,
 							'options' => array('title' => 'Скачать')
 						)
 					)
@@ -46,6 +44,7 @@
 			),
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
+			'emptyText' => 'Нет бекапов.',
 			'pager' => array(
 				'header' => '',
 				'firstPageLabel' => '&lt;&lt;',
@@ -55,7 +54,8 @@
 				'selectedPageCssClass' => 'active',
 				'hiddenPageCssClass' => 'disabled',
 				'htmlOptions' => array('class' => 'pagination')
-			)
-		));
-	?>
+			),
+			'pagerCssClass' => 'page-controller'
+		)
+	); ?>
 </div>

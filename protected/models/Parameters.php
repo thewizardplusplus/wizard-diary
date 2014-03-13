@@ -1,37 +1,24 @@
 <?php
 
 class Parameters extends CActiveRecord {
-	const RECORD_ID =                   1;
-	const DEFAULT_PASSWORD_HASH =
-		'$2a$13$7RC2CWHDqafP4dvl7t5PCucccPVl7spVT4FiALXEaxWCnzCTskqAK';
-	const DEFAULT_POINTS_ON_PAGE =      10;
-	const MINIMUM_POINTS_ON_PAGE =      1;
-	const MAXIMUM_POINTS_ON_PAGE =      100;
+	const RECORD_ID = 1;
 
-	public static function model($class_name = __CLASS__) {
-		return parent::model($class_name);
+	public static function model() {
+		return parent::model(__CLASS__);
 	}
 
-	public static function convertDateFromDatabaseToMyFormat($date) {
-		return implode('.', array_reverse(explode('-', $date)));
-	}
-
-	public static function convertDateFromMyToDatabaseFormat($date) {
-		return implode('-', array_reverse(explode('.', $date)));
-	}
-
-	public static function get() {
-		$parameters = Parameters::model()->findByPk(Parameters::RECORD_ID);
-		if (!is_null($parameters)) {
-			return $parameters;
-		} else {
-			$parameters = new Parameters;
-			$parameters->attributes = array('password_hash' => Parameters::
-				DEFAULT_PASSWORD_HASH);
-			$parameters->save();
-
-			return $parameters;
+	public static function getModel() {
+		$model = Parameters::model()->findByPk(Parameters::RECORD_ID);
+		if (is_null($model)) {
+			$model = new Parameters();
+			$model->password_hash = CPasswordHelper::hashPassword(
+				Constants::DEFAULT_PASSWORD
+			);
+			$model->start_date = new CDbExpression('CURDATE()');
+			$model->save();
 		}
+
+		return $model;
 	}
 
 	public function tableName() {
@@ -40,13 +27,14 @@ class Parameters extends CActiveRecord {
 
 	public function rules() {
 		return array(
-			array('id', 'default', 'value' => Parameters::RECORD_ID,
-				'setOnEmpty' => FALSE),
+			array(
+				'id',
+				'default',
+				'value' => Parameters::RECORD_ID,
+				'setOnEmpty' => false
+			),
 			array('password_hash', 'required'),
-			array('start_date', 'date', 'format' => 'yyyy-MM-dd'),
-			array('points_on_page', 'numerical', 'min' => Parameters::
-				MINIMUM_POINTS_ON_PAGE, 'max' => Parameters::
-				MAXIMUM_POINTS_ON_PAGE)
+			array('start_date', 'date', 'format' => 'yyyy-MM-dd')
 		);
 	}
 }

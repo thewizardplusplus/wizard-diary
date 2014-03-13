@@ -1,11 +1,14 @@
 <?php
-	/* @var $this SiteController */
-	/* @var $error array */
+	/**
+	 * @var SiteController $this
+	 * @var int $code the HTTP status code
+	 * @var string $message the error message
+	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Ошибка ' . $code;
 ?>
 
-<div class = "alert alert-danger">
-	<h2 class = "reduced">Ошибка <?php echo $code; ?></h2>
-	<p><?php echo CHtml::encode($message); ?></p>
+<div class = "alert alert-danger error-description">
+	<h4>Ошибка <?= $code ?></h4>
+	<p><?= $message ?></p>
 </div>

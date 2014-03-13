@@ -6,14 +6,15 @@ class UserIdentity extends CUserIdentity {
 	}
 
 	public function authenticate() {
-		if (CPasswordHelper::verifyPassword($this->password, Parameters::get()->
-			password_hash))
-		{
+		if (CPasswordHelper::verifyPassword(
+			$this->password,
+			Parameters::getModel()->password_hash
+		)) {
 			$this->errorCode = self::ERROR_NONE;
 		} else {
 			$this->errorCode = self::ERROR_PASSWORD_INVALID;
 		}
 
-		return !$this->errorCode;
+		return $this->errorCode == self::ERROR_NONE;
 	}
 }

@@ -1,44 +1,35 @@
 <?php
 
 class PointController extends CController {
-	public function __construct($id, $module = NULL) {
-		parent::__construct($id, $module);
-		$this->defaultAction = 'list';
-	}
-
 	public function filters() {
 		return array(
 			'accessControl',
-			'postOnly + delete'
+			'postOnly + create, update, delete',
+			'ajaxOnly + create, update, delete'
 		);
 	}
 
 	public function accessRules() {
 		return array(
-			array(
-				'allow',
-				'actions' => array('list', 'create', 'update', 'delete'),
-				'users' => array('admin')
-			),
-			array(
-				'deny',
-				'users' => array('*')
-			)
+			array('allow', 'users' => array('admin')),
+			array('deny')
 		);
 	}
 
 	public function actionList() {
-		$data_provider = new CActiveDataProvider('Point', array(
-			'criteria' => array('order' => 'date, `order`'),
-			'pagination' => array('pagesize' => Parameters::get()->
-				points_on_page)
-		));
+		$data_provider = new CActiveDataProvider(
+			'Point',
+			array(
+				'criteria' => array('order' => 'date, `order`'),
+				'pagination' => array('pagesize' => Constants::POINTS_ON_PAGE)
+			)
+		);
 
-		if (!isset($_GET['ajax']) or $_GET['ajax'] != 'point_list') {
+		/*if (!isset($_GET['ajax']) or $_GET['ajax'] != 'point_list') {
 			$pagination = $data_provider->pagination;
 			$pagination->setItemCount($data_provider->getTotalItemCount());
 			$pagination->currentPage = $pagination->pageCount - 1;
-		}
+		}*/
 
 		$this->render('list', array('data_provider' => $data_provider));
 	}
@@ -47,12 +38,11 @@ class PointController extends CController {
 		if (isset($_POST['Point'])) {
 			$model = new Point;
 			$model->attributes = $_POST['Point'];
-			$model->save();
-		}
+			$result = $model->save();
 
-		if (!isset($_POST['ajax'])) {
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
-				: array('list'));
+			if ($result) {
+				Point::renumberOrderFieldsForDate($model->date);
+			}
 		}
 	}
 
@@ -62,25 +52,19 @@ class PointController extends CController {
 			$model->attributes = $_POST['Point'];
 			$result = $model->save();
 
-			if (isset($_POST['Point']['text']) and $result) {
-				echo $model->text;
-				return;
+			if ($result) {
+				if (isset($_POST['Point']['text'])) {
+					echo $model->text;
+				}
+				if (isset($_POST['Point']['order'])) {
+					Point::renumberOrderFieldsForDate($model->date);
+				}
 			}
-		}
-
-		if (!isset($_POST['ajax'])) {
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl']
-				: array('list'));
 		}
 	}
 
 	public function actionDelete($id) {
 		$this->loadModel($id)->delete();
-
-		if (!isset($_POST['ajax'])) {
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] :
-				array('list'));
-		}
 	}
 
 	private function loadModel($id) {

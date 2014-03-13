@@ -4,24 +4,19 @@ class ParametersForm extends CFormModel {
 	public $password;
 	public $password_copy;
 	public $start_date;
-	public $points_on_page;
 
-	public function __construct($scenario = '') {
-		parent::__construct($scenario);
-
-		$this->start_date = Parameters::convertDateFromDatabaseToMyFormat(
-			Parameters::get()->start_date);
-		$this->points_on_page = Parameters::get()->points_on_page;
+	public function __construct() {
+		parent::__construct();
+		$this->start_date = self::convertDateFromDatabaseToMyFormat(
+			Parameters::getModel()->start_date
+		);
 	}
 
 	public function rules() {
 		return array(
 			array('password', 'safe'),
 			array('password_copy', 'compare', 'compareAttribute' => 'password'),
-			array('start_date', 'date', 'format' => 'dd.MM.yyyy'),
-			array('points_on_page', 'numerical', 'min' => Parameters::
-				MINIMUM_POINTS_ON_PAGE, 'max' => Parameters::
-				MAXIMUM_POINTS_ON_PAGE)
+			array('start_date', 'date', 'format' => 'dd.MM.yyyy')
 		);
 	}
 
@@ -29,25 +24,28 @@ class ParametersForm extends CFormModel {
 		return array(
 			'password' => 'Пароль:',
 			'password_copy' => 'Пароль (копия):',
-			'start_date' => 'Дата начала:',
-			'points_on_page' => 'Пунктов на страницу:'
+			'start_date' => 'Дата начала:'
 		);
 	}
 
-	public function getParameters() {
-		$attributes = array(
-			'start_date' => Parameters::convertDateFromMyToDatabaseFormat($this
-				->start_date),
-			'points_on_page' => $this->points_on_page
-		);
+	public function save() {
+		$model = Parameters::getModel();
 		if (!empty($this->password)) {
-			$attributes['password_hash'] = CPasswordHelper::hashPassword($this->
-				password);
+			$model->password_hash = CPasswordHelper::hashPassword(
+				$this->password
+			);
 		}
+		$model->start_date = self::convertDateFromMyToDatabaseFormat(
+			$this->start_date
+		);
+		$model->save();
+	}
 
-		$parameters = Parameters::get();
-		$parameters->attributes = $attributes;
+	private static function convertDateFromDatabaseToMyFormat($date) {
+		return implode('.', array_reverse(explode('-', $date)));
+	}
 
-		return $parameters;
+	private static function convertDateFromMyToDatabaseFormat($date) {
+		return implode('-', array_reverse(explode('.', $date)));
 	}
 }

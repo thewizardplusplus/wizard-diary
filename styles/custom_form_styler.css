@@ -1,0 +1,24 @@
+/* Corrections styles for jQueryFormStyler's checkbox. */
+
+/* Correction style of Bootstrap: */
+.checkbox {
+	padding: 0;
+}
+
+/* Correction styles of jQueryFormStyler: */
+.jq-checkbox {
+	width: 20px;
+	height: 20px;
+}
+
+.jq-checkbox div {
+	display: none;
+}
+
+.jq-checkbox.checked div {
+	display: block;
+	top: 0;
+	margin-top: 0;
+	background: #fff;
+	box-shadow: 0 0;
+}
