@@ -1,27 +1,46 @@
-/* addings for Twitter Bootstrap */
-.panel {
-	margin: 10px auto;
-	padding: 10px;
+/* Grid view styles. */
+.table-responsive {
+	border: none;
+	overflow: visible;
 }
 
-.alert {
-	margin-top: 10px;
+.wait {
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+	pointer-events: none;
 }
 
-legend + .alert {
-	margin-top: 0;
-}
-
-/* diary styles */
+/* Navigation bar styles. */
 body {
 	padding-top: 50px;
 }
 
-.wait {
-	pointer-events: none;
-	opacity: 0.75;
+.navbar-form {
+	margin-right: -15px;
+	padding-right: 0;
 }
 
+.navbar-btn img {
+	display: none;
+	height: 18px;
+}
+
+/* Verify code styles. */
+.verify-code-container {
+	margin: 5px 0 10px;
+}
+
+.verify-code {
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.verify-code + button {
+	height: 60px;
+	font-size: larger;
+}
+
+/* Date row styles. */
 .date-row {
 	display: block;
 	margin: 5px;
@@ -32,13 +51,22 @@ body {
 	font-size: larger;
 }
 
+/* Button column styles. */
 .button-column {
 	font-size: larger;
 }
 
-.button-column.narrow,
-.point-state-column {
+.button-column.narrow {
 	width: 30px !important;
+}
+
+.button-column.normal-text {
+	font-size: inherit;
+}
+
+/* Point state menu styles. */
+.dropdown .glyphicon {
+	font-size: larger;
 }
 
 .state-initial {
@@ -68,10 +96,12 @@ a.state-initial:focus {
 	color: rgb(128, 128, 128) !important;
 }
 
-.dropdown .glyphicon {
-	font-size: larger;
+/* Footer styles. */
+footer {
+	font-size: smaller;
 }
 
+/* Layout styles. */
 .table {
 	margin-bottom: 0;
 }
@@ -90,16 +120,8 @@ a.state-initial:focus {
 	margin-top: 15px;
 }
 
-.ui-spinner .form-control {
-	box-shadow: none;
-}
-
 hr {
 	margin-top: 0;
-}
-
-footer {
-	font-size: smaller;
 }
 
 form + footer {
@@ -110,40 +132,15 @@ form + footer {
 	margin-top: 15px;
 }
 
-.navbar-form {
-	margin-right: -15px;
-	padding-right: 0;
-}
-
-.create-backup-button img {
-	display: none;
-	height: 18px;
-}
-
 .page-header {
 	margin: 15px 0 10px;
 	padding-bottom: 0;
 }
 
-.table-responsive {
-	border: none;
-	overflow: visible;
+.alert {
+	margin-top: 10px;
 }
 
-.create-backup-button {
-	height: 32px;
-}
-
-.verify-code-container {
-	margin: 5px 0 10px;
-}
-
-.verify-code {
-	margin-right: 5px;
-	cursor: pointer;
-}
-
-.verify-code + button {
-	height: 60px;
-	font-size: larger;
+legend + .alert {
+	margin-top: 0;
 }

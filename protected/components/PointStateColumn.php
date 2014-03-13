@@ -5,7 +5,9 @@ class PointStateColumn extends CDataColumn {
 		parent::__construct($grid);
 
 		$this->value = '';
-		$this->htmlOptions = array('class' => 'point-state-column');
+		$this->htmlOptions = array(
+			'class' => 'button-column narrow normal-text'
+		);
 	}
 
 	protected function renderDataCellContent($row, $data) {
