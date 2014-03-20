@@ -12,7 +12,7 @@
 
 /* Navigation bar styles. */
 body {
-	padding-top: 50px;
+	padding-top: 70px;
 }
 
 .navbar-form {
@@ -102,45 +102,43 @@ footer {
 }
 
 /* Layout styles. */
-.table {
-	margin-bottom: 0;
+.page-header {
+	margin-top: 0;
+	padding-bottom: 10px;
+}
+
+.page-header h4 {
+	margin: 0;
 }
 
 .grid-view {
 	padding: 0 !important;
 }
 
+.table {
+	margin: 0;
+}
+
+#point-list .table {
+	margin-bottom: 10px;
+}
+
+.pager {
+	margin: 0 0 10px !important;
+}
+
 .pagination {
-	margin: 10px 0;
+	margin: 10px 0 0;
 }
 
-#parameters-form,
-#backup-list,
-#login-form {
-	margin-top: 15px;
+footer {
+	margin-top: 20px;
 }
 
-hr {
-	margin-top: 0;
-}
-
-form + footer {
-	margin-top: 15px;
-}
-
-.error-description {
-	margin-top: 15px;
-}
-
-.page-header {
-	margin: 15px 0 10px;
-	padding-bottom: 0;
+footer hr {
+	margin: 0 0 10px;
 }
 
 .alert {
 	margin-top: 10px;
-}
-
-legend + .alert {
-	margin-top: 0;
 }

@@ -8,7 +8,7 @@
 	$this->pageTitle = Yii::app()->name . ' - Ошибка ' . $code;
 ?>
 
-<div class = "alert alert-danger error-description">
+<div class = "alert alert-danger">
 	<h4>Ошибка <?= $code ?></h4>
 	<p><?= $message ?></p>
 </div>
