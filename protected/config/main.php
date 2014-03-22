@@ -37,6 +37,14 @@ return array(
 			'charset' => 'utf8',
 			'tablePrefix' => 'diary_'
 		),
+		'clientScript' => array(
+			'packages' => array(
+				'jquery' => array(
+					'baseUrl' => '//code.jquery.com/',
+					'js' => array('jquery-2.1.0.min.js')
+				)
+			)
+		),
 		'log' => array(
 			'class'=>'CLogRouter',
 			'routes' => array_merge(
