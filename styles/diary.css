@@ -1,3 +1,45 @@
+/* Layout styles. */
+.page-header {
+	margin-top: 0;
+	padding-bottom: 10px;
+}
+
+.page-header h4 {
+	margin: 0;
+}
+
+.grid-view {
+	padding: 0 !important;
+}
+
+.table {
+	margin: 0;
+}
+
+#point-list .table {
+	margin-bottom: 10px;
+}
+
+.pager {
+	margin: 0 0 10px !important;
+}
+
+.pagination {
+	margin: 10px 0 0;
+}
+
+footer {
+	margin-top: 20px;
+}
+
+footer hr {
+	margin: 0 0 10px;
+}
+
+.alert {
+	margin-top: 10px;
+}
+
 /* Grid view styles. */
 .table-responsive {
 	border: none;
@@ -70,6 +112,13 @@ body {
 	font-size: larger;
 }
 
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus
+{
+	background: #428bca;
+	color: white !important;
+}
+
 .state-initial {
 	font-weight: bold;
 	color: rgb(51, 51, 51);
@@ -97,49 +146,12 @@ a.state-initial:focus {
 	color: rgb(128, 128, 128) !important;
 }
 
+/* Additional button styles. */
+.input-group-addon {
+	color: #428bca;
+}
+
 /* Footer styles. */
 footer {
 	font-size: smaller;
-}
-
-/* Layout styles. */
-.page-header {
-	margin-top: 0;
-	padding-bottom: 10px;
-}
-
-.page-header h4 {
-	margin: 0;
-}
-
-.grid-view {
-	padding: 0 !important;
-}
-
-.table {
-	margin: 0;
-}
-
-#point-list .table {
-	margin-bottom: 10px;
-}
-
-.pager {
-	margin: 0 0 10px !important;
-}
-
-.pagination {
-	margin: 10px 0 0;
-}
-
-footer {
-	margin-top: 20px;
-}
-
-footer hr {
-	margin: 0 0 10px;
-}
-
-.alert {
-	margin-top: 10px;
 }

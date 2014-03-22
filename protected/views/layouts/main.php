@@ -23,7 +23,7 @@
 			href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
 		<link
 			rel = "stylesheet"
-			href = "<?= Yii::app()->request->baseUrl ?>/bootstrap/css/bootstrap.min.css" />
+			href = "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 		<link
 			rel = "stylesheet"
 			href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
@@ -31,7 +31,7 @@
 		<title><?= $this->pageTitle ?></title>
 
 		<script
-			src = "<?= Yii::app()->request->baseUrl ?>/bootstrap/js/bootstrap.min.js">
+			src = "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
 		</script>
 		<?php if (!Yii::app()->user->isGuest) { ?>
 			<script
