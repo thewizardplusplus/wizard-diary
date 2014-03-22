@@ -3,5 +3,5 @@ $(document).ready(function() {
 
 	// addition styles to jQueryFormStyler's checkbox for display Bootstrap's
 	// icon
-	$('.jq-checkbox div').addClass('glyphicon glyphicon-ok');
+	$('.jq-checkbox .jq-checkbox__div').addClass('glyphicon glyphicon-ok');
 });

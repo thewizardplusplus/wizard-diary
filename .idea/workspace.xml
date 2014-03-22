@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/jquery.jeditable.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/purl.min.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/custom_form_styler.css" afterPath="$PROJECT_DIR$/styles/custom_form_styler.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/custom_form_styler.js" afterPath="$PROJECT_DIR$/scripts/custom_form_styler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.css" afterPath="$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.min.js" afterPath="$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/point/list.php" afterPath="$PROJECT_DIR$/protected/views/point/list.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/plan.md" afterPath="$PROJECT_DIR$/docs/plan.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -13,12 +20,14 @@
     <file path="/point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395465654454" ignored="false" />
     <file path="/ParametersController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675443015" ignored="false" />
     <file path="/Point.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675857720" ignored="false" />
-    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395474014909" ignored="false" />
+    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395475839648" ignored="false" />
     <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395473395524" ignored="false" />
     <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394679199354" ignored="false" />
     <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395307505033" ignored="false" />
     <file path="/backuping.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395462599495" ignored="false" />
     <file path="/SiteController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395466095378" ignored="false" />
+    <file path="/custom_form_styler.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395475761244" ignored="false" />
+    <file path="/custom_form_styler.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395475783880" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,21 +64,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/protected/models/Point.php" />
-        <option value="$PROJECT_DIR$/docs/backup_schema.xsd" />
-        <option value="$PROJECT_DIR$/protected/controllers/BackupController.php" />
-        <option value="$PROJECT_DIR$/protected/views/backup/list.php" />
         <option value="$PROJECT_DIR$/protected/views/site/error.php" />
-        <option value="$PROJECT_DIR$/scripts/custom_form_styler.js" />
         <option value="$PROJECT_DIR$/scripts/backuping.js" />
         <option value="$PROJECT_DIR$/protected/views/parameters/update.php" />
         <option value="$PROJECT_DIR$/scripts/point_list.js" />
         <option value="$PROJECT_DIR$/protected/controllers/SiteController.php" />
-        <option value="$PROJECT_DIR$/protected/views/site/login.php" />
         <option value="$PROJECT_DIR$/protected/components/PointStateColumn.php" />
         <option value="$PROJECT_DIR$/protected/views/layouts/main.php" />
         <option value="$PROJECT_DIR$/styles/diary.css" />
+        <option value="$PROJECT_DIR$/protected/views/point/list.php" />
+        <option value="$PROJECT_DIR$/scripts/jquery.jeditable.mini.js" />
+        <option value="$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.css" />
+        <option value="$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.min.js" />
+        <option value="$PROJECT_DIR$/protected/views/site/login.php" />
         <option value="$PROJECT_DIR$/styles/custom_form_styler.css" />
+        <option value="$PROJECT_DIR$/scripts/custom_form_styler.js" />
         <option value="$PROJECT_DIR$/docs/plan.md" />
       </list>
     </option>
@@ -105,6 +114,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -363,15 +373,14 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -428,7 +437,11 @@
       <created>1395473974665</created>
       <updated>1395473974665</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Correct development plan.">
+      <created>1395474053037</created>
+      <updated>1395474053037</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -440,7 +453,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34365994" sideWeight="0.67021275" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34870318" sideWeight="0.67021275" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -498,7 +511,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="New Twitter Bootstrap; use CDN for Twitter Bootstrap." />
+    <option name="LAST_COMMIT_MESSAGE" value="Correct development plan." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -513,41 +526,16 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Styles refactoring." />
-    <MESSAGE value="Correct development plan." />
     <MESSAGE value="Remove minimized styles and scripts; refactoring scripts." />
     <MESSAGE value="Correct error handling on login page." />
     <MESSAGE value="Correct styles of states menu." />
     <MESSAGE value="New Twitter Bootstrap; use CDN for Twitter Bootstrap." />
+    <MESSAGE value="Correct development plan." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/protected/views/backup/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="0" selection-start="1465" selection-end="1465" vertical-scroll-proportion="0.9201141" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/backuping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.86657494" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="553" selection-end="553" vertical-scroll-proportion="0.17069702" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/jquery.jeditable.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.9327731" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/purl.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="3654" selection-end="3654" vertical-scroll-proportion="0.12605043" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/parameters/update.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="0" selection-start="199" selection-end="199" vertical-scroll-proportion="0.042674255" />
@@ -558,19 +546,9 @@
         <state line="192" column="0" selection-start="4129" selection-end="4129" vertical-scroll-proportion="0.8762036" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="0" selection-start="2606" selection-end="2606" vertical-scroll-proportion="2.155492" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/SiteController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="77" selection-start="1639" selection-end="1639" vertical-scroll-proportion="0.764622" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.7703281" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/components/PointStateColumn.php">
@@ -593,19 +571,58 @@
         <state line="157" column="0" selection-start="1960" selection-end="1960" vertical-scroll-proportion="3.2393398" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/purl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="529" selection-end="529" vertical-scroll-proportion="0.38516405" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.20689656" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="3" selection-start="194" selection-end="194" vertical-scroll-proportion="0.18960674" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/jquery.jeditable.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="3" selection-start="379" selection-end="379" vertical-scroll-proportion="0.2949438" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="398" selection-end="398" vertical-scroll-proportion="0.19258203" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/styles/custom_form_styler.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="329" selection-end="329" vertical-scroll-proportion="0.45392022" />
+        <state line="23" column="0" selection-start="374" selection-end="374" vertical-scroll-proportion="0.47455296">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/custom_form_styler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="232" selection-end="232" vertical-scroll-proportion="0.14442916">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/plan.md">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="915" selection-end="915" vertical-scroll-proportion="0.5563481">
+        <state line="24" column="0" selection-start="816" selection-end="816" vertical-scroll-proportion="0.51355207">
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
       </provider>
     </entry>
   </component>
