@@ -10,7 +10,7 @@
 		CHtml::asset('jQueryFormStyler/jquery.formstyler.css')
 	);
 	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_form_styler.min.css')
+		CHtml::asset('styles/custom_form_styler.css')
 	);
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -18,11 +18,11 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_captcha.min.js'),
+		CHtml::asset('scripts/custom_captcha.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_form_styler.min.js'),
+		CHtml::asset('scripts/custom_form_styler.js'),
 		CClientScript::POS_HEAD
 	);
 

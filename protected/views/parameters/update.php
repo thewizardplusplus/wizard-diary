@@ -7,11 +7,6 @@
 	 * @var CActiveForm $form
 	 */
 
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/datepicker.min.js'),
-		CClientScript::POS_HEAD
-	);
-
 	$this->pageTitle = Yii::app()->name . ' - Параметры';
 ?>
 

@@ -35,7 +35,7 @@
 		</script>
 		<?php if (!Yii::app()->user->isGuest) { ?>
 			<script
-				src = "<?= Yii::app()->request->baseUrl ?>/scripts/backuping.min.js">
+				src = "<?= Yii::app()->request->baseUrl ?>/scripts/backuping.js">
 			</script>
 		<?php } ?>
 	</head>
