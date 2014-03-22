@@ -60,8 +60,9 @@ body {
 	width: 30px !important;
 }
 
-.button-column.normal-text {
-	font-size: inherit;
+.button-column.point-state-column {
+	font-size: inherit !important;
+	text-align: left !important;
 }
 
 /* Point state menu styles. */

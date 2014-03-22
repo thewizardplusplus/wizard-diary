@@ -6,7 +6,7 @@ class PointStateColumn extends CDataColumn {
 
 		$this->value = '';
 		$this->htmlOptions = array(
-			'class' => 'button-column narrow normal-text'
+			'class' => 'button-column narrow point-state-column'
 		);
 	}
 
