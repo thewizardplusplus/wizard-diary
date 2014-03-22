@@ -3,6 +3,7 @@
 	 * @var SiteController $this
 	 * @var LoginForm $model
 	 * @var string $password_container_class
+	 * @var string $verify_code_container_class
 	 * @var CActiveForm $form
 	 */
 
@@ -59,17 +60,10 @@
 			'password',
 			array('class' => 'form-control')
 		) ?>
-		<?= $form->error(
-			$model,
-			'password',
-			array(
-				'errorCssClass' => 'has-error',
-				'successCssClass' => 'has-success'
-			)
-		) ?>
+		<?= $form->error($model, 'password') ?>
 	</div>
 
-	<div class = "form-group">
+	<div class = "form-group <?= $verify_code_container_class ?>">
 		<?= CHtml::activeLabelEx(
 			$model,
 			'verify_code',
@@ -98,14 +92,7 @@
 			'verify_code',
 			array('class' => 'form-control')
 		) ?>
-		<?= $form->error(
-			$model,
-			'verify_code',
-			array(
-				'errorCssClass' => 'has-error',
-				'successCssClass' => 'has-success'
-			)
-		) ?>
+		<?= $form->error($model, 'verify_code') ?>
 	</div>
 
 	<div class = "checkbox">

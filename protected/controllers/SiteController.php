@@ -60,11 +60,16 @@ class SiteController extends CController {
 			count($model->getErrors('password'))
 				? 'has-error'
 				: '';
+		$verify_code_container_class =
+			count($model->getErrors('verify_code'))
+				? 'has-error'
+				: '';
 		$this->render(
 			'login',
 			array(
 				'model' => $model,
-				'password_container_class' => $password_container_class
+				'password_container_class' => $password_container_class,
+				'verify_code_container_class' => $verify_code_container_class
 			)
 		);
 	}
