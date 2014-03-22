@@ -3,7 +3,17 @@
 	 * @var CController $this
 	 */
 
-	Yii::app()->getClientScript()->registerCoreScript('jquery');
+	Yii::app()->getClientScript()->registerPackage('jquery');
+	Yii::app()->getClientScript()->registerScriptFile(
+		'//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
+		CClientScript::POS_HEAD
+	);
+	if (!Yii::app()->user->isGuest) {
+		Yii::app()->getClientScript()->registerScriptFile(
+			CHtml::asset('scripts/backuping.js'),
+			CClientScript::POS_HEAD
+		);
+	}
 
 	$copyright_years = Constants::COPYRIGHT_START_YEAR;
 	$current_year = date('Y');
@@ -17,10 +27,12 @@
 	<head>
 		<meta charset = "utf-8" />
 		<meta name = "viewport" content = "width=device-width" />
+
 		<link
 			rel = "icon"
 			type = "image/png"
 			href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
+
 		<link
 			rel = "stylesheet"
 			href = "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
@@ -29,15 +41,6 @@
 			href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
 
 		<title><?= $this->pageTitle ?></title>
-
-		<script
-			src = "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">
-		</script>
-		<?php if (!Yii::app()->user->isGuest) { ?>
-			<script
-				src = "<?= Yii::app()->request->baseUrl ?>/scripts/backuping.js">
-			</script>
-		<?php } ?>
 	</head>
 	<body>
 		<nav class = "navbar navbar-default navbar-fixed-top navbar-inverse">

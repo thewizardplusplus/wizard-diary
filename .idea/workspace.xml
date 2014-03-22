@@ -2,7 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/purl.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/bg.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/blank.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/delete.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/down.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/listview/down.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_close.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_loading.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_nav_left.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_nav_right.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_e.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_n.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_ne.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_nw.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_s.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_se.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_sw.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_shadow_w.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_title_left.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_title_main.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_title_over.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancy_title_right.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancybox-x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancybox-y.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/fancybox.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/cli/views/webapp/assets/hg-hgkeep" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/loading.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/listview/loading.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/images/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/up.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/listview/up.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/update.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/view.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/cli/views/webapp/assets/git-gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/css/ie.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/jquery.fancybox-1.3.1.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/fancybox/jquery.fancybox-1.3.1.pack.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/jquery.yiigridview.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/listview/jquery.yiilistview.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/css/main.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/css/print.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/robots.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/css/screen.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/detailview/styles.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/styles.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/zii/widgets/assets/listview/styles.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yii/framework/gii/assets/js/tooltip.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/config/Constants.php" afterPath="$PROJECT_DIR$/protected/config/Constants.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/config/main.php" afterPath="$PROJECT_DIR$/protected/config/main.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/layouts/main.php" afterPath="$PROJECT_DIR$/protected/views/layouts/main.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/plan.md" afterPath="$PROJECT_DIR$/docs/plan.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="diary.iws" />
@@ -13,9 +64,9 @@
     <file path="/point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395465654454" ignored="false" />
     <file path="/ParametersController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675443015" ignored="false" />
     <file path="/Point.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675857720" ignored="false" />
-    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395478891931" ignored="false" />
+    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395480804647" ignored="false" />
     <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395473395524" ignored="false" />
-    <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394679199354" ignored="false" />
+    <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395480679258" ignored="false" />
     <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395307505033" ignored="false" />
     <file path="/backuping.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395462599495" ignored="false" />
     <file path="/SiteController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395466095378" ignored="false" />
@@ -57,12 +108,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/scripts/backuping.js" />
-        <option value="$PROJECT_DIR$/protected/views/parameters/update.php" />
-        <option value="$PROJECT_DIR$/scripts/point_list.js" />
         <option value="$PROJECT_DIR$/protected/controllers/SiteController.php" />
         <option value="$PROJECT_DIR$/protected/components/PointStateColumn.php" />
-        <option value="$PROJECT_DIR$/protected/views/layouts/main.php" />
         <option value="$PROJECT_DIR$/styles/diary.css" />
         <option value="$PROJECT_DIR$/protected/views/point/list.php" />
         <option value="$PROJECT_DIR$/scripts/jquery.jeditable.mini.js" />
@@ -71,8 +118,12 @@
         <option value="$PROJECT_DIR$/protected/views/site/login.php" />
         <option value="$PROJECT_DIR$/styles/custom_form_styler.css" />
         <option value="$PROJECT_DIR$/scripts/custom_form_styler.js" />
+        <option value="$PROJECT_DIR$/protected/views/layouts/main.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/protected/config/main.php" />
+        <option value="$PROJECT_DIR$/protected/config/Constants.php" />
         <option value="$PROJECT_DIR$/docs/plan.md" />
+        <option value="$PROJECT_DIR$/robots.txt" />
       </list>
     </option>
   </component>
@@ -107,6 +158,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -365,15 +417,14 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -454,7 +505,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35446686" sideWeight="0.6710875" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36023054" sideWeight="0.6710875" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -539,41 +590,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/point_list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="0" selection-start="4129" selection-end="4129" vertical-scroll-proportion="0.8762036" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/SiteController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="77" selection-start="1639" selection-end="1639" vertical-scroll-proportion="0.764622" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/components/PointStateColumn.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="64" selection-start="237" selection-end="237" vertical-scroll-proportion="-5.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/point/_point_state_column.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/diary.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="0" selection-start="1960" selection-end="1960" vertical-scroll-proportion="3.2393398" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/purl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="529" selection-end="529" vertical-scroll-proportion="0.38516405" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jQueryFormStyler/jquery.formstyler.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.20689656" />
@@ -604,14 +620,39 @@
         <state line="7" column="0" selection-start="232" selection-end="232" vertical-scroll-proportion="0.14442916" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="113" selection-end="113" vertical-scroll-proportion="0.042674255" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/layouts/main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="29" selection-start="2061" selection-end="2061" vertical-scroll-proportion="1.6262482" />
+        <state line="16" column="0" selection-start="416" selection-end="416" vertical-scroll-proportion="0.34139404" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="42" selection-end="42" vertical-scroll-proportion="0.082530946" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="179" selection-end="179" vertical-scroll-proportion="0.14442916" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="310" selection-end="310" vertical-scroll-proportion="0.25604552" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="0" selection-start="1575" selection-end="1575" vertical-scroll-proportion="1.3908702" />
+        <state line="65" column="0" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.87197727" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/Constants.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="552" selection-end="552" vertical-scroll-proportion="0.42674252" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/plan.md">
@@ -619,7 +660,19 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="783" selection-end="783" vertical-scroll-proportion="0.49356222" />
+        <state line="21" column="0" selection-start="739" selection-end="739" vertical-scroll-proportion="0.44935805" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="14" selection-end="14" vertical-scroll-proportion="0.020632736" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/robots.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.041265473">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

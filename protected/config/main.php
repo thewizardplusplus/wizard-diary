@@ -35,7 +35,7 @@ return array(
 			'username' => Constants::DATABASE_USER,
 			'password' => Constants::DATABASE_PASSWORD,
 			'charset' => 'utf8',
-			'tablePrefix' => 'diary_'
+			'tablePrefix' => Constants::DATABASE_TABLE_PREFIX
 		),
 		'clientScript' => array(
 			'packages' => array(
