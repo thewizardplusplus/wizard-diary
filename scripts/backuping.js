@@ -23,6 +23,7 @@ $(document).ready(
 						{
 							type: 'POST',
 							url: url,
+							data: CSRF_TOKEN,
 							success: function() {
 								FinishAnimation();
 								backup_list.yiiGridView(
@@ -38,7 +39,9 @@ $(document).ready(
 						}
 					);
 				} else {
-					$.post(url, FinishAnimation).fail(AjaxErrorDialog.handler);
+					$.post(url, CSRF_TOKEN, FinishAnimation).fail(
+						AjaxErrorDialog.handler
+					);
 				}
 			}
 		);

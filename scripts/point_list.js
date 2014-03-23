@@ -15,6 +15,7 @@ $(document).ready(
 			);
 		};
 		var RequestToPointList = function(url, data) {
+			$.extend(data, CSRF_TOKEN);
 			point_list.yiiGridView(
 				'update',
 				{
@@ -161,14 +162,18 @@ $(document).ready(
 								type: 'bootstrapped-line-edit',
 								event: item.attr('id') + '-edit',
 								name: 'Point[text]',
-								submitdata: { 'ajax': 'updating' },
+								submitdata: CSRF_TOKEN,
 								onblur: 'ignore',
 								indicator:
 									'<img src = "'
 										+ item.data('saving-icon-url')
 										+ '" alt = "Сохранение..." />',
 								placeholder: '',
-								callback: UpdatePointList
+								callback: UpdatePointList,
+								onerror: function(settings, original, xhr) {
+									AjaxErrorDialog.handler(xhr);
+									original.reset();
+								}
 							}
 						);
 					}

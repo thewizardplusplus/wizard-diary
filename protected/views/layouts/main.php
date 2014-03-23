@@ -45,6 +45,13 @@
 			href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
 
 		<title><?= $this->pageTitle ?></title>
+
+		<script>
+			var CSRF_TOKEN = {
+				'<?= Yii::app()->request->csrfTokenName ?>':
+					'<?= Yii::app()->request->csrfToken ?>'
+			};
+		</script>
 	</head>
 	<body>
 		<nav class = "navbar navbar-default navbar-fixed-top navbar-inverse">

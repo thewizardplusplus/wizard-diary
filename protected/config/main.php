@@ -45,6 +45,10 @@ return array(
 				)
 			)
 		),
+		'request' => array(
+			'enableCsrfValidation' => true,
+			'enableCookieValidation' => true
+		),
 		'log' => array(
 			'class'=>'CLogRouter',
 			'routes' => array_merge(
