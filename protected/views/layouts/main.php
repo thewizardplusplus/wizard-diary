@@ -10,6 +10,10 @@
 	);
 	if (!Yii::app()->user->isGuest) {
 		Yii::app()->getClientScript()->registerScriptFile(
+			CHtml::asset('scripts/ajax_error_dialog.js'),
+			CClientScript::POS_HEAD
+		);
+		Yii::app()->getClientScript()->registerScriptFile(
 			CHtml::asset('scripts/backuping.js'),
 			CClientScript::POS_HEAD
 		);
@@ -62,6 +66,7 @@
 						<?= Yii::app()->name ?>
 					</a>
 				</div>
+
 				<?php if (!Yii::app()->user->isGuest) { ?>
 					<div
 						id = "navbar-collapse"
@@ -122,6 +127,7 @@
 				<?php } ?>
 			</section>
 		</nav>
+
 		<section class = "container">
 			<?= $content ?>
 
@@ -132,5 +138,42 @@
 				<p>
 			</footer>
 		</section>
+
+		<div class = "modal ajax-error-dialog">
+			<div class = "modal-dialog">
+				<div class = "modal-content">
+					<div class = "modal-header">
+						<button
+							class = "close"
+							type = "button"
+							data-dismiss = "modal"
+							aria-hidden = "true">
+							&times;
+						</button>
+						<h4 class = "modal-title">
+							<span class = "glyphicon glyphicon-remove-circle">
+							</span>
+							Ошибка!
+						</h4>
+					</div>
+
+					<div class = "modal-body">
+						<p>
+							Во время AJAX-запроса произошла ошибка:
+							<em class = "error-description"></em>.
+						</p>
+					</div>
+
+					<div class = "modal-footer">
+						<button
+							class = "btn btn-default"
+							type = "button"
+							data-dismiss = "modal">
+							OK
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

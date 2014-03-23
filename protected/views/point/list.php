@@ -14,6 +14,14 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/deleting_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/ajax_error_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_list.js'),
 		CClientScript::POS_HEAD
 	);
@@ -210,6 +218,10 @@
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' => '$data->getRowClassByState()',
 			'afterAjaxUpdate' => 'function() { PointList.initialize(); }',
+			'ajaxUpdateError' =>
+				'function(xhr, text_status) {'
+					. 'AjaxErrorDialog.handler(xhr, text_status);'
+				. '}',
 			'emptyText' => 'Нет пунктов.',
 			'pager' => array(
 				'maxButtonCount' => 0,
@@ -249,7 +261,7 @@
 	</div>
 <?= CHtml::endForm() ?>
 
-<div class = "modal">
+<div class = "modal deleting-dialog">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">
@@ -260,14 +272,19 @@
 					aria-hidden = "true">
 					&times;
 				</button>
-				<h4 class = "modal-title">Подтверждение</h4>
+				<h4 class = "modal-title">
+					<span class = "glyphicon glyphicon-warning-sign"></span>
+					Внимание!
+				</h4>
 			</div>
+
 			<div class = "modal-body">
 				<p>
 					Ты точно хочешь удалить
 					<span class = "point-description"></span>?
 				</p>
 			</div>
+
 			<div class = "modal-footer">
 				<button type = "button" class = "btn btn-primary ok-button">
 					OK
