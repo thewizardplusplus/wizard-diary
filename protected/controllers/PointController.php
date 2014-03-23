@@ -36,7 +36,7 @@ class PointController extends CController {
 
 	public function actionCreate() {
 		if (isset($_POST['Point'])) {
-			$model = new Point;
+			$model = new Point();
 			$model->attributes = $_POST['Point'];
 			$result = $model->save();
 
