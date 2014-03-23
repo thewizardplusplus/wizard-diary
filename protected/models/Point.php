@@ -75,7 +75,7 @@ class Point extends CActiveRecord {
 		$result = parent::beforeSave();
 		if ($result) {
 			if ($this->isNewRecord) {
-				$this->date = new CDbExpression('CURDATE()');
+				$this->date = date('Y-m-d');
 			} elseif (empty($this->text)) {
 				$this->state = 'INITIAL';
 			}

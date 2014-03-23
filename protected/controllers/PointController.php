@@ -41,7 +41,8 @@ class PointController extends CController {
 			$result = $model->save();
 
 			if ($result) {
-				Point::renumberOrderFieldsForDate($model->date);
+				$date = date('Y-m-d');
+				Point::renumberOrderFieldsForDate($date);
 			}
 		}
 	}
@@ -64,7 +65,11 @@ class PointController extends CController {
 	}
 
 	public function actionDelete($id) {
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+		$date = $model->date;
+		$model->delete();
+
+		Point::renumberOrderFieldsForDate($date);
 	}
 
 	private function loadModel($id) {
