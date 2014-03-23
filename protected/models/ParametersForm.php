@@ -8,14 +8,22 @@ class ParametersForm extends CFormModel {
 		return array(
 			array('password', 'required'),
 			array('password_copy', 'required'),
-			array('password_copy', 'compare', 'compareAttribute' => 'password')
+			array(
+				'password_copy',
+				'compare',
+				'compareAttribute' => 'password',
+				'skipOnError' => true,
+				'message' =>
+					'Поле &laquo;{attribute}&raquo; должно в точности '
+						. 'повторять поле &laquo;{compareAttribute}&raquo;.'
+			)
 		);
 	}
 
 	public function attributeLabels() {
 		return array(
-			'password' => 'Пароль:',
-			'password_copy' => 'Пароль (копия):'
+			'password' => 'Пароль',
+			'password_copy' => 'Пароль (копия)'
 		);
 	}
 

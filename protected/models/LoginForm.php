@@ -8,28 +8,33 @@ class LoginForm extends CFormModel {
 	public function rules() {
 		return array(
 			array('password', 'required'),
-			array('password', 'authenticate'),
+			array('password', 'authenticate', 'skipOnError' => true),
 			array('remember_me', 'boolean'),
-			array('verify_code', 'captcha', 'caseSensitive' => true)
+			array('verify_code', 'required'),
+			array(
+				'verify_code',
+				'captcha',
+				'caseSensitive' => true,
+				'skipOnError' => true,
+				'message' => 'Тест Тьюринга не пройден.'
+			)
 		);
 	}
 
 	public function attributeLabels() {
 		return array(
-			'password' => 'Пароль:',
+			'password' => 'Пароль',
 			'remember_me' => 'Запомнить',
-			'verify_code' => 'Код проверки:'
+			'verify_code' => 'Тест Тьюринга'
 		);
 	}
 
-	public function authenticate($attribute) {
-		if (!$this->hasErrors()) {
-			$this->identity = new UserIdentity($this->password);
-			$this->identity->authenticate();
+	public function authenticate() {
+		$this->identity = new UserIdentity($this->password);
+		$this->identity->authenticate();
 
-			if ($this->identity->errorCode != UserIdentity::ERROR_NONE) {
-				$this->addError('password', 'Неверный пароль.');
-			}
+		if ($this->identity->errorCode != UserIdentity::ERROR_NONE) {
+			$this->addError('password', 'Неверный пароль.');
 		}
 	}
 
