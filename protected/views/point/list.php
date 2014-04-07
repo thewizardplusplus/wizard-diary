@@ -14,6 +14,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/correcting_url.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/deleting_dialog.js'),
 		CClientScript::POS_HEAD
 	);
@@ -111,7 +115,7 @@
 				),
 				array(
 					'class' => 'CButtonColumn',
-					'template' => '{down} {up}',
+					'template' => '{up} {down}',
 					'buttons' => array(
 						'down' => array(
 							'label' =>

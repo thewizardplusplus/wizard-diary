@@ -112,10 +112,6 @@ $(document).ready(
 				RequestToPointList(url, { 'Point[check]': checked ? 1 : 0 });
 				return false;
 			},
-			stateChoising: function(url, state) {
-				RequestToPointList(url, { 'Point[state]': state });
-				return false;
-			},
 			editing: function(link) {
 				var element_id =
 					'point-text-'
@@ -178,6 +174,7 @@ $(document).ready(
 						);
 					}
 				);
+
 				$('.dropdown-menu a[class^=state]').click(
 					function() {
 						var link = $(this);
@@ -185,6 +182,8 @@ $(document).ready(
 							link.parent().parent().data('update-url'),
 							{ 'Point[state]': link.data('state') }
 						);
+
+						return false;
 					}
 				);
 			}
