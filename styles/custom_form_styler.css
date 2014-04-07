@@ -2,7 +2,7 @@
 
 /* Correction style of Bootstrap: */
 .checkbox {
-	padding: 0;
+	padding: 0 !important;
 }
 
 /* Correction styles of jQueryFormStyler: */

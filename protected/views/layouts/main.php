@@ -3,6 +3,16 @@
 	 * @var CController $this
 	 */
 
+	Yii::app()->getClientScript()->registerCssFile(
+		'//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
+	);
+	Yii::app()->getClientScript()->registerCssFile(
+		CHtml::asset('styles/diary.css')
+	);
+	/*Yii::app()->getClientScript()->registerCssFile(
+		Yii::app()->request->baseUrl . '/styles/theme.css'
+	);*/
+
 	Yii::app()->getClientScript()->registerPackage('jquery');
 	Yii::app()->getClientScript()->registerScriptFile(
 		'//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
@@ -36,13 +46,6 @@
 			rel = "icon"
 			type = "image/png"
 			href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
-
-		<link
-			rel = "stylesheet"
-			href = "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-		<link
-			rel = "stylesheet"
-			href = "<?= Yii::app()->request->baseUrl ?>/styles/diary.css" />
 
 		<title><?= $this->pageTitle ?></title>
 
