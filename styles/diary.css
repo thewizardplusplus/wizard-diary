@@ -58,7 +58,7 @@ body {
 }
 
 .navbar-form {
-	margin-right: -15px;
+	margin-right: 0 !important;
 	padding-right: 0;
 }
 

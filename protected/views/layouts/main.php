@@ -9,9 +9,6 @@
 	Yii::app()->getClientScript()->registerCssFile(
 		CHtml::asset('styles/diary.css')
 	);
-	/*Yii::app()->getClientScript()->registerCssFile(
-		Yii::app()->request->baseUrl . '/styles/theme.css'
-	);*/
 
 	Yii::app()->getClientScript()->registerPackage('jquery');
 	Yii::app()->getClientScript()->registerScriptFile(
