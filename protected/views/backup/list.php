@@ -18,6 +18,7 @@
 			'id' => 'backup-list',
 			'dataProvider' => $data_provider,
 			'template' => '{items} {pager}',
+			'hideHeader' => true,
 			'selectableRows' => 0,
 			'columns' => array(
 				array(

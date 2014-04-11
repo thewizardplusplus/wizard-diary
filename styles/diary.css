@@ -16,7 +16,9 @@
 	margin: 0;
 }
 
-#point-list .table {
+#point-list .table,
+#daily-point-list .table
+{
 	margin-bottom: 10px;
 }
 

@@ -1,8 +1,8 @@
-var PointList = {};
+var DailyPointList = {};
 
 $(document).ready(
 	function() {
-		var point_list = $('#point-list');
+		var point_list = $('#daily-point-list');
 		var UpdatePointList = function() {
 			point_list.yiiGridView(
 				'update',
@@ -27,17 +27,14 @@ $(document).ready(
 			);
 		};
 
-		var add_point_input = $('#Point_text');
-		var add_point_button = $('.add-point-button');
+		var add_point_input = $('#DailyPoint_text');
+		var add_point_button = $('.add-daily-point-button');
 		var AddPoint = function() {
 			var text = add_point_input.val();
 			add_point_input.val('');
 			RequestToPointList(
 				add_point_button.attr('href'),
-				{
-					'Point[text]': text,
-					'Point[state]': text != '' ? 'SATISFIED' : 'INITIAL'
-				}
+				{ 'DailyPoint[text]': text }
 			);
 		};
 		add_point_button.click(
@@ -46,7 +43,7 @@ $(document).ready(
 				return false;
 			}
 		);
-		$('#point-addition-form').submit(
+		$('#daily-point-addition-form').submit(
 			function() {
 				AddPoint();
 				return false;
@@ -72,13 +69,13 @@ $(document).ready(
 						'<a class = "input-group-addon" href = "#">'
 							+ '<span class = "glyphicon glyphicon-floppy-disk">'
 							+ '</span>'
-						+ '</a>'
+							+ '</a>'
 					);
 					var cancel_button = $(
 						'<a class = "input-group-addon" href = "#">'
 							+ '<span class = "glyphicon glyphicon-remove">'
 							+ '</span>'
-						+ '</a>'
+							+ '</a>'
 					);
 
 					block.append(submit_button).append(cancel_button);
@@ -107,21 +104,24 @@ $(document).ready(
 			}
 		);
 
-		PointList = {
+		DailyPointList = {
 			checking: function(url, checked) {
-				RequestToPointList(url, { 'Point[check]': checked ? 1 : 0 });
+				RequestToPointList(
+					url,
+					{ 'DailyPoint[check]': checked ? 1 : 0 }
+				);
 				return false;
 			},
 			move: function(url) {
 				RequestToPointList(
 					url,
-					{ 'Point[order]': $.url(url).param('order') }
+					{ 'DailyPoint[order]': $.url(url).param('order') }
 				);
 				return false;
 			},
 			editing: function(link) {
 				var element_id =
-					'point-text-'
+					'daily-point-text-'
 						+ $.url($(link).attr('href')).param('_id');
 				$('#' + element_id).trigger(element_id + '-edit');
 
@@ -129,7 +129,8 @@ $(document).ready(
 			},
 			deleting: function(link) {
 				var url = $(link).attr('href');
-				var text = $('#point-text-' + $.url(url).param('_id')).text();
+				var text = $('#daily-point-text-' + $.url(url).param('_id'))
+					.text();
 				if (text != '') {
 					text =
 						'пункт <strong>&laquo;'
@@ -149,7 +150,7 @@ $(document).ready(
 				return false;
 			},
 			initialize: function() {
-				$('.point-text').each(
+				$('.daily-point-text').each(
 					function(id, item) {
 						item = $(item);
 						item.editable(
@@ -157,7 +158,7 @@ $(document).ready(
 							{
 								type: 'bootstrapped-line-edit',
 								event: item.attr('id') + '-edit',
-								name: 'Point[text]',
+								name: 'DailyPoint[text]',
 								submitdata: CSRF_TOKEN,
 								onblur: 'ignore',
 								indicator:
@@ -174,21 +175,9 @@ $(document).ready(
 						);
 					}
 				);
-
-				$('.dropdown-menu a[class^=state]').click(
-					function() {
-						var link = $(this);
-						RequestToPointList(
-							link.parent().parent().data('update-url'),
-							{ 'Point[state]': link.data('state') }
-						);
-
-						return false;
-					}
-				);
 			}
 		};
 
-		PointList.initialize();
+		DailyPointList.initialize();
 	}
 );

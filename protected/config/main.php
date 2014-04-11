@@ -21,8 +21,11 @@ return array(
 				'points' => 'point/list',
 				'point/<id:\d+>/update' => 'point/update',
 				'point/<id:\d+>/delete' => 'point/delete',
-				'parameters' => 'parameters/update',
-				'backups' => 'backup/list'
+				'daily_points' => 'dailyPoint/list',
+				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
+				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
+				'backups' => 'backup/list',
+				'parameters' => 'parameters/update'
 			)
 		),
 		'db' => array(

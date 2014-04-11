@@ -1,7 +1,7 @@
 <?php
 	/**
-	 * @var PointController $this
-	 * @var Point $model
+	 * @var DailyPointController $this
+	 * @var DailyPoint $model
 	 * @var CActiveDataProvider $data_provider
 	 */
 
@@ -14,10 +14,6 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/correcting_url.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/deleting_dialog.js'),
 		CClientScript::POS_HEAD
 	);
@@ -26,23 +22,22 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/point_list.js'),
+		CHtml::asset('scripts/daily_point_list.js'),
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name;
+	$this->pageTitle = Yii::app()->name . ' - Ежедневные пункты';
 ?>
 
 <div class = "table-responsive">
 	<?php $this->widget(
-		'ext.groupgridview.GroupGridView',
+		'zii.widgets.grid.CGridView',
 		array(
-			'id' => 'point-list',
+			'id' => 'daily-point-list',
 			'dataProvider' => $data_provider,
-			'template' => '{pager} {items} {pager}',
+			'template' => '{items}',
 			'hideHeader' => true,
 			'selectableRows' => 0,
-			'enableHistory' => true,
 			'columns' => array(
 				array(
 					'class' => 'CButtonColumn',
@@ -54,14 +49,14 @@
 									. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
-									. '"point/update",'
+									. '"dailyPoint/update",'
 									. 'array("id" => $data->id)'
 								. ')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Отметить пункт'),
 							'click' =>
 								'function() {'
-									. 'return PointList.checking('
+									. 'return DailyPointList.checking('
 										. '$(this).attr("href"),'
 										. 'true'
 									. ');'
@@ -70,11 +65,11 @@
 						),
 						'uncheck' => array(
 							'label' =>
-								'<span class = "glyphicon glyphicon-check">'
+							'<span class = "glyphicon glyphicon-check">'
 								. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
-									. '"point/update",'
+									. '"dailyPoint/update",'
 									. 'array("id" => $data->id)'
 								. ')',
 							'imageUrl' => false,
@@ -83,7 +78,7 @@
 							),
 							'click' =>
 								'function() {'
-									. 'return PointList.checking('
+									. 'return DailyPointList.checking('
 										. '$(this).attr("href"),'
 										. 'false'
 									. ');'
@@ -93,18 +88,15 @@
 					),
 					'htmlOptions' => array('class' => 'button-column narrow')
 				),
-				array('class' => 'PointStateColumn'),
 				array(
 					'type' => 'raw',
 					'value' =>
 						'"<span '
-							. 'id = \"point-text-" . $data->id . "\" '
-							. 'class = '
-								. '\"state-" . $data->getStateClass()'
-								. '. " point-text\" '
+							. 'id = \"daily-point-text-" . $data->id . "\" '
+							. 'class = \"daily-point-text\" '
 							. 'data-update-url = '
 								. '\"" . $this->grid->controller->createUrl('
-									. '"point/update",'
+									. '"dailyPoint/update",'
 									. 'array("id" => $data->id)'
 								. ') . "\" '
 							. 'data-saving-icon-url = '
@@ -123,10 +115,10 @@
 									. 'class = '
 										. '"glyphicon '
 										. 'glyphicon-arrow-down">'
-								. '</span>',
+									. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
-									. '"point/update",'
+									. '"dailyPoint/update",'
 									. 'array('
 										. '"id" => $data->id,'
 										. '"order" => $data->order + 3'
@@ -136,7 +128,7 @@
 							'options' => array('title' => 'Опустить'),
 							'click' =>
 								'function() {'
-									. 'return PointList.move('
+									. 'return DailyPointList.move('
 										. '$(this).attr("href")'
 									. ');'
 								. '}'
@@ -147,10 +139,10 @@
 									. 'class = '
 										. '"glyphicon '
 										. 'glyphicon-arrow-up">'
-								. '</span>',
+									. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
-									. '"point/update",'
+									. '"dailyPoint/update",'
 									. 'array('
 										. '"id" => $data->id,'
 										. '"order" => $data->order - 3'
@@ -160,7 +152,7 @@
 							'options' => array('title' => 'Поднять'),
 							'click' =>
 								'function() {'
-									. 'return PointList.move('
+									. 'return DailyPointList.move('
 										. '$(this).attr("href")'
 									. ');'
 								. '}'
@@ -177,20 +169,20 @@
 									. 'class = '
 										. '"glyphicon '
 										. 'glyphicon-pencil">'
-								. '</span>',
+									. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
-									. '"point/update",'
+									. '"dailyPoint/update",'
 									. 'array('
 										. '"id" => $data->id,'
 										. '"_id" => $data->id'
-									. ')'
+									. 	')'
 								. ')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Изменить пункт'),
 							'click' =>
 								'function() {'
-									. 'return PointList.editing(this);'
+									. 'return DailyPointList.editing(this);'
 								. '}'
 						),
 						'delete' => array(
@@ -199,10 +191,10 @@
 									. 'class = '
 										. '"glyphicon '
 										. 'glyphicon-trash">'
-								. '</span>',
+									. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
-									. '"point/delete",'
+									. '"dailyPoint/delete",'
 									. 'array('
 										. '"id" => $data->id,'
 										. '"_id" => $data->id'
@@ -212,7 +204,7 @@
 							'options' => array('title' => 'Удалить пункт'),
 							'click' =>
 								'function() {'
-									. 'return PointList.deleting(this);'
+									. 'return DailyPointList.deleting(this);'
 								. '}'
 						)
 					)
@@ -220,48 +212,28 @@
 			),
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
-			'rowCssClassExpression' => '$data->getRowClassByState()',
-			'afterAjaxUpdate' => 'function() { PointList.initialize(); }',
+			'afterAjaxUpdate' => 'function() { DailyPointList.initialize(); }',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'emptyText' => 'Нет пунктов.',
-			'pager' => array(
-				'maxButtonCount' => 0,
-				'header' => '',
-				'prevPageLabel' => '&lt;',
-				'nextPageLabel' => '&gt;',
-				'firstPageCssClass' => 'hidden',
-				'lastPageCssClass' => 'hidden',
-				'hiddenPageCssClass' => 'disabled',
-				'htmlOptions' => array('class' => 'pager')
-			),
-			'pagerCssClass' => 'page-controller',
-			'extraRowColumns' => array('date'),
-			'extraRowExpression' =>
-				'"<span class = \"date-row\">'
-				. '<span class = \"label label-success\">"'
-				. ' . $data->getMyDate() . '
-				. '":</span>'
-				. '</span>"',
-			'extraRowPos' => 'above'
+			'emptyText' => 'Нет ежедневных пунктов.'
 		)
 	); ?>
 </div>
 
-<?= CHtml::beginForm('#', 'post', array('id' => 'point-addition-form')) ?>
+<?= CHtml::beginForm('#', 'post', array('id' => 'daily-point-addition-form')) ?>
 	<div class = "input-group">
 		<?= CHtml::textField(
-			'Point_text',
+			'DailyPoint_text',
 			'',
 			array('class' => 'form-control')
 		) ?>
-		<a
-			class = "input-group-addon add-point-button"
-			href = "<?= $this->createUrl('point/create') ?>">
-			<span class = "glyphicon glyphicon-plus"></span>
-		</a>
+			<a
+				class = "input-group-addon add-daily-point-button"
+				href = "<?= $this->createUrl('dailyPoint/create') ?>">
+				<span class = "glyphicon glyphicon-plus"></span>
+			</a>
 	</div>
 <?= CHtml::endForm() ?>
 
