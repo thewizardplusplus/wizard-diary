@@ -26,4 +26,13 @@ class DailyPoint extends CActiveRecord {
 			array('order', 'numerical')
 		);
 	}
+
+	protected function beforeSave() {
+		$result = parent::beforeSave();
+		if ($result and !$this->isNewRecord and empty($this->text)) {
+			$this->check = 0;
+		}
+
+		return $result;
+	}
 }

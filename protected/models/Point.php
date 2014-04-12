@@ -78,6 +78,7 @@ class Point extends CActiveRecord {
 				$this->date = date('Y-m-d');
 			} elseif (empty($this->text)) {
 				$this->state = 'INITIAL';
+				$this->check = 0;
 			}
 		}
 

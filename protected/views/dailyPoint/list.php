@@ -26,7 +26,7 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Ежедневные пункты';
+	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
 <div class = "table-responsive">

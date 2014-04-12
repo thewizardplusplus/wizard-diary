@@ -83,7 +83,7 @@
 							array(
 								'items' => array(
 									array(
-										'label' => 'Ежедневные пункты',
+										'label' => 'Ежедневно',
 										'url' => array('dailyPoint/list')
 									),
 									array(

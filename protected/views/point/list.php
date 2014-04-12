@@ -51,7 +51,7 @@
 						'check' => array(
 							'label' =>
 								'<span class = "glyphicon glyphicon-unchecked">'
-									. '</span>',
+								. '</span>',
 							'url' =>
 								'$this->grid->controller->createUrl('
 									. '"point/update",'

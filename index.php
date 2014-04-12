@@ -8,5 +8,4 @@ if (Constants::DEBUG) {
 }
 
 require_once(__DIR__ . '/yii/framework/yii.php');
-
 Yii::createWebApplication(__DIR__ . '/protected/config/main.php')->run();
