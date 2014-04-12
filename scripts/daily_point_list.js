@@ -130,7 +130,7 @@ $(document).ready(
 			deleting: function(link) {
 				var url = $(link).attr('href');
 				var text = $('#daily-point-text-' + $.url(url).param('_id'))
-					.text();
+					.data('text');
 				if (text != '') {
 					text =
 						'пункт <strong>&laquo;'
@@ -159,6 +159,7 @@ $(document).ready(
 								type: 'bootstrapped-line-edit',
 								event: item.attr('id') + '-edit',
 								name: 'DailyPoint[text]',
+								data: item.data('text'),
 								submitdata: CSRF_TOKEN,
 								onblur: 'ignore',
 								indicator:

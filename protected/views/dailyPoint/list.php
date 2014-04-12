@@ -94,6 +94,8 @@
 						'"<span '
 							. 'id = \"daily-point-text-" . $data->id . "\" '
 							. 'class = \"daily-point-text\" '
+							. 'data-text = '
+								. '\"" . $data->getRealText() . "\" '
 							. 'data-update-url = '
 								. '\"" . $this->grid->controller->createUrl('
 									. '"dailyPoint/update",'
@@ -102,7 +104,7 @@
 							. 'data-saving-icon-url = '
 								. '\"" . Yii::app()->request->baseUrl'
 								. '. "/images/processing-icon.gif\">"'
-							. '. $data->text .'
+						. '. $data->getFormattedText() .'
 						. '"</span>"'
 				),
 				array(

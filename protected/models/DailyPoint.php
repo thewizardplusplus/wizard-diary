@@ -27,10 +27,40 @@ class DailyPoint extends CActiveRecord {
 		);
 	}
 
+	public function getRealText() {
+		$text = $this->text;
+		if (!empty($text) and substr($text, -1) == ';') {
+			$text = substr($text, 0, -1);
+		}
+
+		return CHtml::encode($text);
+	}
+
+	public function getFormattedText() {
+		$this->text = preg_replace(
+			'/^([^,]+,)\s*([^;]+);?$/',
+			'<strong>$1</strong><br />$2;',
+			$this->text
+		);
+		$this->text = preg_replace(
+			'/"([^"]*)"/',
+			'&laquo;$1&raquo;',
+			$this->text
+		);
+		$this->text = preg_replace('/\s-\s/', ' &mdash; ', $this->text);
+
+		return $this->text;
+	}
+
 	protected function beforeSave() {
 		$result = parent::beforeSave();
-		if ($result and !$this->isNewRecord and empty($this->text)) {
-			$this->check = 0;
+		if ($result) {
+			if (!$this->isNewRecord and empty($this->text)) {
+				$this->check = 0;
+			}
+			if (!empty($this->text) and substr($this->text, -1) != ';') {
+				$this->text .= ';';
+			}
 		}
 
 		return $result;
