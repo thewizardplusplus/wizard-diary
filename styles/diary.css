@@ -54,6 +54,10 @@ footer hr {
 	pointer-events: none;
 }
 
+.selected td {
+	background-color: #D9EDF7 !important;
+}
+
 /* Navigation bar styles. */
 body {
 	padding-top: 70px;

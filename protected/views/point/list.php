@@ -42,7 +42,7 @@
 			'dataProvider' => $data_provider,
 			'template' => '{pager} {items} {pager}',
 			'hideHeader' => true,
-			'selectableRows' => 0,
+			'selectableRows' => 2,
 			'enableHistory' => true,
 			'columns' => array(
 				array(
@@ -228,6 +228,23 @@
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
+				. '}',
+			'selectionChanged' =>
+				'function(grid_view_id) {'
+					. 'var selection = '
+						. '$("#" + grid_view_id + " .selected")'
+						. '.filter('
+							. 'function(index) {'
+								. 'var classes = this.className.split(/\s/);'
+								. 'for (var i = 0; i < classes.length; i++) {'
+									. 'if (/^point-/.test(classes[i])) {'
+										. 'return true;'
+									. '}'
+								. '}'
+								. 'return false;'
+							. '}'
+						. ');'
+					. 'console.log(selection);'
 				. '}',
 			'emptyText' => 'Нет пунктов.',
 			'pager' => array(
