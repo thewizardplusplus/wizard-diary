@@ -31,7 +31,41 @@ class PointController extends CController {
 			$pagination->currentPage = $pagination->pageCount - 1;
 		}
 
-		$this->render('list', array('data_provider' => $data_provider));
+		$points_begins =
+			Yii::app()
+				->db
+				->createCommand(
+					'SELECT SUBSTRING_INDEX(text, ",", 1) text FROM {{points}}'
+				)
+				->queryAll();
+		$points_begins = array_map(
+			function($point_begin) {
+				$point_begin = $point_begin['text'];
+				$point_begin_length = strlen($point_begin);
+				if (
+					$point_begin_length != 0
+					and $point_begin[$point_begin_length - 1] == ';'
+				) {
+					$point_begin = substr(
+						$point_begin,
+						0,
+						$point_begin_length - 1
+					);
+				}
+
+				return $point_begin;
+			},
+			$points_begins
+		);
+		$points_begins = array_unique($points_begins);
+
+		$this->render(
+			'list',
+			array(
+				'data_provider' => $data_provider,
+				'points_begins' => $points_begins
+			)
+		);
 	}
 
 	public function actionCreate() {

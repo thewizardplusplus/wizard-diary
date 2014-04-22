@@ -48,6 +48,15 @@ return array(
 				)
 			)
 		),
+		'widgetFactory' => array(
+			'widgets' => array(
+				'CJuiAutoComplete' => array(
+					'scriptUrl' => '//code.jquery.com/ui/1.10.4',
+					'themeUrl' => '//code.jquery.com/ui/1.10.4/themes',
+					'theme' => 'start'
+				)
+			)
+		),
 		'request' => array(
 			'enableCsrfValidation' => true,
 			'enableCookieValidation' => true

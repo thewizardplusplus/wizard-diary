@@ -3,6 +3,7 @@
 	 * @var PointController $this
 	 * @var Point $model
 	 * @var CActiveDataProvider $data_provider
+	 * @var string $points_begins
 	 */
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -254,11 +255,23 @@
 
 <?= CHtml::beginForm('#', 'post', array('id' => 'point-addition-form')) ?>
 	<div class = "input-group">
-		<?= CHtml::textField(
-			'Point_text',
-			'',
-			array('class' => 'form-control')
-		) ?>
+		<?php $this->widget(
+			'zii.widgets.jui.CJuiAutoComplete',
+			array(
+				'name' => 'Point_text',
+				'source' => $points_begins,
+				'options' => array(
+					'autoFocus' => true,
+					'select' => new CJavaScriptExpression(
+						'function(event, ui) {'
+							. 'ui.item.value += ", ";'
+							. 'return true;'
+						. '}'
+					)
+				),
+				'htmlOptions' => array('class' => 'form-control')
+			)
+		); ?>
 		<a
 			class = "input-group-addon add-point-button"
 			href = "<?= $this->createUrl('point/create') ?>">
