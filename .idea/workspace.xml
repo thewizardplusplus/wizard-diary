@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/selection.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/models/Point.php" afterPath="$PROJECT_DIR$/protected/models/Point.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/controllers/PointController.php" afterPath="$PROJECT_DIR$/protected/controllers/PointController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/diary.css" afterPath="$PROJECT_DIR$/styles/diary.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/point/list.php" afterPath="$PROJECT_DIR$/protected/views/point/list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/plan.md" afterPath="$PROJECT_DIR$/docs/plan.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/point_list.js" afterPath="$PROJECT_DIR$/scripts/point_list.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/protected/components/Codecha.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/models/LoginForm.php" afterPath="$PROJECT_DIR$/protected/models/LoginForm.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/models/Parameters.php" afterPath="$PROJECT_DIR$/protected/models/Parameters.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/controllers/SiteController.php" afterPath="$PROJECT_DIR$/protected/controllers/SiteController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/site/login.php" afterPath="$PROJECT_DIR$/protected/views/site/login.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="diary.iws" />
@@ -19,12 +17,12 @@
     <file path="/point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397310945721" ignored="false" />
     <file path="/ParametersController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675443015" ignored="false" />
     <file path="/Point.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398231391433" ignored="false" />
-    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398239923412" ignored="false" />
+    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398249129434" ignored="false" />
     <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398234450464" ignored="false" />
     <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397175415271" ignored="false" />
     <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398236998543" ignored="false" />
     <file path="/backuping.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395570923203" ignored="false" />
-    <file path="/SiteController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395466095378" ignored="false" />
+    <file path="/SiteController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398243253698" ignored="false" />
     <file path="/custom_form_styler.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1396853680253" ignored="false" />
     <file path="/custom_form_styler.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395475783880" ignored="false" />
     <file path="/LoginForm.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395559388948" ignored="false" />
@@ -36,10 +34,14 @@
     <file path="/DailyPoint.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397312554717" ignored="false" />
     <file path="/DailyPointController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397160197430" ignored="false" />
     <file path="/daily_point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397175639824" ignored="false" />
-    <file path="/a.dummy" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397246642745" ignored="false" />
+    <file path="/a.dummy" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398243156707" ignored="false" />
     <file path="/AddDailyPointsCommand.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397253934758" ignored="false" />
     <file path="/selecting.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398232090578" ignored="false" />
     <file path="/selection.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398238155156" ignored="false" />
+    <file path="/cc.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398243128423" ignored="false" />
+    <file path="/Parameters.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398243057215" ignored="false" />
+    <file path="/Codecha.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398246743541" ignored="false" />
+    <file path="/login.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398246764331" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,13 +78,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/protected/commands/TestCommand.php" />
-        <option value="$PROJECT_DIR$/protected/commands/AddDailyPointsCommand.php" />
-        <option value="$PROJECT_DIR$/protected/views/layouts/main.php" />
-        <option value="$PROJECT_DIR$/protected/runtime/application.log" />
-        <option value="$PROJECT_DIR$/protected/models/DailyPoint.php" />
-        <option value="$PROJECT_DIR$/protected/views/dailyPoint/list.php" />
-        <option value="$PROJECT_DIR$/scripts/daily_point_list.js" />
         <option value="$PROJECT_DIR$/protected/config/main.php" />
         <option value="$PROJECT_DIR$/scripts/selecting.js" />
         <option value="$PROJECT_DIR$/styles/diary.css" />
@@ -92,6 +87,13 @@
         <option value="$PROJECT_DIR$/scripts/point_list.js" />
         <option value="$PROJECT_DIR$/protected/controllers/PointController.php" />
         <option value="$PROJECT_DIR$/docs/plan.md" />
+        <option value="$PROJECT_DIR$/protected/models/Parameters.php" />
+        <option value="$PROJECT_DIR$/protected/components/cc.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/SiteController.php" />
+        <option value="$PROJECT_DIR$/protected/runtime/application.log" />
+        <option value="$PROJECT_DIR$/protected/components/Codecha.php" />
+        <option value="$PROJECT_DIR$/protected/views/site/login.php" />
+        <option value="$PROJECT_DIR$/protected/models/LoginForm.php" />
       </list>
     </option>
   </component>
@@ -128,6 +130,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -334,6 +337,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="runtime" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="diary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="diary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -440,7 +461,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -564,7 +584,11 @@
       <created>1398156252828</created>
       <updated>1398156252828</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Transfer points to yesterday - select points; update database. Correct autocompleting.">
+      <created>1398240022612</created>
+      <updated>1398240022612</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -576,7 +600,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33357245" sideWeight="0.45335084" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3543759" sideWeight="0.45335084" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -634,7 +658,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Transfer points to yesterday - select points." />
+    <option name="LAST_COMMIT_MESSAGE" value="Transfer points to yesterday - select points; update database. Correct autocompleting." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -665,56 +689,12 @@
     <MESSAGE value="Add autocompleting." />
     <MESSAGE value="Correct development plan." />
     <MESSAGE value="Transfer points to yesterday - select points." />
+    <MESSAGE value="Transfer points to yesterday - select points; update database. Correct autocompleting." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/deleting_dialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/logo.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/diary.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="0" selection-start="2070" selection-end="2070" vertical-scroll-proportion="0.8773842" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/layouts/main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="96" selection-start="2680" selection-end="2680" vertical-scroll-proportion="0.46338028" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yii/framework/zii/widgets/assets/gridview/jquery.yiigridview.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-7.739251" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/commands/AddDailyPointsCommand.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="0.3802817" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/backup_schema.xsd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/database.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="861" selection-end="861" vertical-scroll-proportion="-14.423077" />
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/models/Point.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="0" selection-start="455" selection-end="455" vertical-scroll-proportion="-0.35915494" />
@@ -740,23 +720,59 @@
         <state line="1" column="0" selection-start="38" selection-end="38" vertical-scroll-proportion="0.020435967" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/runtime/application.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9429" column="0" selection-start="916019" selection-end="916019" vertical-scroll-proportion="-0.4147018" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="0" selection-start="2208" selection-end="2208" vertical-scroll-proportion="1.5704225">
-          <folding />
-        </state>
+        <state line="100" column="0" selection-start="2208" selection-end="2208" vertical-scroll-proportion="1.5704225" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/plan.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="217" selection-end="217" vertical-scroll-proportion="0.16348773">
-          <folding />
-        </state>
+        <state line="8" column="0" selection-start="217" selection-end="217" vertical-scroll-proportion="0.16393442" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/Constants.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="552" selection-end="552" vertical-scroll-proportion="0.4225352" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/runtime/application.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9435" column="0" selection-start="916393" selection-end="916393" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/site/error.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="0" selection-start="2134" selection-end="2134" vertical-scroll-proportion="1.8169014" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/Parameters.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="0" selection-start="820" selection-end="820" vertical-scroll-proportion="0.8450704" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/LoginForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="0" selection-start="1088" selection-end="1088" vertical-scroll-proportion="1.0352113" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/SiteController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="85" column="0" selection-start="1933" selection-end="1933" vertical-scroll-proportion="1.1619718" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/components/PointStateColumn.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/components/Codecha.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="783" selection-end="783" vertical-scroll-proportion="0.6760563" />
       </provider>
     </entry>
   </component>

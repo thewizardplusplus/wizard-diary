@@ -3,21 +3,12 @@
 class LoginForm extends CFormModel {
 	public $password;
 	public $remember_me = false;
-	public $verify_code;
 
 	public function rules() {
 		return array(
 			array('password', 'required'),
 			array('password', 'authenticate', 'skipOnError' => true),
-			array('remember_me', 'boolean'),
-			array('verify_code', 'required'),
-			array(
-				'verify_code',
-				'captcha',
-				'caseSensitive' => true,
-				'skipOnError' => true,
-				'message' => 'Тест Тьюринга не пройден.'
-			)
+			array('remember_me', 'boolean')
 		);
 	}
 

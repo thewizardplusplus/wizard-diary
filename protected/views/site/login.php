@@ -69,29 +69,11 @@
 			'verify_code',
 			array('class' => 'control-label')
 		) ?>
-		<div class = "verify-code-container">
-			<?php $this->widget(
-				'CCaptcha',
-				array(
-					'imageOptions' => array(
-						'id' => 'LoginForm_verify_code_image',
-						'class' => 'img-thumbnail verify-code'
-					),
-					'showRefreshButton' => false,
-					'clickableImage' => true
-				)
-			); ?>
-			<button class = "btn btn-default" type = "button">
-				<a href = "#" tabindex = "-1">
-					<span class = "glyphicon glyphicon-refresh"></span>
-				</a>
-			</button>
-		</div>
-		<?= CHtml::activeTextField(
-			$model,
-			'verify_code',
-			array('class' => 'form-control')
-		) ?>
+		<script
+			src = "//codecha.org/api/challenge?k=<?=
+				Codecha::CODECHA_PUBLIC_KEY
+			?>">
+		</script>
 		<?= $form->error($model, 'verify_code') ?>
 	</div>
 

@@ -7,20 +7,9 @@ class SiteController extends CController {
 
 	public function accessRules() {
 		return array(
-			array('allow', 'actions' => array('captcha', 'error', 'login')),
+			array('allow', 'actions' => array('error', 'login')),
 			array('allow', 'users' => array('admin')),
 			array('deny')
-		);
-	}
-
-	public function actions() {
-		return array(
-			'captcha' => array(
-				'class' => 'CCaptchaAction',
-				'foreColor' => 0xffffff,
-				'backColor' => 0x428bca,
-				'testLimit' => 1
-			)
 		);
 	}
 
@@ -44,14 +33,29 @@ class SiteController extends CController {
 			Yii::app()->end();
 		}
 
-		if (isset($_POST['LoginForm'])) {
+		if (
+			isset($_POST['LoginForm'])
+			and isset($_POST['codecha_challenge_field'])
+			and isset($_POST['codecha_response_field'])
+		) {
 			$model->attributes = $_POST['LoginForm'];
-
 			$result = $model->validate();
 			if ($result) {
-				$result = $model->login();
+				$result = Codecha::check(
+					$_POST['codecha_challenge_field'],
+					$_POST['codecha_response_field'],
+					$_SERVER['REMOTE_ADDR']
+				);
 				if ($result) {
-					$this->redirect(Yii::app()->user->returnUrl);
+					$result = $model->login();
+					if ($result) {
+						$this->redirect(Yii::app()->user->returnUrl);
+					}
+				} else {
+					$model->addError(
+						'verify_code',
+						'Тест Тьюринга не пройден.'
+					);
 				}
 			}
 		}

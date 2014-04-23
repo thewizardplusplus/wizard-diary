@@ -29,7 +29,7 @@ class Parameters extends CActiveRecord {
 			array(
 				'id',
 				'default',
-				'value' => Parameters::RECORD_ID,
+				'value' => self::RECORD_ID,
 				// the attribute will always be assigned with the default value,
 				// even if it is already explicitly assigned a value
 				'setOnEmpty' => false
