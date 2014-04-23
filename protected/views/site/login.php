@@ -13,6 +13,9 @@
 	Yii::app()->getClientScript()->registerCssFile(
 		CHtml::asset('styles/custom_form_styler.css')
 	);
+	Yii::app()->getClientScript()->registerCssFile(
+		CHtml::asset('styles/custom_codecha.css')
+	);
 
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('jQueryFormStyler/jquery.formstyler.min.js'),
