@@ -19,7 +19,7 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_captcha.js'),
+		CHtml::asset('scripts/custom_codecha.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -85,7 +85,7 @@
 	<?= CHtml::htmlButton(
 		'<span class = "glyphicon glyphicon-log-in"></span> Вход',
 		array(
-			'class' => 'btn btn-primary',
+			'class' => 'btn btn-primary login-button',
 			'type' => 'submit'
 		)
 	) ?>
