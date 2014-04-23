@@ -12,7 +12,6 @@ return array(
 		'application.config.Constants'
 	),
 	'components' => array(
-		'user' => array('allowAutoLogin' => true),
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'showScriptName' => false,

@@ -8,25 +8,10 @@
 	 */
 
 	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('jQueryFormStyler/jquery.formstyler.css')
-	);
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_form_styler.css')
-	);
-	Yii::app()->getClientScript()->registerCssFile(
 		CHtml::asset('styles/custom_codecha.css')
-	);
-
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('jQueryFormStyler/jquery.formstyler.min.js'),
-		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/custom_codecha.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_form_styler.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -78,11 +63,6 @@
 			?>">
 		</script>
 		<?= $form->error($model, 'verify_code') ?>
-	</div>
-
-	<div class = "checkbox">
-		<?= $form->checkBox($model, 'remember_me') ?>
-		<?= $form->label($model, 'remember_me') ?>
 	</div>
 
 	<?= CHtml::htmlButton(

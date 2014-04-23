@@ -10,8 +10,6 @@ class Constants {
 	const DATABASE_PASSWORD = '';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const COPYRIGHT_START_YEAR = 2014;
-	// 30 days
-	const REMEMBER_DURATION_IN_S = 2592000;
 	const POINTS_ON_PAGE = 24;
 	const DAYS_IN_MY_YEAR = 300;
 	const DEFAULT_PASSWORD = 'admin';

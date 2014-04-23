@@ -2,20 +2,17 @@
 
 class LoginForm extends CFormModel {
 	public $password;
-	public $remember_me = false;
 
 	public function rules() {
 		return array(
 			array('password', 'required'),
-			array('password', 'authenticate', 'skipOnError' => true),
-			array('remember_me', 'boolean')
+			array('password', 'authenticate', 'skipOnError' => true)
 		);
 	}
 
 	public function attributeLabels() {
 		return array(
 			'password' => 'Пароль',
-			'remember_me' => 'Запомнить',
 			'verify_code' => 'Тест Тьюринга'
 		);
 	}
@@ -36,10 +33,7 @@ class LoginForm extends CFormModel {
 		}
 
 		if ($this->identity->errorCode == UserIdentity::ERROR_NONE) {
-			return Yii::app()->user->login(
-				$this->identity,
-				$this->remember_me ? Constants::REMEMBER_DURATION_IN_S : 0
-			);
+			return Yii::app()->user->login($this->identity);
 		} else {
 			return false;
 		}
