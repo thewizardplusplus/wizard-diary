@@ -4,8 +4,8 @@ class PointController extends CController {
 	public function filters() {
 		return array(
 			'accessControl',
-			'postOnly + create, update, delete',
-			'ajaxOnly + create, update, delete'
+			'postOnly + create, update, age, delete',
+			'ajaxOnly + create, update, age, delete'
 		);
 	}
 
@@ -58,6 +58,7 @@ class PointController extends CController {
 			$points_begins
 		);
 		$points_begins = array_unique($points_begins);
+		sort($points_begins);
 
 		$this->render(
 			'list',
@@ -95,6 +96,42 @@ class PointController extends CController {
 					Point::renumberOrderFieldsForDate($model->date);
 				}
 			}
+		}
+	}
+
+	public function actionAge() {
+		Yii::app()
+			->db
+			->createCommand(
+				'UPDATE {{points}} '
+				. 'SET date = DATE_SUB(date, INTERVAL 1 DAY),'
+					. '`order` = 18446744073709551615 '
+				. 'WHERE id IN ('
+					. implode(', ', $_POST['ids'])
+				. ')'
+			)
+			->execute();
+
+		$dates = Yii::app()
+			->db
+			->createCommand(
+				'SELECT date '
+				. 'FROM {{points}} '
+				. 'WHERE id IN ('
+					. implode(', ', $_POST['ids'])
+				. ')'
+			)
+			->queryAll();
+		$dates = array_map(
+			function($row) {
+				return $row['date'];
+			},
+			$dates
+		);
+		$dates = array_unique($dates);
+
+		foreach ($dates as $date) {
+			Point::renumberOrderFieldsForDate($date);
 		}
 	}
 

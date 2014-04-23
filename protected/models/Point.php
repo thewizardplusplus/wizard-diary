@@ -11,7 +11,7 @@ class Point extends CActiveRecord {
 			array('order' => new CDbExpression('(@order := @order + 2)')),
 			array(
 				'condition' => 'date = "' . $date . '"',
-				'order' => '`order`'
+				'order' => '`order`, id'
 			)
 		);
 	}
@@ -44,9 +44,11 @@ class Point extends CActiveRecord {
 
 	public function getRowClassByState() {
 		return
-			self::$row_classes_for_states[$this->state]
-			. " point-"
-			. $this->id;
+			'point-row '
+			. 'point-'
+			. $this->id
+			. ' '
+			. self::$row_classes_for_states[$this->state];
 	}
 
 	public function getMyDate() {

@@ -30,9 +30,25 @@
 		CHtml::asset('scripts/point_list.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/selection.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name;
 ?>
+
+<p class = "clearfix">
+	<button
+		class = "btn btn-default pull-right age-points-button"
+		data-age-points-url = "<?= $this->createUrl('point/age') ?>">
+		<img
+			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-time"></span>
+		<span>На день назад</span>
+	</button>
+</p>
 
 <div class = "table-responsive">
 	<?php $this->widget(
@@ -230,21 +246,8 @@
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
 			'selectionChanged' =>
-				'function(grid_view_id) {'
-					. 'var selection = '
-						. '$("#" + grid_view_id + " .selected")'
-						. '.filter('
-							. 'function(index) {'
-								. 'var classes = this.className.split(/\s/);'
-								. 'for (var i = 0; i < classes.length; i++) {'
-									. 'if (/^point-/.test(classes[i])) {'
-										. 'return true;'
-									. '}'
-								. '}'
-								. 'return false;'
-							. '}'
-						. ');'
-					. 'console.log(selection);'
+				'function() {'
+					. 'ProcessSelection();'
 				. '}',
 			'emptyText' => 'Нет пунктов.',
 			'pager' => array(
@@ -261,9 +264,9 @@
 			'extraRowColumns' => array('date'),
 			'extraRowExpression' =>
 				'"<span class = \"date-row\">'
-				. '<span class = \"label label-success\">"'
-				. ' . $data->getMyDate() . '
-				. '":</span>'
+					. '<span class = \"label label-success\">"'
+						. ' . $data->getMyDate() . '
+					. '":</span>'
 				. '</span>"',
 			'extraRowPos' => 'above'
 		)
@@ -277,15 +280,6 @@
 			array(
 				'name' => 'Point_text',
 				'source' => $points_begins,
-				'options' => array(
-					'autoFocus' => true,
-					'select' => new CJavaScriptExpression(
-						'function(event, ui) {'
-							. 'ui.item.value += ", ";'
-							. 'return true;'
-						. '}'
-					)
-				),
 				'htmlOptions' => array('class' => 'form-control')
 			)
 		); ?>

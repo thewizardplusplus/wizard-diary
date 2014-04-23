@@ -3,7 +3,9 @@ var PointList = {};
 $(document).ready(
 	function() {
 		var point_list = $('#point-list');
+		var age_points_button = $('.age-points-button');
 		var UpdatePointList = function() {
+			age_points_button.parent().hide();
 			point_list.yiiGridView(
 				'update',
 				{

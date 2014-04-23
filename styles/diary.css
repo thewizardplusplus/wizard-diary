@@ -153,7 +153,9 @@ a.state-initial:focus {
 }
 
 /* Additional button styles. */
-.input-group-addon {
+.age-points-button,
+.input-group-addon
+{
 	color: #428bca;
 }
 
