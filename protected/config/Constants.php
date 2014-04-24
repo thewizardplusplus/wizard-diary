@@ -3,7 +3,7 @@
 class Constants {
 	const DEBUG = false;
 	const TRACE_LEVEL = 5;
-	const APP_NAME = 'Online-дневник';
+	const APP_NAME = 'Wizard Diary';
 	const DATABASE_HOST = 'localhost';
 	const DATABASE_NAME = 'diary';
 	const DATABASE_USER = 'root';

@@ -6,13 +6,17 @@
 	border-radius: 4px;
 }
 
+.has-error #codecha_widget {
+	border-color: #843534 !important;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 6px #ce8483;
+}
+
 #codecha_widget textarea {
 	min-width: 100% !important;
 	width: 100% !important;
 	max-width: 100% !important;
 }
 
-.has-error #codecha_widget {
-	border-color: #843534 !important;
-	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 6px #ce8483;
+#codecha_change_challenge {
+	display: none;
 }

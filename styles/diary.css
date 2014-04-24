@@ -152,14 +152,19 @@ a.state-initial:focus {
 	color: rgb(128, 128, 128) !important;
 }
 
-/* Additional button styles. */
+/* Footer styles. */
+footer {
+	font-size: smaller;
+}
+
+/* Additional styles. */
 .age-points-button,
 .input-group-addon
 {
 	color: #428bca;
 }
 
-/* Footer styles. */
-footer {
-	font-size: smaller;
+#Point_text {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
 }
