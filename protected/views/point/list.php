@@ -3,7 +3,6 @@
 	 * @var PointController $this
 	 * @var Point $model
 	 * @var CActiveDataProvider $data_provider
-	 * @var string $points_begins
 	 */
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -279,7 +278,7 @@
 			'zii.widgets.jui.CJuiAutoComplete',
 			array(
 				'name' => 'Point_text',
-				'source' => $points_begins,
+				'sourceUrl' => $this->createUrl('point/autocomplete'),
 				'htmlOptions' => array('class' => 'form-control')
 			)
 		); ?>
