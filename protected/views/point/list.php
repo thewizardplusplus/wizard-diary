@@ -279,6 +279,15 @@
 			array(
 				'name' => 'Point_text',
 				'sourceUrl' => $this->createUrl('point/autocomplete'),
+				'options' => array(
+					'position' => new CJavaScriptExpression(
+						'{'
+							. 'my: "left bottom",'
+							. 'at: "left top",'
+							. 'collision: "flipfit"'
+						. '}'
+					)
+				),
 				'htmlOptions' => array('class' => 'form-control')
 			)
 		); ?>

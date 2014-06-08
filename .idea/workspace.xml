@@ -2,22 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/custom_codecha.css" afterPath="$PROJECT_DIR$/styles/custom_codecha.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/custom_codecha.js" afterPath="$PROJECT_DIR$/scripts/custom_codecha.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/controllers/PointController.php" afterPath="$PROJECT_DIR$/protected/controllers/PointController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/diary.css" afterPath="$PROJECT_DIR$/styles/diary.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/point/list.php" afterPath="$PROJECT_DIR$/protected/views/point/list.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="diary.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/.gitignore" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394671987086" ignored="false" />
     <file path="/plan.md" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395567836285" ignored="false" />
-    <file path="/PointController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398503620819" ignored="false" />
+    <file path="/PointController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402270437854" ignored="false" />
     <file path="/point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397310945721" ignored="false" />
     <file path="/ParametersController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675443015" ignored="false" />
     <file path="/Point.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398231391433" ignored="false" />
-    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402250156982" ignored="false" />
-    <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398234450464" ignored="false" />
+    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402269984770" ignored="false" />
+    <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402253564431" ignored="false" />
     <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397175415271" ignored="false" />
-    <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398499782309" ignored="false" />
+    <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402252710286" ignored="false" />
     <file path="/backuping.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1395570923203" ignored="false" />
     <file path="/SiteController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398243253698" ignored="false" />
     <file path="/custom_form_styler.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1396853680253" ignored="false" />
@@ -78,7 +79,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/scripts/point_list.js" />
         <option value="$PROJECT_DIR$/protected/models/Parameters.php" />
         <option value="$PROJECT_DIR$/protected/components/cc.php" />
         <option value="$PROJECT_DIR$/protected/controllers/SiteController.php" />
@@ -89,19 +89,21 @@
         <option value="$PROJECT_DIR$/protected/config/Constants.php" />
         <option value="$PROJECT_DIR$/protected/models/LoginForm.php" />
         <option value="$PROJECT_DIR$/protected/config/main.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/PointController.php" />
-        <option value="$PROJECT_DIR$/protected/views/point/list.php" />
         <option value="$PROJECT_DIR$/docs/plan.md" />
         <option value="$PROJECT_DIR$/scripts/custom_codecha.js" />
         <option value="$PROJECT_DIR$/styles/custom_codecha.css" />
+        <option value="$PROJECT_DIR$/styles/diary.css" />
+        <option value="$PROJECT_DIR$/protected/views/point/list.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/PointController.php" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="522" />
-    <option name="width" value="1436" />
-    <option name="height" value="375" />
+    <option name="x" value="-3" />
+    <option name="y" value="-3" />
+    <option name="width" value="1446" />
+    <option name="height" value="907" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -129,7 +131,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -428,6 +429,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -571,7 +573,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="522" width="1436" height="375" extended-state="0" />
+    <frame x="-3" y="-3" width="1446" height="907" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5458515" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -579,7 +581,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34971097" sideWeight="0.45414847" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25035867" sideWeight="0.45414847" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -677,16 +679,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/styles/diary.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/models/LoginForm.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="916" selection-end="916" vertical-scroll-proportion="0.9084507" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/Constants.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="499" selection-end="499" vertical-scroll-proportion="0.3802817" />
@@ -697,36 +689,47 @@
         <state line="14" column="0" selection-start="309" selection-end="309" vertical-scroll-proportion="0.29577464" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="108" selection-end="108" vertical-scroll-proportion="0.4213483" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="961" selection-end="961" vertical-scroll-proportion="0.505618" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="0" selection-start="284" selection-end="284" vertical-scroll-proportion="0.505618" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/plan.md">
+    <entry file="file://$PROJECT_DIR$/robots.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="138" selection-end="138" vertical-scroll-proportion="0.2970297">
-          <folding />
-        </state>
+        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.14851485" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/database.sql">
+    <entry file="file://$PROJECT_DIR$/license.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="1114" selection-end="1114" vertical-scroll-proportion="0.48863637" />
+      </provider>
       <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="861" selection-end="861" vertical-scroll-proportion="0.48863637">
-          <folding />
-        </state>
+        <state line="7" column="0" selection-start="179" selection-end="179" vertical-scroll-proportion="0.519802" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="42" selection-end="42" vertical-scroll-proportion="0.2970297" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles/custom_codecha.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="0" selection-start="541" selection-end="541" vertical-scroll-proportion="0.7425743" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/custom_codecha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="1240" selection-end="1240" vertical-scroll-proportion="1.4455446" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/commands/AddDailyPointsCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="1.264045" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/backup_schema.xsd">
@@ -736,47 +739,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/robots.txt">
+    <entry file="file://$PROJECT_DIR$/docs/database.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.14851485">
-          <folding />
-        </state>
+        <state line="25" column="0" selection-start="861" selection-end="861" vertical-scroll-proportion="2.1306818" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/license.txt">
       <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/plan.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="1114" selection-end="1114" vertical-scroll-proportion="0.48863637">
+        <state line="4" column="0" selection-start="138" selection-end="138" vertical-scroll-proportion="0.2970297" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles/diary.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="0" selection-start="2181" selection-end="2181" vertical-scroll-proportion="0.55445546" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="300" column="0" selection-start="8102" selection-end="8102" vertical-scroll-proportion="0.828169">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
+    <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="179" selection-end="179" vertical-scroll-proportion="0.519802">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="42" selection-end="42" vertical-scroll-proportion="0.2970297">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/styles/custom_codecha.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="541" selection-end="541" vertical-scroll-proportion="0.7425743">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/custom_codecha.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1240" selection-end="1240" vertical-scroll-proportion="1.4455446">
+        <state line="59" column="0" selection-start="1404" selection-end="1404" vertical-scroll-proportion="0.44366196">
           <folding />
         </state>
       </provider>

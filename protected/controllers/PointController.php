@@ -5,6 +5,7 @@ class PointController extends CController {
 		return array(
 			'accessControl',
 			'postOnly + create, update, age, delete',
+			//'ajaxOnly + autocomplete, create, update, age, delete'
 			'ajaxOnly + create, update, age, delete'
 		);
 	}
@@ -38,7 +39,23 @@ class PointController extends CController {
 	}
 
 	public function actionAutocomplete() {
-		echo '["one", "two", "three"]';
+		$database = Yii::app()->db;
+		$sample = $database->quoteValue($_GET['term']);
+		$points =
+			$database
+			->createCommand(
+				'SELECT text '
+				. 'FROM {{points}} '
+				. "WHERE LEFT(text, CHAR_LENGTH($sample)) = $sample"
+			)
+			->queryAll();
+		$points = array_map(
+			function($row) {
+				return '"' . str_replace('"', '\"', $row['text']) . '"';
+			},
+			$points
+		);
+		echo '[' . implode(', ', $points) . ']';
 	}
 
 	public function actionCreate() {
