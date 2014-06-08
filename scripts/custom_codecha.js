@@ -14,17 +14,24 @@ $(document).ready(
 				$('.login-button').click();
 			}
 		};
+		var SendCode = function() {
+			var codecha_submit_button = $('#codecha_code_submit_button');
+			if (codecha_submit_button.length) {
+				codecha_submit_button.click();
+				WaitVerification();
 
-		$('.login-button').click(
-			function() {
-				var codecha_submit_button = $('#codecha_code_submit_button');
-				if (codecha_submit_button.length) {
-					codecha_submit_button.click();
-					WaitVerification();
+				return false;
+			} else {
+				return true;
+			}
+		};
 
-					return false;
-				} else {
-					return true;
+		$('.login-button').click(SendCode);
+		$('#codecha_code_area').on(
+			'keypress',
+			function(event) {
+				if (event.keyCode == 13 && event.ctrlKey) {
+					SendCode();
 				}
 			}
 		);
