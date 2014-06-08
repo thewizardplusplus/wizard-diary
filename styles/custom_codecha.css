@@ -21,6 +21,8 @@
 	max-width: 100% !important;
 }
 
-#codecha_bottom :not(#codecha_code_submit_button) {
+#codecha_change_challenge,
+#codecha_code_submit_button
+{
 	display: none;
 }
