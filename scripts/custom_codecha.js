@@ -26,14 +26,17 @@ $(document).ready(
 			}
 		};
 
-		$('.login-button').click(SendCode);
 		$('#codecha_code_area').on(
 			'keypress',
 			function(event) {
+				// 13 - Enter key
 				if (event.keyCode == 13 && event.ctrlKey) {
 					SendCode();
 				}
 			}
 		);
+		$('.login-button').click(SendCode);
+
+		$('#codecha_bottom :not(#codecha_code_submit_button)').remove();
 	}
 );

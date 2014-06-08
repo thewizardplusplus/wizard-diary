@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/custom_codecha.css" afterPath="$PROJECT_DIR$/styles/custom_codecha.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/custom_codecha.js" afterPath="$PROJECT_DIR$/scripts/custom_codecha.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/plan.md" afterPath="$PROJECT_DIR$/docs/plan.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="diary.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -14,7 +13,7 @@
     <file path="/point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397310945721" ignored="false" />
     <file path="/ParametersController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1394675443015" ignored="false" />
     <file path="/Point.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398231391433" ignored="false" />
-    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402221841340" ignored="false" />
+    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402239541061" ignored="false" />
     <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398234450464" ignored="false" />
     <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1397175415271" ignored="false" />
     <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398499782309" ignored="false" />
@@ -40,8 +39,8 @@
     <file path="/Codecha.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398246743541" ignored="false" />
     <file path="/login.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398246764331" ignored="false" />
     <file path="/custom_captcha.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398249830580" ignored="false" />
-    <file path="/custom_codecha.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402223138757" ignored="false" />
-    <file path="/custom_codecha.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1398259536126" ignored="false" />
+    <file path="/custom_codecha.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402240481218" ignored="false" />
+    <file path="/custom_codecha.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402240383657" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +84,6 @@
         <option value="$PROJECT_DIR$/protected/runtime/application.log" />
         <option value="$PROJECT_DIR$/protected/components/Codecha.php" />
         <option value="$PROJECT_DIR$/scripts/custom_captcha.js" />
-        <option value="$PROJECT_DIR$/styles/custom_codecha.css" />
         <option value="$PROJECT_DIR$/protected/views/site/login.php" />
         <option value="$PROJECT_DIR$/protected/config/Constants.php" />
         <option value="$PROJECT_DIR$/protected/models/LoginForm.php" />
@@ -93,6 +91,7 @@
         <option value="$PROJECT_DIR$/protected/controllers/PointController.php" />
         <option value="$PROJECT_DIR$/protected/views/point/list.php" />
         <option value="$PROJECT_DIR$/docs/plan.md" />
+        <option value="$PROJECT_DIR$/styles/custom_codecha.css" />
         <option value="$PROJECT_DIR$/scripts/custom_codecha.js" />
       </list>
     </option>
@@ -434,8 +433,8 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -579,7 +578,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32008672" sideWeight="0.45414847" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3251445" sideWeight="0.45414847" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -737,6 +736,11 @@
         <state line="42" column="0" selection-start="961" selection-end="961" vertical-scroll-proportion="0.505618" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="284" selection-end="284" vertical-scroll-proportion="0.505618" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docs/plan.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="0" selection-start="138" selection-end="138" vertical-scroll-proportion="0.2970297">
@@ -744,23 +748,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="284" selection-end="284" vertical-scroll-proportion="0.505618">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/styles/custom_codecha.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.66831684">
+        <state line="22" column="0" selection-start="487" selection-end="487" vertical-scroll-proportion="0.55445546">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/custom_codecha.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="853" selection-end="853" vertical-scroll-proportion="2.8960395">
+        <state line="42" column="0" selection-start="943" selection-end="943" vertical-scroll-proportion="0.55445546">
           <folding />
         </state>
       </provider>
