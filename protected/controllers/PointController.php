@@ -5,8 +5,7 @@ class PointController extends CController {
 		return array(
 			'accessControl',
 			'postOnly + create, update, age, delete',
-			//'ajaxOnly + autocomplete, create, update, age, delete'
-			'ajaxOnly + create, update, age, delete'
+			'ajaxOnly + autocomplete, create, update, age, delete'
 		);
 	}
 
@@ -39,8 +38,15 @@ class PointController extends CController {
 	}
 
 	public function actionAutocomplete() {
+		if (empty($_GET['term'])) {
+			echo '[]';
+			return;
+		}
+
 		$database = Yii::app()->db;
 		$sample = $database->quoteValue($_GET['term']);
+		$separators_number_in_sample = substr_count($sample, ',');
+
 		$points =
 			$database
 			->createCommand(
@@ -50,12 +56,38 @@ class PointController extends CController {
 			)
 			->queryAll();
 		$points = array_map(
-			function($row) {
-				return '"' . str_replace('"', '\"', $row['text']) . '"';
+			function($row) use($separators_number_in_sample) {
+				$point = str_replace('"', '\"', $row['text']);
+				if (substr($point, -1) == ';') {
+					$point = substr($point, 0, -1);
+				}
+
+				$point_parts = explode(',', $point);
+				$point_parts = array_map('trim', $point_parts);
+				$point_parts = array_slice(
+					$point_parts,
+					0,
+					$separators_number_in_sample + 1
+				);
+
+				return implode(', ', $point_parts);
 			},
 			$points
 		);
-		echo '[' . implode(', ', $points) . ']';
+		$points = array_unique($points);
+		sort($points, SORT_STRING);
+		$points = array_map(
+			function($point) {
+				$point_parts = explode(',', $point);
+				$point_parts = array_map('trim', $point_parts);
+				$label = end($point_parts);
+
+				return "{ \"label\": \"$label\", \"value\": \"$point\" }";
+			},
+			$points
+		);
+
+		echo '[ ' . implode(', ', $points) . ' ]';
 	}
 
 	public function actionCreate() {
