@@ -288,7 +288,10 @@
 						. '}'
 					)
 				),
-				'htmlOptions' => array('class' => 'form-control')
+				'htmlOptions' => array(
+					'class' => 'form-control',
+					'autofocus' => 'autofocus'
+				)
 			)
 		); ?>
 		<a
