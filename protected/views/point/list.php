@@ -37,18 +37,6 @@
 	$this->pageTitle = Yii::app()->name;
 ?>
 
-<p class = "clearfix">
-	<button
-		class = "btn btn-default pull-right age-points-button"
-		data-age-points-url = "<?= $this->createUrl('point/age') ?>">
-		<img
-			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
-			alt = "..." />
-		<span class = "glyphicon glyphicon-time"></span>
-		<span>На день назад</span>
-	</button>
-</p>
-
 <div class = "table-responsive">
 	<?php $this->widget(
 		'ext.groupgridview.GroupGridView',
@@ -271,6 +259,18 @@
 		)
 	); ?>
 </div>
+
+<p class = "clearfix">
+	<button
+		class = "btn btn-default pull-right age-points-button"
+		data-age-points-url = "<?= $this->createUrl('point/age') ?>">
+		<img
+			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-time"></span>
+		<span>На день назад</span>
+	</button>
+</p>
 
 <?= CHtml::beginForm('#', 'post', array('id' => 'point-addition-form')) ?>
 	<div class = "input-group">
