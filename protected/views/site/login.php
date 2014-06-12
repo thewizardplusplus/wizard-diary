@@ -59,7 +59,7 @@
 		) ?>
 		<script
 			src = "//codecha.org/api/challenge?k=<?=
-				Codecha::CODECHA_PUBLIC_KEY
+				Constants::CODECHA_PUBLIC_KEY
 			?>">
 		</script>
 		<?= $form->error($model, 'verify_code') ?>
