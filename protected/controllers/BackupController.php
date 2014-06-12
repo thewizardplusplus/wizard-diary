@@ -1,6 +1,10 @@
 <?php
 
+require_once "dropbox-sdk/Dropbox/autoload.php";
+
 class BackupController extends CController {
+	const DROPBOX_APP_NAME = 'wizard-diary';
+
 	public function filters() {
 		return array('accessControl', 'postOnly + create', 'ajaxOnly + create');
 	}
@@ -67,6 +71,8 @@ class BackupController extends CController {
 		if (!$result) {
 			throw new CException('Не удалось записать бекап на диск.');
 		}
+
+		$this->saveFileToDropbox($backup_path);
 	}
 
 	private static function testBackupDirectory($path) {
@@ -104,5 +110,21 @@ class BackupController extends CController {
 		return
 			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
 			. "<diary>\n$days_dump</diary>\n";
+	}
+
+	private function saveFileToDropbox($path) {
+		$file = fopen($path, 'rb');
+
+		$dropbox_client = new \Dropbox\Client(
+			Parameters::getModel()->dropbox_access_token,
+			self::DROPBOX_APP_NAME
+		);
+		$dropbox_client->uploadFile(
+			basename($path),
+			\Dropbox\WriteMode::add(),
+			$file
+		);
+
+		fclose($file);
 	}
 }

@@ -5,6 +5,7 @@
 	 * @var string $password_container_class
 	 * @var string $password_copy_container_class
 	 * @var string $points_on_page_container_class
+	 * @var string $dropbox_access_token_container_class
 	 * @var CActiveForm $form
 	 */
 
@@ -101,6 +102,23 @@
 			)
 		) ?>
 		<?= $form->error($model, 'points_on_page') ?>
+	</div>
+
+	<div class = "form-group<?= $dropbox_access_token_container_class ?>">
+		<?= $form->labelEx(
+			$model,
+			'dropbox_access_token',
+			array('class' => 'control-label')
+		) ?>
+		<?= $form->textField(
+			$model,
+			'dropbox_access_token',
+			array(
+				'class' => 'form-control',
+				'autocomplete' => 'off'
+			)
+		) ?>
+		<?= $form->error($model, 'dropbox_access_token') ?>
 	</div>
 
 	<?= CHtml::htmlButton(
