@@ -42,16 +42,29 @@ return array(
 		'clientScript' => array(
 			'packages' => array(
 				'jquery' => array(
-					'baseUrl' => '//code.jquery.com/',
-					'js' => array('jquery-2.1.0.min.js')
+					'baseUrl' => 'http://code.jquery.com/',
+					'js' => array('jquery-2.1.1.min.js')
+				),
+				'jquery.ui' => array(
+					'baseUrl' => 'http://code.jquery.com/ui/1.10.4/',
+					'js' => array('jquery-ui.min.js'),
+					'css' => array('themes/start/jquery-ui.css'),
+					'depends' => array('jquery')
+				),
+				'bootstrap' => array(
+					'baseUrl' =>
+						'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+					'js' => array('js/bootstrap.min.js'),
+					'css' => array('css/bootstrap.min.css'),
+					'depends' => array('jquery')
 				)
-			)
+ 			)
 		),
 		'widgetFactory' => array(
 			'widgets' => array(
 				'CJuiAutoComplete' => array(
-					'scriptUrl' => '//code.jquery.com/ui/1.10.4',
-					'themeUrl' => '//code.jquery.com/ui/1.10.4/themes',
+					'scriptUrl' => 'http://code.jquery.com/ui/1.10.4',
+					'themeUrl' => 'http://code.jquery.com/ui/1.10.4/themes',
 					'theme' => 'start'
 				)
 			)

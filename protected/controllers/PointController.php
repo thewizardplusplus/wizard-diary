@@ -21,7 +21,9 @@ class PointController extends CController {
 			'Point',
 			array(
 				'criteria' => array('order' => 'date, `order`'),
-				'pagination' => array('pagesize' => Constants::POINTS_ON_PAGE)
+				'pagination' => array(
+					'pagesize' => Parameters::getModel()->points_on_page
+				)
 			)
 		);
 

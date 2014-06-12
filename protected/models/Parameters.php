@@ -2,6 +2,8 @@
 
 class Parameters extends CActiveRecord {
 	const RECORD_ID = 1;
+	const POINTS_ON_PAGE_MINIMUM = 1;
+	const POINTS_ON_PAGE_MAXIMUM = 255;
 
 	public static function model() {
 		return parent::model(__CLASS__);
@@ -11,6 +13,7 @@ class Parameters extends CActiveRecord {
 		$model = Parameters::model()->findByPk(Parameters::RECORD_ID);
 		if (is_null($model)) {
 			$model = new Parameters();
+			$model->id = self::RECORD_ID;
 			$model->password_hash = CPasswordHelper::hashPassword(
 				Constants::DEFAULT_PASSWORD
 			);
@@ -22,19 +25,5 @@ class Parameters extends CActiveRecord {
 
 	public function tableName() {
 		return '{{parameters}}';
-	}
-
-	public function rules() {
-		return array(
-			array(
-				'id',
-				'default',
-				'value' => self::RECORD_ID,
-				// the attribute will always be assigned with the default value,
-				// even if it is already explicitly assigned a value
-				'setOnEmpty' => false
-			),
-			array('password_hash', 'required')
-		);
 	}
 }

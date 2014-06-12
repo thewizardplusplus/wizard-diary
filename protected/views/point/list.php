@@ -290,6 +290,7 @@
 				),
 				'htmlOptions' => array(
 					'class' => 'form-control',
+					'autocomplete' => 'off',
 					'autofocus' => 'autofocus'
 				)
 			)

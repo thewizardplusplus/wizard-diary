@@ -3,17 +3,9 @@
 	 * @var CController $this
 	 */
 
-	Yii::app()->getClientScript()->registerCssFile(
-		'//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
-	);
+	Yii::app()->getClientScript()->registerPackage('bootstrap');
 	Yii::app()->getClientScript()->registerCssFile(
 		CHtml::asset('styles/diary.css')
-	);
-
-	Yii::app()->getClientScript()->registerPackage('jquery');
-	Yii::app()->getClientScript()->registerScriptFile(
-		'//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
-		CClientScript::POS_HEAD
 	);
 	if (!Yii::app()->user->isGuest) {
 		Yii::app()->getClientScript()->registerScriptFile(

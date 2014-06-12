@@ -39,13 +39,19 @@ class ParametersController extends CController {
 			count($model->getErrors('password_copy'))
 				? ' has-error'
 				: '';
+		$points_on_page_container_class =
+			count($model->getErrors('points_on_page'))
+				? ' has-error'
+				: '';
 		$this->render(
 			'update',
 			array(
 				'model' => $model,
 				'password_container_class' => $password_container_class,
 				'password_copy_container_class' =>
-					$password_copy_container_class
+					$password_copy_container_class,
+				'points_on_page_container_class' =>
+					$points_on_page_container_class
 			)
 		);
 	}

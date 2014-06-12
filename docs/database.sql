@@ -21,5 +21,6 @@ CREATE TABLE `diary_daily_points` (
 DROP TABLE IF EXISTS `diary_parameters`;
 CREATE TABLE `diary_parameters` (
 	`id` BIGINT UNSIGNED NOT NULL DEFAULT 1 PRIMARY KEY,
-	`password_hash` TEXT NOT NULL
+	`password_hash` TEXT NOT NULL,
+	`points_on_page` TINYINT UNSIGNED NOT NULL DEFAULT 10
 ) ENGINE = MYISAM;

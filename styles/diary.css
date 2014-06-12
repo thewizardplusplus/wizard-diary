@@ -176,3 +176,7 @@ footer {
 .ui-autocomplete-loading {
 	background: url('/images/processing-icon.gif') right center no-repeat;
 }
+
+.panel {
+	padding: 10px 10px 0 10px;
+}
