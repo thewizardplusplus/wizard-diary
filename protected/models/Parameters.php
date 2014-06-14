@@ -6,8 +6,8 @@ class Parameters extends CActiveRecord {
 	const POINTS_ON_PAGE_MAXIMUM = 255;
 	const DROPBOX_ACCESS_TOKEN_LENGTH_MAXIMUM = 255;
 
-	public static function model() {
-		return parent::model(__CLASS__);
+	public static function model($class_name = __CLASS__) {
+		return parent::model($class_name);
 	}
 
 	public static function getModel() {

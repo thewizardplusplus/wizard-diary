@@ -81,8 +81,8 @@ class PointController extends CController {
 		$points = array_map(
 			function($point) {
 				$point_parts = explode(',', $point);
-				$point_parts = array_map('trim', $point_parts);
 				$label = end($point_parts);
+				$label = trim($label);
 
 				return "{ \"label\": \"$label\", \"value\": \"$point\" }";
 			},
@@ -123,6 +123,18 @@ class PointController extends CController {
 	}
 
 	public function actionAge() {
+		if (!isset($_POST['ids']) or !is_array($_POST['ids'])) {
+			throw new CHttpException(500, 'Неверные параметры запроса.');
+		}
+		foreach ($_POST['ids'] as $id) {
+			if (!is_numeric($id)) {
+				throw new CHttpException(500, 'Неверные параметры запроса.');
+			}
+		}
+
+		$ids = array_map('intval', $_POST['ids']);
+		$ids = implode(', ', $ids);
+
 		Yii::app()
 			->db
 			->createCommand(
@@ -130,7 +142,7 @@ class PointController extends CController {
 				. 'SET date = DATE_SUB(date, INTERVAL 1 DAY),'
 					. '`order` = 18446744073709551615 '
 				. 'WHERE id IN ('
-					. implode(', ', $_POST['ids'])
+					. $ids
 				. ')'
 			)
 			->execute();
@@ -141,7 +153,7 @@ class PointController extends CController {
 				'SELECT date '
 				. 'FROM {{points}} '
 				. 'WHERE id IN ('
-					. implode(', ', $_POST['ids'])
+					. $ids
 				. ')'
 			)
 			->queryAll();

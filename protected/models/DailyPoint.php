@@ -37,19 +37,25 @@ class DailyPoint extends CActiveRecord {
 	}
 
 	public function getFormattedText() {
-		$this->text = preg_replace(
-			'/^([^,]+,)\s*([^;]+);?$/',
-			'<strong>$1</strong><br />$2;',
-			$this->text
+		$text = $this->getRealText();
+		$text = preg_replace(
+			'/^([^,]+,)\s*(.+)$/',
+			'<strong>$1</strong><br />$2',
+			$text
 		);
-		$this->text = preg_replace(
+		if (!empty($text)) {
+			$text .= ';';
+		}
+		$text = str_replace('&quot;', '"', $text);
+		$text = preg_replace(
 			'/"([^"]*)"/',
 			'&laquo;$1&raquo;',
-			$this->text
+			$text
 		);
-		$this->text = preg_replace('/\s-\s/', ' &mdash; ', $this->text);
+		$text = str_replace('"', '&quot;', $text);
+		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
 
-		return $this->text;
+		return $text;
 	}
 
 	protected function beforeSave() {

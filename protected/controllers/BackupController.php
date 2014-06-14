@@ -120,11 +120,9 @@ class BackupController extends CController {
 			self::DROPBOX_APP_NAME
 		);
 		$dropbox_client->uploadFile(
-			basename($path),
+			'/' . basename($path),
 			\Dropbox\WriteMode::add(),
 			$file
 		);
-
-		fclose($file);
 	}
 }

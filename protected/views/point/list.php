@@ -284,7 +284,7 @@
 						'{'
 							. 'my: "left bottom",'
 							. 'at: "left top",'
-							. 'collision: "flipfit"'
+							. 'collision: "flip"'
 						. '}'
 					)
 				),
