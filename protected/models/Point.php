@@ -89,7 +89,7 @@ class Point extends CActiveRecord {
 		$text = $this->getRealText();
 		$text = preg_replace(
 			'/^([^,]+,)\s*(.+)$/',
-			'<strong>$1</strong><br />$2;',
+			'<strong>$1</strong><br />$2',
 			$text
 		);
 		if (!empty($text)) {

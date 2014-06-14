@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tools/database_dump_converter.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/controllers/BackupController.php" afterPath="$PROJECT_DIR$/protected/controllers/BackupController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/models/DailyPoint.php" afterPath="$PROJECT_DIR$/protected/models/DailyPoint.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/models/Parameters.php" afterPath="$PROJECT_DIR$/protected/models/Parameters.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/models/Point.php" afterPath="$PROJECT_DIR$/protected/models/Point.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/controllers/PointController.php" afterPath="$PROJECT_DIR$/protected/controllers/PointController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/diary.css" afterPath="$PROJECT_DIR$/styles/diary.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/point/list.php" afterPath="$PROJECT_DIR$/protected/views/point/list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/plan.md" afterPath="$PROJECT_DIR$/docs/plan.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="diary.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,7 +12,7 @@
     <file path="/point_list.js" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402531285620" ignored="false" />
     <file path="/ParametersController.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402595123157" ignored="false" />
     <file path="/Point.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402756298148" ignored="false" />
-    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402754763272" ignored="false" />
+    <file path="/Dummy.txt" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402763102243" ignored="false" />
     <file path="/diary.css" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402750456377" ignored="false" />
     <file path="/main.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402578577800" ignored="false" />
     <file path="/list.php" changelist="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" time="1402403782435" ignored="false" />
@@ -104,8 +95,8 @@
         <option value="$PROJECT_DIR$/protected/models/Parameters.php" />
         <option value="$PROJECT_DIR$/docs/plan.md" />
         <option value="$PROJECT_DIR$/protected/controllers/PointController.php" />
-        <option value="$PROJECT_DIR$/protected/models/Point.php" />
         <option value="$PROJECT_DIR$/protected/models/DailyPoint.php" />
+        <option value="$PROJECT_DIR$/protected/models/Point.php" />
       </list>
     </option>
   </component>
@@ -142,6 +133,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -454,15 +446,14 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -598,7 +589,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3" y="-3" width="1158" height="871" extended-state="7" />
+    <frame x="-3" y="-3" width="1158" height="871" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5458515" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -606,7 +597,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34719712" sideWeight="0.67017084" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35352623" sideWeight="0.67017084" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -731,77 +722,57 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/SiteController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="314" selection-end="314" vertical-scroll-proportion="0.3115727">
-          <folding />
-        </state>
+        <state line="14" column="0" selection-start="314" selection-end="314" vertical-scroll-proportion="0.3115727" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/site/error.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="291" selection-end="291" vertical-scroll-proportion="0.22255193">
-          <folding />
-        </state>
+        <state line="14" column="0" selection-start="291" selection-end="291" vertical-scroll-proportion="0.22255193" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/console.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="800" selection-end="800" vertical-scroll-proportion="0.8011869">
-          <folding />
-        </state>
+        <state line="36" column="0" selection-start="800" selection-end="800" vertical-scroll-proportion="0.8011869" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/ParametersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.2908012">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.2908012" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/DailyPointController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.73590505">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.73590505" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="0" selection-start="3090" selection-end="3090" vertical-scroll-proportion="0.42284867">
-          <folding />
-        </state>
+        <state line="133" column="0" selection-start="3090" selection-end="3090" vertical-scroll-proportion="0.42284867" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/selection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.13896848">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/models/Point.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="0" selection-start="2259" selection-end="2259" vertical-scroll-proportion="-21.208334">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.13896848" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/models/DailyPoint.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="1600" selection-end="1600" vertical-scroll-proportion="0.9109792">
-          <folding />
-        </state>
+        <state line="74" column="0" selection-start="1600" selection-end="1600" vertical-scroll-proportion="0.9109792" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/plan.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="18" selection-end="18" vertical-scroll-proportion="0.021489972">
+        <state line="1" column="0" selection-start="18" selection-end="18" vertical-scroll-proportion="0.021489972" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/Point.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="17" selection-start="1964" selection-end="1964" vertical-scroll-proportion="0.48813057">
           <folding />
         </state>
       </provider>
