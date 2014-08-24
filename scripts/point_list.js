@@ -16,7 +16,7 @@ $(document).ready(
 				}
 			);
 		};
-		var RequestToPointList = function(url, data) {
+		var RequestToPointList = function(url, data, callback) {
 			$.extend(data, CSRF_TOKEN);
 			point_list.yiiGridView(
 				'update',
@@ -24,7 +24,13 @@ $(document).ready(
 					type: 'POST',
 					url: url,
 					data: data,
-					success: UpdatePointList
+					success: function() {
+						UpdatePointList();
+
+						if (typeof callback == 'function') {
+							callback();
+						}
+					}
 				}
 			);
 		};
@@ -39,6 +45,13 @@ $(document).ready(
 				{
 					'Point[text]': text,
 					'Point[state]': text != '' ? 'SATISFIED' : 'INITIAL'
+				},
+				function() {
+					$('html, body').animate(
+						{
+							scrollTop: $(document).height() - $(window).height()
+						}
+					);
 				}
 			);
 		};
