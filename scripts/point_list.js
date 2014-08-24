@@ -48,16 +48,18 @@ $(document).ready(
 			autoflipping = true;
 			var Autoflip = function() {
 				var flip_buttons = $('.page-controller .next:not(.disabled) a');
+
 				if (
 					autoflipping
 					&& ($('.point-text').length == number_of_point
 					|| flip_buttons.length == 0)
 				) {
 					RequestAnimationFrame(Autoflip);
-					flip_buttons.first().click();
-					console.log('ok');
 				}
+				flip_buttons.first().click();
 			};
+
+			Autoflip();
 		};
 
 		var add_point_input = $('#Point_text');
