@@ -233,7 +233,7 @@
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' => '$data->getRowClassByState()',
-			'afterAjaxUpdate' => 'function() { PointList.initialize(); }',
+			'afterAjaxUpdate' => 'function() { PointList.afterUpdate(); }',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'

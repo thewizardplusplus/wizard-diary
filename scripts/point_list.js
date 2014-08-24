@@ -35,6 +35,31 @@ $(document).ready(
 			);
 		};
 
+		var autoflipping = false;
+		var RequestAnimationFrame =
+			requestAnimationFrame
+				|| mozRequestAnimationFrame
+				|| webkitRequestAnimationFrame
+				|| function(callback) {
+				setTimeout(callback, 1000 / 60);
+			};
+		var StartAutoflipping = function() {
+			var number_of_point = $('.point-text').length;
+			autoflipping = true;
+			var Autoflip = function() {
+				var flip_buttons = $('.page-controller .next:not(.disabled) a');
+				if (
+					autoflipping
+					&& ($('.point-text').length == number_of_point
+					|| flip_buttons.length == 0)
+				) {
+					RequestAnimationFrame(Autoflip);
+					flip_buttons.first().click();
+					console.log('ok');
+				}
+			};
+		};
+
 		var add_point_input = $('#Point_text');
 		var add_point_button = $('.add-point-button');
 		var AddPoint = function() {
@@ -52,6 +77,7 @@ $(document).ready(
 							scrollTop: $(document).height() - $(window).height()
 						}
 					);
+					StartAutoflipping();
 				}
 			);
 		};
@@ -204,6 +230,10 @@ $(document).ready(
 						return false;
 					}
 				);
+			},
+			afterUpdate: function() {
+				PointList.initialize();
+				autoflipping = false;
 			}
 		};
 
