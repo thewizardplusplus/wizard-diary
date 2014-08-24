@@ -18,7 +18,6 @@
 			'id' => 'backup-list',
 			'dataProvider' => $data_provider,
 			'template' => '{items} {pager}',
-			'hideHeader' => true,
 			'selectableRows' => 0,
 			'columns' => array(
 				array(
@@ -26,6 +25,7 @@
 					'type' => 'raw',
 					'value' => '$data->formatted_timestamp'
 				),
+				array('name' => 'Размер', 'value' => '$data->size'),
 				array(
 					'class' => 'CButtonColumn',
 					'header' => 'Скачать',

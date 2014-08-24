@@ -34,6 +34,34 @@ class BackupController extends CController {
 					'<time>'
 					. date('d.m.Y H:i:s', $backup->timestamp)
 					. '</time>';
+				$file_size = filesize($filename);
+				if ($file_size < 1024) {
+					$backup->size = $file_size . ' Б';
+				} else if ($file_size > 1024 and $file_size < 1024 * 1024) {
+					$backup->size =
+						round(
+							$file_size / 1024,
+							Constants::BACKUPS_SIZE_ACCURACY
+						)
+						. ' КиБ';
+				} else if (
+					$file_size > 1024 * 1024
+					and $file_size < 1024 * 1024 * 1024
+				) {
+					$backup->size =
+						round(
+							$file_size / (1024 * 1024),
+							Constants::BACKUPS_SIZE_ACCURACY
+						)
+						. ' МиБ';
+				} else {
+					$backup->size =
+						round(
+							$file_size / (1024 * 1024 * 1024),
+							Constants::BACKUPS_SIZE_ACCURACY
+						)
+						. ' ГиБ';
+				}
 				$backup->link = substr(
 					realpath($filename),
 					strlen($_SERVER['DOCUMENT_ROOT'])
@@ -43,13 +71,16 @@ class BackupController extends CController {
 			}
 		}
 
-		$data_provider = new CArrayDataProvider($backups, array(
-			'keyField' => 'timestamp',
-			'sort' => array(
-				'attributes' => array('timestamp'),
-				'defaultOrder' => array('timestamp' => CSort::SORT_DESC)
+		$data_provider = new CArrayDataProvider(
+			$backups,
+			array(
+				'keyField' => 'timestamp',
+				'sort' => array(
+					'attributes' => array('timestamp'),
+					'defaultOrder' => array('timestamp' => CSort::SORT_DESC)
+				)
 			)
-		));
+		);
 
 		$this->render('list', array('data_provider' => $data_provider));
 	}
