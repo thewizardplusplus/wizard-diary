@@ -2,6 +2,6 @@ RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d [OR]
-RewriteCond %{REQUEST_URI} ^/web/diary/backups/$ [NC]
+RewriteCond %{REQUEST_URI} ^/wizard-diary/backups/$ [NC]
 
 RewriteRule ^(.*)$ index.php

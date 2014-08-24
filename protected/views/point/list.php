@@ -3,10 +3,16 @@
 	 * @var PointController $this
 	 * @var Point $model
 	 * @var CActiveDataProvider $data_provider
+	 * @var int $number_of_pages
 	 */
 
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/jquery.jeditable.min.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var NUMBER_OF_PAGES = ' . $number_of_pages . ';',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(

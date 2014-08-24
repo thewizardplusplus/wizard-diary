@@ -27,15 +27,30 @@ class PointController extends CController {
 			)
 		);
 
+		$pagination = $data_provider->pagination;
+		$pagination->setItemCount($data_provider->getTotalItemCount());
+		$number_of_pages = $pagination->pageCount;
 		if (!isset($_GET['ajax']) or $_GET['ajax'] != 'point-list') {
-			$pagination = $data_provider->pagination;
-			$pagination->setItemCount($data_provider->getTotalItemCount());
-			$pagination->currentPage = $pagination->pageCount - 1;
+			$current_page = $number_of_pages - 1;
+			if (
+				isset($_GET['Point_page'])
+				and is_numeric($_GET['Point_page'])
+			) {
+				$point_page = intval($_GET['Point_page']);
+				if ($point_page >= 1 and $point_page <= $number_of_pages) {
+					$current_page = $point_page - 1;
+				}
+			}
+
+			$pagination->currentPage = $current_page;
 		}
 
 		$this->render(
 			'list',
-			array('data_provider' => $data_provider)
+			array(
+				'data_provider' => $data_provider,
+				'number_of_pages' => $number_of_pages
+			)
 		);
 	}
 

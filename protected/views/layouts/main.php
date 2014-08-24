@@ -8,6 +8,14 @@
 		CHtml::asset('styles/diary.css')
 	);
 	if (!Yii::app()->user->isGuest) {
+		Yii::app()->getClientScript()->registerScript(
+			base64_encode(uniqid(rand(), true)),
+			'var CSRF_TOKEN = {'
+				. '\'' . Yii::app()->request->csrfTokenName . '\':'
+				. '\'' . Yii::app()->request->csrfToken . '\''
+			. '};',
+			CClientScript::POS_HEAD
+		);
 		Yii::app()->getClientScript()->registerScriptFile(
 			CHtml::asset('scripts/ajax_error_dialog.js'),
 			CClientScript::POS_HEAD
@@ -30,20 +38,11 @@
 	<head>
 		<meta charset = "utf-8" />
 		<meta name = "viewport" content = "width=device-width" />
-
 		<link
 			rel = "icon"
 			type = "image/png"
 			href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
-
 		<title><?= $this->pageTitle ?></title>
-
-		<script>
-			var CSRF_TOKEN = {
-				'<?= Yii::app()->request->csrfTokenName ?>':
-					'<?= Yii::app()->request->csrfToken ?>'
-			};
-		</script>
 	</head>
 	<body>
 		<nav class = "navbar navbar-default navbar-fixed-top navbar-inverse">
