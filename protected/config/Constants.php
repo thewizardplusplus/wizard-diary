@@ -17,5 +17,8 @@ class Constants {
 	const POINTS_ON_PAGE_DEFAULT = 24;
 	// relatively at /protected/controllers
 	const BACKUPS_RELATIVE_PATH = '/../../backups';
+	const BACKUPS_CREATE_DURATION_ACCURACY = 2;
+	const BACKUPS_CREATE_SOFT_LIMIT = 0.75;
+	const BACKUPS_CREATE_HARD_LIMIT = 0.9;
 	const BACKUPS_SIZE_ACCURACY = 2;
 }

@@ -133,7 +133,7 @@
 		<section class = "container">
 			<?= $content ?>
 
-			<footer>
+			<footer class = "small-text">
 				<hr />
 				<p>
 					&copy; thewizardplusplus, <?= $copyright_years ?>

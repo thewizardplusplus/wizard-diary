@@ -20,6 +20,15 @@ class BackupController extends CController {
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
 		BackupController::testBackupDirectory($backups_path);
 
+		$backups_create_durations = array();
+		$backups_from_db = Backup::model()->findAll();
+		foreach ($backups_from_db as $backup) {
+			$backups_create_durations[$backup->create_time] = round(
+				$backup->create_duration,
+				Constants::BACKUPS_CREATE_DURATION_ACCURACY
+			);
+		}
+
 		$backups = array();
 		$filenames = scandir($backups_path);
 		foreach ($filenames as $filename) {
@@ -29,10 +38,11 @@ class BackupController extends CController {
 				and pathinfo($filename, PATHINFO_EXTENSION) == 'xml'
 			) {
 				$backup = new stdClass();
-				$backup->timestamp = filemtime($filename);
+				$timestamp = filemtime($filename);
+				$backup->timestamp = $timestamp;
 				$backup->formatted_timestamp =
 					'<time>'
-					. date('d.m.Y H:i:s', $backup->timestamp)
+						. date('d.m.Y H:i:s', $timestamp)
 					. '</time>';
 				$file_size = filesize($filename);
 				if ($file_size < 1024) {
@@ -62,6 +72,19 @@ class BackupController extends CController {
 						)
 						. ' ГиБ';
 				}
+				$create_duration = date('Y-m-d H:i:s', $timestamp);
+				if (
+					array_key_exists(
+						$create_duration,
+						$backups_create_durations
+					)
+				) {
+					$backup->create_duration = $backups_create_durations[
+						$create_duration
+					];
+				} else {
+					$backup->create_duration = '&mdash;';
+				}
 				$backup->link = substr(
 					realpath($filename),
 					strlen($_SERVER['DOCUMENT_ROOT'])
@@ -86,6 +109,8 @@ class BackupController extends CController {
 	}
 
 	public function actionCreate() {
+		$start_time = microtime(true);
+
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
 		BackupController::testBackupDirectory($backups_path);
 
@@ -104,6 +129,12 @@ class BackupController extends CController {
 		}
 
 		$this->saveFileToDropbox($backup_path);
+
+		$elapsed_time = microtime(true) - $start_time;
+		$backup = new Backup();
+		$backup->create_time = date('Y-m-d H:i:s', filemtime($backup_path));
+		$backup->create_duration = $elapsed_time;
+		$backup->save();
 	}
 
 	private static function testBackupDirectory($path) {

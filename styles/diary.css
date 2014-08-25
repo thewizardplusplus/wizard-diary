@@ -113,6 +113,12 @@ body {
 	text-align: left !important;
 }
 
+.danger .backup_create_duration,
+.warning .backup_create_duration
+{
+	font-weight: bold;
+}
+
 /* Point state menu styles. */
 .dropdown .glyphicon {
 	font-size: larger;
@@ -171,11 +177,6 @@ a.state-initial:focus {
 	background: url('/images/processing-icon.gif') right center no-repeat;
 }
 
-/* Footer styles. */
-footer {
-	font-size: smaller;
-}
-
 /* Additional styles. */
 .age-points-button,
 .input-group-addon
@@ -185,4 +186,8 @@ footer {
 
 .panel {
 	padding: 10px 10px 0 10px;
+}
+
+.small-text {
+	font-size: smaller;
 }
