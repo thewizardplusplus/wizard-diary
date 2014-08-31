@@ -1,6 +1,6 @@
 <?php
 
-require_once "dropbox-sdk/Dropbox/autoload.php";
+require_once('dropbox-sdk/Dropbox/autoload.php');
 
 class BackupController extends CController {
 	const DROPBOX_APP_NAME = 'wizard-diary';

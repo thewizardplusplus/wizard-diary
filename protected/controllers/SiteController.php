@@ -1,5 +1,7 @@
 <?php
 
+require_once('recaptcha/recaptchalib.php');
+
 class SiteController extends CController {
 	public function filters() {
 		return array('accessControl', 'postOnly + logout');
@@ -35,18 +37,19 @@ class SiteController extends CController {
 
 		if (
 			isset($_POST['LoginForm'])
-			and isset($_POST['codecha_challenge_field'])
-			and isset($_POST['codecha_response_field'])
+			and isset($_POST['recaptcha_challenge_field'])
+			and isset($_POST['recaptcha_response_field'])
 		) {
 			$model->attributes = $_POST['LoginForm'];
 			$result = $model->validate();
 			if ($result) {
-				$result = Codecha::check(
-					$_POST['codecha_challenge_field'],
-					$_POST['codecha_response_field'],
-					$_SERVER['REMOTE_ADDR']
+				$result = recaptcha_check_answer(
+					Constants::RECAPTCHA_PRIVATE_KEY,
+					$_SERVER['REMOTE_ADDR'],
+					$_POST['recaptcha_challenge_field'],
+					$_POST['recaptcha_response_field']
 				);
-				if ($result) {
+				if ($result->is_valid) {
 					$result = $model->login();
 					if ($result) {
 						$this->redirect(Yii::app()->user->returnUrl);
@@ -54,7 +57,7 @@ class SiteController extends CController {
 				} else {
 					$model->addError(
 						'verify_code',
-						'Тест Тьюринга не пройден.'
+						'Тест Тьюринга не пройден ("' . $result->error . '").'
 					);
 				}
 			}

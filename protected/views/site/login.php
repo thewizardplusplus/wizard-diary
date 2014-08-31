@@ -7,11 +7,14 @@
 	 * @var CActiveForm $form
 	 */
 
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_codecha.css')
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_codecha.js'),
+	require_once('recaptcha/recaptchalib.php');
+
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var RecaptchaOptions = {'
+			. 'theme: "white",'
+			. 'lang: "ru",'
+		. '}',
 		CClientScript::POS_HEAD
 	);
 
@@ -57,11 +60,7 @@
 			'verify_code',
 			array('class' => 'control-label')
 		) ?>
-		<script
-			src = "//codecha.org/api/challenge?k=<?=
-				Constants::CODECHA_PUBLIC_KEY
-			?>">
-		</script>
+		<?= recaptcha_get_html(Constants::RECAPTCHA_PUBLIC_KEY) ?>
 		<?= $form->error($model, 'verify_code') ?>
 	</div>
 
