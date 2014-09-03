@@ -42,6 +42,29 @@ footer hr {
 	margin-top: 10px;
 }
 
+/* Form styles. */
+form .panel {
+	padding: 10px;
+}
+
+form .panel :last-child {
+	margin-bottom: 0;
+}
+
+/* reCAPTCHA styles. */
+#recaptcha_image,
+.recaptcha-refresh {
+	margin-bottom: 10px;
+}
+
+#recaptcha_image {
+	max-width: 100%;
+}
+
+.recaptcha-refresh {
+	color: #428bca;
+}
+
 /* Grid view styles. */
 .table-responsive {
 	border: none;
@@ -182,10 +205,6 @@ a.state-initial:focus {
 .input-group-addon
 {
 	color: #428bca;
-}
-
-.panel {
-	padding: 10px 10px 0 10px;
 }
 
 .small-text {

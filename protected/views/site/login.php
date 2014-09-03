@@ -9,12 +9,8 @@
 
 	require_once('recaptcha/recaptchalib.php');
 
-	Yii::app()->getClientScript()->registerScript(
-		base64_encode(uniqid(rand(), true)),
-		'var RecaptchaOptions = {'
-			. 'theme: "white",'
-			. 'lang: "ru",'
-		. '}',
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/custom_recaptcha.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -60,8 +56,25 @@
 			'verify_code',
 			array('class' => 'control-label')
 		) ?>
-		<?= recaptcha_get_html(Constants::RECAPTCHA_PUBLIC_KEY) ?>
-		<?= $form->error($model, 'verify_code') ?>
+		<div id = "recaptcha_widget" class = "panel panel-default">
+			<div id = "recaptcha_image" class = "pull-left"></div>
+			<a
+				class = "btn btn-default pull-right recaptcha-refresh"
+				href = "#">
+				<span class = "glyphicon glyphicon-refresh"></span>
+			</a>
+
+			<input
+				id = "recaptcha_response_field"
+				class = "form-control"
+				name = "recaptcha_response_field" />
+			<?= $form->error($model, 'verify_code') ?>
+		</div>
+		<script
+			src = "http://www.google.com/recaptcha/api/challenge?k=<?=
+				Constants::RECAPTCHA_PUBLIC_KEY
+			?>">
+		</script>
 	</div>
 
 	<?= CHtml::htmlButton(

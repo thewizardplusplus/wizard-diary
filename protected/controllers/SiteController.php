@@ -57,7 +57,7 @@ class SiteController extends CController {
 				} else {
 					$model->addError(
 						'verify_code',
-						'Тест Тьюринга не пройден ("' . $result->error . '").'
+						'Тест Тьюринга не пройден.'
 					);
 				}
 			}
