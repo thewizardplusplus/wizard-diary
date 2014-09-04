@@ -10,10 +10,21 @@
 	if (!Yii::app()->user->isGuest) {
 		Yii::app()->getClientScript()->registerScript(
 			base64_encode(uniqid(rand(), true)),
-			'var CSRF_TOKEN = {'
+			'var CSRF_TOKEN_NAME = \''
+				. Yii::app()->request->csrfTokenName
+				. '\';'
+			. 'var CSRF_TOKEN = {'
 				. '\'' . Yii::app()->request->csrfTokenName . '\':'
 				. '\'' . Yii::app()->request->csrfToken . '\''
 			. '};',
+			CClientScript::POS_HEAD
+		);
+		Yii::app()->getClientScript()->registerScript(
+			base64_encode(uniqid(rand(), true)),
+			'var DROPBOX_APP_KEY = \'' . Constants::DROPBOX_APP_KEY . '\';'
+			. 'var DROPBOX_REDIRECT_URL = \''
+				. Constants::DROPBOX_REDIRECT_URL
+				. '\';',
 			CClientScript::POS_HEAD
 		);
 		Yii::app()->getClientScript()->registerScriptFile(

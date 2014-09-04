@@ -2,47 +2,21 @@ $(document).ready(
 	function() {
 		$('.create-backup-button').click(
 			function() {
-				var create_backup_button = $(this);
-				var processing_animation_image = $('img', create_backup_button);
-				var backup_icon = $('span', create_backup_button);
-
-				create_backup_button.prop('disabled', true);
-				processing_animation_image.show();
-				backup_icon.hide();
-
-				var backup_list = $('#backup-list');
-				var url = create_backup_button.data('create-backup-url');
-				var FinishAnimation = function() {
-					create_backup_button.prop('disabled', false);
-					processing_animation_image.hide();
-					backup_icon.show();
-				};
-				if (backup_list.length) {
-					backup_list.yiiGridView(
-						'update',
-						{
-							type: 'POST',
-							url: url,
-							data: CSRF_TOKEN,
-							success: function() {
-								FinishAnimation();
-								backup_list.yiiGridView(
-									'update',
-									{
-										url:
-											location.pathname
-												+ location.search
-												+ location.hash
-									}
-								);
-							}
-						}
-					);
-				} else {
-					$.post(url, CSRF_TOKEN, FinishAnimation).fail(
-						AjaxErrorDialog.handler
-					);
-				}
+				open(
+					'https://www.dropbox.com/1/oauth2/authorize?'
+						+ 'response_type=code'
+						+ '&client_id=' + DROPBOX_APP_KEY
+						+ '&redirect_uri='
+						+ encodeURIComponent(
+							location.protocol
+								+ '//'
+								+ location.host
+								+ DROPBOX_REDIRECT_URL
+							)
+						+ '&state=' + CSRF_TOKEN[CSRF_TOKEN_NAME],
+					'_blank',
+					'width=640, height=480'
+				);
 			}
 		);
 	}

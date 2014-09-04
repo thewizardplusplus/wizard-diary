@@ -3,8 +3,6 @@
 require_once('dropbox-sdk/Dropbox/autoload.php');
 
 class BackupController extends CController {
-	const DROPBOX_APP_NAME = 'wizard-diary';
-
 	public function filters() {
 		return array('accessControl', 'postOnly + create', 'ajaxOnly + create');
 	}
@@ -137,6 +135,10 @@ class BackupController extends CController {
 		$backup->save();
 	}
 
+	public function actionCloud() {
+		Yii::log(print_r($_GET, true));
+	}
+
 	private static function testBackupDirectory($path) {
 		if (!file_exists($path)) {
 			$result = mkdir($path);
@@ -179,7 +181,7 @@ class BackupController extends CController {
 
 		$dropbox_client = new \Dropbox\Client(
 			Parameters::getModel()->dropbox_access_token,
-			self::DROPBOX_APP_NAME
+			Constants::DROPBOX_APP_NAME
 		);
 		$dropbox_client->uploadFile(
 			'/' . basename($path),

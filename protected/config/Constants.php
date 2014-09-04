@@ -21,4 +21,7 @@ class Constants {
 	const BACKUPS_CREATE_SOFT_LIMIT = 0.75;
 	const BACKUPS_CREATE_HARD_LIMIT = 0.9;
 	const BACKUPS_SIZE_ACCURACY = 2;
+	const DROPBOX_APP_NAME = 'wizard-diary';
+	const DROPBOX_APP_KEY = 'x6rlynacakq8qdd';
+	const DROPBOX_REDIRECT_URL = '/wizard-diary/backup/cloud';
 }
