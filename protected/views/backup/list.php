@@ -19,6 +19,7 @@
 			'dataProvider' => $data_provider,
 			'template' => '{items} {pager}',
 			'selectableRows' => 0,
+			'enableHistory' => true,
 			'columns' => array(
 				array(
 					'name' => 'Время создания',
