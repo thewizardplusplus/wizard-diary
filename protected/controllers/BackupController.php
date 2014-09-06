@@ -126,7 +126,14 @@ class BackupController extends CController {
 			throw new CException('Не удалось записать бекап на диск.');
 		}
 
-		$this->saveFileToDropbox($backup_path);
+		if (isset($_POST['authorization_code'])) {
+			$this->saveFileToDropbox(
+				$_POST['authorization_code'],
+				$backup_path
+			);
+		} else {
+			throw new CException('Не передан авторизационный код.');
+		}
 
 		$elapsed_time = microtime(true) - $start_time;
 		$backup = new Backup();
@@ -135,8 +142,33 @@ class BackupController extends CController {
 		$backup->save();
 	}
 
-	public function actionCloud() {
-		Yii::log(print_r($_GET, true));
+	public function actionRedirect() {
+		echo '<!DOCTYPE html>';
+		echo '<meta charset = "utf-8" />';
+		echo '<title>Backup redirect page</title>';
+		echo '<script>';
+
+		echo 'if (window.opener) {';
+		if (isset($_GET['code'])) {
+			echo
+				'window.opener.Backup.create("'
+				. CHtml::encode($_GET['code'])
+				. '");';
+		} else if (
+			isset($_GET['error'])
+			and $_GET['error'] != 'access_denied'
+		) {
+			echo
+				'window.opener.Backup.error("'
+				. (isset($_GET['error_description'])
+					? CHtml::encode($_GET['error_description'])
+					: '')
+				. '");';
+		}
+		echo '}';
+		echo 'close();';
+
+		echo '</script>';
 	}
 
 	private static function testBackupDirectory($path) {
@@ -176,15 +208,59 @@ class BackupController extends CController {
 			. "<diary>\n$days_dump</diary>\n";
 	}
 
-	private function saveFileToDropbox($path) {
-		$file = fopen($path, 'rb');
+	private function saveFileToDropbox($authorization_code, $filename) {
+		$curl = curl_init('https://api.dropbox.com/1/oauth2/token');
+		if ($curl === false) {
+			throw new CException('Не удалось инициализировать cURL.');
+		}
 
+		$protocol =
+			((!empty($_SERVER['HTTPS']) and $_SERVER['HTTPS'] != 'off')
+			or $_SERVER['SERVER_PORT'] == 443)
+				? 'https://'
+				: 'http://';
+		$redirect_uri =
+			$protocol
+			. $_SERVER['HTTP_HOST']
+			. Constants::DROPBOX_REDIRECT_URL;
+
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt(
+			$curl,
+			CURLOPT_POSTFIELDS,
+			array(
+				'grant_type' => 'authorization_code',
+				'code' => $authorization_code,
+				'client_id' => Constants::DROPBOX_APP_KEY,
+				'client_secret' => Constants::DROPBOX_APP_SECRET,
+				'redirect_uri' => $redirect_uri
+			)
+		);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+		$answer = curl_exec($curl);
+		if ($answer === false) {
+			throw new CException('Не удалось получить Dropbox access token.');
+		}
+
+		$access_data = json_decode($answer, true);
+		if (
+			empty($access_data)
+			or !is_array($access_data)
+			or !array_key_exists('access_token', $access_data)
+		) {
+			throw new CException(
+				'Не удалось декодировать Dropbox access token.'
+			);
+		}
+
+		$file = fopen($filename, 'rb');
 		$dropbox_client = new \Dropbox\Client(
-			Parameters::getModel()->dropbox_access_token,
+			$access_data['access_token'],
 			Constants::DROPBOX_APP_NAME
 		);
 		$dropbox_client->uploadFile(
-			'/' . basename($path),
+			'/' . basename($filename),
 			\Dropbox\WriteMode::add(),
 			$file
 		);

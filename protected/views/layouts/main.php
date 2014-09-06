@@ -10,21 +10,10 @@
 	if (!Yii::app()->user->isGuest) {
 		Yii::app()->getClientScript()->registerScript(
 			base64_encode(uniqid(rand(), true)),
-			'var CSRF_TOKEN_NAME = \''
-				. Yii::app()->request->csrfTokenName
-				. '\';'
-			. 'var CSRF_TOKEN = {'
+			'var CSRF_TOKEN = {'
 				. '\'' . Yii::app()->request->csrfTokenName . '\':'
 				. '\'' . Yii::app()->request->csrfToken . '\''
 			. '};',
-			CClientScript::POS_HEAD
-		);
-		Yii::app()->getClientScript()->registerScript(
-			base64_encode(uniqid(rand(), true)),
-			'var DROPBOX_APP_KEY = \'' . Constants::DROPBOX_APP_KEY . '\';'
-			. 'var DROPBOX_REDIRECT_URL = \''
-				. Constants::DROPBOX_REDIRECT_URL
-				. '\';',
 			CClientScript::POS_HEAD
 		);
 		Yii::app()->getClientScript()->registerScriptFile(
@@ -100,7 +89,9 @@
 						); ?>
 						<button
 							class = "btn btn-primary navbar-btn navbar-left create-backup-button"
-							data-create-backup-url = "<?= $this->createUrl('backup/create') ?>">
+							data-create-backup-url = "<?= $this->createUrl('backup/create') ?>"
+							data-dropbox-app-key = "<?= Constants::DROPBOX_APP_KEY ?>"
+							data-dropbox-redirect-url = "<?= Constants::DROPBOX_REDIRECT_URL ?>">
 							<img
 								src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
 								alt = "..." />

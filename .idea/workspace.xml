@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527e1a0d-43ca-4eb6-b3d6-513f18cfc82d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/site/login.php" afterPath="$PROJECT_DIR$/protected/views/site/login.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/controllers/BackupController.php" afterPath="$PROJECT_DIR$/protected/controllers/BackupController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/config/Constants.php" afterPath="$PROJECT_DIR$/protected/config/Constants.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/backuping.js" afterPath="$PROJECT_DIR$/scripts/backuping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protected/views/layouts/main.php" afterPath="$PROJECT_DIR$/protected/views/layouts/main.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="diary.iws" />
@@ -65,19 +68,20 @@
         <option value="$PROJECT_DIR$/protected/controllers/SiteController.php" />
         <option value="$PROJECT_DIR$/styles/diary.css" />
         <option value="$PROJECT_DIR$/scripts/custom_recaptcha.js" />
-        <option value="$PROJECT_DIR$/protected/controllers/BackupController.php" />
-        <option value="$PROJECT_DIR$/protected/config/Constants.php" />
-        <option value="$PROJECT_DIR$/scripts/backuping.js" />
-        <option value="$PROJECT_DIR$/protected/views/layouts/main.php" />
         <option value="$PROJECT_DIR$/protected/views/site/login.php" />
+        <option value="$PROJECT_DIR$/protected/views/layouts/main.php" />
+        <option value="$PROJECT_DIR$/scripts/backuping.js" />
+        <option value="$PROJECT_DIR$/protected/config/Constants.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/BackupController.php" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="488" />
-    <option name="width" value="1146" />
-    <option name="height" value="373" />
+    <option name="x" value="-2" />
+    <option name="y" value="-3" />
+    <option name="width" value="1156" />
+    <option name="height" value="871" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -148,20 +152,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wizard-diary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recaptcha" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -582,7 +572,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="488" width="1146" height="373" extended-state="0" />
+    <frame x="-2" y="-3" width="1156" height="871" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5458515" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -591,7 +581,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39636365" sideWeight="0.67017084" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33333334" sideWeight="0.67017084" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -599,12 +589,12 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32720104" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -624,9 +614,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27439025" sideWeight="0.67017084" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -669,16 +659,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/protected/config/Constants.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="25" selection-start="861" selection-end="876" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="480" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/runtime/application.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="308" column="0" selection-start="10482" selection-end="10482" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4710" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/correcting_url.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="0" selection-start="412" selection-end="412" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="390" />
@@ -764,24 +744,9 @@
         <state line="13" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="285" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/config/main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/config/console.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="800" selection-end="800" vertical-scroll-proportion="0.8011869" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/ParametersController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.2908012" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/DailyPointController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.73590505" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/selection.js">
@@ -792,11 +757,6 @@
     <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="0" selection-start="182" selection-end="182" vertical-scroll-proportion="0.43568465" vertical-offset="0" max-vertical-offset="241" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1291" selection-end="1291" vertical-scroll-proportion="1.1643835" vertical-offset="570" max-vertical-offset="3150" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/models/DailyPoint.php">
@@ -814,11 +774,6 @@
         <state line="111" column="22" selection-start="2344" selection-end="2344" vertical-scroll-proportion="0.0" vertical-offset="1665" max-vertical-offset="2085" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/models/Backup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="8" selection-start="318" selection-end="318" vertical-scroll-proportion="-0.98630136" vertical-offset="366" max-vertical-offset="585" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/database.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="0" selection-start="1192" selection-end="1192" vertical-scroll-proportion="1.1956521" vertical-offset="235" max-vertical-offset="600" />
@@ -832,16 +787,6 @@
     <entry file="file://$PROJECT_DIR$/protected/views/backup/list.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="56" selection-start="755" selection-end="755" vertical-scroll-proportion="2.0095694" vertical-offset="0" max-vertical-offset="1380" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/dailyPoint/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="34" selection-start="1063" selection-end="1063" vertical-scroll-proportion="2.5119617" vertical-offset="0" max-vertical-offset="4215" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/parameters/update.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1935" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/point/_point_state_column.php">
@@ -864,9 +809,64 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.591837" vertical-offset="900" max-vertical-offset="3780" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/styles/diary.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="212" column="0" selection-start="2797" selection-end="2797" vertical-scroll-proportion="0.87637365" vertical-offset="2542" max-vertical-offset="3270" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/Backup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="0" selection-start="739" selection-end="739" vertical-scroll-proportion="0.6796116" vertical-offset="355" max-vertical-offset="585" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/PointController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="0" selection-start="1291" selection-end="1291" vertical-scroll-proportion="-2.215909" vertical-offset="2385" max-vertical-offset="3150" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/DailyPointController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.6619318" vertical-offset="466" max-vertical-offset="1170" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/SiteController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="1528" selection-end="1528" vertical-scroll-proportion="0.61789775" vertical-offset="525" max-vertical-offset="1410" />
+        <state line="64" column="0" selection-start="1528" selection-end="1528" vertical-scroll-proportion="0.46875" vertical-offset="630" max-vertical-offset="1410" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.703125" vertical-offset="495" max-vertical-offset="1485" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/console.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="0" selection-start="800" selection-end="800" vertical-scroll-proportion="0.76704544" vertical-offset="0" max-vertical-offset="704" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="0" selection-start="2068" selection-end="2068" vertical-scroll-proportion="1.609375" vertical-offset="127" max-vertical-offset="1350" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/parameters/update.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.4474432" vertical-offset="315" max-vertical-offset="1935" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/dailyPoint/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="279" column="0" selection-start="7256" selection-end="7256" vertical-scroll-proportion="0.87215906" vertical-offset="3511" max-vertical-offset="4215" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="234" column="69" selection-start="6318" selection-end="6318" vertical-scroll-proportion="-0.81107956" vertical-offset="4006" max-vertical-offset="5250" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/daily_point_list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="998" selection-end="998" vertical-scroll-proportion="-1.8543956" vertical-offset="2115" max-vertical-offset="2850" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/correcting_url.js">
@@ -874,56 +874,44 @@
         <state line="25" column="0" selection-start="608" selection-end="608" vertical-scroll-proportion="0.5151099" vertical-offset="0" max-vertical-offset="728" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/styles/diary.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="212" column="0" selection-start="2797" selection-end="2797" vertical-scroll-proportion="0.87637365" vertical-offset="2542" max-vertical-offset="3270" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/custom_recaptcha.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="0" selection-start="759" selection-end="759" vertical-scroll-proportion="0.6593407" vertical-offset="0" max-vertical-offset="728" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/runtime/application.log">
+    <entry file="file://$PROJECT_DIR$/scripts/ajax_error_dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="354" column="0" selection-start="14576" selection-end="14576" vertical-scroll-proportion="-16.073732" vertical-offset="8798" max-vertical-offset="9105" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/BackupController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="0" selection-start="4708" selection-end="4708" vertical-scroll-proportion="0.5631068" vertical-offset="2764" max-vertical-offset="2970" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/point_list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1134" selection-end="1134" vertical-scroll-proportion="0.5869565" vertical-offset="630" max-vertical-offset="3750" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/backuping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="54" selection-start="362" selection-end="362" vertical-scroll-proportion="0.73913044" vertical-offset="25" max-vertical-offset="435" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/config/Constants.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="960" selection-end="960" vertical-scroll-proportion="0.5631068" vertical-offset="289" max-vertical-offset="495" />
+        <state line="38" column="0" selection-start="866" selection-end="866" vertical-scroll-proportion="0.78296703" vertical-offset="0" max-vertical-offset="728" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/layouts/main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="848" selection-end="848" vertical-scroll-proportion="0.9222798" vertical-offset="212" max-vertical-offset="2940" />
+        <state line="94" column="0" selection-start="2670" selection-end="2670" vertical-scroll-proportion="0.23878437" vertical-offset="1215" max-vertical-offset="2805" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/point/list.php">
+    <entry file="file://$PROJECT_DIR$/scripts/point_list.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="234" column="69" selection-start="6318" selection-end="6318" vertical-scroll-proportion="14.708738" vertical-offset="405" max-vertical-offset="5250" />
+        <state line="19" column="39" selection-start="452" selection-end="452" vertical-scroll-proportion="0.39528432" vertical-offset="0" max-vertical-offset="3750" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/site/login.php">
+    <entry file="file://$PROJECT_DIR$/protected/config/Constants.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="0" selection-start="2068" selection-end="2068" vertical-scroll-proportion="2.631068" vertical-offset="718" max-vertical-offset="1350">
-          <folding />
-        </state>
+        <state line="28" column="0" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.6025825" vertical-offset="0" max-vertical-offset="697" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/backuping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.33287102" vertical-offset="0" max-vertical-offset="1110" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/runtime/application.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="722" column="0" selection-start="43656" selection-end="43656" vertical-scroll-proportion="0.87288135" vertical-offset="10212" max-vertical-offset="10920" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/BackupController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="268" column="0" selection-start="6601" selection-end="6601" vertical-scroll-proportion="2.4548063" vertical-offset="2309" max-vertical-offset="4110" />
       </provider>
     </entry>
   </component>

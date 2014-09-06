@@ -23,5 +23,6 @@ class Constants {
 	const BACKUPS_SIZE_ACCURACY = 2;
 	const DROPBOX_APP_NAME = 'wizard-diary';
 	const DROPBOX_APP_KEY = 'x6rlynacakq8qdd';
-	const DROPBOX_REDIRECT_URL = '/wizard-diary/backup/cloud';
+	const DROPBOX_APP_SECRET = '0reo4do1xbtqm7f';
+	const DROPBOX_REDIRECT_URL = '/wizard-diary/backup/redirect';
 }
