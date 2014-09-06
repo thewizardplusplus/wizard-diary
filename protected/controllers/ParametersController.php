@@ -43,10 +43,6 @@ class ParametersController extends CController {
 			count($model->getErrors('points_on_page'))
 				? ' has-error'
 				: '';
-		$dropbox_access_token_container_class =
-			count($model->getErrors('dropbox_access_token'))
-				? ' has-error'
-				: '';
 		$this->render(
 			'update',
 			array(
@@ -55,9 +51,7 @@ class ParametersController extends CController {
 				'password_copy_container_class' =>
 					$password_copy_container_class,
 				'points_on_page_container_class' =>
-					$points_on_page_container_class,
-				'dropbox_access_token_container_class' =>
-					$dropbox_access_token_container_class
+					$points_on_page_container_class
 			)
 		);
 	}
