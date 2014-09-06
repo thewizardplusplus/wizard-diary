@@ -45,7 +45,7 @@
 		<?= $form->passwordField(
 			$model,
 			'password',
-			array('class' => 'form-control')
+			array('class' => 'form-control', 'tabindex' => 1)
 		) ?>
 		<?= $form->error($model, 'password') ?>
 	</div>
@@ -60,14 +60,16 @@
 			<div id = "recaptcha_image" class = "pull-left"></div>
 			<a
 				class = "btn btn-default pull-right recaptcha-refresh"
-				href = "#">
+				href = "#"
+				tabindex = "4">
 				<span class = "glyphicon glyphicon-refresh"></span>
 			</a>
 
 			<input
 				id = "recaptcha_response_field"
 				class = "form-control"
-				name = "recaptcha_response_field" />
+				name = "recaptcha_response_field"
+				tabindex = "2" />
 			<?= $form->error($model, 'verify_code') ?>
 		</div>
 		<script
@@ -81,7 +83,8 @@
 		'<span class = "glyphicon glyphicon-log-in"></span> Вход',
 		array(
 			'class' => 'btn btn-primary login-button',
-			'type' => 'submit'
+			'type' => 'submit',
+			'tabindex' => 3
 		)
 	) ?>
 <?php $this->endWidget(); ?>
