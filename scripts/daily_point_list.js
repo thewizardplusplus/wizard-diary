@@ -14,7 +14,7 @@ $(document).ready(
 				}
 			);
 		};
-		var RequestToPointList = function(url, data) {
+		var RequestToPointList = function(url, data, callback) {
 			$.extend(data, CSRF_TOKEN);
 			point_list.yiiGridView(
 				'update',
@@ -22,7 +22,13 @@ $(document).ready(
 					type: 'POST',
 					url: url,
 					data: data,
-					success: UpdatePointList
+					success: function() {
+						UpdatePointList();
+
+						if (typeof callback == 'function') {
+							callback();
+						}
+					}
 				}
 			);
 		};
@@ -34,7 +40,14 @@ $(document).ready(
 			add_point_input.val('');
 			RequestToPointList(
 				add_point_button.attr('href'),
-				{ 'DailyPoint[text]': text }
+				{ 'DailyPoint[text]': text },
+				function() {
+					$('html, body').animate(
+						{
+							scrollTop: $(document).height() - $(window).height()
+						}
+					);
+				}
 			);
 		};
 		add_point_button.click(
