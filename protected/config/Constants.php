@@ -10,8 +10,8 @@ class Constants {
 	const DATABASE_PASSWORD = '';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const DEFAULT_PASSWORD = 'admin';
-	const RECAPTCHA_PUBLIC_KEY = '6Ldu-OgSAAAAAH2aZxu-NBcr0CIwwkYdK_GJ52rv';
-	const RECAPTCHA_PRIVATE_KEY = '6Ldu-OgSAAAAAEVoUmDuwQmUAwG1qx_g59sp8IrU';
+	const RECAPTCHA_PUBLIC_KEY = '6Lcm7_kSAAAAABWsfXQjmzXIc867ukoIpLi5m9X2';
+	const RECAPTCHA_PRIVATE_KEY = '6Lcm7_kSAAAAAFpu9z5F2uEbbldK--dNXSZ-ZFq1';
 	const COPYRIGHT_START_YEAR = 2014;
 	const DAYS_IN_MY_YEAR = 300;
 	const POINTS_ON_PAGE_DEFAULT = 24;
@@ -21,8 +21,8 @@ class Constants {
 	const BACKUPS_CREATE_SOFT_LIMIT = 0.75;
 	const BACKUPS_CREATE_HARD_LIMIT = 0.9;
 	const BACKUPS_SIZE_ACCURACY = 2;
-	const DROPBOX_APP_NAME = 'wizard-diary';
-	const DROPBOX_APP_KEY = 'x6rlynacakq8qdd';
-	const DROPBOX_APP_SECRET = '0reo4do1xbtqm7f';
+	const DROPBOX_APP_NAME = 'wizard-diary-debug';
+	const DROPBOX_APP_KEY = 'd4m4a42cz57tuh0';
+	const DROPBOX_APP_SECRET = 'jpblp3axnke90hx';
 	const DROPBOX_REDIRECT_URL = '/wizard-diary/backup/redirect';
 }

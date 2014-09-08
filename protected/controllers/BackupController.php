@@ -193,9 +193,11 @@ class BackupController extends CController {
 			$state = $point->state;
 			$check = $point->check ? ' check = "true"' : '';
 			$text =
-				'<![CDATA['
-				. str_replace(']]>', ']]]><![CDATA[]>', $point->text)
-				. ']]>';
+				!empty($point->text)
+					? '<![CDATA['
+						. str_replace(']]>', ']]]><![CDATA[]>', $point->text)
+						. ']]>'
+					: '';
 
 			$days[$point->date] .=
 				"\t\t<point state = \"$state\"$check>$text</point>\n";
