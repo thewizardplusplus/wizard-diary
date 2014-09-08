@@ -73,7 +73,7 @@
 			<?= $form->error($model, 'verify_code') ?>
 		</div>
 		<script
-			src = "http://www.google.com/recaptcha/api/challenge?k=<?=
+			src = "https://www.google.com/recaptcha/api/challenge?k=<?=
 				Constants::RECAPTCHA_PUBLIC_KEY
 			?>">
 		</script>

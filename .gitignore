@@ -1,4 +1,6 @@
 *~
+/.idea/
 /assets/
 /backups/
+/docs/ssl/
 /protected/runtime/

@@ -42,18 +42,18 @@ return array(
 		'clientScript' => array(
 			'packages' => array(
 				'jquery' => array(
-					'baseUrl' => 'http://code.jquery.com/',
+					'baseUrl' => 'https://code.jquery.com/',
 					'js' => array('jquery-2.1.1.min.js')
 				),
 				'jquery.ui' => array(
-					'baseUrl' => 'http://code.jquery.com/ui/1.10.4/',
+					'baseUrl' => 'https://code.jquery.com/ui/1.10.4/',
 					'js' => array('jquery-ui.min.js'),
 					'css' => array('themes/start/jquery-ui.css'),
 					'depends' => array('jquery')
 				),
 				'bootstrap' => array(
 					'baseUrl' =>
-						'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+						'https://netdna.bootstrapcdn.com/bootstrap/3.1.1/',
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
@@ -63,8 +63,8 @@ return array(
 		'widgetFactory' => array(
 			'widgets' => array(
 				'CJuiAutoComplete' => array(
-					'scriptUrl' => 'http://code.jquery.com/ui/1.10.4',
-					'themeUrl' => 'http://code.jquery.com/ui/1.10.4/themes',
+					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
+					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
 					'theme' => 'start'
 				)
 			)
