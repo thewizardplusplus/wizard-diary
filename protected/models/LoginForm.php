@@ -6,7 +6,7 @@ class LoginForm extends CFormModel {
 	public function rules() {
 		return array(
 			array('password', 'required'),
-			array('password', 'authenticate', 'skipOnError' => true)
+			array('password', 'validatePassword', 'skipOnError' => true)
 		);
 	}
 
@@ -17,7 +17,7 @@ class LoginForm extends CFormModel {
 		);
 	}
 
-	public function authenticate() {
+	public function validatePassword() {
 		if (
 			!CPasswordHelper::verifyPassword(
 				$this->password,

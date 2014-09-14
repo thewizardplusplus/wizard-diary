@@ -9,7 +9,7 @@ class SiteController extends CController {
 
 	public function accessRules() {
 		return array(
-			array('allow', 'actions' => array('error', 'login')),
+			array('allow', 'actions' => array('error', 'login', 'accessCode')),
 			array('allow', 'users' => array('admin')),
 			array('deny')
 		);
@@ -78,6 +78,39 @@ class SiteController extends CController {
 				'password_container_class' => $password_container_class,
 				'verify_code_container_class' => $verify_code_container_class
 			)
+		);
+	}
+
+	public function actionAccessCode() {
+		if (!Yii::app()->user->isGuest) {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+
+		$model = new AccessCodeForm();
+
+		if (isset($_POST['ajax']) and $_POST['ajax'] == 'access-code-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		if (isset($_POST['AccessCodeForm'])) {
+			$model->attributes = $_POST['AccessCodeForm'];
+			$result = $model->validate();
+			if ($result) {
+
+			}
+		}
+
+		$access_code_container_class =
+			count($model->getErrors('access_code'))
+				? 'has-error'
+				: '';
+		$this->render(
+			 'access_code',
+			 array(
+				 'model' => $model,
+				 'access_code_container_class' => $access_code_container_class
+			 )
 		);
 	}
 
