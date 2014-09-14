@@ -35,14 +35,14 @@ class SiteController extends CController {
 			Yii::app()->end();
 		}
 
-		if (
-			isset($_POST['LoginForm'])
-			and isset($_POST['recaptcha_challenge_field'])
-			and isset($_POST['recaptcha_response_field'])
-		) {
+		if (isset($_POST['LoginForm'])) {
 			$model->attributes = $_POST['LoginForm'];
 			$result = $model->validate();
-			if ($result) {
+			if (
+				$result
+				and isset($_POST['recaptcha_challenge_field'])
+				and isset($_POST['recaptcha_response_field'])
+			) {
 				$result = recaptcha_check_answer(
 					Constants::RECAPTCHA_PRIVATE_KEY,
 					$_SERVER['REMOTE_ADDR'],

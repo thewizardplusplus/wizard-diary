@@ -26,6 +26,8 @@
 	array(
 		'id' => 'login-form',
 		'focus' => array($model, 'password'),
+		'enableAjaxValidation' => true,
+		'enableClientValidation' => true,
 		'errorMessageCssClass' => 'alert alert-danger'
 	)
 ); ?>
