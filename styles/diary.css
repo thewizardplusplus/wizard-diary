@@ -65,6 +65,13 @@ form .panel :last-child {
 	color: #428bca;
 }
 
+/* AJAX request process animation styles. */
+.resend-access-code-button img,
+.create-backup-button img {
+	display: none;
+	height: 18px;
+}
+
 /* Grid view styles. */
 .table-responsive {
 	border: none;
@@ -89,11 +96,6 @@ body {
 .navbar-form {
 	margin-right: 0 !important;
 	padding-right: 0;
-}
-
-.navbar-btn img {
-	display: none;
-	height: 18px;
 }
 
 /* Verify code styles. */

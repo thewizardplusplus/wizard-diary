@@ -6,6 +6,11 @@
 	 * @var CActiveForm $form
 	 */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_code_resender.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Проверка кода доступа';
 ?>
 
@@ -13,9 +18,22 @@
 	<h4>Проверка кода доступа</h4>
 </header>
 
-<p class = "alert alert-info">
-	На твой телефон был выслан код доступа. Введи его в поле ниже.
-</p>
+<div class = "alert alert-info clearfix">
+	<p>На твой телефон был выслан код доступа. Введи его в поле ниже.</p>
+	<p>
+		<button
+			class = "btn btn-default resend-access-code-button"
+			data-resend-access-code-url = "<?= $this->createUrl(
+				'site/resendAccessCode'
+			) ?>">
+			<img
+				src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
+				alt = "..." />
+			<span class = "glyphicon glyphicon-refresh"></span>
+			<span>Выслать ещё раз</span>
+		</button>
+	</p>
+</div>
 
 <?php $form = $this->beginWidget(
 	'CActiveForm',
@@ -49,7 +67,7 @@
 	</div>
 
 	<?= CHtml::htmlButton(
-		'<span class = "glyphicon glyphicon-log-in"></span> Проверить',
+		'<span class = "glyphicon glyphicon-lock"></span> Проверить',
 		array(
 			'class' => 'btn btn-primary',
 			'type' => 'submit'

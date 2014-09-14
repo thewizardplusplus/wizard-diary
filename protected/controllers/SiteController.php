@@ -5,12 +5,24 @@ require_once('sms-ru/src/smsru.php');
 
 class SiteController extends CController {
 	public function filters() {
-		return array('accessControl', 'postOnly + logout');
+		return array(
+			'accessControl',
+			'postOnly + resendAccessCode, logout',
+			'ajaxOnly + resendAccessCode'
+		);
 	}
 
 	public function accessRules() {
 		return array(
-			array('allow', 'actions' => array('error', 'login', 'accessCode')),
+			array(
+				'allow',
+				'actions' => array(
+					'error',
+					'login',
+					'accessCode',
+					'resendAccessCode'
+				)
+			),
 			array('allow', 'users' => array('admin')),
 			array('deny')
 		);
@@ -117,6 +129,12 @@ class SiteController extends CController {
 				'access_code_container_class' => $access_code_container_class
 			)
 		);
+	}
+
+	public function actionResendAccessCode() {
+		if (!is_null(Yii::app()->session['ACCESS_CODE'])) {
+			$this->sendAccessCode();
+		}
 	}
 
 	public function actionLogout() {
