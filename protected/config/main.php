@@ -17,6 +17,7 @@ return array(
 			'showScriptName' => false,
 			'rules' => array(
 				'login' => 'site/login',
+				'access-code' => 'site/accessCode',
 				'points' => 'point/list',
 				'point/<id:\d+>/update' => 'point/update',
 				'point/<id:\d+>/delete' => 'point/delete',
@@ -38,6 +39,11 @@ return array(
 			'password' => Constants::DATABASE_PASSWORD,
 			'charset' => 'utf8',
 			'tablePrefix' => Constants::DATABASE_TABLE_PREFIX
+		),
+		'session' => array(
+			'class' => 'CDbHttpSession',
+			'connectionID' => 'db',
+			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions'
 		),
 		'clientScript' => array(
 			'packages' => array(

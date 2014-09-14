@@ -27,8 +27,4 @@ class LoginForm extends CFormModel {
 			$this->addError('password', 'Неверный пароль.');
 		}
 	}
-
-	public function login() {
-		return Yii::app()->user->login(new DummyUserIdentity());
-	}
 }
