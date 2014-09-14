@@ -18,17 +18,17 @@ class LoginForm extends CFormModel {
 	}
 
 	public function authenticate() {
-		$this->identity = new UserIdentity($this->password);
-		$this->identity->authenticate();
-
-		if ($this->identity->errorCode != UserIdentity::ERROR_NONE) {
+		if (
+			!CPasswordHelper::verifyPassword(
+				$this->password,
+				Parameters::getModel()->password_hash
+			)
+		) {
 			$this->addError('password', 'Неверный пароль.');
 		}
 	}
 
 	public function login() {
-		return Yii::app()->user->login($this->identity);
+		return Yii::app()->user->login(new DummyUserIdentity());
 	}
-
-	private $identity;
 }
