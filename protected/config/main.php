@@ -95,5 +95,6 @@ return array(
 			)
 		),
 		'errorHandler' => array('errorAction' => 'site/error')
-	)
+	),
+	'onBeginRequest' => array('AccessLogger', 'log')
 );
