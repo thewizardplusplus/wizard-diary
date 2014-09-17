@@ -10,6 +10,8 @@ class AccessLogRecord extends CActiveRecord {
 
 		$this->ip = Yii::app()->request->userHostAddress;
 		$this->user_agent = Yii::app()->request->userAgent;
+		$this->method = Yii::app()->request->requestType;
+		$this->url = Yii::app()->request->url;
 	}
 
 	public function tableName() {
@@ -19,6 +21,7 @@ class AccessLogRecord extends CActiveRecord {
 	protected function beforeSave() {
 		$result = parent::beforeSave();
 		if ($result) {
+			// disable updating
 			$result = $this->isNewRecord;
 		}
 
