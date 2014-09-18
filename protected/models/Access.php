@@ -1,6 +1,6 @@
 <?php
 
-class AccessLogRecord extends CActiveRecord {
+class Access extends CActiveRecord {
 	public static function model($class_name = __CLASS__) {
 		return parent::model($class_name);
 	}
@@ -15,7 +15,15 @@ class AccessLogRecord extends CActiveRecord {
 	}
 
 	public function tableName() {
-		return '{{access_log}}';
+		return '{{accesses}}';
+	}
+
+	public function getFormattedTimestamp() {
+		$parts = explode(' ', $this->timestamp);
+		return
+			implode('.', array_reverse(explode('-', $parts[0])))
+			. '&nbsp;'
+			. $parts[1];
 	}
 
 	protected function beforeSave() {

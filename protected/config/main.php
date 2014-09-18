@@ -7,9 +7,10 @@ return array(
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
+		'application.config.Constants',
+		'application.controllers.AccessController',
 		'application.models.*',
-		'application.components.*',
-		'application.config.Constants'
+		'application.components.*'
 	),
 	'components' => array(
 		'urlManager' => array(
@@ -25,7 +26,8 @@ return array(
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
 				'backups' => 'backup/list',
-				'parameters' => 'parameters/update'
+				'parameters' => 'parameters/update',
+				'accesses' => 'access/list'
 			)
 		),
 		'db' => array(
@@ -96,5 +98,5 @@ return array(
 		),
 		'errorHandler' => array('errorAction' => 'site/error')
 	),
-	'onBeginRequest' => array('AccessLogger', 'log')
+	'onBeginRequest' => array('AccessController', 'accessProcess')
 );

@@ -26,6 +26,10 @@
 	margin: 0 0 10px !important;
 }
 
+.summary {
+	margin: 10px 0 0 !important;
+}
+
 .pagination {
 	margin: 10px 0 0;
 }
@@ -211,4 +215,8 @@ a.state-initial:focus {
 
 .small-text {
 	font-size: smaller;
+}
+
+.backups-legend {
+	margin-top: 10px;
 }

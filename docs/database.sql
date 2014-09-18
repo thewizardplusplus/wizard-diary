@@ -32,8 +32,8 @@ CREATE TABLE `diary_parameters` (
 	`points_on_page` TINYINT UNSIGNED NOT NULL DEFAULT 24
 ) ENGINE = MYISAM;
 
-DROP TABLE IF EXISTS `diary_access_log`;
-CREATE TABLE `diary_access_log` (
+DROP TABLE IF EXISTS `diary_accesses`;
+CREATE TABLE `diary_accesses` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`ip` VARCHAR(15) NOT NULL DEFAULT '0.0.0.0',
 	`user_agent` TEXT NOT NULL,

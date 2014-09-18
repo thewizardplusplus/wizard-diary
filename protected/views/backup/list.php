@@ -11,26 +11,26 @@
 	<h4>Бекапы</h4>
 </header>
 
-<div class = "table-responsive">
+<div class = "table-responsive clearfix">
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
 		array(
 			'id' => 'backup-list',
 			'dataProvider' => $data_provider,
-			'template' => '{items} {pager}',
+			'template' => '{items} {summary} {pager}',
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
 				array(
-					'name' => 'Время создания',
-					'type' => 'raw',
-					'value' => '$data->formatted_timestamp'
+					'header' => 'Время создания',
+					'name' => 'formatted_timestamp',
+					'type' => 'raw'
 				),
-				array('name' => 'Размер', 'value' => '$data->size'),
+				array('header' => 'Размер', 'name' => 'size'),
 				array(
-					'name' => 'Длительность создания*, с',
+					'header' => 'Длительность создания*, с',
+					'name' => 'create_duration',
 					'type' => 'raw',
-					'value' => '$data->create_duration',
 					'htmlOptions' => array('class' => 'backup_create_duration')
 				),
 				array(
@@ -53,11 +53,13 @@
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' =>
 				'Backup::getRowClassByCreateDuration($data->create_duration)',
+			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
 			'emptyText' => 'Нет бекапов.',
+			'summaryText' => 'Бекапы {start}-{end} из {count}.',
 			'pager' => array(
 				'header' => '',
 				'firstPageLabel' => '&lt;&lt;',
@@ -73,7 +75,7 @@
 	); ?>
 </div>
 
-<p class = "small-text">
+<p class = "small-text backups-legend">
 	* Максимальная длительность исполнения скрипта на сервере &mdash;
 	<strong><?php
 		$maximal_execution_time = ini_get('max_execution_time');

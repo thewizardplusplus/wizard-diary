@@ -98,22 +98,37 @@
 								alt = "..." />
 							<span class = "glyphicon glyphicon-compressed">
 							</span>
-							<span>Создать бекап</span>
 						</button>
-						<?php $this->widget(
-							'zii.widgets.CMenu',
-							array(
-								'items' => array(
+						<ul class = "nav navbar-nav">
+							<li class = "dropdown">
+								<a
+									href = "#"
+									class = "dropdown-toggle"
+									data-toggle = "dropdown">
+									Прочее <span class = "caret"></span>
+								</a>
+								<?php $this->widget(
+									'zii.widgets.CMenu',
 									array(
-										'label' => 'Параметры',
-										'url' => array('parameters/update')
+										'items' => array(
+											array(
+												'label' => 'Параметры',
+												'url' => array(
+													'parameters/update'
+												)
+											),
+											array(
+												'label' => 'Лог доступа',
+												'url' => array('access/list')
+											)
+										),
+										'htmlOptions' => array(
+											'class' => 'dropdown-menu'
+										)
 									)
-								),
-								'htmlOptions' => array(
-									'class' => 'nav navbar-nav'
-								)
-							)
-						); ?>
+								); ?>
+							</li>
+						</ul>
 						<?= CHtml::beginForm(
 							$this->createUrl('site/logout'),
 							'post',
