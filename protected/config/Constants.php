@@ -30,4 +30,7 @@ class Constants {
 	const ACCESS_CODE_LENGTH = 5;
 	// 5 minute
 	const ACCESS_LOG_LIFETIME_IN_S = 300;
+	// 1 minute
+	const LOGIN_LIMIT_TIME_WINDOW_IN_S = 60;
+	const LOGIN_LIMIT_MAXIMAL_COUNT = 12;
 }
