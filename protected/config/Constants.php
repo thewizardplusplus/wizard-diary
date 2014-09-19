@@ -28,4 +28,6 @@ class Constants {
 	const SMS_RU_LOGIN = '79307808612';
 	const SMS_RU_PASSWORD = '';
 	const ACCESS_CODE_LENGTH = 5;
+	// 5 minute
+	const ACCESS_LOG_LIFETIME_IN_S = 300;
 }

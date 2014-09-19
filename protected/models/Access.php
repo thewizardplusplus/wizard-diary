@@ -5,15 +5,6 @@ class Access extends CActiveRecord {
 		return parent::model($class_name);
 	}
 
-	public function __construct() {
-		parent::__construct();
-
-		$this->ip = Yii::app()->request->userHostAddress;
-		$this->user_agent = Yii::app()->request->userAgent;
-		$this->method = Yii::app()->request->requestType;
-		$this->url = Yii::app()->request->url;
-	}
-
 	public function tableName() {
 		return '{{accesses}}';
 	}
@@ -31,6 +22,11 @@ class Access extends CActiveRecord {
 		if ($result) {
 			// disable updating
 			$result = $this->isNewRecord;
+
+			$this->ip = Yii::app()->request->userHostAddress;
+			$this->user_agent = Yii::app()->request->userAgent;
+			$this->method = Yii::app()->request->requestType;
+			$this->url = Yii::app()->request->url;
 		}
 
 		return $result;
