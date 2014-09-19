@@ -13,7 +13,7 @@
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
-		'ext.groupgridview.GroupGridView',
+		'zii.widgets.grid.CGridView',
 		array(
 			'id' => 'access-list',
 			'dataProvider' => $data_provider,
@@ -22,22 +22,20 @@
 			'enableHistory' => true,
 			'columns' => array(
 				array(
-					'header' => 'Время',
+					'header' => 'IP',
+					'name' => 'ip'
+				),
+				array(
+					'header' => 'User-Agent',
+					'name' => 'user_agent'
+				),
+				array(
+					'header' => 'Время последнего доступа',
 					'value' =>
 						'"<time>"'
 						. '. $data->getFormattedTimestamp()'
 						. '. "</time>"',
 					'type' => 'raw'
-				),
-				array(
-					'header' => 'Метод',
-					'name' => 'method'
-				),
-				array(
-					'class' => 'CLinkColumn',
-					'header' => 'URL',
-					'labelExpression' => '$data->url',
-					'urlExpression' => '$data->url'
 				)
 			),
 			'itemsCssClass' => 'table',
@@ -59,9 +57,7 @@
 				'hiddenPageCssClass' => 'disabled',
 				'htmlOptions' => array('class' => 'pagination')
 			),
-			'pagerCssClass' => 'page-controller',
-			'extraRowColumns' => array('ip', 'user_agent'),
-			'extraRowPos' => 'above',
+			'pagerCssClass' => 'page-controller'
 		)
 	); ?>
 </div>

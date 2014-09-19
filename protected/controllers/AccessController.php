@@ -42,7 +42,9 @@ class AccessController extends CController {
 			'Access',
 			array(
 				'criteria' => array(
-					'order' => 'ip, user_agent, timestamp DESC'
+					'select' => 'ip, user_agent, MAX(timestamp) AS timestamp',
+					'group' => 'ip, user_agent',
+					'order' => 'timestamp DESC'
 				),
 				'sort' => false
 			)
