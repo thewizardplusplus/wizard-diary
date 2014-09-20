@@ -27,7 +27,7 @@ class AccessController extends CController {
 	}
 
 	public function filters() {
-		return array('accessControl');
+		return array('accessControl', 'ajaxOnly + decodeUserAgent');
 	}
 
 	public function accessRules() {
@@ -50,5 +50,22 @@ class AccessController extends CController {
 			)
 		);
 		$this->render('list', array('data_provider' => $data_provider));
+	}
+
+	public function actionDecodeUserAgent($user_agent) {
+		$answer = file_get_contents(
+			'http://useragentstring.com/?uas=' . $user_agent
+			. '&getJSON='
+				. 'agent_type'
+				. '-agent_name'
+				. '-agent_version'
+				. '-os_type'
+				. '-os_name'
+				. '-os_versionName'
+				. '-os_versionNumber'
+				. '-linux_distibution'
+		);
+
+		echo !empty($answer) ? $answer : 'null';
 	}
 }

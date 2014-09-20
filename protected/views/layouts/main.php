@@ -16,11 +16,11 @@
 		. '};',
 		CClientScript::POS_HEAD
 	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ajax_error_dialog.js'),
-		CClientScript::POS_HEAD
-	);
 	if (!Yii::app()->user->isGuest) {
+		Yii::app()->getClientScript()->registerScriptFile(
+			CHtml::asset('scripts/ajax_error_dialog.js'),
+			CClientScript::POS_HEAD
+		);
 		Yii::app()->getClientScript()->registerScriptFile(
 			CHtml::asset('scripts/backuping.js'),
 			CClientScript::POS_HEAD

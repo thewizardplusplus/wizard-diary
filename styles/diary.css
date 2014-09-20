@@ -220,3 +220,7 @@ a.state-initial:focus {
 .backups-legend {
 	margin-top: 10px;
 }
+
+.additional-info {
+	color: #888;
+}

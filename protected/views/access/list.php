@@ -4,6 +4,19 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/countries_codes.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/ajax_error_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_data_loader.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Лог доступа';
 ?>
 
@@ -23,11 +36,13 @@
 			'columns' => array(
 				array(
 					'header' => 'IP',
-					'name' => 'ip'
+					'name' => 'ip',
+					'htmlOptions' => array('class' => 'access-ip')
 				),
 				array(
 					'header' => 'User-Agent',
-					'name' => 'user_agent'
+					'name' => 'user_agent',
+					'htmlOptions' => array('class' => 'access-user-agent')
 				),
 				array(
 					'header' => 'Время последнего доступа',
@@ -38,9 +53,22 @@
 					'type' => 'raw'
 				)
 			),
+			'rowHtmlOptionsExpression' => 'array('
+				. '"class" => "access-data",'
+				. '"data-ip" => CHtml::encode($data->ip),'
+				. '"data-user-agent" => CHtml::encode($data->user_agent),'
+				. '"data-decode-user-agent-url" =>'
+					. '$this->controller->createUrl('
+						. '"access/decodeUserAgent",'
+						. 'array('
+							. '"user_agent" => rawurlencode($data->user_agent)'
+						. ')'
+					. ')'
+			. ')',
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
+			'afterAjaxUpdate' => 'function() { AccessData.load(); }',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
