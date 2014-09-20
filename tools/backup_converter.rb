@@ -1,18 +1,37 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+require 'pathname'
 require 'rexml/document'
 require 'mysql2'
 
-begin
-	raise "need to specify a file to process" unless ARGV.length > 0
-	backup_filename = ARGV.first
+def parseOptions
+	options = {:prefix => 'diary_'}
+	OptionParser.new do |option_parser|
+		option_parser.program_name = Pathname.new($0).basename
+		option_parser.banner =
+			"Usage: #{option_parser.program_name} [options] filename"
 
-	puts 'DELETE FROM `diary_points`;'
-	puts 'INSERT INTO `diary_points` ' +
+		option_parser.on('--prefix PREFIX', 'table name prefix') do |prefix|
+			options[:prefix] = prefix
+		end
+	end.parse!
+
+	options[:filename] = ARGV.pop
+	raise "need to specify a file to process" unless options[:filename]
+
+	options
+end
+
+begin
+	options = parseOptions
+
+	puts "DELETE FROM `#{options[:prefix]}points`;"
+	puts "INSERT INTO `#{options[:prefix]}points` " +
 		'(`date`, `text`, `state`, `check`, `order`)'
 	puts 'VALUES'
 
-	backup_file = File.new(backup_filename)
+	backup_file = File.new(options[:filename])
 	xml = REXML::Document.new(backup_file)
 	xml.elements.each('diary/day') do |day|
 		date = day.attributes['date']
