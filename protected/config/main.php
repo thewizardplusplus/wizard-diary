@@ -7,10 +7,10 @@ return array(
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
+		'application.components.*',
 		'application.config.Constants',
 		'application.controllers.AccessController',
-		'application.models.*',
-		'application.components.*'
+		'application.models.*'
 	),
 	'components' => array(
 		'urlManager' => array(
@@ -98,5 +98,5 @@ return array(
 		),
 		'errorHandler' => array('errorAction' => 'site/error')
 	),
-	'onBeginRequest' => array('AccessController', 'accessProcess')
+	'onBeginRequest' => array('BeginRequestHandler', 'handle')
 );

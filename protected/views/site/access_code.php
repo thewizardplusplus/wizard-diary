@@ -2,16 +2,22 @@
 	/**
 	 * @var SiteController $this
 	 * @var AccessCodeForm $model
+	 * @var int $access_code_lifetime
 	 * @var string $access_code_container_class
 	 * @var CActiveForm $form
 	 */
 
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ajax_error_dialog.js'),
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var ACCESS_CODE_LIFETIME = ' . $access_code_lifetime . ';',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/access_code_resender.js'),
+		CHtml::asset('scripts/countUp.min.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_code_timer.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -25,17 +31,13 @@
 <div class = "alert alert-info clearfix">
 	<p>На твой телефон был выслан код доступа. Введи его в поле ниже.</p>
 	<p>
-		<button
-			class = "btn btn-default resend-access-code-button"
-			data-resend-access-code-url = "<?= $this->createUrl(
-				'site/resendAccessCode'
-			) ?>">
-			<img
-				src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
-				alt = "..." />
-			<span class = "glyphicon glyphicon-refresh"></span>
-			<span>Выслать ещё раз</span>
-		</button>
+		Код будет валиден ещё
+		<span id = "access-code-lifetime" data-login-url = "<?=
+			$this->createUrl('site/login')
+		?>">
+			<?= $access_code_lifetime ?>
+		</span>
+		с.
 	</p>
 </div>
 

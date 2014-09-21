@@ -15,7 +15,7 @@ class AccessCodeForm extends CFormModel {
 	}
 
 	public function validateAccessCode() {
-		if ($this->access_code != Yii::app()->session['ACCESS_CODE']) {
+		if (!AccessCode::verify($this->access_code)) {
 			$this->addError('access_code', 'Неверный код доступа.');
 		}
 	}

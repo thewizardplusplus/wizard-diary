@@ -1,28 +1,15 @@
 <?php
 
 require_once('recaptcha/recaptchalib.php');
-require_once('sms-ru/src/smsru.php');
 
 class SiteController extends CController {
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + resendAccessCode, logout',
-			'ajaxOnly + resendAccessCode'
-		);
+		return array('accessControl', 'postOnly + logout');
 	}
 
 	public function accessRules() {
 		return array(
-			array(
-				'allow',
-				'actions' => array(
-					'error',
-					'login',
-					'accessCode',
-					'resendAccessCode'
-				)
-			),
+			array('allow', 'actions' => array('error', 'login', 'accessCode')),
 			array('allow', 'users' => array('admin')),
 			array('deny')
 		);
@@ -63,7 +50,7 @@ class SiteController extends CController {
 					$_POST['recaptcha_response_field']
 				);
 				if ($result->is_valid) {
-					$this->sendAccessCode();
+					AccessCode::send();
 					$this->redirect($this->createUrl('site/accessCode'));
 				} else {
 					$model->addError(
@@ -95,7 +82,7 @@ class SiteController extends CController {
 	public function actionAccessCode() {
 		if (!Yii::app()->user->isGuest) {
 			$this->redirect(Yii::app()->homeUrl);
-		} else if (is_null(Yii::app()->session['ACCESS_CODE'])) {
+		} else if (!AccessCode::isSetted()) {
 			$this->redirect($this->createUrl('site/login'));
 		}
 
@@ -112,12 +99,13 @@ class SiteController extends CController {
 			if ($result) {
 				$result = Yii::app()->user->login(new DummyUserIdentity());
 				if ($result) {
-					unset(Yii::app()->session['ACCESS_CODE']);
+					AccessCode::clean();
 					$this->redirect(Yii::app()->user->returnUrl);
 				}
 			}
 		}
 
+		$access_code_lifetime = AccessCode::getRemainingLifetime();
 		$access_code_container_class =
 			count($model->getErrors('access_code'))
 				? 'has-error'
@@ -126,52 +114,14 @@ class SiteController extends CController {
 			'access_code',
 			array(
 				'model' => $model,
+				'access_code_lifetime' => $access_code_lifetime,
 				'access_code_container_class' => $access_code_container_class
 			)
 		);
 	}
 
-	public function actionResendAccessCode() {
-		if (!is_null(Yii::app()->session['ACCESS_CODE'])) {
-			$this->sendAccessCode();
-		}
-	}
-
 	public function actionLogout() {
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
-	}
-
-	private function sendAccessCode() {
-		$sms_sender = new \Zelenin\smsru(
-			null,
-			Constants::SMS_RU_LOGIN,
-			Constants::SMS_RU_PASSWORD
-		);
-		$result = $sms_sender->auth_check();
-		if ($result['code'] != 100) {
-			throw new CException(
-				'Ошибка отправки кода доступа. ' . $result['description']
-			);
-		}
-
-		$access_code = $this->getAccessCode();
-		$result = $sms_sender->sms_send(Constants::SMS_RU_LOGIN, $access_code);
-		if ($result['code'] != 100) {
-			throw new CException(
-				'Ошибка отправки кода доступа. ' . $result['description']
-			);
-		}
-
-		Yii::app()->session['ACCESS_CODE'] = $access_code;
-	}
-
-	private function getAccessCode() {
-		$access_code = '';
-		for ($i = 0; $i < Constants::ACCESS_CODE_LENGTH; $i++) {
-			$access_code .= rand(0, 9);
-		}
-
-		return $access_code;
 	}
 }

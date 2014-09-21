@@ -98,6 +98,7 @@
 								alt = "..." />
 							<span class = "glyphicon glyphicon-compressed">
 							</span>
+							<span>Создать бекап</span>
 						</button>
 						<ul class = "nav navbar-nav">
 							<li class = "dropdown">
