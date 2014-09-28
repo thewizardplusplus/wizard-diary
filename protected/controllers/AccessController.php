@@ -27,7 +27,7 @@ class AccessController extends CController {
 	}
 
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + decodeUserAgent');
+		return array('accessControl', 'ajaxOnly + decodeIp, decodeUserAgent');
 	}
 
 	public function accessRules() {
@@ -52,6 +52,15 @@ class AccessController extends CController {
 		$this->render('list', array('data_provider' => $data_provider));
 	}
 
+	public function actionDecodeIp($ip) {
+		$answer = file_get_contents(
+			'http://ipinfo.io/'
+			. ($ip != '127.0.0.1' ? $ip . '/' : '' )
+			. 'geo'
+		);
+		echo !empty($answer) ? $answer : 'null';
+	}
+
 	public function actionDecodeUserAgent($user_agent) {
 		$answer = file_get_contents(
 			'http://useragentstring.com/?uas=' . $user_agent
@@ -65,7 +74,6 @@ class AccessController extends CController {
 				. '-os_versionNumber'
 				. '-linux_distibution'
 		);
-
 		echo !empty($answer) ? $answer : 'null';
 	}
 }

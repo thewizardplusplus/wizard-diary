@@ -95,10 +95,9 @@ $(document).ready(
 					var access_data = $(this);
 
 					var ip = access_data.data('ip');
+					var decode_ip_url = access_data.data('decode-ip-url');
 					$.get(
-						'http://ipinfo.io/'
-							+ (ip != '127.0.0.1' ? ip + '/' : '' )
-							+ 'geo',
+						decode_ip_url,
 						function(data) {
 							$('.access-ip', access_data).html(
 								FormatIpData(ip, data)
