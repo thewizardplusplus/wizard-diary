@@ -8,11 +8,14 @@ class AccessController extends CController {
 			. 'FROM ('
 				. 'SELECT COUNT(*) AS counted '
 				. 'FROM {{accesses}} '
-				. 'WHERE url = :url AND method = :method AND ip = :ip '
+				. 'WHERE (url = :login_url OR url = :access_code_url)'
+					. 'AND method = :method '
+					. 'AND ip = :ip '
 				. 'GROUP BY ROUND(timestamp / :time_window)'
 			. ') counts',
 			array(
-				'url' => Yii::app()->createUrl('site/login'),
+				'login_url' => Yii::app()->createUrl('site/login'),
+				'access_code_url' => Yii::app()->createUrl('site/accessCode'),
 				'method' => 'POST',
 				'ip' => $user_ip,
 				'time_window' => Constants::LOGIN_LIMIT_TIME_WINDOW_IN_S
