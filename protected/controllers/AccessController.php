@@ -52,7 +52,31 @@ class AccessController extends CController {
 				'sort' => false
 			)
 		);
-		$this->render('list', array('data_provider' => $data_provider));
+
+		$get_counts_command = Yii::app()->db->createCommand(
+			'SELECT ip, MAX(counted) AS count '
+			. 'FROM ('
+				. 'SELECT ip, COUNT(*) AS counted '
+				. 'FROM {{accesses}} '
+				. 'WHERE (url = :login_url OR url = :access_code_url)'
+					. 'AND method = :method '
+				. 'GROUP BY ROUND(timestamp / :time_window)'
+			. ') counts'
+		);
+		$get_counts_command->bindValues(
+			array(
+				'login_url' => Yii::app()->createUrl('site/login'),
+				'access_code_url' => Yii::app()->createUrl('site/accessCode'),
+				'method' => 'POST',
+				'time_window' => Constants::LOGIN_LIMIT_TIME_WINDOW_IN_S
+			)
+		);
+		$counts = $get_counts_command->queryAll();
+
+		$this->render(
+			'list',
+			array('data_provider' => $data_provider, 'counts' => $counts)
+		);
 	}
 
 	public function actionDecodeIp($ip) {

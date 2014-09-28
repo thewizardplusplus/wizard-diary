@@ -2,6 +2,7 @@
 	/**
 	 * @var AccessController $this
 	 * @var CActiveDataProvider $data_provider
+	 * @var array $counts
 	 */
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -53,6 +54,12 @@
 					'type' => 'raw'
 				)
 			),
+			/*'rowCssClassExpression' =>
+				'"access-data"'
+					. '. ($counts[$data->ip]'
+						. '> Constants::LOGIN_LIMIT_MAXIMAL_COUNT'
+						. '? "danger"'
+						. ': "")',*/
 			'rowHtmlOptionsExpression' => 'array('
 				. '"class" => "access-data",'
 				. '"data-ip" => CHtml::encode($data->ip),'
