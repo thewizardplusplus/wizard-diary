@@ -43,12 +43,10 @@ class Point extends CActiveRecord {
 	}
 
 	public function getRowClassByState() {
-		return
-			'point-row '
-			. 'point-'
-			. $this->id
-			. ' '
-			. self::$row_classes_for_states[$this->state];
+		return 'point-row point-' . $this->id . ' '
+			. (!$this->daily
+				? self::$row_classes_for_states[$this->state]
+				: 'warning');
 	}
 
 	public function getMyDate() {

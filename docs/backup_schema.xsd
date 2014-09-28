@@ -27,6 +27,10 @@
 					name = "check"
 					type = "xs:boolean"
 					default = "false" />
+				<xs:attribute
+						name = "daily"
+						type = "xs:boolean"
+						default = "false" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

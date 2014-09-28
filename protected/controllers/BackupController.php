@@ -192,6 +192,7 @@ class BackupController extends CController {
 
 			$state = $point->state;
 			$check = $point->check ? ' check = "true"' : '';
+			$daily = $point->daily ? ' daily = "true"' : '';
 			$text =
 				!empty($point->text)
 					? '<![CDATA['
@@ -200,7 +201,7 @@ class BackupController extends CController {
 					: '';
 
 			$days[$point->date] .=
-				"\t\t<point state = \"$state\"$check>$text</point>\n";
+				"\t\t<point state = \"$state\"$check$daily>$text</point>\n";
 		}
 
 		$days_dump = '';
@@ -210,7 +211,7 @@ class BackupController extends CController {
 
 		return
 			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
-			. "<diary>\n$days_dump</diary>\n";
+			. "<diary version = \"2\">\n$days_dump</diary>\n";
 	}
 
 	private function saveFileToDropbox($authorization_code, $filename) {
