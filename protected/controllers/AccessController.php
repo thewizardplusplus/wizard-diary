@@ -8,14 +8,22 @@ class AccessController extends CController {
 			. 'FROM ('
 				. 'SELECT COUNT(*) AS counted '
 				. 'FROM {{accesses}} '
-				. 'WHERE (url = :login_url OR url = :access_code_url)'
+				. 'WHERE (url LIKE :login_url OR url LIKE :access_code_url)'
 					. 'AND method = :method '
 					. 'AND ip = :ip '
 				. 'GROUP BY ROUND(timestamp / :time_window)'
 			. ') counts',
 			array(
-				'login_url' => Yii::app()->createUrl('site/login'),
-				'access_code_url' => Yii::app()->createUrl('site/accessCode'),
+				'login_url' =>
+					self::escapeForLike(
+						Yii::app()->createUrl('site/login')
+					)
+					. '%',
+				'access_code_url' =>
+					self::escapeForLike(
+						Yii::app()->createUrl('site/accessCode')
+					)
+					. '%',
 				'method' => 'POST',
 				'ip' => $user_ip,
 				'time_window' => Constants::LOGIN_LIMIT_TIME_WINDOW_IN_S
@@ -41,11 +49,59 @@ class AccessController extends CController {
 	}
 
 	public function actionList() {
+		$get_banned_ips_command = Yii::app()->db->createCommand(
+			'SELECT ip '
+			. 'FROM ('
+				. 'SELECT ip, MAX(counted) AS counter '
+				. 'FROM ('
+					. 'SELECT ip, COUNT(*) AS counted '
+					. 'FROM {{accesses}} '
+					. 'WHERE (url LIKE :login_url OR url LIKE :access_code_url)'
+						. 'AND method = :method '
+					. 'GROUP BY ip, ROUND(timestamp / :time_window)'
+				. ') counts '
+				. 'GROUP BY ip'
+			. ') conteds '
+			. 'WHERE counter > :maximal_counter'
+		);
+		$get_banned_ips_command->bindValues(
+			array(
+				'login_url' =>
+					self::escapeForLike(
+						Yii::app()->createUrl('site/login')
+					)
+					. '%',
+				'access_code_url' =>
+					self::escapeForLike(
+						Yii::app()->createUrl('site/accessCode')
+					)
+					. '%',
+				'method' => 'POST',
+				'time_window' => Constants::LOGIN_LIMIT_TIME_WINDOW_IN_S,
+				'maximal_counter' => Constants::LOGIN_LIMIT_MAXIMAL_COUNT
+			)
+		);
+		$wrapped_banned_ips = $get_banned_ips_command->queryAll();
+
+		$banned_ips = array_map(
+			function($item) {
+				return Yii::app()->db->quoteValue($item['ip']);
+			},
+			$wrapped_banned_ips
+		);
+
 		$data_provider = new CActiveDataProvider(
 			'Access',
 			array(
 				'criteria' => array(
-					'select' => 'ip, user_agent, MAX(timestamp) AS timestamp',
+					'select' =>
+						'ip,'
+						. 'user_agent,'
+						. 'MAX(timestamp) AS timestamp'
+						. (!empty($banned_ips)
+							? ', ip IN (' . implode(', ', $banned_ips) . ')'
+								. 'AS banned'
+							: ''),
 					'group' => 'ip, user_agent',
 					'order' => 'timestamp DESC'
 				),
@@ -53,30 +109,7 @@ class AccessController extends CController {
 			)
 		);
 
-		$get_counts_command = Yii::app()->db->createCommand(
-			'SELECT ip, MAX(counted) AS count '
-			. 'FROM ('
-				. 'SELECT ip, COUNT(*) AS counted '
-				. 'FROM {{accesses}} '
-				. 'WHERE (url = :login_url OR url = :access_code_url)'
-					. 'AND method = :method '
-				. 'GROUP BY ROUND(timestamp / :time_window)'
-			. ') counts'
-		);
-		$get_counts_command->bindValues(
-			array(
-				'login_url' => Yii::app()->createUrl('site/login'),
-				'access_code_url' => Yii::app()->createUrl('site/accessCode'),
-				'method' => 'POST',
-				'time_window' => Constants::LOGIN_LIMIT_TIME_WINDOW_IN_S
-			)
-		);
-		$counts = $get_counts_command->queryAll();
-
-		$this->render(
-			'list',
-			array('data_provider' => $data_provider, 'counts' => $counts)
-		);
+		$this->render('list', array('data_provider' => $data_provider));
 	}
 
 	public function actionDecodeIp($ip) {
@@ -102,5 +135,9 @@ class AccessController extends CController {
 				. '-linux_distibution'
 		);
 		echo !empty($answer) ? $answer : 'null';
+	}
+
+	private static function escapeForLike($value) {
+		return preg_replace('/(_|%)/', '\\\\$1', $value);
 	}
 }

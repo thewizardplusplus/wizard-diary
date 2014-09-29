@@ -54,12 +54,9 @@
 					'type' => 'raw'
 				)
 			),
-			/*'rowCssClassExpression' =>
+			'rowCssClassExpression' =>
 				'"access-data"'
-					. '. ($counts[$data->ip]'
-						. '> Constants::LOGIN_LIMIT_MAXIMAL_COUNT'
-						. '? "danger"'
-						. ': "")',*/
+				. '. ($data->banned ? " danger" : "")',
 			'rowHtmlOptionsExpression' => 'array('
 				. '"class" => "access-data",'
 				. '"data-ip" => CHtml::encode($data->ip),'
