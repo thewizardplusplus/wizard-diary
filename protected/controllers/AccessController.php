@@ -105,7 +105,8 @@ class AccessController extends CController {
 					'group' => 'ip, user_agent',
 					'order' => 'timestamp DESC'
 				),
-				'sort' => false
+				'sort' => false,
+				'pagination' => false
 			)
 		);
 

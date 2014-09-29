@@ -31,12 +31,12 @@
 		array(
 			'id' => 'access-list',
 			'dataProvider' => $data_provider,
-			'template' => '{items} {summary} {pager}',
+			'template' => '{items}',
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
 				array(
-					'header' => 'IP',
+					'header' => 'IP*',
 					'name' => 'ip',
 					'htmlOptions' => array('class' => 'access-ip')
 				),
@@ -84,19 +84,11 @@
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'emptyText' => 'Нет записей о доступе.',
-			'summaryText' => 'Записи {start}-{end} из {count}.',
-			'pager' => array(
-				'header' => '',
-				'firstPageLabel' => '&lt;&lt;',
-				'prevPageLabel' => '&lt;',
-				'nextPageLabel' => '&gt;',
-				'lastPageLabel' => '&gt;&gt;',
-				'selectedPageCssClass' => 'active',
-				'hiddenPageCssClass' => 'disabled',
-				'htmlOptions' => array('class' => 'pagination')
-			),
-			'pagerCssClass' => 'page-controller'
+			'emptyText' => 'Нет записей о доступе.'
 		)
 	); ?>
 </div>
+
+<p class = "small-text access-log-legend">
+	* Красным отмечены попытки доступа, IP которых были забанены.
+</p>

@@ -217,7 +217,8 @@ a.state-initial:focus {
 	font-size: smaller;
 }
 
-.backups-legend {
+.backups-legend,
+.access-log-legend {
 	margin-top: 10px;
 }
 
