@@ -6,9 +6,10 @@ return array(
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
-		'application.models.*',
 		'application.components.*',
-		'application.config.Constants'
+		'application.config.AccessConstants',
+		'application.config.Constants',
+		'application.models.*'
 	),
 	'components' => array(
 		'db' => array(

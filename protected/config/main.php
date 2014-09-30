@@ -8,6 +8,7 @@ return array(
 	'preload' => array('log'),
 	'import' => array(
 		'application.components.*',
+		'application.config.AccessConstants',
 		'application.config.Constants',
 		'application.controllers.AccessController',
 		'application.models.*'
