@@ -1,6 +1,8 @@
 <?php
 
 class PointController extends CController {
+	const MAXIMAL_ORDER_VALUE = 1000000;
+
 	public function filters() {
 		return array(
 			'accessControl',
@@ -148,40 +150,35 @@ class PointController extends CController {
 		}
 
 		$ids = array_map('intval', $_POST['ids']);
-		$ids = implode(', ', $ids);
+		$ids_in_string = implode(', ', $ids);
 
+		$start_order_value = self::MAXIMAL_ORDER_VALUE - 2 * count($ids);
 		Yii::app()
 			->db
-			->createCommand(
-				'UPDATE {{points}} '
-				. 'SET date = DATE_SUB(date, INTERVAL 1 DAY),'
-					. '`order` = 18446744073709551615 '
-				. 'WHERE id IN ('
-					. $ids
-				. ')'
-			)
+			->createCommand('SET @order = ' . $start_order_value)
 			->execute();
+		Point::model()->updateAll(
+			array(
+				'date' => new CDbExpression('DATE_SUB(date, INTERVAL 1 DAY)'),
+				'order' => new CDbExpression('(@order := @order + 2)')
+			),
+			array(
+				'condition' => 'id IN (' . $ids_in_string . ')',
+				'order' => '`order`, id'
+			)
+		);
 
 		$dates = Yii::app()
 			->db
 			->createCommand(
 				'SELECT date '
 				. 'FROM {{points}} '
-				. 'WHERE id IN ('
-					. $ids
-				. ')'
+				. 'WHERE id IN (' . $ids_in_string . ')'
+				. 'GROUP BY date'
 			)
 			->queryAll();
-		$dates = array_map(
-			function($row) {
-				return $row['date'];
-			},
-			$dates
-		);
-		$dates = array_unique($dates);
-
 		foreach ($dates as $date) {
-			Point::renumberOrderFieldsForDate($date);
+			Point::renumberOrderFieldsForDate($date['date']);
 		}
 	}
 
