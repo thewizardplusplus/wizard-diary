@@ -238,10 +238,7 @@
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'selectionChanged' =>
-				'function() {'
-					. 'ProcessSelection();'
-				. '}',
+			'selectionChanged' => 'function() { Selection.process(); }',
 			'emptyText' => 'Нет пунктов.',
 			'pager' => array(
 				'maxButtonCount' => 0,
@@ -265,18 +262,6 @@
 		)
 	); ?>
 </div>
-
-<p class = "clearfix">
-	<button
-		class = "btn btn-default pull-right age-points-button"
-		data-age-points-url = "<?= $this->createUrl('point/age') ?>">
-		<img
-			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
-			alt = "..." />
-		<span class = "glyphicon glyphicon-time"></span>
-		<span>На день назад</span>
-	</button>
-</p>
 
 <?= CHtml::beginForm('#', 'post', array('id' => 'point-addition-form')) ?>
 	<div class = "input-group">

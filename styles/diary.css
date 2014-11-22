@@ -71,7 +71,8 @@ form .panel :last-child {
 
 /* AJAX request process animation styles. */
 .resend-access-code-button img,
-.create-backup-button img {
+.create-backup-button img,
+.age-points-button img {
 	display: none;
 	height: 18px;
 }

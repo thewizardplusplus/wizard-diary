@@ -1,16 +1,22 @@
-var ProcessSelection = function() {};
+var Selection = {};
 
 $(document).ready(
 	function() {
-		var age_points_button = $('.age-points-button');
+		var body = $('body');
+		var age_points_button_container = $('.age-points-button-container');
+		var age_points_button = $(
+			'.age-points-button',
+			age_points_button_container
+		);
 		var processing_animation_image = $('img', age_points_button);
 		var time_icon = $('span', age_points_button);
 
 		var GetSelectedRows = function() {
 			return $('#point-list .point-row.selected');
 		};
-		var HideAgePointsButton = function() {
-			age_points_button.parent().hide();
+		var ShowAgePointsButton = function() {
+			age_points_button_container.show();
+			body.css('padding-bottom', 50);
 		};
 		var ResetAgePointsButton = function() {
 			age_points_button.prop('disabled', false);
@@ -18,13 +24,16 @@ $(document).ready(
 			time_icon.show();
 		};
 
-		ProcessSelection = function() {
-			var selected = GetSelectedRows();
-			if (selected.length) {
-				age_points_button.parent().show();
+		Selection.hideAgePointsButton = function() {
+			age_points_button_container.hide();
+			body.css('padding-bottom', '');
+		};
+		Selection.process = function() {
+			if (GetSelectedRows().length) {
+				ShowAgePointsButton();
 				ResetAgePointsButton();
 			} else {
-				HideAgePointsButton();
+				Selection.hideAgePointsButton();
 			}
 		};
 
@@ -57,9 +66,9 @@ $(document).ready(
 						{
 							type: 'POST',
 							url: age_points_button.data('age-points-url'),
-							data: $.extend({ ids: ids }, CSRF_TOKEN),
+							data: $.extend({ids: ids}, CSRF_TOKEN),
 							success: function() {
-								HideAgePointsButton();
+								Selection.hideAgePointsButton();
 								point_list.yiiGridView(
 									'update',
 									{
@@ -75,6 +84,6 @@ $(document).ready(
 				}
 			}
 		);
-		HideAgePointsButton();
+		Selection.hideAgePointsButton();
 	}
 );
