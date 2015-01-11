@@ -119,6 +119,10 @@
 												)
 											),
 											array(
+												'label' => 'Импорт пунктов',
+												'url' => array('point/import')
+											),
+											array(
 												'label' => 'Лог доступа',
 												'url' => array('access/list')
 											)

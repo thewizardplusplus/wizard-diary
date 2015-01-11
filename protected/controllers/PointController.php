@@ -190,6 +190,15 @@ class PointController extends CController {
 		Point::renumberOrderFieldsForDate($date);
 	}
 
+	public function actionImport() {
+		if (isset($_POST['points-description'])) {
+			Yii::log($_POST['points-description']);
+			$this->redirect($this->createUrl('point/list'));
+		}
+
+		$this->render('import_editor');
+	}
+
 	private function loadModel($id) {
 		$model = Point::model()->findByPk($id);
 		if (is_null($model)) {
