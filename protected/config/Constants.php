@@ -20,8 +20,8 @@ class Constants extends AccessConstants {
 	const DROPBOX_REDIRECT_URL = '/backup/redirect';
 	const ACCESS_CODE_LENGTH = 5;
 	const ACCESS_CODE_LIFETIME_IN_S = 60;
-	// 5 minute
-	const ACCESS_LOG_LIFETIME_IN_S = 300;
+	// 1 month
+	const ACCESS_LOG_LIFETIME_IN_S_DEFAULT = 2592000;
 	// 1 minute
 	const LOGIN_LIMIT_TIME_WINDOW_IN_S = 60;
 	const LOGIN_LIMIT_MAXIMAL_COUNT = 12;

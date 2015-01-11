@@ -5,6 +5,7 @@
 	 * @var string $password_container_class
 	 * @var string $password_copy_container_class
 	 * @var string $points_on_page_container_class
+	 * @var string $access_log_lifetime_container_class
 	 * @var CActiveForm $form
 	 */
 
@@ -101,6 +102,25 @@
 			)
 		) ?>
 		<?= $form->error($model, 'points_on_page') ?>
+	</div>
+
+	<div class = "form-group<?= $access_log_lifetime_container_class ?>">
+		<?= $form->labelEx(
+			$model,
+			'access_log_lifetime_in_s',
+			array('class' => 'control-label')
+		) ?>
+		<?= $form->textField(
+			$model,
+			'access_log_lifetime_in_s',
+			array(
+				'class' => 'form-control',
+				'autocomplete' => 'off',
+				'min' => Parameters::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
+				'max' => Parameters::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM
+			)
+		) ?>
+		<?= $form->error($model, 'access_log_lifetime_in_s') ?>
 	</div>
 
 	<?= CHtml::htmlButton(

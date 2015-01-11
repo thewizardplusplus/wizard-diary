@@ -2,9 +2,10 @@
 
 class ClearAccessLogCommand extends CConsoleCommand {
 	public function run() {
+		Yii::log(Parameters::getModel()->access_log_lifetime_in_s);
 		Access::model()->deleteAll(
 			'timestamp < SUBDATE(NOW(), INTERVAL '
-			. Constants::ACCESS_LOG_LIFETIME_IN_S
+			. Parameters::getModel()->access_log_lifetime_in_s
 			. ' SECOND)'
 		);
 	}
