@@ -225,3 +225,7 @@ a.state-initial:focus {
 .additional-info {
 	color: #888;
 }
+
+.monospace {
+	font-family: monospace;
+}

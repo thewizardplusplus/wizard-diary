@@ -20,7 +20,7 @@
 		<?= CHtml::textArea(
 			'points-description',
 			'',
-			array('class' => 'form-control', 'rows' => '12')
+			array('class' => 'form-control monospace', 'rows' => '12')
 		) ?>
 	</div>
 
