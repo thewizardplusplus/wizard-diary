@@ -226,6 +226,7 @@ a.state-initial:focus {
 	color: #888;
 }
 
-.monospace {
-	font-family: monospace;
+#import-editor {
+	height: 500px;
+	font-size: 14px;
 }

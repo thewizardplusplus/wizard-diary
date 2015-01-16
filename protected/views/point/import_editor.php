@@ -3,6 +3,15 @@
 	 * @var PointController $this
 	 */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		Yii::app()->request->baseUrl . '/scripts/ace/ace.js',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/import-editor.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Импорт пунктов';
 ?>
 
@@ -10,18 +19,15 @@
 	<h4>Импорт пунктов</h4>
 </header>
 
-<?= CHtml::beginForm() ?>
+<?= CHtml::beginForm('', 'post', array('class' => 'import-form')) ?>
 	<div class = "form-group">
 		<?= CHtml::label(
 			'Описание пунктов',
 			'points-description',
 			array('class' => 'control-label')
 		) ?>
-		<?= CHtml::textArea(
-			'points-description',
-			'',
-			array('class' => 'form-control monospace', 'rows' => '12')
-		) ?>
+		<div id = "import-editor"></div>
+		<?php echo CHtml::hiddenField('points-description'); ?>
 	</div>
 
 	<?= CHtml::htmlButton(
