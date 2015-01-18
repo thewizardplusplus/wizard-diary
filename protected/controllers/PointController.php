@@ -192,7 +192,9 @@ class PointController extends CController {
 
 	public function actionImport() {
 		if (isset($_POST['points-description'])) {
-			Yii::log($_POST['points-description']);
+			$lines = $this->extendImport($_POST['points-description']);
+			Yii::log(print_r($lines, true));
+
 			$this->redirect($this->createUrl('point/list'));
 		}
 
@@ -206,5 +208,53 @@ class PointController extends CController {
 		}
 
 		return $model;
+	}
+
+	private function extendImport($text) {
+		$lines = explode("\n", $text);
+
+		$last_line_blocks = array();
+		$extended_lines = array_map(
+			function($line) use (&$last_line_blocks) {
+				$line = rtrim($line);
+
+				$extended_line = '';
+				while (
+					substr($line, 0, 1) == "\t" || substr($line, 0, 4) == '    '
+				) {
+					if (!empty($last_line_blocks)) {
+						$extended_line .= array_shift($last_line_blocks) . ', ';
+					}
+
+					$shift_size = substr($line, 0, 1) == "\t" ? 1 : 4;
+					$line = substr($line, $shift_size);
+				}
+				$extended_line .= $line;
+
+				if (!empty($extended_line)) {
+					$last_line_blocks = array_map(
+						'trim',
+						explode(',', $extended_line)
+					);
+				}
+
+				return $extended_line;
+			},
+			$lines
+		);
+
+		array_unshift($extended_lines, '');
+		if (
+			!empty($extended_lines)
+			&& empty($extended_lines[count($extended_lines) - 1])
+		) {
+			$extended_lines = array_slice(
+				$extended_lines,
+				0,
+				count($extended_lines) - 1
+			);
+		}
+
+		return $extended_lines;
 	}
 }
