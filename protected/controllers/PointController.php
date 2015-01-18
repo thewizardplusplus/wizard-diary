@@ -192,8 +192,31 @@ class PointController extends CController {
 
 	public function actionImport() {
 		if (isset($_POST['points-description'])) {
+			$date = '2015-01-01';
 			$lines = $this->extendImport($_POST['points-description']);
-			Yii::log(print_r($lines, true));
+			$order = self::MAXIMAL_ORDER_VALUE - 2 * count($lines);
+			$sql_lines = array_map(
+				function($line) use ($date, &$order) {
+					$sql_line = sprintf(
+						'("%s", %s, "%s", FALSE, FALSE, %d)',
+						$date,
+						Yii::app()->db->quoteValue($line),
+						!empty($line) ? 'SATISFIED' : 'INITIAL',
+						$order
+					);
+					$order += 2;
+
+					return $sql_line;
+				},
+				$lines
+			);
+			$sql = sprintf(
+				'INSERT INTO `{{points}}`'
+					. '(`date`, `text`, `state`, `check`, `daily`, `order`)'
+				. 'VALUES %s',
+				implode(',', $sql_lines)
+			);
+			Yii::log($sql);
 
 			$this->redirect($this->createUrl('point/list'));
 		}
