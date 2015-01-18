@@ -193,10 +193,13 @@ class PointController extends CController {
 	public function actionImport() {
 		if (isset($_POST['points-description'])) {
 			$date = '2015-01-01';
-			Yii::log($date);
+			if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+				throw new CHttpException(500, 'Неверные параметры запроса.');
+			}
 
 			$lines = $this->extendImport($_POST['points-description']);
 			$order = self::MAXIMAL_ORDER_VALUE - 2 * count($lines);
+
 			$sql_lines = array_map(
 				function($line) use ($date, &$order) {
 					$sql_line = sprintf(
