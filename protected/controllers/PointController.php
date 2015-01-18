@@ -222,7 +222,7 @@ class PointController extends CController {
 					. 'VALUES %s',
 					implode(',', $sql_lines)
 				);
-				Yii::log($sql);
+				Yii::app()->db->createCommand($sql)->execute();
 
 				$this->redirect($this->createUrl('point/list'));
 			}
