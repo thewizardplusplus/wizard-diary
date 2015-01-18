@@ -193,6 +193,8 @@ class PointController extends CController {
 	public function actionImport() {
 		if (isset($_POST['points-description'])) {
 			$date = '2015-01-01';
+			Yii::log($date);
+
 			$lines = $this->extendImport($_POST['points-description']);
 			$order = self::MAXIMAL_ORDER_VALUE - 2 * count($lines);
 			$sql_lines = array_map(
@@ -210,15 +212,17 @@ class PointController extends CController {
 				},
 				$lines
 			);
-			$sql = sprintf(
-				'INSERT INTO `{{points}}`'
-					. '(`date`, `text`, `state`, `check`, `daily`, `order`)'
-				. 'VALUES %s',
-				implode(',', $sql_lines)
-			);
-			Yii::log($sql);
+			if (!empty($sql_lines)) {
+				$sql = sprintf(
+					'INSERT INTO `{{points}}`'
+						. '(`date`, `text`, `state`, `check`, `daily`, `order`)'
+					. 'VALUES %s',
+					implode(',', $sql_lines)
+				);
+				Yii::log($sql);
 
-			$this->redirect($this->createUrl('point/list'));
+				$this->redirect($this->createUrl('point/list'));
+			}
 		}
 
 		$this->render('import_editor');
@@ -266,7 +270,6 @@ class PointController extends CController {
 			$lines
 		);
 
-		array_unshift($extended_lines, '');
 		if (
 			!empty($extended_lines)
 			&& empty($extended_lines[count($extended_lines) - 1])
@@ -276,6 +279,9 @@ class PointController extends CController {
 				0,
 				count($extended_lines) - 1
 			);
+		}
+		if (!empty($extended_lines)) {
+			array_unshift($extended_lines, '');
 		}
 
 		return $extended_lines;
