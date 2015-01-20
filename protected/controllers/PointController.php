@@ -227,6 +227,8 @@ class PointController extends CController {
 				);
 				Yii::app()->db->createCommand($sql)->execute();
 
+				Point::renumberOrderFieldsForDate($date);
+
 				$this->redirect($this->createUrl('point/list'));
 			}
 		}
