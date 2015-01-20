@@ -267,6 +267,10 @@ class PointController extends CController {
 				$extended_line .= $line;
 
 				if (!empty($extended_line)) {
+					if (substr($extended_line, -1) != ';') {
+						$extended_line .= ';';
+					}
+
 					$last_line_blocks = array_map(
 						'trim',
 						explode(',', $extended_line)
