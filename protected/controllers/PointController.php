@@ -191,8 +191,11 @@ class PointController extends CController {
 	}
 
 	public function actionImport() {
-		if (isset($_POST['points-description'])) {
-			$date = '2015-01-01';
+		if (
+			isset($_POST['target-date'])
+			and isset($_POST['points-description'])
+		) {
+			$date = $_POST['target-date'];
 			if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
 				throw new CHttpException(500, 'Неверные параметры запроса.');
 			}
