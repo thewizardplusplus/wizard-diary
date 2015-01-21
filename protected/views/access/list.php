@@ -31,7 +31,7 @@
 		array(
 			'id' => 'access-list',
 			'dataProvider' => $data_provider,
-			'template' => '{items}',
+			'template' => '{items} {summary} {pager}',
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
@@ -84,7 +84,19 @@
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'emptyText' => 'Нет записей о доступе.'
+			'emptyText' => 'Нет записей о доступе.',
+			'summaryText' => 'Записи о доступе {start}-{end} из {count}.',
+			'pager' => array(
+				'header' => '',
+				'firstPageLabel' => '&lt;&lt;',
+				'prevPageLabel' => '&lt;',
+				'nextPageLabel' => '&gt;',
+				'lastPageLabel' => '&gt;&gt;',
+				'selectedPageCssClass' => 'active',
+				'hiddenPageCssClass' => 'disabled',
+				'htmlOptions' => array('class' => 'pagination')
+			),
+			'pagerCssClass' => 'page-controller'
 		)
 	); ?>
 </div>
