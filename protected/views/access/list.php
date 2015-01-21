@@ -18,19 +18,6 @@
 		CClientScript::POS_HEAD
 	);
 
-	$access_speed_time_window = Constants::ACCESS_SPEED_TIME_WINDOW_IN_DAYS;
-	$last_digit = $access_speed_time_window % 10;
-	if ($last_digit == 1 && $access_speed_time_window != 11) {
-		$access_speed_time_window .= ' день';
-	} else if (
-		$last_digit > 1 && $last_digit < 5
-		&& ($access_speed_time_window < 12 || $access_speed_time_window > 14)
-	) {
-		$access_speed_time_window .= ' дня';
-	} else {
-		$access_speed_time_window .= ' дней';
-	}
-
 	$this->pageTitle = Yii::app()->name . ' - Лог доступа';
 ?>
 
@@ -123,10 +110,7 @@
 
 	<p>Общее число записей: <span class = "access-counter-view">0</span>.</p>
 
-	<p>
-		Скорость добавления записей
-		(среднее за <?= $access_speed_time_window ?>):
-	</p>
+	<p>Скорость добавления записей:</p>
 	<ul>
 		<li><span class = "access-speed-by-day-view">0</span> в день;</li>
 		<li><span class = "access-speed-by-hour-view">0</span> в час;</li>
