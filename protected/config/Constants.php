@@ -22,6 +22,7 @@ class Constants extends AccessConstants {
 	const ACCESS_CODE_LIFETIME_IN_S = 60;
 	// 1 month
 	const ACCESS_LOG_LIFETIME_IN_S_DEFAULT = 2592000;
+	const ACCESS_INFO_UPDATE_PAUSE_IN_S = 30;
 	// 1 minute
 	const LOGIN_LIMIT_TIME_WINDOW_IN_S = 60;
 	const LOGIN_LIMIT_MAXIMAL_COUNT = 12;

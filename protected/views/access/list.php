@@ -5,6 +5,13 @@
 	 * @var array $counts
 	 */
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var ACCESS_INFO_UPDATE_PAUSE_IN_S = '
+			. Constants::ACCESS_INFO_UPDATE_PAUSE_IN_S
+			. ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/countries_codes.js'),
 		CClientScript::POS_HEAD
@@ -15,6 +22,10 @@
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/access_data_loader.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_info_loader.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -105,7 +116,7 @@
 	* Красным отмечены попытки доступа, IP которых были забанены.
 </p>
 
-<div class = "access-totally-info-view">
+<div>
 	<hr />
 
 	<p>Общее число записей: <span class = "access-counter-view">0</span>.</p>
