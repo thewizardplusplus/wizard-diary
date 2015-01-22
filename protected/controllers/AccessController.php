@@ -157,7 +157,6 @@ class AccessController extends CController {
 			)
 		);
 		$json = json_encode($info, JSON_NUMERIC_CHECK);
-		Yii::log($json);
 
 		echo $json;
 	}
