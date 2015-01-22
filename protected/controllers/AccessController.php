@@ -142,11 +142,18 @@ class AccessController extends CController {
 
 	public function actionInfo() {
 		$info = array(
-			'counter' => rand(),
+			'counter' => Access::model()->count(''),
 			'speed' => array(
-				'by_day' => rand(),
-				'by_hour' => rand(),
-				'by_minute' => rand()
+				'by_day' => Access::model()->count(
+					'timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)'
+				),
+				'by_hour' => Access::model()->count(
+					'timestamp >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 HOUR)'
+				),
+				'by_minute' => Access::model()->count(
+					'timestamp'
+					. '>= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 MINUTE)'
+				)
 			)
 		);
 		$json = json_encode($info, JSON_NUMERIC_CHECK);
