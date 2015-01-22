@@ -38,7 +38,10 @@ class AccessController extends CController {
 	}
 
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + decodeIp, decodeUserAgent');
+		return array(
+			'accessControl',
+			'ajaxOnly + decodeIp, decodeUserAgent, info'
+		);
 	}
 
 	public function accessRules() {
@@ -135,6 +138,21 @@ class AccessController extends CController {
 				. '-linux_distibution'
 		);
 		echo !empty($answer) ? $answer : 'null';
+	}
+
+	public function actionInfo() {
+		$info = array(
+			'counter' => rand(),
+			'speed' => array(
+				'by_day' => rand(),
+				'by_hour' => rand(),
+				'by_minute' => rand()
+			)
+		);
+		$json = json_encode($info, JSON_NUMERIC_CHECK);
+		Yii::log($json);
+
+		echo $json;
 	}
 
 	private static function escapeForLike($value) {

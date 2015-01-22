@@ -116,7 +116,9 @@
 	* Красным отмечены попытки доступа, IP которых были забанены.
 </p>
 
-<div>
+<div
+	class = "access-totally-info-view"
+	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
 	<hr />
 
 	<p>Общее число записей: <span class = "access-counter-view">0</span>.</p>
