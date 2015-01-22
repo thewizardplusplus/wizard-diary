@@ -10,6 +10,7 @@
 				minOccurs = "0"
 				maxOccurs = "unbounded" />
 		</xs:sequence>
+		<xs:attribute name = "version" type = "xs:unsignedLong" default = "1" />
 	</xs:complexType>
 
 	<xs:complexType name = "Day">
