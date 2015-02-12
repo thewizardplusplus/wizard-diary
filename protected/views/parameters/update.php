@@ -21,7 +21,7 @@
 	$this->pageTitle = Yii::app()->name . ' - Параметры';
 ?>
 
-<header class = "page-header visible-xs">
+<header class = "page-header">
 	<h4>Параметры</h4>
 </header>
 

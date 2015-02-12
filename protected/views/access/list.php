@@ -32,7 +32,7 @@
 	$this->pageTitle = Yii::app()->name . ' - Лог доступа';
 ?>
 
-<header class = "page-header visible-xs">
+<header class = "page-header">
 	<h4>Лог доступа</h4>
 </header>
 
