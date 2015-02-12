@@ -27,6 +27,9 @@ return array(
 				'daily_points' => 'dailyPoint/list',
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
+				'imports' => 'import/list',
+				'import/<id:\d+>/update' => 'import/update',
+				'import/<id:\d+>/delete' => 'import/delete',
 				'backups' => 'backup/list',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list'

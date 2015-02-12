@@ -7,6 +7,7 @@ $(document).ready(
 		$('.import-form').submit(
 			function() {
 				$('#points-description').val(import_editor.getValue());
+				$('#Import_points_description').val(import_editor.getValue());
 			}
 		);
 	}

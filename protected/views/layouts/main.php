@@ -79,6 +79,10 @@
 										'url' => array('dailyPoint/list')
 									),
 									array(
+										'label' => 'Импорт',
+										'url' => array('import/list')
+									),
+									array(
 										'label' => 'Бекапы',
 										'url' => array('backup/list')
 									)
