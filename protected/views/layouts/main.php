@@ -101,6 +101,10 @@
 												'url' => array('backup/list')
 											),
 											array(
+												'label' => 'Лог доступа',
+												'url' => array('access/list')
+											),
+											array(
 												'label' => 'Параметры',
 												'url' => array(
 													'parameters/update'
@@ -109,10 +113,6 @@
 											array(
 												'label' => 'Импорт пунктов',
 												'url' => array('point/import')
-											),
-											array(
-												'label' => 'Лог доступа',
-												'url' => array('access/list')
 											)
 										),
 										'htmlOptions' => array(
