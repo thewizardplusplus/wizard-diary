@@ -36,32 +36,27 @@ $(document).ready(
 					processing_animation_image.hide();
 					backup_icon.show();
 				};
-				if (backup_list.length) {
-					backup_list.yiiGridView(
-						'update',
-						{
-							type: 'POST',
-							url: backup_url,
-							data: data,
-							success: function() {
-								FinishAnimation();
-								backup_list.yiiGridView(
-									'update',
-									{
-										url:
-											location.pathname
-												+ location.search
-												+ location.hash
-									}
-								);
-							}
+
+				backup_list.yiiGridView(
+					'update',
+					{
+						type: 'POST',
+						url: backup_url,
+						data: data,
+						success: function() {
+							FinishAnimation();
+							backup_list.yiiGridView(
+								'update',
+								{
+									url:
+										location.pathname
+											+ location.search
+											+ location.hash
+								}
+							);
 						}
-					);
-				} else {
-					$.post(backup_url, data, FinishAnimation).fail(
-						AjaxErrorDialog.handler
-					);
-				}
+					}
+				);
 			},
 			error: AjaxErrorDialog.show
 		};

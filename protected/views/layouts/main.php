@@ -21,10 +21,6 @@
 			CHtml::asset('scripts/ajax_error_dialog.js'),
 			CClientScript::POS_HEAD
 		);
-		Yii::app()->getClientScript()->registerScriptFile(
-			CHtml::asset('scripts/backuping.js'),
-			CClientScript::POS_HEAD
-		);
 	}
 
 	$copyright_years = Constants::COPYRIGHT_START_YEAR;
@@ -81,10 +77,6 @@
 									array(
 										'label' => 'Импорт',
 										'url' => array('import/list')
-									),
-									array(
-										'label' => 'Бекапы',
-										'url' => array('backup/list')
 									)
 								),
 								'htmlOptions' => array(
@@ -92,18 +84,6 @@
 								)
 							)
 						); ?>
-						<button
-							class = "btn btn-primary navbar-btn navbar-left create-backup-button"
-							data-create-backup-url = "<?= $this->createUrl('backup/create') ?>"
-							data-dropbox-app-key = "<?= Constants::DROPBOX_APP_KEY ?>"
-							data-dropbox-redirect-url = "<?= Constants::DROPBOX_REDIRECT_URL ?>">
-							<img
-								src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
-								alt = "..." />
-							<span class = "glyphicon glyphicon-compressed">
-							</span>
-							<span>Создать бекап</span>
-						</button>
 						<ul class = "nav navbar-nav">
 							<li class = "dropdown">
 								<a
@@ -116,6 +96,10 @@
 									'zii.widgets.CMenu',
 									array(
 										'items' => array(
+											array(
+												'label' => 'Бекапы',
+												'url' => array('backup/list')
+											),
 											array(
 												'label' => 'Параметры',
 												'url' => array(
