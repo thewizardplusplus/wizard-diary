@@ -58,8 +58,11 @@
 					'buttons' => array(
 						'download' => array(
 							'label' =>
-								'<span class = "glyphicon glyphicon-'
-								. 'download-alt"></span>',
+								'<span '
+									. 'class = '
+										. '"glyphicon '
+										. 'glyphicon-download-alt">'
+								. '</span>',
 							'url' => '$data->link',
 							'imageUrl' => false,
 							'options' => array('title' => 'Скачать')

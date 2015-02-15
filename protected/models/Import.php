@@ -10,27 +10,14 @@ class Import extends CActiveRecord {
 	}
 
 	public function rules() {
-		return array(
-			array('date', 'required'),
-			array(
-				'date',
-				'date',
-				'format' => 'yyyy-dd-MM',
-				'skipOnError' => true
-			),
-			array(
-				'date',
-				'unique',
-				'message' => '{attribute} &laquo;{value}&raquo; уже занята.'
-			),
-			array('points_description', 'required')
-		);
+		return array(array('points_description', 'required'));
 	}
 
 	public function attributeLabels() {
-		return array(
-			'date' => 'Целевая дата',
-			'points_description' => 'Описание пунктов'
-		);
+		return array('points_description' => 'Описание пунктов');
+	}
+
+	public function getFormattedDate() {
+		return implode('.', array_reverse(explode('-', $this->date)));
 	}
 }

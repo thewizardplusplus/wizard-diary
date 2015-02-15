@@ -230,7 +230,21 @@ a.state-initial:focus {
 	color: #888;
 }
 
+.import-flag-column {
+	width: 100px;
+	text-align: center;
+}
+
 #import-editor {
 	height: 250px;
 	font-size: 14px;
+}
+
+.import-view pre {
+	white-space: pre-wrap;
+}
+
+.label {
+	display: inline-block;
+	padding: 5px 10px;
 }

@@ -9,28 +9,66 @@
 	<h4>Импорт</h4>
 </header>
 
-<div>
-	<div class = "clearfix">
-		<a
-			class = "btn btn-primary pull-right"
-			href = "<?= $this->createUrl('import/create') ?>">
-			<span class = "glyphicon glyphicon-plus"></span>
-			Создать импорт
-		</a>
-	</div>
-	<hr />
-</div>
-
-<?php
-	$this->widget(
-		'zii.widgets.CListView',
+<div class = "table-responsive clearfix">
+	<?php $this->widget(
+		'zii.widgets.grid.CGridView',
 		array(
 			'id' => 'import-list',
 			'dataProvider' => $data_provider,
 			'template' => '{items} {summary} {pager}',
+			'hideHeader' => true,
+			'selectableRows' => 0,
 			'enableHistory' => true,
-			'itemView' => '_view',
-			'separator' => '<hr />',
+			'columns' => array(
+				array(
+					'type' => 'raw',
+					'value' =>
+						'"<span '
+							. 'class = \"label label-"'
+								. '. ($data->imported'
+									. '? "success"'
+									. ': "danger") . "\">"'
+							. '. ($data->imported'
+								. '? "Imported"'
+								. ': "Not imported")'
+						. '. "</span>"',
+					'htmlOptions' => array('class' => 'import-flag-column')
+				),
+				array(
+					'type' => 'raw',
+					'value' =>
+						'"<a '
+							. 'href = \""'
+								. '. $this->grid->controller->createUrl('
+									. '"import/view",'
+									. 'array("id" => $data->id)'
+								. ') . "\">'
+							. '<time>" . $data->getFormattedDate() . "</time>'
+						. '</a>"'
+				),
+				array(
+					'class' => 'CButtonColumn',
+					'template' => '{update}',
+					'buttons' => array(
+						'update' => array(
+							'label' =>
+								'<span '
+									. 'class = '
+										. '"glyphicon '
+										. 'glyphicon-pencil">'
+								. '</span>',
+							'url' =>
+								'$this->grid->controller->createUrl('
+									. '"import/update",'
+									. 'array("id" => $data->id)'
+								. ')',
+							'imageUrl' => false,
+							'options' => array('title' => 'Изменить импорт')
+						)
+					)
+				)
+			),
+			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
@@ -51,5 +89,5 @@
 			),
 			'pagerCssClass' => 'page-controller'
 		)
-	);
-?>
+	); ?>
+</div>

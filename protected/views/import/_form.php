@@ -32,16 +32,6 @@
 	) ?>
 
 	<div class = "form-group">
-		<?= $form->labelEx($model, 'date') ?>
-		<?= $form->textField(
-			$model,
-			'date',
-			array('class' => 'form-control'))
-		?>
-		<?= $form->error($model, 'date') ?>
-	</div>
-
-	<div class = "form-group">
 		<?= $form->labelEx($model, 'points_description') ?>
 		<div id = "import-editor"><?=
 			CHtml::encode($model->points_description)
