@@ -213,6 +213,10 @@ a.state-initial:focus {
 	color: #428bca;
 }
 
+.header-with-button {
+	padding-bottom: 20px;
+}
+
 .small-text {
 	font-size: smaller;
 }

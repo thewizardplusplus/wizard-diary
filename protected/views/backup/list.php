@@ -12,30 +12,22 @@
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
-<header class = "page-header visible-xs">
+<header class = "page-header clearfix header-with-button">
+	<button
+		class = "btn btn-primary pull-right create-backup-button"
+		data-create-backup-url = "<?= $this->createUrl('backup/create') ?>"
+		data-dropbox-app-key = "<?= Constants::DROPBOX_APP_KEY ?>"
+		data-dropbox-redirect-url = "<?= Constants::DROPBOX_REDIRECT_URL ?>">
+		<img
+			src = "<?=
+			Yii::app()->request->baseUrl
+			?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-compressed"></span>
+		<span>Создать бекап</span>
+	</button>
 	<h4>Бекапы</h4>
 </header>
-
-<div>
-	<div class = "clearfix">
-		<button
-			class = "btn btn-primary pull-right create-backup-button"
-			data-create-backup-url = "<?= $this->createUrl('backup/create') ?>"
-			data-dropbox-app-key = "<?= Constants::DROPBOX_APP_KEY ?>"
-			data-dropbox-redirect-url = "<?=
-				Constants::DROPBOX_REDIRECT_URL
-			?>">
-			<img
-				src = "<?=
-					Yii::app()->request->baseUrl
-				?>/images/processing-icon.gif"
-				alt = "..." />
-			<span class = "glyphicon glyphicon-compressed"></span>
-			<span>Создать бекап</span>
-		</button>
-	</div>
-	<hr />
-</div>
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
