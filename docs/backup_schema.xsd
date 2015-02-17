@@ -4,13 +4,20 @@
 
 	<xs:complexType name = "Diary">
 		<xs:sequence>
+			<xs:element name = "days" type = "DayGroup" />
+			<xs:element name = "imports" type = "ImportGroup" />
+		</xs:sequence>
+		<xs:attribute name = "version" type = "xs:unsignedLong" default = "1" />
+	</xs:complexType>
+
+	<xs:complexType name = "DayGroup">
+		<xs:sequence>
 			<xs:element
 				name = "day"
 				type = "Day"
 				minOccurs = "0"
 				maxOccurs = "unbounded" />
 		</xs:sequence>
-		<xs:attribute name = "version" type = "xs:unsignedLong" default = "1" />
 	</xs:complexType>
 
 	<xs:complexType name = "Day">
@@ -29,9 +36,9 @@
 					type = "xs:boolean"
 					default = "false" />
 				<xs:attribute
-						name = "daily"
-						type = "xs:boolean"
-						default = "false" />
+					name = "daily"
+					type = "xs:boolean"
+					default = "false" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
@@ -44,4 +51,26 @@
 			<xs:enumeration value = "CANCELED" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:complexType name = "ImportGroup">
+		<xs:sequence>
+			<xs:element
+				name = "import"
+				type = "Import"
+				minOccurs = "0"
+				maxOccurs = "unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name = "Import">
+		<xs:simpleContent>
+			<xs:extension base = "xs:string">
+				<xs:attribute name = "date" type = "xs:date" use = "required" />
+				<xs:attribute
+					name = "imported"
+					type = "xs:boolean"
+					default = "false" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 </xs:schema>
