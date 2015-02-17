@@ -13,6 +13,12 @@ class Point
 	attr_accessor :order
 end
 
+class Import
+	attr_accessor :date
+	attr_accessor :points_description
+	attr_accessor :imported
+end
+
 def parseOptions
 	options = {:prefix => 'diary_'}
 	OptionParser.new do |option_parser|
@@ -38,7 +44,7 @@ end
 
 def extractPoints(xml)
 	points = []
-	xml.elements.each('diary/day') do |day_element|
+	xml.elements.each('diary/days/day') do |day_element|
 		order = 1
 		day_element.elements.each('point') do |point_element|
 			point = Point.new
@@ -59,7 +65,24 @@ def extractPoints(xml)
 	points
 end
 
-def generateSql(points, table_prefix)
+def extractImports(xml)
+	imports = []
+	xml.elements.each('diary/imports/import') do |import_element|
+		import = Import.new
+		import.date = import_element.attributes['date']
+		import.points_description = import_element.cdatas().join('')
+		import.imported =
+			!!import_element.attributes['imported'] &&
+			(import_element.attributes['imported'] == 'true' ||
+			import_element.attributes['imported'] == '1')
+
+		imports << import
+	end
+
+	imports
+end
+
+def generatePointsSql(points, table_prefix)
 	"DELETE FROM `#{table_prefix}points`;\n" +
 	"INSERT INTO `#{table_prefix}points` " +
 		"(`date`, `text`, `state`, `check`, `order`)\n" +
@@ -73,14 +96,34 @@ def generateSql(points, table_prefix)
 			"#{point.check}, " +
 			"#{point.order}" +
 		")"
-	end.join(",\n") + ';'
+	end.join(",\n") + ";\n"
+end
+
+def generateImportsSql(imports, table_prefix)
+	"DELETE FROM `#{table_prefix}imports`;\n" +
+	"INSERT INTO `#{table_prefix}imports` " +
+		"(`date`, `points_description`, `imported`)\n" +
+	"VALUES\n" +
+	imports.map do |import|
+		points_description = Mysql2::Client.escape(import.points_description)
+		"\t(" +
+			"'#{import.date}', " +
+			"'#{points_description}', " +
+			"#{import.imported}" +
+		")"
+	end.join(",\n") + ";\n"
 end
 
 begin
 	options = parseOptions
 	xml = loadXml(options[:filename])
 	points = extractPoints(xml)
-	sql = generateSql(points, options[:prefix])
+	imports = extractImports(xml)
+	sql =
+		generatePointsSql(points, options[:prefix]) +
+		"\n" +
+		generateImportsSql(imports, options[:prefix])
+
 	puts sql
 rescue Exception => exception
 	puts "Error: \"#{exception.message}\"."
