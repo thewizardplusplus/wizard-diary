@@ -10,7 +10,7 @@ class Import extends CActiveRecord {
 	}
 
 	public function rules() {
-		return array(array('points_description', 'required'));
+		return array(array('points_description', 'safe'));
 	}
 
 	public function attributeLabels() {

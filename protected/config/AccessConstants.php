@@ -11,5 +11,5 @@ class AccessConstants {
 	const DROPBOX_APP_KEY = 'd4m4a42cz57tuh0';
 	const DROPBOX_APP_SECRET = 'jpblp3axnke90hx';
 	const SMS_RU_LOGIN = '79307808612';
-	const SMS_RU_PASSWORD = 'pkfKHZXzODl5x7TJt6KxWDiQ';
+	const SMS_RU_PASSWORD = 'GNnmzzkUrCy3qi9uCnlr2kYW';
 }
