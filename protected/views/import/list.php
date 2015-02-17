@@ -29,8 +29,8 @@
 									. '? "success"'
 									. ': "danger") . "\">"'
 							. '. ($data->imported'
-								. '? "Imported"'
-								. ': "Not imported")'
+								. '? "Импортированно"'
+								. ': "Не импортированно")'
 						. '. "</span>"',
 					'htmlOptions' => array('class' => 'import-flag-column')
 				),

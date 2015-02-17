@@ -25,7 +25,7 @@
 				? 'success'
 				: 'danger'
 			?>">
-			<?= $model->imported ? 'Imported' : 'Not imported' ?>
+			<?= $model->imported ? 'Импортированно' : 'Не импортированно' ?>
 		</span>
 	</h4>
 </header>
