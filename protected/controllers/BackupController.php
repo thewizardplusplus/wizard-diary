@@ -218,38 +218,21 @@ class BackupController extends CController {
 		$imports = Import::model()->findAll(array('order' => 'date'));
 		foreach ($imports as $import) {
 			$imported_flag = $import->imported ? ' imported = "true"' : '';
-
-			$points_description = '';
-			if (!empty($import->points_description)) {
-				$points_description = str_replace(
-					'\\',
-					'\\\\',
-					$import->points_description
-				);
-				$points_description = preg_replace(
-					'/[\r\n]+/',
-					'\\n',
-					$points_description
-				);
-				$points_description = preg_replace(
-					'/\t| {4}/',
-					'\\t',
-					$points_description
-				);
-				$points_description =
-					'<![CDATA['
-					. str_replace(
-						']]>',
-						']]]><![CDATA[]>',
-						$points_description
-					)
-					. ']]>';
-			}
+			$points_description =
+				!empty($import->points_description)
+					? '<![CDATA['
+						. str_replace(
+							']]>',
+							']]]><![CDATA[]>',
+							$import->points_description
+						)
+						. ']]>'
+					: '';
 
 			$imports_dump .=
-				"\t\t<import date = \"{$import->date}\"$imported_flag>\n"
-					. "\t\t\t$points_description\n"
-				. "\t\t</import>\n";
+				"\t\t<import date = \"{$import->date}\"$imported_flag>"
+					. "$points_description"
+				. "</import>\n";
 		}
 
 		return
