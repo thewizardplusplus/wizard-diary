@@ -3,6 +3,8 @@
 require_once('dropbox-sdk/Dropbox/autoload.php');
 
 class BackupController extends CController {
+	const BACKUP_VERSION = 3;
+
 	public function filters() {
 		return array('accessControl', 'postOnly + create', 'ajaxOnly + create');
 	}
@@ -201,17 +203,65 @@ class BackupController extends CController {
 					: '';
 
 			$days[$point->date] .=
-				"\t\t<point state = \"$state\"$check$daily>$text</point>\n";
+				"\t\t\t<point state = \"$state\"$check$daily>$text</point>\n";
 		}
 
 		$days_dump = '';
 		foreach ($days as $date => $points_tags) {
-			$days_dump .= "\t<day date = \"$date\">\n$points_tags\t</day>\n";
+			$days_dump .=
+				"\t\t<day date = \"$date\">\n"
+					. "$points_tags"
+				. "\t\t</day>\n";
+		}
+
+		$imports_dump = '';
+		$imports = Import::model()->findAll(array('order' => 'date'));
+		foreach ($imports as $import) {
+			$imported_flag = $import->imported ? ' imported = "true"' : '';
+
+			$points_description = '';
+			if (!empty($import->points_description)) {
+				$points_description = str_replace(
+					'\\',
+					'\\\\',
+					$import->points_description
+				);
+				$points_description = preg_replace(
+					'/[\r\n]+/',
+					'\\n',
+					$points_description
+				);
+				$points_description = preg_replace(
+					'/\t| {4}/',
+					'\\t',
+					$points_description
+				);
+				$points_description =
+					'<![CDATA['
+					. str_replace(
+						']]>',
+						']]]><![CDATA[]>',
+						$points_description
+					)
+					. ']]>';
+			}
+
+			$imports_dump .=
+				"\t\t<import date = \"{$import->date}\"$imported_flag>\n"
+					. "\t\t\t$points_description\n"
+				. "\t\t</import>\n";
 		}
 
 		return
 			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
-			. "<diary version = \"2\">\n$days_dump</diary>\n";
+			. "<diary version = \"" . self::BACKUP_VERSION . "\">\n"
+				. "\t<days>\n"
+					. "$days_dump"
+				. "\t</days>\n"
+				. "\t<imports>\n"
+					. "$imports_dump"
+				. "\t</imports>\n"
+			. "</diary>\n";
 	}
 
 	private function saveFileToDropbox($authorization_code, $filename) {
