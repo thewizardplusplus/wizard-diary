@@ -10,5 +10,10 @@ $(document).ready(
 				$('#Import_points_description').val(import_editor.getValue());
 			}
 		);
+		$('.save-and-import-button').click(
+			function() {
+				return false;
+			}
+		);
 	}
 );

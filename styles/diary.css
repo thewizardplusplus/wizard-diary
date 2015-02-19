@@ -248,3 +248,7 @@ a.state-initial:focus {
 	display: inline-block;
 	padding: 5px 10px;
 }
+
+.view-button + .view-button {
+	margin-right: 5px;
+}

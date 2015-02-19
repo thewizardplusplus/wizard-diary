@@ -48,7 +48,7 @@
 				),
 				array(
 					'class' => 'CButtonColumn',
-					'template' => '{update}',
+					'template' => '{update} {import}',
 					'buttons' => array(
 						'update' => array(
 							'label' =>
@@ -64,7 +64,24 @@
 								. ')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Изменить импорт')
-						)
+						),
+						'import' => array(
+							'label' =>
+								'<span '
+									. 'class = '
+										. '"glyphicon '
+										. 'glyphicon-share-alt">'
+								. '</span>',
+							'url' =>
+								'$this->grid->controller->createUrl('
+									. '"import/import",'
+									. 'array("id" => $data->id)'
+								. ')',
+							'imageUrl' => false,
+							'options' => array(
+								'title' => 'Импортировать импорт'
+							)
+						),
 					)
 				)
 			),
