@@ -22,7 +22,7 @@ CREATE TABLE `diary_daily_points` (
 DROP TABLE IF EXISTS `diary_imports`;
 CREATE TABLE `diary_imports` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`date` DATE NOT NULL,
+	`date` DATE NOT NULL UNIQUE,
 	`points_description` TEXT NOT NULL,
 	`imported` BOOLEAN NOT NULL DEFAULT FALSE
 ) ENGINE = MYISAM;
