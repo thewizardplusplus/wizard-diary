@@ -1,8 +1,6 @@
 <?php
 
 class PointController extends CController {
-	const MAXIMAL_ORDER_VALUE = 1000000;
-
 	public function filters() {
 		return array(
 			'accessControl',
@@ -152,7 +150,7 @@ class PointController extends CController {
 		$ids = array_map('intval', $_POST['ids']);
 		$ids_in_string = implode(', ', $ids);
 
-		$start_order_value = self::MAXIMAL_ORDER_VALUE - 2 * count($ids);
+		$start_order_value = Constants::MAXIMAL_ORDER_VALUE - 2 * count($ids);
 		Yii::app()
 			->db
 			->createCommand('SET @order = ' . $start_order_value)
@@ -201,7 +199,7 @@ class PointController extends CController {
 			}
 
 			$lines = $this->extendImport($_POST['points-description']);
-			$order = self::MAXIMAL_ORDER_VALUE - 2 * count($lines);
+			$order = Constants::MAXIMAL_ORDER_VALUE - 2 * count($lines);
 
 			$sql_lines = array_map(
 				function($line) use ($date, &$order) {

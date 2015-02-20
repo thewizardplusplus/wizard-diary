@@ -12,7 +12,7 @@ $(document).ready(
 		);
 		$('.save-and-import-button').click(
 			function() {
-				return false;
+				$('#Import_import').val('true');
 			}
 		);
 	}

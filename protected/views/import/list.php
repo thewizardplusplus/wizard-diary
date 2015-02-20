@@ -80,7 +80,8 @@
 							'imageUrl' => false,
 							'options' => array(
 								'title' => 'Импортировать импорт'
-							)
+							),
+							'visible' => '!$data->imported'
 						),
 					)
 				)

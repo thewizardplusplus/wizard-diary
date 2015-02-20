@@ -75,6 +75,7 @@
 	</button>
 	<button
 		class = "btn btn-danger save-and-import-button"
+		type = "submit"
 		<?= $model->imported ? 'disabled = "disabled"' : '' ?>>
 		<span class = "glyphicon glyphicon-share-alt"></span>
 		Сохранить и импортировать

@@ -13,7 +13,8 @@
 		class = "btn btn-default pull-right view-button"
 		href = "<?=
 			$this->createUrl('import/import', array('id' => $model->id))
-		?>">
+		?>"
+		<?= $model->imported ? 'disabled = "disabled"' : '' ?>>
 		<span class = "glyphicon glyphicon-share-alt"></span>
 		Импортировать
 	</a>
