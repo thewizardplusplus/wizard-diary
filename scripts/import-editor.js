@@ -6,8 +6,8 @@ $(document).ready(
 
 		$('.import-form').submit(
 			function() {
-				$('#points-description').val(import_editor.getValue());
-				$('#Import_points_description').val(import_editor.getValue());
+				var points_description = import_editor.getValue();
+				$('#Import_points_description').val(points_description);
 			}
 		);
 		$('.save-and-import-button').click(

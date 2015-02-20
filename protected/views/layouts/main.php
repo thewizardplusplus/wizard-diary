@@ -109,10 +109,6 @@
 												'url' => array(
 													'parameters/update'
 												)
-											),
-											array(
-												'label' => 'Импорт пунктов',
-												'url' => array('point/import')
 											)
 										),
 										'htmlOptions' => array(

@@ -188,52 +188,6 @@ class PointController extends CController {
 		Point::renumberOrderFieldsForDate($date);
 	}
 
-	public function actionImport() {
-		if (
-			isset($_POST['target-date'])
-			and isset($_POST['points-description'])
-		) {
-			$date = $_POST['target-date'];
-			if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
-				throw new CHttpException(500, 'Неверные параметры запроса.');
-			}
-
-			$lines = $this->extendImport($_POST['points-description']);
-			$order = Constants::MAXIMAL_ORDER_VALUE - 2 * count($lines);
-
-			$sql_lines = array_map(
-				function($line) use ($date, &$order) {
-					$sql_line = sprintf(
-						'("%s", %s, "%s", FALSE, FALSE, %d)',
-						$date,
-						Yii::app()->db->quoteValue($line),
-						!empty($line) ? 'SATISFIED' : 'INITIAL',
-						$order
-					);
-					$order += 2;
-
-					return $sql_line;
-				},
-				$lines
-			);
-			if (!empty($sql_lines)) {
-				$sql = sprintf(
-					'INSERT INTO `{{points}}`'
-						. '(`date`, `text`, `state`, `check`, `daily`, `order`)'
-					. 'VALUES %s',
-					implode(',', $sql_lines)
-				);
-				Yii::app()->db->createCommand($sql)->execute();
-
-				Point::renumberOrderFieldsForDate($date);
-
-				$this->redirect($this->createUrl('point/list'));
-			}
-		}
-
-		$this->render('import_editor');
-	}
-
 	private function loadModel($id) {
 		$model = Point::model()->findByPk($id);
 		if (is_null($model)) {
@@ -241,59 +195,5 @@ class PointController extends CController {
 		}
 
 		return $model;
-	}
-
-	private function extendImport($text) {
-		$lines = explode("\n", $text);
-
-		$last_line_blocks = array();
-		$extended_lines = array_map(
-			function($line) use (&$last_line_blocks) {
-				$line = rtrim($line);
-
-				$extended_line = '';
-				while (
-					substr($line, 0, 1) == "\t" || substr($line, 0, 4) == '    '
-				) {
-					if (!empty($last_line_blocks)) {
-						$extended_line .= array_shift($last_line_blocks) . ', ';
-					}
-
-					$shift_size = substr($line, 0, 1) == "\t" ? 1 : 4;
-					$line = substr($line, $shift_size);
-				}
-				$extended_line .= $line;
-
-				if (!empty($extended_line)) {
-					if (substr($extended_line, -1) != ';') {
-						$extended_line .= ';';
-					}
-
-					$last_line_blocks = array_map(
-						'trim',
-						explode(',', $extended_line)
-					);
-				}
-
-				return $extended_line;
-			},
-			$lines
-		);
-
-		if (
-			!empty($extended_lines)
-			&& empty($extended_lines[count($extended_lines) - 1])
-		) {
-			$extended_lines = array_slice(
-				$extended_lines,
-				0,
-				count($extended_lines) - 1
-			);
-		}
-		if (!empty($extended_lines)) {
-			array_unshift($extended_lines, '');
-		}
-
-		return $extended_lines;
 	}
 }

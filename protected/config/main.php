@@ -23,7 +23,6 @@ return array(
 				'points' => 'point/list',
 				'point/<id:\d+>/update' => 'point/update',
 				'point/<id:\d+>/delete' => 'point/delete',
-				'points/import' => 'point/import',
 				'daily_points' => 'dailyPoint/list',
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
