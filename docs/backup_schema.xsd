@@ -5,6 +5,7 @@
 	<xs:complexType name = "Diary">
 		<xs:sequence>
 			<xs:element name = "days" type = "DayGroup" />
+			<xs:element name = "daily-points" type = "DailyPointGroup" />
 			<xs:element name = "imports" type = "ImportGroup" />
 		</xs:sequence>
 		<xs:attribute name = "version" type = "xs:unsignedLong" default = "1" />
@@ -51,6 +52,26 @@
 			<xs:enumeration value = "CANCELED" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:complexType name = "DailyPointGroup">
+		<xs:sequence>
+			<xs:element
+				name = "daily-point"
+				type = "DailyPoint"
+				maxOccurs = "unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name = "DailyPoint">
+		<xs:simpleContent>
+			<xs:extension base = "xs:string">
+				<xs:attribute
+						name = "check"
+						type = "xs:boolean"
+						default = "false" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 
 	<xs:complexType name = "ImportGroup">
 		<xs:sequence>
