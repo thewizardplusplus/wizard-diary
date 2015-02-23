@@ -40,5 +40,5 @@
 </header>
 
 <article class = "import-view">
-	<pre><?= $model->points_description ?></pre>
+	<pre><?= $model->getFormattedPointsDescription() ?></pre>
 </article>
