@@ -104,7 +104,8 @@ class AccessController extends CController {
 						. (!empty($banned_ips)
 							? ', ip IN (' . implode(', ', $banned_ips) . ')'
 								. 'AS banned'
-							: ''),
+							: '') . ','
+						. 'COUNT(*) AS number',
 					'group' => 'ip, user_agent',
 					'order' => 'timestamp DESC'
 				),

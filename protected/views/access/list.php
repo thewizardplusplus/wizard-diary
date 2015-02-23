@@ -63,6 +63,10 @@
 						. '. $data->getFormattedTimestamp()'
 						. '. "</time>"',
 					'type' => 'raw'
+				),
+				array(
+					'header' => 'Количество запросов',
+					'name' => 'number'
 				)
 			),
 			'rowCssClassExpression' =>
