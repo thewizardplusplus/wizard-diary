@@ -13,6 +13,12 @@ class Point
 	attr_accessor :order
 end
 
+class DailyPoint
+	attr_accessor :text
+	attr_accessor :check
+	attr_accessor :order
+end
+
 class Import
 	attr_accessor :date
 	attr_accessor :points_description
@@ -45,7 +51,7 @@ end
 def extractPoints(xml)
 	points = []
 	xml.elements.each('diary/days/day') do |day_element|
-		order = 1
+		order = 3
 		day_element.elements.each('point') do |point_element|
 			point = Point.new
 			point.date = day_element.attributes['date']
@@ -63,6 +69,25 @@ def extractPoints(xml)
 	end
 
 	points
+end
+
+def extractDailyPoints(xml)
+	daily_points = []
+	order = 3
+	xml.elements.each('diary/daily-points/daily-point') do |daily_point_element|
+		daily_point = DailyPoint.new
+		daily_point.text = daily_point_element.cdatas().join('')
+		daily_point.check =
+			!!daily_point_element.attributes['check'] &&
+			(daily_point_element.attributes['check'] == 'true' ||
+			daily_point_element.attributes['check'] == '1')
+		daily_point.order = order
+
+		daily_points << daily_point
+		order += 2
+	end
+
+	daily_points
 end
 
 def extractImports(xml)
@@ -99,6 +124,21 @@ def generatePointsSql(points, table_prefix)
 	end.join(",\n") + ";\n"
 end
 
+def generateDailyPointsSql(daily_points, table_prefix)
+	"DELETE FROM `#{table_prefix}daily_points`;\n" +
+	"INSERT INTO `#{table_prefix}daily_points` " +
+		"(`text`, `check`, `order`)\n" +
+	"VALUES\n" +
+	daily_points.map do |daily_point|
+		text = Mysql2::Client.escape(daily_point.text)
+		"\t(" +
+			"'#{text}', " +
+			"#{daily_point.check}, " +
+			"#{daily_point.order}" +
+		")"
+	end.join(",\n") + ";\n"
+end
+
 def generateImportsSql(imports, table_prefix)
 	"DELETE FROM `#{table_prefix}imports`;\n" +
 	"INSERT INTO `#{table_prefix}imports` " +
@@ -118,10 +158,11 @@ begin
 	options = parseOptions
 	xml = loadXml(options[:filename])
 	points = extractPoints(xml)
+	daily_points = extractDailyPoints(xml)
 	imports = extractImports(xml)
 	sql =
-		generatePointsSql(points, options[:prefix]) +
-		"\n" +
+		generatePointsSql(points, options[:prefix]) + "\n" +
+		generateDailyPointsSql(daily_points, options[:prefix]) + "\n" +
 		generateImportsSql(imports, options[:prefix])
 
 	puts sql
