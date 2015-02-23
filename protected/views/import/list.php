@@ -44,7 +44,15 @@
 									. 'array("id" => $data->id)'
 								. ') . "\">'
 							. '<time>" . $data->getFormattedDate() . "</time>'
-						. '</a>"'
+						. '</a>"',
+					'htmlOptions' => array('class' => 'import-date-column')
+				),
+				array(
+					'type' => 'raw',
+					'value' =>
+						'"<span class = \"unimportant-text\">"'
+							. '. $data->getNumberOfPoints()'
+						. '. "</span>"'
 				),
 				array(
 					'class' => 'CButtonColumn',

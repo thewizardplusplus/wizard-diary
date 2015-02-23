@@ -22,7 +22,7 @@ class Import extends CActiveRecord {
 	}
 
 	public function getFormattedPointsDescription() {
-		$points = explode("\n", $this->points_description);
+		$points = $this->getPoints();
 		$number_of_points = count($points);
 		$maximal_prefix_length = strlen(
 			number_format($number_of_points, 0, '', '')
@@ -45,5 +45,37 @@ class Import extends CActiveRecord {
 		);
 
 		return implode("\n", $points);
+	}
+
+	public function getNumberOfPoints() {
+		$points = $this->getPoints();
+		$number_of_points = count($points);
+
+		$unit = '';
+		$modulo = $number_of_points % 10;
+		if ($modulo == 1) {
+			$unit = 'пункт';
+		} else if (
+			$modulo > 1 and $modulo < 5
+			and ($number_of_points < 10 or $number_of_points > 20)
+		) {
+			$unit = 'пункта';
+		} else {
+			$unit = 'пунктов';
+		}
+
+		return number_format($number_of_points, 0, '', '') . ' ' . $unit;
+	}
+
+	private function getPoints() {
+		$points = explode("\n", $this->points_description);
+		while (!empty($points) and strlen(trim(reset($points))) == 0) {
+			array_shift($points);
+		}
+		while (!empty($points) and strlen(trim(end($points))) == 0) {
+			array_pop($points);
+		}
+
+		return $points;
 	}
 }

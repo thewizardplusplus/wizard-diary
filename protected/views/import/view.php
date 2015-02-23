@@ -37,6 +37,7 @@
 			<?= $model->imported ? 'Импортированно' : 'Не импортированно' ?>
 		</span>
 	</h4>
+	<p class = "unimportant-text"><?= $model->getNumberOfPoints() ?></p>
 </header>
 
 <article class = "import-view">

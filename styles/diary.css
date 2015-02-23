@@ -221,6 +221,10 @@ a.state-initial:focus {
 	font-size: smaller;
 }
 
+.unimportant-text {
+	color: #777;
+}
+
 .backups-legend,
 .access-log-legend {
 	margin-top: 10px;
@@ -232,6 +236,11 @@ a.state-initial:focus {
 
 .import-flag-column {
 	width: 150px;
+	text-align: center;
+}
+
+.import-date-column {
+	width: 100px;
 	text-align: center;
 }
 
