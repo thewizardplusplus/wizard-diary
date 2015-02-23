@@ -3,7 +3,7 @@
 require_once('dropbox-sdk/Dropbox/autoload.php');
 
 class BackupController extends CController {
-	const BACKUP_VERSION = 3;
+	const BACKUP_VERSION = 4;
 
 	public function filters() {
 		return array('accessControl', 'postOnly + create', 'ajaxOnly + create');
@@ -214,6 +214,27 @@ class BackupController extends CController {
 				. "\t\t</day>\n";
 		}
 
+		$daily_points_dump = '';
+		$daily_points = DailyPoint::model()->findAll(
+			array('order' => '`order`')
+		);
+		foreach ($daily_points as $daily_point) {
+			$check = $daily_point->check ? ' check = "true"' : '';
+			$text =
+				!empty($daily_point->text)
+					? '<![CDATA['
+						. str_replace(
+							']]>',
+							']]]><![CDATA[]>',
+							$daily_point->text
+						)
+						. ']]>'
+					: '';
+
+			$daily_points_dump .=
+				"\t\t<daily-point$check>$text</daily-point>\n";
+		}
+
 		$imports_dump = '';
 		$imports = Import::model()->findAll(array('order' => 'date'));
 		foreach ($imports as $import) {
@@ -241,6 +262,9 @@ class BackupController extends CController {
 				. "\t<days>\n"
 					. "$days_dump"
 				. "\t</days>\n"
+				. "\t<daily-points>\n"
+					. "$daily_points_dump"
+				. "\t</daily-points>\n"
 				. "\t<imports>\n"
 					. "$imports_dump"
 				. "\t</imports>\n"
