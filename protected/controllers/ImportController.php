@@ -44,8 +44,6 @@ class ImportController extends CController {
 				) {
 					$this->importModel($model);
 				}
-
-				$this->redirect(array('view', 'id' => $id));
 			}
 		}
 

@@ -89,6 +89,6 @@
 			)
 		?>">
 		<span class = "glyphicon glyphicon-remove"></span>
-		Отмена
+		Закрыть
 	</a>
 <?php $this->endWidget(); ?>
