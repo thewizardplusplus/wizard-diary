@@ -18,7 +18,35 @@
 		. $model->getFormattedDate();
 ?>
 
-<header class = "page-header">
+<header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?=
+			$this->createUrl(
+				'import/view',
+				array('id' => $model->id)
+			)
+		?>">
+		<span class = "glyphicon glyphicon-remove"></span>
+		Закрыть
+	</a>
+	<button
+		class = "btn btn-danger pull-right save-and-import-button"
+		<?= $model->imported ? 'disabled = "disabled"' : '' ?>>
+		<span class = "glyphicon glyphicon-share-alt"></span>
+		Сохранить и импортировать
+	</button>
+	<button class = "btn btn-primary pull-right save-button">
+		<span
+			class = "glyphicon glyphicon-<?=
+				$model->isNewRecord
+					? 'plus'
+					: 'floppy-disk'
+			?>">
+		</span>
+		Сохранить
+	</button>
+
 	<h4>
 		Изменить импорт за <time><?= $model->getFormattedDate() ?></time>
 		<span
@@ -60,35 +88,4 @@
 	</div>
 
 	<?= CHtml::hiddenField('Import[import]') ?>
-
-	<button
-		class = "btn btn-primary"
-		type = "submit">
-			<span
-				class = "glyphicon glyphicon-<?=
-					$model->isNewRecord
-						? 'plus'
-						: 'floppy-disk'
-				?>">
-			</span>
-		Сохранить
-	</button>
-	<button
-		class = "btn btn-danger save-and-import-button"
-		type = "submit"
-		<?= $model->imported ? 'disabled = "disabled"' : '' ?>>
-		<span class = "glyphicon glyphicon-share-alt"></span>
-		Сохранить и импортировать
-	</button>
-	<a
-		class = "btn btn-default"
-		href = "<?=
-			$this->createUrl(
-				'import/view',
-				array('id' => $model->id)
-			)
-		?>">
-		<span class = "glyphicon glyphicon-remove"></span>
-		Закрыть
-	</a>
 <?php $this->endWidget(); ?>
