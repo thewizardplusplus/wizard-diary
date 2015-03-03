@@ -26,17 +26,19 @@
 				'import/view',
 				array('id' => $model->id)
 			)
-		?>">
+		?>"
+		title = "Закрыть">
 		<span class = "glyphicon glyphicon-remove"></span>
-		Закрыть
 	</a>
 	<button
 		class = "btn btn-danger pull-right save-and-import-button"
-		<?= $model->imported ? 'disabled = "disabled"' : '' ?>>
+		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
+		title = "Сохранить и импортировать">
 		<span class = "glyphicon glyphicon-share-alt"></span>
-		Сохранить и импортировать
 	</button>
-	<button class = "btn btn-primary pull-right save-button">
+	<button
+		class = "btn btn-primary pull-right save-button"
+		title = "Сохранить">
 		<span
 			class = "glyphicon glyphicon-<?=
 				$model->isNewRecord
@@ -44,7 +46,6 @@
 					: 'floppy-disk'
 			?>">
 		</span>
-		Сохранить
 	</button>
 
 	<h4>
@@ -54,8 +55,19 @@
 				$model->imported
 					? 'success'
 					: 'danger'
+			?>"
+			title = "<?=
+				$model->imported
+					? 'Импортированно'
+					: 'Не импортированно'
 			?>">
-			<?= $model->imported ? 'Импортированно' : 'Не импортированно' ?>
+			<span
+				class = "glyphicon glyphicon-<?=
+					$model->imported
+						? 'star'
+						: 'star-empty'
+				?>">
+			</span>
 		</span>
 	</h4>
 </header>

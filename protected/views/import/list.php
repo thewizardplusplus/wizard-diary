@@ -27,11 +27,18 @@
 							. 'class = \"label label-"'
 								. '. ($data->imported'
 									. '? "success"'
-									. ': "danger") . "\">"'
-							. '. ($data->imported'
-								. '? "Импортированно"'
-								. ': "Не импортированно")'
-						. '. "</span>"',
+									. ': "danger") . "\"'
+							. 'title = \""'
+								. '. ($data->imported'
+									. '? "Импортированно"'
+									. ': "Не импортированно") . "\">'
+							. '<span '
+								. 'class = \"glyphicon glyphicon-"'
+									. '. ($data->imported'
+										. '? "star"'
+										. ': "star-empty") . "\">'
+							. '</span>'
+						. '</span>"',
 					'htmlOptions' => array('class' => 'import-flag-column')
 				),
 				array(

@@ -239,12 +239,12 @@ a.state-initial:focus {
 }
 
 .import-flag-column {
-	width: 150px;
+	width: 50px;
 	text-align: center;
 }
 
 .import-date-column {
-	width: 100px;
+	width: 80px;
 	text-align: center;
 }
 

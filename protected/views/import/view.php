@@ -14,18 +14,19 @@
 		href = "<?=
 			$this->createUrl('import/import', array('id' => $model->id))
 		?>"
-		<?= $model->imported ? 'disabled = "disabled"' : '' ?>>
+		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
+		title = "Импортировать">
 		<span class = "glyphicon glyphicon-share-alt"></span>
-		Импортировать
 	</a>
 	<a
 		class = "btn btn-default pull-right view-button"
 		href = "<?=
 			$this->createUrl('import/update', array('id' => $model->id))
-		?>">
+		?>"
+		title = "Изменить">
 		<span class = "glyphicon glyphicon-pencil"></span>
-		Изменить
 	</a>
+
 	<h4>
 		Импорт за <time><?= $model->getFormattedDate() ?></time>
 		<span
@@ -33,8 +34,19 @@
 				$model->imported
 					? 'success'
 					: 'danger'
+			?>"
+			title = "<?=
+				$model->imported
+					? 'Импортированно'
+					: 'Не импортированно'
 			?>">
-			<?= $model->imported ? 'Импортированно' : 'Не импортированно' ?>
+			<span
+				class = "glyphicon glyphicon-<?=
+					$model->imported
+						? 'star'
+						: 'star-empty'
+				?>">
+			</span>
 		</span>
 	</h4>
 	<p class = "unimportant-text"><?= $model->getNumberOfPoints() ?></p>
