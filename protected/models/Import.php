@@ -36,15 +36,45 @@ class Import extends CActiveRecord {
 					$prefix = ' ' . $prefix;
 				}
 
-				$new_point = $prefix . ' | ' . $point;
+				$point = rtrim($point);
+				$point = preg_replace(
+					'/(\t|    )/',
+					$this->getUnicodeString('\u00a0\u00a0\u00a0\u21e5'),
+					$point
+				);
+				$point = str_replace(
+					' ',
+					$this->getUnicodeString('\u00b7'),
+					$point
+				);
+				$point =
+					$prefix . ' | '
+					. $point
+					. $this->getUnicodeString('\u00b6');
 
 				$line_number++;
-				return $new_point;
+				return $point;
 			},
 			$points
 		);
 
 		return implode("\n", $points);
+	}
+
+	private function getPoints() {
+		$points = explode("\n", $this->points_description);
+		while (!empty($points) and strlen(trim(reset($points))) == 0) {
+			array_shift($points);
+		}
+		while (!empty($points) and strlen(trim(end($points))) == 0) {
+			array_pop($points);
+		}
+
+		return $points;
+	}
+
+	private function getUnicodeString($escaped_string) {
+		return json_decode('"' . $escaped_string . '"');
 	}
 
 	public function getNumberOfPoints() {
@@ -65,17 +95,5 @@ class Import extends CActiveRecord {
 		}
 
 		return number_format($number_of_points, 0, '', '') . ' ' . $unit;
-	}
-
-	private function getPoints() {
-		$points = explode("\n", $this->points_description);
-		while (!empty($points) and strlen(trim(reset($points))) == 0) {
-			array_shift($points);
-		}
-		while (!empty($points) and strlen(trim(end($points))) == 0) {
-			array_pop($points);
-		}
-
-		return $points;
 	}
 }
