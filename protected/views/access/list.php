@@ -7,8 +7,8 @@
 
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
-		'var ACCESS_INFO_UPDATE_PAUSE_IN_S = '
-			. Constants::ACCESS_INFO_UPDATE_PAUSE_IN_S
+		'var ACCESS_LOG_UPDATE_PAUSE_IN_S = '
+			. Constants::ACCESS_LOG_UPDATE_PAUSE_IN_S
 			. ';',
 		CClientScript::POS_HEAD
 	);

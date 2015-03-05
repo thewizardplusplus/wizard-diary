@@ -14,12 +14,12 @@ $(document).ready(
 			);
 		};
 		var StartAccessLogUpdating = function() {
-			setInterval(UpdateAccessLog, ACCESS_INFO_UPDATE_PAUSE_IN_S * 1000);
+			setInterval(UpdateAccessLog, ACCESS_LOG_UPDATE_PAUSE_IN_S * 1000);
 		};
 
 		setTimeout(
 			StartAccessLogUpdating,
-			ACCESS_INFO_UPDATE_PAUSE_IN_S * 1000
+			ACCESS_LOG_UPDATE_PAUSE_IN_S * 1000
 		);
 	}
 );

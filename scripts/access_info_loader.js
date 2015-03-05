@@ -17,7 +17,7 @@ $(document).ready(
 					);
 
 					var rest_time =
-						ACCESS_INFO_UPDATE_PAUSE_IN_S * 1000
+						ACCESS_LOG_UPDATE_PAUSE_IN_S * 1000
 						- (Date.now() - start_time);
 					setTimeout(UpdateAccessInfo, rest_time > 0 ? rest_time : 0);
 				},
