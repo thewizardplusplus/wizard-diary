@@ -25,6 +25,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_log_updater.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/access_info_loader.js'),
 		CClientScript::POS_HEAD
 	);
