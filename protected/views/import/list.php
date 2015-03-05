@@ -27,7 +27,7 @@
 							. 'class = \"label label-"'
 								. '. ($data->imported'
 									. '? "success"'
-									. ': "danger") . "\"'
+									. ': "danger") . " import-flag\"'
 							. 'title = \""'
 								. '. ($data->imported'
 									. '? "Импортированно"'

@@ -34,7 +34,7 @@
 				$model->imported
 					? 'success'
 					: 'danger'
-			?>"
+			?> import-flag"
 			title = "<?=
 				$model->imported
 					? 'Импортированно'
