@@ -34,13 +34,25 @@ $(document).ready(
 				{'Import[points_description]': import_editor.getValue()},
 				CSRF_TOKEN
 			);
-			$.post(save_url + "tgfdg", data, FinishAnimation).fail(
+			$.post(save_url, data, FinishAnimation).fail(
 				function(xhr, text_status) {
 					FinishAnimation();
 					AjaxErrorDialog.handler(xhr, text_status);
 				}
 			);
 		};
+
+		$(window).keydown(
+			function(event) {
+				if (
+					(event.ctrlKey || event.metaKey)
+					&& String.fromCharCode(event.which).toLowerCase() == 's'
+				) {
+					event.preventDefault();
+					SaveViaAjax();
+				}
+			}
+		);
 
 		save_button.click(SaveViaAjax);
 		$('.save-and-import-button').click(
