@@ -1,5 +1,7 @@
 $(document).ready(
 	function() {
+		var IMPORT_EDITOR_SAVE_TIMEOUT = 2000;
+
 		var import_editor = ace.edit('import-editor');
 		import_editor.setTheme('ace/theme/twilight');
 		import_editor.setShowInvisibles(true);
@@ -51,6 +53,18 @@ $(document).ready(
 					event.preventDefault();
 					SaveViaAjax();
 				}
+			}
+		);
+
+		var save_timer = null;
+		import_editor.on(
+			'change',
+			function() {
+				clearTimeout(save_timer);
+				save_timer = setTimeout(
+					SaveViaAjax,
+					IMPORT_EDITOR_SAVE_TIMEOUT
+				);
 			}
 		);
 
