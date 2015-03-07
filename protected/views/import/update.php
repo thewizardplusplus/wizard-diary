@@ -37,15 +37,20 @@
 		<span class = "glyphicon glyphicon-share-alt"></span>
 	</button>
 	<button
-		class = "btn btn-primary pull-right save-button"
-		title = "Сохранить">
-		<span
-			class = "glyphicon glyphicon-<?=
-				$model->isNewRecord
-					? 'plus'
-					: 'floppy-disk'
-			?>">
-		</span>
+		class = "btn btn-primary pull-right save-import-button"
+		title = "Сохранить"
+		data-save-url = "<?=
+			$this->createUrl(
+				'import/update',
+				array('id' => $model->id)
+			)
+		?>">
+		<img
+			src = "<?=
+				Yii::app()->request->baseUrl
+			?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-floppy-disk"></span>
 	</button>
 
 	<h4>

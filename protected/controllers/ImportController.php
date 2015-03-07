@@ -29,11 +29,6 @@ class ImportController extends CController {
 	public function actionUpdate($id) {
 		$model = $this->loadModel($id);
 
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'import-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
 		if (isset($_POST['Import'])) {
 			$model->attributes = $_POST['Import'];
 			$result = $model->save();

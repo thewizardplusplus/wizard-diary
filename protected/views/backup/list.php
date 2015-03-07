@@ -20,7 +20,7 @@
 		data-dropbox-redirect-url = "<?= Constants::DROPBOX_REDIRECT_URL ?>">
 		<img
 			src = "<?=
-			Yii::app()->request->baseUrl
+				Yii::app()->request->baseUrl
 			?>/images/processing-icon.gif"
 			alt = "..." />
 		<span class = "glyphicon glyphicon-compressed"></span>
