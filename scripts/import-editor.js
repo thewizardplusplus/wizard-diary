@@ -3,6 +3,7 @@ $(document).ready(
 		var import_editor = ace.edit('import-editor');
 		import_editor.setTheme('ace/theme/twilight');
 		import_editor.setShowInvisibles(true);
+		import_editor.setShowPrintMargin(false);
 
 		var form = $('.import-form');
 		form.submit(
