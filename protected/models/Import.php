@@ -58,7 +58,7 @@ class Import extends CActiveRecord {
 			$points
 		);
 
-		return implode("\n", $points);
+		return CHtml::encode(implode("\n", $points));
 	}
 
 	private function getPoints() {
