@@ -125,10 +125,6 @@ class ImportController extends CController {
 				$extended_line .= $line;
 
 				if (!empty($extended_line)) {
-					if (substr($extended_line, -1) != ';') {
-						$extended_line .= ';';
-					}
-
 					$last_line_blocks = array_map(
 						'trim',
 						explode(',', $extended_line)
@@ -138,6 +134,19 @@ class ImportController extends CController {
 				return $extended_line;
 			},
 			$lines
+		);
+		$extended_lines = array_map(
+			function($extended_line) {
+				if (
+					!empty($extended_line)
+					and substr($extended_line, -1) != ';'
+				) {
+					$extended_line .= ';';
+				}
+
+				return $extended_line;
+			},
+			$extended_lines
 		);
 
 		if (
