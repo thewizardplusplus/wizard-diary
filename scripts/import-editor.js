@@ -7,11 +7,52 @@ $(document).ready(
 		import_editor.setShowInvisibles(true);
 		import_editor.setShowPrintMargin(false);
 
-		var form = $('.import-form');
-		form.submit(
+		var FormatPoints = function(points) {
+			points = points.map(
+				function(point) {
+					return point.replace(/\s+$/, '');
+				}
+			);
+
+			while (points.length && points[0].trim().length == 0) {
+				points.shift();
+			}
+			while (points.length && points.slice(-1)[0].trim().length == 0) {
+				points.pop();
+			}
+			points.push('');
+
+			return points;
+		};
+		var FormatPointsDescription = function(points_description) {
+			var points = points_description.split('\n');
+			points = FormatPoints(points);
+
+			return points.join('\n');
+		};
+		import_editor.formatAndReturnPointsDescription = function() {
+			var points_description = FormatPointsDescription(
+				import_editor.getValue()
+			);
+
+			var cursor_position = import_editor.getCursorPosition();
+			import_editor.setValue(points_description, -1);
+			import_editor.moveCursorToPosition(cursor_position);
+
+			return points_description;
+		};
+
+		var save_timer = null;
+		import_editor.on(
+			'change',
 			function() {
-				var points_description = import_editor.getValue();
-				$('#Import_points_description').val(points_description);
+				if (import_editor.curOp && import_editor.curOp.command.name) {
+					clearTimeout(save_timer);
+					save_timer = setTimeout(
+						SaveViaAjax,
+						IMPORT_EDITOR_SAVE_TIMEOUT
+					);
+				}
 			}
 		);
 
@@ -33,7 +74,11 @@ $(document).ready(
 			import_editor_container.addClass('wait');
 
 			var data = $.extend(
-				{'Import[points_description]': import_editor.getValue()},
+				{
+					'Import[points_description]':
+						import_editor
+						.formatAndReturnPointsDescription()
+				},
 				CSRF_TOKEN
 			);
 			$.post(save_url, data, FinishAnimation).fail(
@@ -44,6 +89,24 @@ $(document).ready(
 			);
 		};
 
+		var form = $('.import-form');
+		form.submit(
+			function() {
+				var points_description =
+					import_editor
+					.formatAndReturnPointsDescription();
+				$('#Import_points_description').val(points_description);
+			}
+		);
+
+		save_button.click(SaveViaAjax);
+		$('.save-and-import-button').click(
+			function() {
+				$('#Import_import').val('true');
+				form.submit();
+			}
+		);
+
 		$(window).keydown(
 			function(event) {
 				if (
@@ -53,26 +116,6 @@ $(document).ready(
 					event.preventDefault();
 					SaveViaAjax();
 				}
-			}
-		);
-
-		var save_timer = null;
-		import_editor.on(
-			'change',
-			function() {
-				clearTimeout(save_timer);
-				save_timer = setTimeout(
-					SaveViaAjax,
-					IMPORT_EDITOR_SAVE_TIMEOUT
-				);
-			}
-		);
-
-		save_button.click(SaveViaAjax);
-		$('.save-and-import-button').click(
-			function() {
-				$('#Import_import').val('true');
-				form.submit();
 			}
 		);
 	}
