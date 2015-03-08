@@ -3,7 +3,15 @@
 	/* @var $data_provider CActiveDataProvider */
 
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/purl.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/import_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/import_list.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -32,7 +40,7 @@
 							. 'class = \"label label-"'
 								. '. ($data->imported'
 									. '? "success"'
-									. ': "danger") . " import-flag\"'
+									. ': "danger") . " import-flag\" '
 							. 'title = \""'
 								. '. ($data->imported'
 									. '? "Импортированно"'
@@ -95,12 +103,19 @@
 							'url' =>
 								'$this->grid->controller->createUrl('
 									. '"import/import",'
-									. 'array("id" => $data->id)'
+									. 'array('
+										. '"id" => $data->id,'
+										. '"date" => $data->getFormattedDate()'
+									. ')'
 								. ')',
 							'imageUrl' => false,
 							'options' => array(
 								'title' => 'Импортировать импорт'
 							),
+							'click' =>
+								'function() {'
+									. 'return ImportList.import(this);'
+								. '}',
 							'visible' => '!$data->imported'
 						),
 					)
