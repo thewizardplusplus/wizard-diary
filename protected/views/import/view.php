@@ -2,6 +2,11 @@
 	/* @var $this ImportController */
 	/* @var $model Import */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/import_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle =
 		Yii::app()->name
 		. ' - Импорт за '
@@ -55,3 +60,5 @@
 <article class = "import-view">
 	<pre><?= $model->getFormattedPointsDescription() ?></pre>
 </article>
+
+<?php $this->renderPartial('_import_dialog'); ?>

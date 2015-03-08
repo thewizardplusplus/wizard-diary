@@ -100,10 +100,18 @@ $(document).ready(
 		);
 
 		save_button.click(SaveViaAjax);
-		$('.save-and-import-button').click(
+
+		var save_and_import_button = $('.save-and-import-button');
+		var import_date = save_and_import_button.data('date');
+		save_and_import_button.click(
 			function() {
-				$('#Import_import').val('true');
-				form.submit();
+				ImportDialog.show(
+					import_date,
+					function() {
+						$('#Import_import').val('true');
+						form.submit();
+					}
+				);
 			}
 		);
 

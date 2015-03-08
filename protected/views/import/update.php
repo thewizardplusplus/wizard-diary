@@ -8,7 +8,11 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/import-editor.js'),
+		CHtml::asset('scripts/import_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/import_editor.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -33,7 +37,8 @@
 	<button
 		class = "btn btn-danger pull-right save-and-import-button"
 		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
-		title = "Сохранить и импортировать">
+		title = "Сохранить и импортировать"
+		data-date = "<?= $model->getFormattedDate() ?>">
 		<span class = "glyphicon glyphicon-share-alt"></span>
 	</button>
 	<button
@@ -106,3 +111,5 @@
 
 	<?= CHtml::hiddenField('Import[import]') ?>
 <?php $this->endWidget(); ?>
+
+<?php $this->renderPartial('_import_dialog'); ?>

@@ -2,6 +2,11 @@
 	/* @var $this ImportController */
 	/* @var $data_provider CActiveDataProvider */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/import_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Импорт';
 ?>
 
@@ -124,3 +129,5 @@
 		)
 	); ?>
 </div>
+
+<?php $this->renderPartial('_import_dialog'); ?>
