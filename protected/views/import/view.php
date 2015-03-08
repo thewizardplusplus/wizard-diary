@@ -6,6 +6,10 @@
 		CHtml::asset('scripts/import_dialog.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/import_view.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle =
 		Yii::app()->name
@@ -14,15 +18,16 @@
 ?>
 
 <header class = "page-header clearfix header-with-button">
-	<a
-		class = "btn btn-default pull-right view-button"
-		href = "<?=
+	<button
+		class = "btn btn-default pull-right view-button import-button"
+		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
+		title = "Импортировать"
+		data-import-url = "<?=
 			$this->createUrl('import/import', array('id' => $model->id))
 		?>"
-		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
-		title = "Импортировать">
+		data-date = "<?= $model->getFormattedDate() ?>">
 		<span class = "glyphicon glyphicon-share-alt"></span>
-	</a>
+	</button>
 	<a
 		class = "btn btn-default pull-right view-button"
 		href = "<?=
