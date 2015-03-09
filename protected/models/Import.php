@@ -31,7 +31,10 @@ class Import extends CActiveRecord {
 
 		$unit = '';
 		$modulo = $number_of_points % 10;
-		if ($modulo == 1) {
+		if (
+			$modulo == 1
+			and ($number_of_points < 10 or $number_of_points > 20)
+		) {
 			$unit = 'пункт';
 		} else if (
 			$modulo > 1 and $modulo < 5

@@ -62,12 +62,46 @@ $(document).ready(
 			}
 		};
 
+		var number_of_points_view = $('.number-of-points-view');
+		var FormatNumberOfPoints = function(number_of_points) {
+			var unit = '';
+			var modulo = number_of_points % 10;
+			if (
+				modulo == 1
+				&& (number_of_points < 10 || number_of_points > 20)
+			) {
+				unit = 'пункт';
+			} else if (
+				modulo > 1 && modulo < 5
+				&& (number_of_points < 10 || number_of_points > 20)
+			) {
+				unit = 'пункта';
+			} else {
+				unit = 'пунктов';
+			}
+
+			return number_of_points.toString() + ' ' + unit;
+		};
+		var SetNumberOfPoints = function() {
+			var points_description = import_editor.getValue();
+			var points = points_description.split('\n');
+			points = FormatPoints(points);
+
+			var number_of_points = points.length - 1;
+			var formatted_number_of_points = FormatNumberOfPoints(
+				number_of_points
+			);
+
+			number_of_points_view.text(formatted_number_of_points);
+		};
+
 		var save_timer = null;
 		import_editor.on(
 			'change',
 			function() {
 				if (import_editor.curOp && import_editor.curOp.command.name) {
 					SetSavedFlag(false);
+					SetNumberOfPoints();
 
 					clearTimeout(save_timer);
 					save_timer = setTimeout(

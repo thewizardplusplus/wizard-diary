@@ -85,6 +85,9 @@
 			<span class = "glyphicon glyphicon-floppy-saved"></span>
 		</span>
 	</h4>
+	<p class = "unimportant-text number-of-points-view"><?=
+		$model->getNumberOfPoints()
+	?></p>
 </header>
 
 <?php
