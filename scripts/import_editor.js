@@ -42,11 +42,33 @@ $(document).ready(
 			return points_description;
 		};
 
+		var saved_flag_container = $('.saved-flag');
+		var saved_flag_icon = $('span', saved_flag_container);
+		var SetSavedFlag = function(saved) {
+			if (saved) {
+				saved_flag_container
+					.addClass('label-success')
+					.removeClass('label-danger');
+				saved_flag_icon
+					.addClass('glyphicon-floppy-saved')
+					.removeClass('glyphicon-floppy-remove');
+			} else {
+				saved_flag_container
+					.addClass('label-danger')
+					.removeClass('label-success');
+				saved_flag_icon
+					.addClass('glyphicon-floppy-remove')
+					.removeClass('glyphicon-floppy-saved');
+			}
+		};
+
 		var save_timer = null;
 		import_editor.on(
 			'change',
 			function() {
 				if (import_editor.curOp && import_editor.curOp.command.name) {
+					SetSavedFlag(false);
+
 					clearTimeout(save_timer);
 					save_timer = setTimeout(
 						SaveViaAjax,
@@ -81,7 +103,14 @@ $(document).ready(
 				},
 				CSRF_TOKEN
 			);
-			$.post(save_url, data, FinishAnimation).fail(
+			$.post(
+				save_url,
+				data,
+				function() {
+					SetSavedFlag(true);
+					FinishAnimation();
+				}
+			).fail(
 				function(xhr, text_status) {
 					FinishAnimation();
 					AjaxErrorDialog.handler(xhr, text_status);

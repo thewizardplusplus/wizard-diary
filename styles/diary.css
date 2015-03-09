@@ -258,7 +258,8 @@ a.state-initial:focus {
 	white-space: pre-wrap;
 }
 
-.import-flag {
+.import-flag,
+.saved-flag {
 	cursor: default;
 }
 

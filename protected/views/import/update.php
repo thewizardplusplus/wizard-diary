@@ -79,6 +79,11 @@
 				?>">
 			</span>
 		</span>
+		<span
+			class = "label label-success saved-flag"
+			title = "Сохранено">
+			<span class = "glyphicon glyphicon-floppy-saved"></span>
+		</span>
 	</h4>
 </header>
 
