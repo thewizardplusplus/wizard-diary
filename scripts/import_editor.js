@@ -95,20 +95,11 @@ $(document).ready(
 			number_of_points_view.text(formatted_number_of_points);
 		};
 
-		var save_timer = null;
 		import_editor.on(
 			'change',
 			function() {
-				if (import_editor.curOp && import_editor.curOp.command.name) {
-					SetSavedFlag(false);
-					SetNumberOfPoints();
-
-					clearTimeout(save_timer);
-					save_timer = setTimeout(
-						SaveViaAjax,
-						IMPORT_EDITOR_SAVE_TIMEOUT
-					);
-				}
+				SetSavedFlag(false);
+				SetNumberOfPoints();
 			}
 		);
 
