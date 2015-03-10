@@ -25,7 +25,8 @@
 		data-import-url = "<?=
 			$this->createUrl('import/import', array('id' => $model->id))
 		?>"
-		data-date = "<?= DateFormatter::formatMyDate($model->date) ?>">
+		data-date = "<?= DateFormatter::formatDate($model->date) ?>"
+		data-my-date = "<?= DateFormatter::formatMyDate($model->date) ?>">
 		<span class = "glyphicon glyphicon-share-alt"></span>
 	</button>
 	<a
@@ -38,7 +39,11 @@
 	</a>
 
 	<h4>
-		Импорт за <time><?= DateFormatter::formatMyDate($model->date) ?></time>
+		Импорт за <time title = "<?=
+			DateFormatter::formatDate($model->date)
+		?>">
+			<?= DateFormatter::formatMyDate($model->date) ?>
+		</time>
 		<span
 			class = "label label-<?=
 				$model->imported

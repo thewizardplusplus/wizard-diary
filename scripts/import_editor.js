@@ -166,9 +166,11 @@ $(document).ready(
 
 		var save_and_import_button = $('.save-and-import-button');
 		var import_date = save_and_import_button.data('date');
+		var import_my_date = save_and_import_button.data('my-date');
 		save_and_import_button.click(
 			function() {
 				ImportDialog.show(
+					import_my_date,
 					import_date,
 					function() {
 						$('#Import_import').val('true');

@@ -5,8 +5,11 @@ $(document).ready(
 		ImportList = {
 			import: function(link) {
 				var import_url = $(link).attr('href');
-				var import_date = $.url(import_url).param('date');
+				var wrapped_import_url = $.url(import_url);
+				var import_date = wrapped_import_url.param('date');
+				var import_my_date = wrapped_import_url.param('my-date');
 				ImportDialog.show(
+					import_my_date,
 					import_date,
 					function() {
 						window.location = import_url;

@@ -38,7 +38,8 @@
 		class = "btn btn-danger pull-right save-and-import-button"
 		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
 		title = "Сохранить и импортировать"
-		data-date = "<?= DateFormatter::formatMyDate($model->date) ?>">
+		data-date = "<?= DateFormatter::formatDate($model->date) ?>"
+		data-my-date = "<?= DateFormatter::formatMyDate($model->date) ?>">
 		<span class = "glyphicon glyphicon-share-alt"></span>
 	</button>
 	<button
@@ -59,9 +60,11 @@
 	</button>
 
 	<h4>
-		Изменить импорт за <time><?=
-			DateFormatter::formatMyDate($model->date)
-		?></time>
+		Изменить импорт за <time title = "<?=
+			DateFormatter::formatDate($model->date)
+		?>">
+			<?= DateFormatter::formatMyDate($model->date) ?>
+		</time>
 		<span
 			class = "label label-<?=
 				$model->imported

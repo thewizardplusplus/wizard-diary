@@ -1,6 +1,10 @@
 <?php
 
 class DateFormatter {
+	public static function formatDate($date) {
+		return implode('.', array_reverse(explode('-', $date)));
+	}
+
 	public static function formatMyDate($my_date) {
 		$start_date =
 			Yii::app()->db

@@ -254,7 +254,11 @@
 			'extraRowColumns' => array('date'),
 			'extraRowExpression' =>
 				'"<span class = \"date-row\">'
-					. '<span class = \"label label-success\">"'
+					. '<span '
+						. 'class = \"label label-success\"'
+						. 'title = \""'
+							. ' . DateFormatter::formatDate($data->date)'
+						. ' . "\">"'
 						. ' . DateFormatter::formatMyDate($data->date) . '
 					. '":</span>'
 				. '</span>"',

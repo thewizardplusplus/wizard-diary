@@ -7,8 +7,9 @@ $(document).ready(
 		var ok_button = $('.ok-button', import_dialog);
 
 		ImportDialog = {
-			show: function(date, ok_button_handler) {
-				import_date.text(date);
+			show: function(my_date, date, ok_button_handler) {
+				import_date.text(my_date);
+				import_date.attr('title', date);
 
 				ok_button.off('click');
 				ok_button.click(ok_button_handler);

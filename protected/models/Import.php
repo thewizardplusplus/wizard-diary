@@ -21,10 +21,6 @@ class Import extends CActiveRecord {
 		return array('points_description' => 'Описание пунктов');
 	}
 
-	public function getFormattedDate() {
-		return implode('.', array_reverse(explode('-', $this->date)));
-	}
-
 	public function getNumberOfPoints() {
 		$points = $this->getPoints();
 		$number_of_points = count($points);
