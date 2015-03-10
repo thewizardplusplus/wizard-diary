@@ -255,7 +255,7 @@
 			'extraRowExpression' =>
 				'"<span class = \"date-row\">'
 					. '<span class = \"label label-success\">"'
-						. ' . $data->getMyDate() . '
+						. ' . DateFormatter::formatMyDate($data->date) . '
 					. '":</span>'
 				. '</span>"',
 			'extraRowPos' => 'above'

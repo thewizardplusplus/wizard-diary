@@ -19,7 +19,7 @@
 	$this->pageTitle =
 		Yii::app()->name
 		. ' - Изменить импорт за '
-		. $model->getFormattedDate();
+		. DateFormatter::formatMyDate($model->date);
 ?>
 
 <header class = "page-header clearfix header-with-button">
@@ -38,7 +38,7 @@
 		class = "btn btn-danger pull-right save-and-import-button"
 		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
 		title = "Сохранить и импортировать"
-		data-date = "<?= $model->getFormattedDate() ?>">
+		data-date = "<?= DateFormatter::formatMyDate($model->date) ?>">
 		<span class = "glyphicon glyphicon-share-alt"></span>
 	</button>
 	<button
@@ -59,7 +59,9 @@
 	</button>
 
 	<h4>
-		Изменить импорт за <time><?= $model->getFormattedDate() ?></time>
+		Изменить импорт за <time><?=
+			DateFormatter::formatMyDate($model->date)
+		?></time>
 		<span
 			class = "label label-<?=
 				$model->imported

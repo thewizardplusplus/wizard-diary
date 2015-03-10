@@ -14,7 +14,7 @@
 	$this->pageTitle =
 		Yii::app()->name
 		. ' - Импорт за '
-		. $model->getFormattedDate();
+		. DateFormatter::formatMyDate($model->date);
 ?>
 
 <header class = "page-header clearfix header-with-button">
@@ -25,7 +25,7 @@
 		data-import-url = "<?=
 			$this->createUrl('import/import', array('id' => $model->id))
 		?>"
-		data-date = "<?= $model->getFormattedDate() ?>">
+		data-date = "<?= DateFormatter::formatMyDate($model->date) ?>">
 		<span class = "glyphicon glyphicon-share-alt"></span>
 	</button>
 	<a
@@ -38,7 +38,7 @@
 	</a>
 
 	<h4>
-		Импорт за <time><?= $model->getFormattedDate() ?></time>
+		Импорт за <time><?= DateFormatter::formatMyDate($model->date) ?></time>
 		<span
 			class = "label label-<?=
 				$model->imported

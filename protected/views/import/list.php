@@ -63,7 +63,9 @@
 									. '"import/view",'
 									. 'array("id" => $data->id)'
 								. ') . "\">'
-							. '<time>" . $data->getFormattedDate() . "</time>'
+							. '<time>"'
+								. ' . DateFormatter::formatMyDate($data->date)'
+							. ' . "</time>'
 						. '</a>"',
 					'htmlOptions' => array('class' => 'import-date-column')
 				),
@@ -105,7 +107,10 @@
 									. '"import/import",'
 									. 'array('
 										. '"id" => $data->id,'
-										. '"date" => $data->getFormattedDate()'
+										. '"date" =>'
+											. 'DateFormatter::formatMyDate('
+												.'$data->date'
+											. ')'
 									. ')'
 								. ')',
 							'imageUrl' => false,
