@@ -102,6 +102,15 @@ $(document).ready(
 				SetNumberOfPoints();
 			}
 		);
+		import_editor.on(
+			'paste',
+			function(event) {
+				event.text =
+					event.text
+					.replace(/\u21e5|\u00b7/g, ' ')
+					.replace('\u00b6', '');
+			}
+		);
 
 		var save_button = $('.save-import-button');
 		var save_url = save_button.data('save-url');
