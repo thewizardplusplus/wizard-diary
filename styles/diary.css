@@ -263,6 +263,10 @@ a.state-initial:focus {
 	cursor: default;
 }
 
+#import-list .button-column {
+	text-align: left;
+}
+
 .label {
 	display: inline-block;
 	padding: 5px 10px;
