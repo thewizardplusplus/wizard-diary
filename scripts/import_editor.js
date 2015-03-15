@@ -7,7 +7,7 @@ $(document).ready(
 		import_editor.setShowInvisibles(true);
 		import_editor.setShowPrintMargin(false);
 
-		var FormatPoints = function(points) {
+		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
 				function(point) {
 					return point.replace(/\s+$/, '');
@@ -16,30 +16,47 @@ $(document).ready(
 
 			while (points.length && points[0].trim().length == 0) {
 				points.shift();
+
+				if (typeof cursor_position != 'undefined') {
+					cursor_position.row--;
+				}
 			}
 			while (points.length && points.slice(-1)[0].trim().length == 0) {
 				points.pop();
 			}
 			points.push('');
 
-			return points;
+			return {
+				points: points,
+				cursor_position: cursor_position
+			};
 		};
-		var FormatPointsDescription = function(points_description) {
+		var FormatPointsDescription = function(
+			points_description,
+			cursor_position
+		) {
 			var points = points_description.split('\n');
-			points = FormatPoints(points);
+			var result = FormatPoints(points, cursor_position);
 
-			return points.join('\n');
+			points_description = result.points.join('\n');
+			return {
+				points_description: points_description,
+				cursor_position: result.cursor_position
+			};
 		};
 		import_editor.formatAndReturnPointsDescription = function() {
-			var points_description = FormatPointsDescription(
-				import_editor.getValue()
+			var cursor_position = import_editor.getCursorPosition();
+			var result = FormatPointsDescription(
+				import_editor.getValue(),
+				cursor_position
 			);
 
-			var cursor_position = import_editor.getCursorPosition();
-			import_editor.setValue(points_description, -1);
-			import_editor.moveCursorToPosition(cursor_position);
+			import_editor.setValue(result.points_description, -1);
+			if (typeof result.cursor_position != 'undefined') {
+				import_editor.moveCursorToPosition(result.cursor_position);
+			}
 
-			return points_description;
+			return result.points_description;
 		};
 
 		var saved_flag_container = $('.saved-flag');
