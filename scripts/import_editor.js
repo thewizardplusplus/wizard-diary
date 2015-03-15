@@ -9,8 +9,15 @@ $(document).ready(
 
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
-				function(point) {
-					return point.replace(/\s+$/, '');
+				function(point, index) {
+					if (
+						typeof cursor_position == 'undefined'
+						|| cursor_position.row != index
+					) {
+						return point.replace(/\s+$/, '');
+					} else {
+						return point;
+					}
 				}
 			);
 
@@ -37,17 +44,18 @@ $(document).ready(
 		) {
 			var points = points_description.split('\n');
 			var result = FormatPoints(points, cursor_position);
-
 			points_description = result.points.join('\n');
+
 			return {
 				points_description: points_description,
 				cursor_position: result.cursor_position
 			};
 		};
 		import_editor.formatAndReturnPointsDescription = function() {
+			var points_description = import_editor.getValue();
 			var cursor_position = import_editor.getCursorPosition();
 			var result = FormatPointsDescription(
-				import_editor.getValue(),
+				points_description,
 				cursor_position
 			);
 
