@@ -143,7 +143,10 @@
 			<footer class = "small-text">
 				<hr />
 				<p>
-					&copy; thewizardplusplus, <?= $copyright_years ?>
+					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?><br />
+					<span class = "unimportant-text">
+						&copy; thewizardplusplus, <?= $copyright_years ?>
+					</span>
 				<p>
 			</footer>
 		</section>
