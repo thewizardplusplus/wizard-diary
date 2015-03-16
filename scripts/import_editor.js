@@ -44,10 +44,14 @@ $(document).ready(
 				points.push('');
 			}
 
-			return {
-				points: points,
-				cursor_position: cursor_position
-			};
+			if (typeof cursor_position != 'undefined') {
+				return {
+					points: points,
+					cursor_position: cursor_position
+				};
+			} else {
+				return points;
+			}
 		};
 		var FormatPointsDescription = function(
 			points_description,
@@ -124,10 +128,13 @@ $(document).ready(
 			points = FormatPoints(points);
 
 			var number_of_points = points.length - 1;
+			if (number_of_points < 0) {
+				number_of_points = 0;
+			}
+
 			var formatted_number_of_points = FormatNumberOfPoints(
 				number_of_points
 			);
-
 			number_of_points_view.text(formatted_number_of_points);
 		};
 
