@@ -40,12 +40,7 @@ $(document).ready(
 			) {
 				points.pop();
 			}
-			if (
-				(points.length
-				&& points.slice(-1)[0].length != 0)
-				|| (typeof cursor_position != 'undefined'
-				&& cursor_position.row + 1 == points.length)
-			) {
+			if (points.length && points.slice(-1)[0].length != 0) {
 				points.push('');
 			}
 
