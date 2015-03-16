@@ -21,17 +21,33 @@ $(document).ready(
 				}
 			);
 
-			while (points.length && points[0].trim().length == 0) {
+			while (
+				points.length
+				&& points[0].trim().length == 0
+				&& (typeof cursor_position == 'undefined'
+				|| cursor_position.row > 0)
+			) {
 				points.shift();
-
 				if (typeof cursor_position != 'undefined') {
 					cursor_position.row--;
 				}
 			}
-			while (points.length && points.slice(-1)[0].trim().length == 0) {
+			while (
+				points.length
+				&& points.slice(-1)[0].trim().length == 0
+				&& (typeof cursor_position == 'undefined'
+				|| cursor_position.row + 1 < points.length)
+			) {
 				points.pop();
 			}
-			points.push('');
+			if (
+				(points.length
+				&& points.slice(-1)[0].length != 0)
+				|| (typeof cursor_position != 'undefined'
+				&& cursor_position.row + 1 == points.length)
+			) {
+				points.push('');
+			}
 
 			return {
 				points: points,
