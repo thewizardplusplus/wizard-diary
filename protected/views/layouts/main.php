@@ -77,6 +77,10 @@
 									array(
 										'label' => 'Импорт',
 										'url' => array('import/list')
+									),
+									array(
+										'label' => 'Статистика',
+										'url' => array('stats/list')
 									)
 								),
 								'htmlOptions' => array(

@@ -30,6 +30,7 @@ return array(
 				'import/<id:\d+>/view' => 'import/view',
 				'import/<id:\d+>/update' => 'import/update',
 				'import/<id:\d+>/import' => 'import/import',
+				'stats' => 'stats/list',
 				'backups' => 'backup/list',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list'
@@ -76,6 +77,11 @@ return array(
 		'widgetFactory' => array(
 			'widgets' => array(
 				'CJuiAutoComplete' => array(
+					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
+					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
+					'theme' => 'start'
+				),
+				'CJuiTabs' => array(
 					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
 					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
 					'theme' => 'start'
