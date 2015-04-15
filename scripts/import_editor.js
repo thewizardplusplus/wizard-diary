@@ -92,6 +92,11 @@ $(document).ready(
 				saved_flag_icon
 					.addClass('glyphicon-floppy-saved')
 					.removeClass('glyphicon-floppy-remove');
+
+				var last_symbol = document.title.slice(-1);
+				if (last_symbol.length && last_symbol == '*') {
+					document.title = document.title.slice(0, -1);
+				}
 			} else {
 				saved_flag_container
 					.addClass('label-danger')
@@ -99,6 +104,11 @@ $(document).ready(
 				saved_flag_icon
 					.addClass('glyphicon-floppy-remove')
 					.removeClass('glyphicon-floppy-saved');
+
+				var last_symbol = document.title.slice(-1);
+				if (last_symbol.length && last_symbol != '*') {
+					document.title += '*';
+				}
 			}
 		};
 
