@@ -164,7 +164,8 @@ $(document).ready(
 				event.text =
 					event.text
 					.replace(/\u21e5|\u00b7/g, ' ')
-					.replace(/\u00b6/g, '');
+					.replace(/\u00b6/g, '')
+					.replace(/^\s*\d+\s\|\s/gm, '');
 			}
 		);
 
