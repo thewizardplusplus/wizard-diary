@@ -84,7 +84,10 @@ $(document).ready(
 
 		var saved_flag_container = $('.saved-flag');
 		var saved_flag_icon = $('span', saved_flag_container);
+		var is_saved = true;
 		var SetSavedFlag = function(saved) {
+			is_saved = saved;
+
 			if (saved) {
 				saved_flag_container
 					.addClass('label-success')
@@ -230,6 +233,31 @@ $(document).ready(
 						form.submit();
 					}
 				);
+			}
+		);
+
+		var close_button = $('.close-button');
+		var import_date = close_button.data('date');
+		var import_my_date = close_button.data('my-date');
+		var view_url = close_button.data('view-url');
+		var CloseImportEditor = function() {
+			location.href = view_url;
+		};
+		close_button.click(
+			function() {
+				if (!is_saved) {
+					CloseDialog.show(
+						import_my_date,
+						import_date,
+						function() {
+							$('#Import_close').val('true');
+							form.submit();
+						},
+						CloseImportEditor
+					);
+				} else {
+					CloseImportEditor();
+				}
 			}
 		);
 

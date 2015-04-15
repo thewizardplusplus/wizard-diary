@@ -12,6 +12,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/close_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/import_editor.js'),
 		CClientScript::POS_HEAD
 	);
@@ -23,17 +27,19 @@
 ?>
 
 <header class = "page-header clearfix header-with-button">
-	<a
-		class = "btn btn-default pull-right"
-		href = "<?=
+	<button
+		class = "btn btn-default pull-right close-button"
+		title = "Закрыть"
+		data-date = "<?= DateFormatter::formatDate($model->date) ?>"
+		data-my-date = "<?= DateFormatter::formatMyDate($model->date) ?>"
+		data-view-url = "<?=
 			$this->createUrl(
 				'import/view',
 				array('id' => $model->id)
 			)
-		?>"
-		title = "Закрыть">
+		?>">
 		<span class = "glyphicon glyphicon-remove"></span>
-	</a>
+	</button>
 	<button
 		class = "btn btn-danger pull-right save-and-import-button"
 		<?= $model->imported ? 'disabled = "disabled"' : '' ?>
@@ -123,6 +129,52 @@
 	</div>
 
 	<?= CHtml::hiddenField('Import[import]') ?>
+	<?= CHtml::hiddenField('Import[close]') ?>
 <?php $this->endWidget(); ?>
 
 <?php $this->renderPartial('_import_dialog'); ?>
+
+<div class = "modal close-dialog">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<button
+					class = "close"
+					type = "button"
+					data-dismiss = "modal"
+					aria-hidden = "true">
+					&times;
+				</button>
+				<h4 class = "modal-title">
+					<span class = "glyphicon glyphicon-warning-sign"></span>
+					Внимание!
+				</h4>
+			</div>
+
+			<div class = "modal-body">
+				<p>
+					Импорт за <time class = "import-date"></time> не сохранён.
+					Закрытие редактора может привести к потере последних
+					изменений. Так что ты хочешь сделать?
+				</p>
+			</div>
+
+			<div class = "modal-footer">
+				<button type = "button" class = "btn btn-primary save-button">
+					<span class = "glyphicon glyphicon-floppy-disk"></span>
+					Сохранить и закрыть
+				</button>
+				<button type = "button" class = "btn btn-danger close-button">
+					<span class = "glyphicon glyphicon-remove"></span>
+					Закрыть
+				</button>
+				<button
+					class = "btn btn-default"
+					type = "button"
+					data-dismiss = "modal">
+					Отмена
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

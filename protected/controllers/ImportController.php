@@ -39,6 +39,18 @@ class ImportController extends CController {
 				) {
 					$this->importModel($model);
 				}
+
+				if (
+					isset($_POST['Import']['close'])
+					&& $_POST['Import']['close'] == 'true'
+				) {
+					$this->redirect(
+						$this->createUrl(
+							'import/view',
+							array('id' => $model->id)
+						)
+					);
+				}
 			}
 		}
 
