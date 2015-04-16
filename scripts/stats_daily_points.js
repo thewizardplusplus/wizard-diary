@@ -1,16 +1,17 @@
 $(document).ready(
 	function() {
+		var STATS_DATA_KEYS = Object.keys(STATS_DATA);
+		var STATS_DATA_VALUES = STATS_DATA_KEYS.map(
+			function(key) {
+				return STATS_DATA[key];
+			}
+		);
+
 		var data = {
-			labels: ['one', 'two', 'three', 'four', 'five'],
+			labels: STATS_DATA_KEYS,
 			datasets: [
 				{
-					data: [
-						Math.random(),
-						Math.random(),
-						Math.random(),
-						Math.random(),
-						Math.random()
-					],
+					data: STATS_DATA_VALUES,
 					fillColor: 'rgba(0, 0, 0, 0)',
 					strokeColor: '#5cb85c',
 					pointColor: '#5cb85c'

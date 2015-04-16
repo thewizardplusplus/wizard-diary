@@ -1,11 +1,17 @@
 <?php
 	/**
 	 * @var StatsController $this
+	 * @var array $data
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('chart.js');
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var STATS_DATA = ' . json_encode($data) . ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/stats.js'),
+		CHtml::asset('scripts/stats_daily_points.js'),
 		CClientScript::POS_HEAD
 	);
 
