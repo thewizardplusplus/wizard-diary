@@ -15,11 +15,11 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Статистика - Ежедневные пункты';
+	$this->pageTitle = Yii::app()->name . ' - Статистика: ежедневные пункты';
 ?>
 
 <header class = "page-header">
-	<h4>Статистика &mdash; Ежедневные пункты</h4>
+	<h4>Статистика: ежедневные пункты</h4>
 </header>
 
 <canvas class = "stats-view daily-points"></canvas>
