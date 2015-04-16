@@ -271,3 +271,15 @@ a.state-initial:focus {
 	display: inline-block;
 	padding: 5px 10px;
 }
+
+.stats-view {
+	width: 100%;
+}
+
+.stats-view.daily-points {
+	height: 250px;
+}
+
+.stats-view.projects {
+	height: 500px;
+}

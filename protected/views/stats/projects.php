@@ -3,6 +3,12 @@
 	 * @var StatsController $this
 	 */
 
+	Yii::app()->getClientScript()->registerPackage('chart.js');
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/stats.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Статистика - Проекты';
 ?>
 
@@ -10,4 +16,4 @@
 	<h4>Статистика &mdash; Проекты</h4>
 </header>
 
-<p>Тест.</p>
+<canvas class = "stats-view projects"></canvas>
