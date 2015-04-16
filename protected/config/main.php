@@ -30,7 +30,7 @@ return array(
 				'import/<id:\d+>/view' => 'import/view',
 				'import/<id:\d+>/update' => 'import/update',
 				'import/<id:\d+>/import' => 'import/import',
-				'stats' => 'stats/list',
+				'stats/daily_points' => 'stats/dailyPoints',
 				'backups' => 'backup/list',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list'

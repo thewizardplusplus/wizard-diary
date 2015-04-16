@@ -77,10 +77,6 @@
 									array(
 										'label' => 'Импорт',
 										'url' => array('import/list')
-									),
-									array(
-										'label' => 'Статистика',
-										'url' => array('stats/list')
 									)
 								),
 								'htmlOptions' => array(
@@ -88,6 +84,36 @@
 								)
 							)
 						); ?>
+						<ul class = "nav navbar-nav">
+							<li class = "dropdown">
+								<a
+									href = "#"
+									class = "dropdown-toggle"
+									data-toggle = "dropdown">
+									Статистика <span class = "caret"></span>
+								</a>
+								<?php $this->widget(
+									'zii.widgets.CMenu',
+									array(
+										'items' => array(
+											array(
+												'label' => 'Ежедневные пункты',
+												'url' => array(
+													'stats/dailyPoints'
+												)
+											),
+											array(
+												'label' => 'Проекты',
+												'url' => array('stats/projects')
+											)
+										),
+										'htmlOptions' => array(
+											'class' => 'dropdown-menu'
+										)
+									)
+								); ?>
+							</li>
+						</ul>
 						<ul class = "nav navbar-nav">
 							<li class = "dropdown">
 								<a

@@ -2,6 +2,12 @@
 	/**
 	 * @var StatsController $this
 	 */
+
+	$this->pageTitle = Yii::app()->name . ' - Статистика - Ежедневные пункты';
 ?>
 
-<p>Daily points tab.</p>
+<header class = "page-header">
+	<h4>Статистика &mdash; Ежедневные пункты</h4>
+</header>
+
+<p>Тест.</p>

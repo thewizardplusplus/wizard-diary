@@ -2,7 +2,7 @@
 
 class StatsController extends CController {
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + dailyPoints, projects');
+		return array('accessControl');
 	}
 
 	public function accessRules() {
@@ -12,15 +12,11 @@ class StatsController extends CController {
 		);
 	}
 
-	public function actionList() {
-		$this->render('list');
-	}
-
 	public function actionDailyPoints() {
-		$this->renderPartial('daily_points');
+		$this->render('daily_points');
 	}
 
 	public function actionProjects() {
-		$this->renderPartial('projects');
+		$this->render('projects');
 	}
 }
