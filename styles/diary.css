@@ -275,3 +275,25 @@ a.state-initial:focus {
 .stats-view.daily-points {
 	height: 250px;
 }
+
+.stats-view.projects .timeline-frame {
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.stats-view.projects .timeline-content {
+	background-color: #fcf8e3;
+}
+
+.stats-view.projects .timeline-groups-axis {
+	background-color: #428bca;
+	color: white;
+}
+
+.stats-view.projects .timeline-event {
+	background-color: #5cb85c;
+	border: 0;
+	border-radius: 0;
+	color: white;
+}

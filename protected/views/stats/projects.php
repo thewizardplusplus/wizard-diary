@@ -3,8 +3,23 @@
 	 * @var StatsController $this
 	 */
 
+	Yii::app()->getClientScript()->registerCssFile(
+		Yii::app()->request->baseUrl
+			. '/chap-links-library-timeline/timeline-theme.css'
+	);
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		'https://www.google.com/jsapi',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		Yii::app()->request->baseUrl
+			. '/chap-links-library-timeline/timeline-min.js',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		Yii::app()->request->baseUrl
+			. '/chap-links-library-timeline/timeline-locales.js',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -19,7 +34,4 @@
 	<h4>Статистика: проекты</h4>
 </header>
 
-<div id = "project-dashboard-view">
-	<div id = "project-filter-view"></div>
-	<div id = "project-chart-view"></div>
-</div>
+<div class = "stats-view projects"></div>
