@@ -3,7 +3,10 @@
 	 * @var StatsController $this
 	 */
 
-	Yii::app()->getClientScript()->registerPackage('chart.js');
+	Yii::app()->getClientScript()->registerScriptFile(
+		'https://www.google.com/jsapi',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/stats_projects.js'),
 		CClientScript::POS_HEAD
@@ -16,4 +19,7 @@
 	<h4>Статистика: проекты</h4>
 </header>
 
-<canvas class = "stats-view projects"></canvas>
+<div id = "project-dashboard-view">
+	<div id = "project-filter-view"></div>
+	<div id = "project-chart-view"></div>
+</div>

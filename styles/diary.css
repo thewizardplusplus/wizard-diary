@@ -275,7 +275,3 @@ a.state-initial:focus {
 .stats-view.daily-points {
 	height: 250px;
 }
-
-.stats-view.projects {
-	height: 500px;
-}
