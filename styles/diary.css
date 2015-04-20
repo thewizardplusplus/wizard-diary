@@ -306,7 +306,7 @@ a.state-initial:focus {
 .stats-view.projects .timeline-event-content .end-mark {
 	position: relative;
 	top: -3px;
-	width: 9px;
+	width: 6px;
 	height: 18px;
 	background-color: #449d44;
 	border-radius: 3px;

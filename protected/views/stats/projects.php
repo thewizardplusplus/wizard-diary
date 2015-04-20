@@ -8,6 +8,11 @@
 			. '/chap-links-library-timeline/timeline-theme.css'
 	);
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var STATS_DATA = ' . json_encode($data) . ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		'https://www.google.com/jsapi',
 		CClientScript::POS_HEAD
