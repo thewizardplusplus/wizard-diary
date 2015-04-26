@@ -31,6 +31,7 @@ return array(
 				'import/<id:\d+>/update' => 'import/update',
 				'import/<id:\d+>/import' => 'import/import',
 				'stats/daily_points' => 'stats/dailyPoints',
+				'stats/project_list' => 'stats/projectList',
 				'backups' => 'backup/list',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list'

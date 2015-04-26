@@ -178,4 +178,8 @@ class StatsController extends CController {
 
 		$this->render('projects', array('data' => $new_new_new_new_data));
 	}
+
+	public function actionProjectList() {
+		$this->render('project_list');
+	}
 }

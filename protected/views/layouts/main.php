@@ -105,6 +105,18 @@
 											array(
 												'label' => 'Проекты',
 												'url' => array('stats/projects')
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
+												'label' => 'Список проектов',
+												'url' => array(
+													'stats/projectList'
+												)
 											)
 										),
 										'htmlOptions' => array(
