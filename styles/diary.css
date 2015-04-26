@@ -351,3 +351,23 @@ a.state-initial:focus {
 	height: 12px;
 	background-color: #5cb85c;
 }
+
+.search-form .clean-button {
+	cursor: pointer;
+}
+
+.stats-view.project-list {
+	background-color: #fcf8e3;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+}
+
+.stats-view.project-list .glyphicon-folder-open {
+	color: #428bca;
+}
+
+.stats-view.project-list .glyphicon-file {
+	color: #5cb85c;
+}

@@ -180,6 +180,95 @@ class StatsController extends CController {
 	}
 
 	public function actionProjectList() {
-		$this->render('project_list');
+		$points = Point::model()->findAll(
+			array('condition' => 'text != "" AND daily = FALSE')
+		);
+
+		$data = array();
+		foreach ($points as $point) {
+			$text_parts = array_map('trim', explode(',', $point->text));
+			$first_key = $text_parts[0];
+
+			$second_key = '&mdash;';
+			if (count($text_parts) > 1) {
+				$second_key = $text_parts[1];
+			}
+
+			$rest_text = '&mdash;';
+			if (count($text_parts) > 2) {
+				$rest_text = implode(', ', array_slice($text_parts, 2));
+				if (substr($rest_text, -1) == ';') {
+					$rest_text = substr($rest_text, 0, -1);
+				}
+			}
+
+			$data[$first_key][$second_key][$point->date][] = $rest_text;
+		}
+
+		$new_data = array();
+		$start_date = DateFormatter::getStartDate();
+		foreach ($data as $first_key => $second_keys) {
+			$new_second_keys = array();
+			foreach ($second_keys as $second_key => $dates) {
+				$new_dates = array();
+				foreach ($dates as $date => $points) {
+					$points = array_unique($points);
+					sort($points, SORT_STRING);
+					$new_dates[$date] = $points;
+				}
+				ksort($new_dates, SORT_STRING);
+
+				$formatted_dates = array();
+				foreach ($new_dates as $date => $points) {
+					$date = DateFormatter::formatMyDate($date, $start_date);
+					$formatted_dates[$date] = $points;
+				}
+
+				$new_second_keys[$second_key] = $formatted_dates;
+			}
+
+			ksort($new_second_keys, SORT_STRING);
+			$new_data[$first_key] = $new_second_keys;
+		}
+		ksort($new_data, SORT_STRING);
+		$data = $new_data;
+
+		$new_data = array();
+		foreach ($data as $first_key => $second_keys) {
+			$new_second_keys = array();
+			foreach ($second_keys as $second_key => $dates) {
+				$new_dates = array();
+				foreach ($dates as $date => $points) {
+					$new_points = array();
+					foreach ($points as $point) {
+						$new_points[] = array(
+							'text' => $point,
+							'icon' => 'glyphicon glyphicon-file'
+						);
+					}
+
+					$new_dates[] = array(
+						'text' => $date,
+						'icon' => 'glyphicon glyphicon-folder-open',
+						'children' => $new_points
+					);
+				}
+
+				$new_second_keys[] = array(
+					'text' => $second_key,
+					'icon' => 'glyphicon glyphicon-folder-open',
+					'children' => $new_dates
+				);
+			}
+
+			$new_data[] = array(
+				'text' => $first_key,
+				'icon' => 'glyphicon glyphicon-folder-open',
+				'children' => $new_second_keys
+			);
+		}
+		$data = $new_data;
+
+		$this->render('project_list', array('data' => $data));
 	}
 }

@@ -5,11 +5,18 @@ class DateFormatter {
 		return implode('.', array_reverse(explode('-', $date)));
 	}
 
-	public static function formatMyDate($my_date) {
-		$start_date =
-			Yii::app()->db
+	public static function getStartDate() {
+		return
+			Yii::app()
+			->db
 			->createCommand('SELECT MIN(date) FROM {{points}}')
 			->queryScalar();
+	}
+
+	public static function formatMyDate($my_date, $start_date = NULL) {
+		if (is_null($start_date)) {
+			$start_date = self::getStartDate();
+		}
 
 		$difference = date_diff(
 			date_create($start_date),

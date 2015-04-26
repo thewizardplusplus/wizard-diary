@@ -5,7 +5,7 @@
 	 */
 
 	Yii::app()->getClientScript()->registerCssFile(
-		Yii::app()->request->baseUrl . '/chap-links-library/graph/graph.css'
+		CHtml::asset('chap-links-library/graph/graph.css')
 	);
 
 	Yii::app()->getClientScript()->registerScript(
