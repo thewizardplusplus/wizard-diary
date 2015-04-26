@@ -4,10 +4,25 @@
 	 * @var array $data
 	 */
 
-	Yii::app()->getClientScript()->registerPackage('chart.js');
+	Yii::app()->getClientScript()->registerCssFile(
+		Yii::app()->request->baseUrl . '/chap-links-library/graph/graph.css'
+	);
+
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var STATS_DATA = ' . json_encode($data) . ';',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		'https://www.google.com/jsapi',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('chap-links-library/graph/graph.min.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/moment-with-locales.min.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -22,4 +37,4 @@
 	<h4>Статистика: ежедневные пункты</h4>
 </header>
 
-<canvas class = "stats-view daily-points"></canvas>
+<div class = "stats-view daily-points"></div>

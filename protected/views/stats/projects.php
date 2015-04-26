@@ -5,7 +5,7 @@
 
 	Yii::app()->getClientScript()->registerCssFile(
 		Yii::app()->request->baseUrl
-			. '/chap-links-library-timeline/timeline-theme.css'
+			. '/chap-links-library/timeline/timeline.css'
 	);
 
 	Yii::app()->getClientScript()->registerScript(
@@ -19,12 +19,12 @@
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		Yii::app()->request->baseUrl
-			. '/chap-links-library-timeline/timeline-min.js',
+			. '/chap-links-library/timeline/timeline.min.js',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		Yii::app()->request->baseUrl
-			. '/chap-links-library-timeline/timeline-locales.js',
+			. '/chap-links-library/timeline/timeline-locales.js',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(

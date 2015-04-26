@@ -21,22 +21,21 @@ class StatsController extends CController {
 			)
 		);
 		foreach ($points as $point) {
-			$date = DateFormatter::formatMyDate($point->date);
-			if (!array_key_exists($date, $data)) {
-				$data[$date] = array(
+			if (!array_key_exists($point->date, $data)) {
+				$data[$point->date] = array(
 					'initial' => false,
 					'satisfied' => 0,
 					'total' => 0
 				);
 			}
 
-			$data[$date]['total'] += 1;
+			$data[$point->date]['total'] += 1;
 			if ($point->state == 'INITIAL') {
-				$data[$date]['initial'] = true;
+				$data[$point->date]['initial'] = true;
 			} else if ($point->state == 'SATISFIED') {
-				$data[$date]['satisfied'] += 1;
+				$data[$point->date]['satisfied'] += 1;
 			} else if ($point->state == 'CANCELED') {
-				$data[$date]['total'] -= 1;
+				$data[$point->date]['total'] -= 1;
 			}
 		}
 

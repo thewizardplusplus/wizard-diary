@@ -71,7 +71,7 @@ google.setOnLoadCallback(
 		data_table.addRows(data);
 
 		var container = $('.stats-view.projects').get(0);
-		var timeline = new links.Timeline(container);
+		var timeline = new links.Timeline(container, {locale: 'ru'});
 		var DrawFunction = function() {
 			timeline.draw(data_table);
 		};
