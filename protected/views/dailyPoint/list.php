@@ -29,6 +29,16 @@
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
+<div class = "clearfix header-with-button">
+	<button
+		class = "btn btn-primary pull-right add-daily-points-button"
+		data-add-daily-points-url = "<?=
+			$this->createUrl('point/addDailyPoints')
+		?>">
+		<span class = "glyphicon glyphicon-share-alt"></span> Добавить
+	</button>
+</div>
+
 <div class = "table-responsive">
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
