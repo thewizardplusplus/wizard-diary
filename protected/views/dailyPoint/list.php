@@ -29,6 +29,10 @@
 		CHtml::asset('scripts/daily_points_dialog.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/daily_points_adding.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
