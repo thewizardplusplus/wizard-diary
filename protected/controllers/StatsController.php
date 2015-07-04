@@ -74,20 +74,21 @@ class StatsController extends CController {
 		}
 
 		$new_data = array();
-		foreach ($data as $first_key => $subdata) {
-			$new_subdata = array();
-			foreach ($subdata as $second_key => $dates) {
+		foreach ($data as $first_key => $second_keys) {
+			$new_second_keys = array();
+			foreach ($second_keys as $second_key => $dates) {
 				$dates = array_unique($dates);
 				asort($dates, SORT_STRING);
-				$new_subdata[$second_key] = $dates;
+				$new_second_keys[$second_key] = $dates;
 			}
 
-			ksort($new_subdata, SORT_STRING);
-			$new_data[$first_key] = $new_subdata;
+			ksort($new_second_keys, SORT_STRING);
+			$new_data[$first_key] = $new_second_keys;
 		}
 		ksort($new_data, SORT_STRING);
+		$data = $new_data;
 
-		$new_new_data = array();
+		/*$new_new_data = array();
 		foreach ($new_data as $first_key => $subdata) {
 			$new_subdata = array();
 			foreach ($subdata as $second_key => $dates) {
@@ -174,9 +175,10 @@ class StatsController extends CController {
 			}
 
 			$new_new_new_new_data[$first_key] = $new_subdata;
-		}
+		}*/
 
-		$this->render('projects', array('data' => $new_new_new_new_data));
+		Yii::info(print_r($data, true), 'debug');
+		$this->render('projects', array('data' => $data));
 	}
 
 	public function actionProjectList() {
