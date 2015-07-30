@@ -32,8 +32,8 @@ class ParametersForm extends CFormModel {
 			array(
 				'points_on_page',
 				'numerical',
-				'min' => Parameters::POINTS_ON_PAGE_MINIMUM,
-				'max' => Parameters::POINTS_ON_PAGE_MAXIMUM,
+				'min' => Constants::POINTS_ON_PAGE_MINIMUM,
+				'max' => Constants::POINTS_ON_PAGE_MAXIMUM,
 				'message' => '{attribute} должно быть числом.',
 				'tooSmall' => '{attribute} должно быть не меньше {min}.',
 				'tooBig' => '{attribute} должно быть не больше {max}.',
@@ -46,8 +46,8 @@ class ParametersForm extends CFormModel {
 			array(
 				'access_log_lifetime_in_s',
 				'numerical',
-				'min' => Parameters::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
-				'max' => Parameters::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM,
+				'min' => Constants::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
+				'max' => Constants::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM,
 				'message' =>
 					'Поле &laquo;{attribute}&raquo; должно быть числом.',
 				'tooSmall' =>

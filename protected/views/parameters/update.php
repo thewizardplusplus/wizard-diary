@@ -97,8 +97,8 @@
 			array(
 				'class' => 'form-control',
 				'autocomplete' => 'off',
-				'min' => Parameters::POINTS_ON_PAGE_MINIMUM,
-				'max' => Parameters::POINTS_ON_PAGE_MAXIMUM
+				'min' => Constants::POINTS_ON_PAGE_MINIMUM,
+				'max' => Constants::POINTS_ON_PAGE_MAXIMUM
 			)
 		) ?>
 		<?= $form->error($model, 'points_on_page') ?>
@@ -116,8 +116,8 @@
 			array(
 				'class' => 'form-control',
 				'autocomplete' => 'off',
-				'min' => Parameters::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
-				'max' => Parameters::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM
+				'min' => Constants::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
+				'max' => Constants::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM
 			)
 		) ?>
 		<?= $form->error($model, 'access_log_lifetime_in_s') ?>
