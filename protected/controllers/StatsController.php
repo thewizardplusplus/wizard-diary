@@ -78,7 +78,8 @@ class StatsController extends CController {
 			$new_second_keys = array();
 			foreach ($second_keys as $second_key => $dates) {
 				$dates = array_unique($dates);
-				asort($dates, SORT_STRING);
+				sort($dates, SORT_STRING);
+
 				$new_second_keys[$second_key] = $dates;
 			}
 
@@ -88,31 +89,33 @@ class StatsController extends CController {
 		ksort($new_data, SORT_STRING);
 		$data = $new_data;
 
-		/*$new_new_data = array();
-		foreach ($new_data as $first_key => $subdata) {
-			$new_subdata = array();
-			foreach ($subdata as $second_key => $dates) {
-				$new_dates = array();
+		$new_data = array();
+		foreach ($data as $first_key => $second_keys) {
+			$first_first_start = null;
+			$first_last_end = null;
+			$new_second_keys = array();
+			foreach ($second_keys as $second_key => $dates) {
+				$intervals = array();
 				foreach ($dates as $date) {
 					$start_date = date_create($date);
 					$end_date = date_create($date);
-					if (empty($new_dates)) {
-						$new_dates[] = array(
+					if (empty($intervals)) {
+						$intervals[] = array(
 							'start' => $start_date,
 							'end' => $end_date
 						);
 					} else {
-						$last_index = count($new_dates) - 1;
+						$last_index = count($intervals) - 1;
 						$difference = date_diff(
-							$new_dates[$last_index]['end'],
+							$intervals[$last_index]['end'],
 							$end_date
 						);
 						if ($difference->days == 0) {
 							continue;
 						} else if ($difference->days == 1) {
-							$new_dates[$last_index]['end'] = $end_date;
+							$intervals[$last_index]['end'] = $end_date;
 						} else if ($difference->days > 1) {
-							$new_dates[] = array(
+							$intervals[] = array(
 								'start' => $start_date,
 								'end' => $end_date
 							);
@@ -120,64 +123,65 @@ class StatsController extends CController {
 					}
 				}
 
-				$new_subdata[$second_key] = $new_dates;
-			}
-
-			$new_new_data[$first_key] = $new_subdata;
-		}
-
-		$new_new_new_data = array();
-		foreach ($new_new_data as $first_key => $subdata) {
-			$new_subdata = array();
-			foreach ($subdata as $second_key => $intervals) {
+				$second_first_start = null;
+				$second_last_end = null;
 				$new_intervals = array();
 				foreach ($intervals as $interval) {
-					$interval['end'] = date_add(
-						$interval['end'],
+					$start_date = $interval['start'];
+					$formatted_start_date = date_format($start_date, 'c');
+
+					$end_date = $interval['end'];
+					$shifted_end_date = date_add(
+						$end_date,
 						new DateInterval('PT23H59M59S')
 					);
-
-					$new_intervals[] = $interval;
-				}
-
-				$new_subdata[$second_key] = $new_intervals;
-			}
-
-			$new_new_new_data[$first_key] = $new_subdata;
-		}
-
-		$new_new_new_new_data = array();
-		foreach ($new_new_new_data as $first_key => $subdata) {
-			$new_subdata = array();
-			foreach ($subdata as $second_key => $intervals) {
-				$first_start = null;
-				$last_end = null;
-				$new_intervals = array();
-				foreach ($intervals as $interval) {
-					$interval = array(
-						'start' => date_format($interval['start'], 'c'),
-						'end' => date_format($interval['end'], 'c')
+					$formatted_shifted_end_date = date_format(
+						$shifted_end_date,
+						'c'
 					);
 
-					if (is_null($first_start)) {
-						$first_start = $interval['start'];
+					if (
+						is_null($first_first_start)
+						|| date_diff($first_first_start, $start_date)->invert
+							=== 1
+					) {
+						$first_first_start = $start_date;
 					}
-					$last_end = $interval['end'];
+					if (
+						is_null($first_last_end)
+						|| date_diff($first_last_end, $shifted_end_date)->invert
+							=== 0
+					) {
+						$first_last_end = $shifted_end_date;
+					}
 
-					$new_intervals[] = $interval;
+					if (is_null($second_first_start)) {
+						$second_first_start = $formatted_start_date;
+					}
+					$second_last_end = $formatted_shifted_end_date;
+
+					$new_intervals[] = array(
+						'start' => $formatted_start_date,
+						'end' => $formatted_shifted_end_date
+					);
 				}
+				$intervals = $new_intervals;
 
-				$new_subdata[$second_key] = array(
-					'start' => $first_start,
-					'end' => $last_end,
-					'intervals' => $new_intervals
+				$new_second_keys[$second_key] = array(
+					'start' => $second_first_start,
+					'end' => $second_last_end,
+					'intervals' => $intervals
 				);
 			}
 
-			$new_new_new_new_data[$first_key] = $new_subdata;
-		}*/
+			$new_data[$first_key] = array(
+				'start' => date_format($first_first_start, 'c'),
+				'end' => date_format($first_last_end, 'c'),
+				'tasks' => $new_second_keys
+			);
+		}
+		$data = $new_data;
 
-		Yii::info(print_r($data, true), 'debug');
 		$this->render('projects', array('data' => $data));
 	}
 
