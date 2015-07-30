@@ -75,26 +75,13 @@ class StatsController extends CController {
 
 		$new_data = array();
 		foreach ($data as $first_key => $second_keys) {
+			$first_first_start = null;
+			$first_last_end = null;
 			$new_second_keys = array();
 			foreach ($second_keys as $second_key => $dates) {
 				$dates = array_unique($dates);
 				sort($dates, SORT_STRING);
 
-				$new_second_keys[$second_key] = $dates;
-			}
-
-			ksort($new_second_keys, SORT_STRING);
-			$new_data[$first_key] = $new_second_keys;
-		}
-		ksort($new_data, SORT_STRING);
-		$data = $new_data;
-
-		$new_data = array();
-		foreach ($data as $first_key => $second_keys) {
-			$first_first_start = null;
-			$first_last_end = null;
-			$new_second_keys = array();
-			foreach ($second_keys as $second_key => $dates) {
 				$intervals = array();
 				foreach ($dates as $date) {
 					$start_date = date_create($date);
@@ -142,15 +129,19 @@ class StatsController extends CController {
 
 					if (
 						is_null($first_first_start)
-						|| date_diff($first_first_start, $start_date)->invert
-							=== 1
+						|| date_diff(
+							$first_first_start,
+							$start_date
+						)->invert === 1
 					) {
 						$first_first_start = $start_date;
 					}
 					if (
 						is_null($first_last_end)
-						|| date_diff($first_last_end, $shifted_end_date)->invert
-							=== 0
+						|| date_diff(
+							$first_last_end,
+							$shifted_end_date
+						)->invert === 0
 					) {
 						$first_last_end = $shifted_end_date;
 					}
@@ -174,12 +165,24 @@ class StatsController extends CController {
 				);
 			}
 
+			uasort(
+				$new_second_keys,
+				function($second_key_1, $second_key_2) {
+					return strcmp($second_key_2['end'], $second_key_1['end']);
+				}
+			);
 			$new_data[$first_key] = array(
 				'start' => date_format($first_first_start, 'c'),
 				'end' => date_format($first_last_end, 'c'),
 				'tasks' => $new_second_keys
 			);
 		}
+		uasort(
+			$new_data,
+			function($data_1, $data_2) {
+				return strcmp($data_2['end'], $data_1['end']);
+			}
+		);
 		$data = $new_data;
 
 		$this->render('projects', array('data' => $data));
