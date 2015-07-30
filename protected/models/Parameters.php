@@ -4,7 +4,7 @@ class Parameters extends CActiveRecord {
 	const RECORD_ID = 1;
 	const POINTS_ON_PAGE_MINIMUM = 1;
 	const POINTS_ON_PAGE_MAXIMUM = 255;
-	const ACCESS_LOG_LIFETIME_IN_S_MINIMUM = 1;
+	const ACCESS_LOG_LIFETIME_IN_S_MINIMUM = 0;
 	const ACCESS_LOG_LIFETIME_IN_S_MAXIMUM = 2147483647;
 
 	public static function model($class_name = __CLASS__) {
