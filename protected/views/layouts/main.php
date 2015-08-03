@@ -147,6 +147,12 @@
 												'url' => array('access/list')
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Параметры',
 												'url' => array(
 													'parameters/update'
