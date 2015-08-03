@@ -30,6 +30,8 @@ return array(
 				'import/<id:\d+>/view' => 'import/view',
 				'import/<id:\d+>/update' => 'import/update',
 				'import/<id:\d+>/import' => 'import/import',
+				'stats/daily_points' => 'stats/dailyPoints',
+				'stats/project_list' => 'stats/projectList',
 				'backups' => 'backup/list',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list'
@@ -70,12 +72,23 @@ return array(
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
+				),
+				'chart.js' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com'
+						. '/ajax/libs/Chart.js/1.0.2/',
+					'js' => array('Chart.min.js')
 				)
- 			)
+			)
 		),
 		'widgetFactory' => array(
 			'widgets' => array(
 				'CJuiAutoComplete' => array(
+					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
+					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
+					'theme' => 'start'
+				),
+				'CJuiTabs' => array(
 					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
 					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
 					'theme' => 'start'

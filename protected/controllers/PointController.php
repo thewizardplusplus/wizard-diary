@@ -188,6 +188,11 @@ class PointController extends CController {
 		Point::renumberOrderFieldsForDate($date);
 	}
 
+	public function actionAddDailyPoints() {
+		DailyPointsAdder::addDailyPoints();
+		$this->redirect($this->createUrl('point/list'));
+	}
+
 	private function loadModel($id) {
 		$model = Point::model()->findByPk($id);
 		if (is_null($model)) {

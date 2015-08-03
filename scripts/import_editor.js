@@ -84,7 +84,10 @@ $(document).ready(
 
 		var saved_flag_container = $('.saved-flag');
 		var saved_flag_icon = $('span', saved_flag_container);
+		var is_saved = true;
 		var SetSavedFlag = function(saved) {
+			is_saved = saved;
+
 			if (saved) {
 				saved_flag_container
 					.addClass('label-success')
@@ -92,6 +95,11 @@ $(document).ready(
 				saved_flag_icon
 					.addClass('glyphicon-floppy-saved')
 					.removeClass('glyphicon-floppy-remove');
+
+				var last_symbol = document.title.slice(-1);
+				if (last_symbol.length && last_symbol == '*') {
+					document.title = document.title.slice(0, -1);
+				}
 			} else {
 				saved_flag_container
 					.addClass('label-danger')
@@ -99,6 +107,11 @@ $(document).ready(
 				saved_flag_icon
 					.addClass('glyphicon-floppy-remove')
 					.removeClass('glyphicon-floppy-saved');
+
+				var last_symbol = document.title.slice(-1);
+				if (last_symbol.length && last_symbol != '*') {
+					document.title += '*';
+				}
 			}
 		};
 
@@ -151,7 +164,8 @@ $(document).ready(
 				event.text =
 					event.text
 					.replace(/\u21e5|\u00b7/g, ' ')
-					.replace('\u00b6', '');
+					.replace(/\u00b6/g, '')
+					.replace(/^\s*\d+\s\|\s/gm, '');
 			}
 		);
 
@@ -220,6 +234,31 @@ $(document).ready(
 						form.submit();
 					}
 				);
+			}
+		);
+
+		var close_button = $('.close-button');
+		var import_date = close_button.data('date');
+		var import_my_date = close_button.data('my-date');
+		var view_url = close_button.data('view-url');
+		var CloseImportEditor = function() {
+			location.href = view_url;
+		};
+		close_button.click(
+			function() {
+				if (!is_saved) {
+					CloseDialog.show(
+						import_my_date,
+						import_date,
+						function() {
+							$('#Import_close').val('true');
+							form.submit();
+						},
+						CloseImportEditor
+					);
+				} else {
+					CloseImportEditor();
+				}
 			}
 		);
 

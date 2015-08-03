@@ -90,6 +90,48 @@
 									href = "#"
 									class = "dropdown-toggle"
 									data-toggle = "dropdown">
+									Статистика <span class = "caret"></span>
+								</a>
+								<?php $this->widget(
+									'zii.widgets.CMenu',
+									array(
+										'items' => array(
+											array(
+												'label' => 'Ежедневные пункты',
+												'url' => array(
+													'stats/dailyPoints'
+												)
+											),
+											array(
+												'label' => 'Проекты',
+												'url' => array('stats/projects')
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
+												'label' => 'Список проектов',
+												'url' => array(
+													'stats/projectList'
+												)
+											)
+										),
+										'htmlOptions' => array(
+											'class' => 'dropdown-menu'
+										)
+									)
+								); ?>
+							</li>
+						</ul>
+						<ul class = "nav navbar-nav">
+							<li class = "dropdown">
+								<a
+									href = "#"
+									class = "dropdown-toggle"
+									data-toggle = "dropdown">
 									Прочее <span class = "caret"></span>
 								</a>
 								<?php $this->widget(
@@ -103,6 +145,12 @@
 											array(
 												'label' => 'Лог доступа',
 												'url' => array('access/list')
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
 											),
 											array(
 												'label' => 'Параметры',

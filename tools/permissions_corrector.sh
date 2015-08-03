@@ -23,6 +23,8 @@ function ShowError() {
 	echo ""
 
 	ShowHelp
+
+	exit 1
 }
 
 readonly command=$1

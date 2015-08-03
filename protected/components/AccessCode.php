@@ -22,6 +22,17 @@ class AccessCode {
 	}
 
 	public static function send() {
+		$access_code = self::generate();
+
+		self::sendSms($access_code);
+		if (Constants::ACCESS_CODE_SEND_EMAIL) {
+			self::sendEmail($access_code);
+		}
+
+		self::set($access_code);
+	}
+
+	public static function sendSms($access_code) {
 		$sms_sender = new \Zelenin\smsru(
 			null,
 			Constants::SMS_RU_LOGIN,
@@ -30,19 +41,33 @@ class AccessCode {
 		$result = $sms_sender->auth_check();
 		if ($result['code'] != 100) {
 			throw new CException(
-				'Ошибка отправки кода доступа. ' . $result['description']
+				'Ошибка отправки кода доступа в SMS. ' . $result['description']
 			);
 		}
 
-		$access_code = self::generate();
 		$result = $sms_sender->sms_send(Constants::SMS_RU_LOGIN, $access_code);
 		if ($result['code'] != 100) {
 			throw new CException(
-				'Ошибка отправки кода доступа. ' . $result['description']
+				'Ошибка отправки кода доступа в SMS. ' . $result['description']
 			);
 		}
+	}
 
-		self::set($access_code);
+	public static function sendEmail($access_code) {
+		$headers =
+			"From: thewizardplusplus <do-not-reply@thewizardplusplus.ru>\r\n"
+			. "Reply-To: <>\r\n"
+			. "MIME-Version: 1.0\r\n"
+			. "Content-Type: text/plain; charset=utf-8\r\n";
+		$result = mail(
+			'thewizardplusplus <thewizardplusplus@yandex.ru>',
+			'Access code',
+			$access_code,
+			$headers
+		);
+		if (!$result) {
+			throw new CException('Ошибка отправки кода доступа в Email.');
+		}
 	}
 
 	public static function cleanIfNeed() {

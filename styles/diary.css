@@ -271,3 +271,87 @@ a.state-initial:focus {
 	display: inline-block;
 	padding: 5px 10px;
 }
+
+.stats-view.daily-points .graph-frame {
+	background-color: #428bca;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.stats-view.daily-points .graph-axis-text {
+	color: white;
+	cursor: default;
+}
+
+.stats-view.daily-points .graph-axis-button {
+	background-color: #5cb85c;
+}
+
+.stats-view.daily-points .graph-axis-button:hover {
+	background-color: #449d44;
+}
+
+.stats-view.daily-points .graph-canvas {
+	background-color: #fcf8e3;
+}
+
+.stats-view.daily-points .graph-tooltip-label {
+	border-radius: 4px;
+}
+
+.stats-view.projects .timeline-frame {
+	background-color: #428bca;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.stats-view.projects .timeline-groups-text,
+.stats-view.projects .timeline-axis-text {
+	color: white;
+	cursor: default;
+}
+
+.stats-view.projects .timeline-content {
+	background-color: #fcf8e3;
+}
+
+.stats-view.projects .timeline-axis {
+	background-color: #428bca;
+	opacity: 1;
+}
+
+.stats-view.projects .timeline-event {
+	border: 0;
+	border-radius: 0;
+}
+
+.stats-view.projects .timeline-event-content {
+	margin: 0;
+}
+
+.stats-view.projects .timeline-event-content .content {
+	height: 12px;
+	background-color: #5cb85c;
+}
+
+.search-form .clean-button {
+	cursor: pointer;
+}
+
+.stats-view.project-list {
+	background-color: #fcf8e3;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+}
+
+.stats-view.project-list .glyphicon-folder-open {
+	color: #428bca;
+}
+
+.stats-view.project-list .glyphicon-file {
+	color: #5cb85c;
+}
