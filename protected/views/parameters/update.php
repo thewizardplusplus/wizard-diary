@@ -10,11 +10,17 @@
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
+
 	Yii::app()->getClientScript()->registerCssFile(
 		CHtml::asset('styles/custom_spinner.css')
 	);
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/custom_spinner.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/password_cleaning.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -98,7 +104,8 @@
 				'class' => 'form-control',
 				'autocomplete' => 'off',
 				'min' => Constants::POINTS_ON_PAGE_MINIMUM,
-				'max' => Constants::POINTS_ON_PAGE_MAXIMUM
+				'max' => Constants::POINTS_ON_PAGE_MAXIMUM,
+				'autofocus' => 'autofocus'
 			)
 		) ?>
 		<?= $form->error($model, 'points_on_page') ?>
