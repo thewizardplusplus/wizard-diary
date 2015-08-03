@@ -89,7 +89,7 @@ google.setOnLoadCallback(
 					subdata.start,
 					subdata.end,
 					first_key,
-					FormatNumber(i, first_keys_length) + '._ ' + first_key
+					FormatNumber(i, first_keys_length) + '._ | ' + first_key
 				)
 			);
 
@@ -109,7 +109,7 @@ google.setOnLoadCallback(
 							interval.end,
 							title,
 							FormatNumber(i, first_keys_length) + '.'
-								+ FormatNumber(j, second_keys_length) + ' '
+								+ FormatNumber(j, second_keys_length) + ' | '
 								+ group
 						)
 					);

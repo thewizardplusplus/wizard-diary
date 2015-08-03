@@ -281,6 +281,7 @@ a.state-initial:focus {
 
 .stats-view.daily-points .graph-axis-text {
 	color: white;
+	cursor: default;
 }
 
 .stats-view.daily-points .graph-axis-button {
@@ -289,10 +290,6 @@ a.state-initial:focus {
 
 .stats-view.daily-points .graph-axis-button:hover {
 	background-color: #449d44;
-}
-
-.stats-view.daily-points .graph-axis-text {
-	cursor: default;
 }
 
 .stats-view.daily-points .graph-canvas {
@@ -304,47 +301,34 @@ a.state-initial:focus {
 }
 
 .stats-view.projects .timeline-frame {
+	background-color: #428bca;
 	border: 1px solid #dddddd;
 	border-radius: 4px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.stats-view.projects .timeline-groups-text,
+.stats-view.projects .timeline-axis-text {
+	color: white;
+	cursor: default;
 }
 
 .stats-view.projects .timeline-content {
 	background-color: #fcf8e3;
 }
 
-.stats-view.projects .timeline-groups-axis {
+.stats-view.projects .timeline-axis {
 	background-color: #428bca;
-	color: white;
+	opacity: 1;
 }
 
 .stats-view.projects .timeline-event {
 	border: 0;
 	border-radius: 0;
-	color: white;
 }
 
 .stats-view.projects .timeline-event-content {
 	margin: 0;
-	overflow: visible;
-}
-
-.stats-view.projects .timeline-event-content .start-mark,
-.stats-view.projects .timeline-event-content .end-mark {
-	position: relative;
-	top: -3px;
-	width: 6px;
-	height: 18px;
-	background-color: #449d44;
-	border-radius: 3px;
-}
-
-.stats-view.projects .timeline-event-content .start-mark {
-	float: left;
-}
-
-.stats-view.projects .timeline-event-content .end-mark {
-	float: right;
 }
 
 .stats-view.projects .timeline-event-content .content {
