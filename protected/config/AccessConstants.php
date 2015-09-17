@@ -12,4 +12,8 @@ class AccessConstants {
 	const DROPBOX_APP_SECRET = 'jpblp3axnke90hx';
 	const SMS_RU_LOGIN = '79307808612';
 	const SMS_RU_PASSWORD = '';
+	const ACCESS_CODE_EMAIL_FROM =
+		'thewizardplusplus <do-not-reply@thewizardplusplus.ru>';
+	const ACCESS_CODE_EMAIL_TO =
+		'thewizardplusplus <thewizardplusplus@yandex.ru>';
 }

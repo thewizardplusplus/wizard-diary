@@ -55,12 +55,12 @@ class AccessCode {
 
 	public static function sendEmail($access_code) {
 		$headers =
-			"From: thewizardplusplus <do-not-reply@thewizardplusplus.ru>\r\n"
+			"From: " . Constants::ACCESS_CODE_EMAIL_FROM . "\r\n"
 			. "Reply-To: <>\r\n"
 			. "MIME-Version: 1.0\r\n"
 			. "Content-Type: text/plain; charset=utf-8\r\n";
 		$result = mail(
-			'thewizardplusplus <thewizardplusplus@yandex.ru>',
+			Constants::ACCESS_CODE_EMAIL_TO,
 			'Access code',
 			$access_code,
 			$headers
