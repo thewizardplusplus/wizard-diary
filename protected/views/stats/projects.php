@@ -32,11 +32,11 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Статистика: проекты';
+	$this->pageTitle = Yii::app()->name . ' - Статистика: прогресс проектов';
 ?>
 
 <header class = "page-header">
-	<h4>Статистика: проекты</h4>
+	<h4>Статистика: прогресс проектов</h4>
 </header>
 
 <div class = "stats-view projects"></div>
