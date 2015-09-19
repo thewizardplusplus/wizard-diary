@@ -46,3 +46,7 @@
 </form>
 
 <div class = "stats-view project-list"></div>
+
+<p class = "stats-view empty-label">
+	Нет пунктов.
+</p>

@@ -2,7 +2,17 @@ $(document).ready(
 	function() {
 		var SEARCH_DELAY = 500;
 
-		var tree = $('.project-list').jstree(
+		var search_form = $('.search-form');
+		var project_list = $('.project-list');
+		if (STATS_DATA.length == 0) {
+			search_form.hide();
+			project_list.hide();
+			$('.empty-label').show();
+
+			return;
+		}
+
+		var tree = project_list.jstree(
 			{
 				core: {
 					data: STATS_DATA,
@@ -44,7 +54,7 @@ $(document).ready(
 			}
 		);
 
-		$('.search-form').on(
+		search_form.on(
 			'submit',
 			function (event) {
 				event.preventDefault();
@@ -54,7 +64,7 @@ $(document).ready(
 		);
 
 		var search_timer = null;
-		var search_input = $('.search-input');
+		var search_input = $('.search-input', search_form);
 		search_input.keyup(
 			function () {
 				clearTimeout(search_timer);
@@ -70,7 +80,7 @@ $(document).ready(
 			}
 		);
 
-		$('.clean-button').click(
+		$('.clean-button', search_form).click(
 			function() {
 				search_input.val('');
 				search_input.focus();
