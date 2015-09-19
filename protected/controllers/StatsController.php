@@ -13,13 +13,14 @@ class StatsController extends CController {
 	}
 
 	public function actionDailyPoints() {
-		$data = array();
 		$points = Point::model()->findAll(
 			array(
 				'condition' => 'text != "" AND daily = TRUE',
 				'order' => 'date DESC'
 			)
 		);
+
+		$data = array();
 		foreach ($points as $point) {
 			if (!array_key_exists($point->date, $data)) {
 				$data[$point->date] = array(
@@ -42,7 +43,7 @@ class StatsController extends CController {
 		$data = array_filter(
 			$data,
 			function($item) {
-				return $item['initial'] == 0;
+				return !$item['initial'];
 			}
 		);
 		$data = array_slice($data, 0, Constants::STATS_DAYS_LIMIT);
