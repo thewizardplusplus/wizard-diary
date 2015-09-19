@@ -109,7 +109,7 @@
 												)
 											),
 											array(
-												'label' => 'Проекты',
+												'label' => 'Прогресс проектов',
 												'url' => array('stats/projects')
 											),
 											array(
