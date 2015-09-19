@@ -103,14 +103,14 @@
 												)
 											),
 											array(
-												'label' => 'Проекты',
-												'url' => array('stats/projects')
-											),
-											array(
 												'label' => '',
 												'itemOptions' => array(
 													'class' => 'divider'
 												)
+											),
+											array(
+												'label' => 'Проекты',
+												'url' => array('stats/projects')
 											),
 											array(
 												'label' => 'Список проектов',
