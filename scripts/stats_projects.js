@@ -1,6 +1,11 @@
 google.load('visualization', '1.0');
 google.setOnLoadCallback(
 	function() {
+		if (STATS_DATA.length == 0) {
+			$('.empty-label').show();
+			return;
+		}
+
 		var FormatNumber = function(number, maximum) {
 			var reversed_number = maximum - number;
 			var string_reversed_number = reversed_number.toString();

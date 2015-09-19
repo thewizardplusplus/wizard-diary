@@ -86,12 +86,14 @@
 	google.load('visualization', '1.0');
 	google.setOnLoadCallback(
 		function() {
-			var data_table = new google.visualization.DataTable();
-			data_table.addColumn('date', 'date');
-			data_table.addColumn('number', 'value');
+			if (STATS_DATA.length == 0) {
+				$('.empty-label').show();
+				return;
+			}
+
+			var dates = Object.keys(STATS_DATA);
 
 			var data = [];
-			var dates = Object.keys(STATS_DATA);
 			for (var i = 0; i < dates.length; i++) {
 				var date_string = dates[i];
 				var date = new Date(Date.parse(date_string));
@@ -99,6 +101,10 @@
 				var row = [date, value];
 				data.push(row);
 			}
+
+			var data_table = new google.visualization.DataTable();
+			data_table.addColumn('date', 'date');
+			data_table.addColumn('number', 'value');
 			data_table.addRows(data);
 
 			var options = {

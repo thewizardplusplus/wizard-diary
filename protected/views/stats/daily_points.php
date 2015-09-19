@@ -38,3 +38,7 @@
 </header>
 
 <div class = "stats-view daily-points"></div>
+
+<p class = "stats-view empty-label">
+	Нет пунктов.
+</p>
