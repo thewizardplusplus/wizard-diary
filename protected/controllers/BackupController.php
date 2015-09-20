@@ -3,7 +3,10 @@
 require_once('dropbox-sdk/Dropbox/autoload.php');
 
 class BackupController extends CController {
-	const BACKUP_VERSION = 4;
+	/* v5:
+	 *     - remove checks from points and daily points;
+	 */
+	const BACKUP_VERSION = 5;
 
 	public function filters() {
 		return array('accessControl', 'postOnly + create', 'ajaxOnly + create');
@@ -193,7 +196,6 @@ class BackupController extends CController {
 			}
 
 			$state = $point->state;
-			$check = $point->check ? ' check = "true"' : '';
 			$daily = $point->daily ? ' daily = "true"' : '';
 			$text =
 				!empty($point->text)
@@ -203,7 +205,7 @@ class BackupController extends CController {
 					: '';
 
 			$days[$point->date] .=
-				"\t\t\t<point state = \"$state\"$check$daily>$text</point>\n";
+				"\t\t\t<point state = \"$state\"$daily>$text</point>\n";
 		}
 
 		$days_dump = '';
@@ -219,7 +221,6 @@ class BackupController extends CController {
 			array('order' => '`order`')
 		);
 		foreach ($daily_points as $daily_point) {
-			$check = $daily_point->check ? ' check = "true"' : '';
 			$text =
 				!empty($daily_point->text)
 					? '<![CDATA['
@@ -231,8 +232,7 @@ class BackupController extends CController {
 						. ']]>'
 					: '';
 
-			$daily_points_dump .=
-				"\t\t<daily-point$check>$text</daily-point>\n";
+			$daily_points_dump .= "\t\t<daily-point>$text</daily-point>\n";
 		}
 
 		$imports_dump = '';
