@@ -9,13 +9,11 @@ class Point
 	attr_accessor :date
 	attr_accessor :text
 	attr_accessor :state
-	attr_accessor :check
 	attr_accessor :order
 end
 
 class DailyPoint
 	attr_accessor :text
-	attr_accessor :check
 	attr_accessor :order
 end
 
@@ -57,10 +55,6 @@ def extractPoints(xml)
 			point.date = day_element.attributes['date']
 			point.text = point_element.cdatas().join('')
 			point.state = point_element.attributes['state']
-			point.check =
-				!!point_element.attributes['check'] &&
-				(point_element.attributes['check'] == 'true' ||
-				point_element.attributes['check'] == '1')
 			point.order = order
 
 			points << point
@@ -77,10 +71,6 @@ def extractDailyPoints(xml)
 	xml.elements.each('diary/daily-points/daily-point') do |daily_point_element|
 		daily_point = DailyPoint.new
 		daily_point.text = daily_point_element.cdatas().join('')
-		daily_point.check =
-			!!daily_point_element.attributes['check'] &&
-			(daily_point_element.attributes['check'] == 'true' ||
-			daily_point_element.attributes['check'] == '1')
 		daily_point.order = order
 
 		daily_points << daily_point
@@ -109,8 +99,7 @@ end
 
 def generatePointsSql(points, table_prefix)
 	"DELETE FROM `#{table_prefix}points`;\n" +
-	"INSERT INTO `#{table_prefix}points` " +
-		"(`date`, `text`, `state`, `check`, `order`)\n" +
+	"INSERT INTO `#{table_prefix}points` (`date`, `text`, `state`, `order`)\n" +
 	"VALUES\n" +
 	points.map do |point|
 		text = Mysql2::Client.escape(point.text)
@@ -118,7 +107,6 @@ def generatePointsSql(points, table_prefix)
 			"'#{point.date}', " +
 			"'#{text}', " +
 			"'#{point.state}', " +
-			"#{point.check}, " +
 			"#{point.order}" +
 		")"
 	end.join(",\n") + ";\n"
@@ -126,14 +114,12 @@ end
 
 def generateDailyPointsSql(daily_points, table_prefix)
 	"DELETE FROM `#{table_prefix}daily_points`;\n" +
-	"INSERT INTO `#{table_prefix}daily_points` " +
-		"(`text`, `check`, `order`)\n" +
+	"INSERT INTO `#{table_prefix}daily_points` (`text`, `order`)\n" +
 	"VALUES\n" +
 	daily_points.map do |daily_point|
 		text = Mysql2::Client.escape(daily_point.text)
 		"\t(" +
 			"'#{text}', " +
-			"#{daily_point.check}, " +
 			"#{daily_point.order}" +
 		")"
 	end.join(",\n") + ";\n"
