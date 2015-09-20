@@ -88,7 +88,7 @@ class ImportController extends CController {
 		$sql_lines = array_map(
 			function($extended_point) use ($date, &$order) {
 				$sql_line = sprintf(
-					'("%s", %s, "%s", FALSE, FALSE, %d)',
+					'("%s", %s, "%s", %d)',
 					$date,
 					Yii::app()->db->quoteValue($extended_point),
 					!empty($extended_point) ? 'SATISFIED' : 'INITIAL',
@@ -104,7 +104,7 @@ class ImportController extends CController {
 		if (!empty($sql_lines)) {
 			$sql = sprintf(
 				'INSERT INTO `{{points}}`'
-				. '(`date`, `text`, `state`, `check`, `daily`, `order`)'
+				. '(`date`, `text`, `state`, `order`)'
 				. 'VALUES %s',
 				implode(',', $sql_lines)
 			);
