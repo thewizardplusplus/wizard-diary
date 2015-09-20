@@ -151,10 +151,6 @@ $(document).ready(
 		);
 
 		PointList = {
-			checking: function(url, checked) {
-				RequestToPointList(url, { 'Point[check]': checked ? 1 : 0 });
-				return false;
-			},
 			move: function(url) {
 				RequestToPointList(
 					url,
