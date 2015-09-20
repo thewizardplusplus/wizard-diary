@@ -28,6 +28,9 @@ class AccessCode {
 		if (Constants::ACCESS_CODE_SEND_EMAIL) {
 			self::sendEmail($access_code);
 		}
+		if (Constants::ACCESS_CODE_PRINT_TO_LOG) {
+			self::printToLog($access_code);
+		}
 
 		self::set($access_code);
 	}
@@ -68,6 +71,10 @@ class AccessCode {
 		if (!$result) {
 			throw new CException('Ошибка отправки кода доступа в Email.');
 		}
+	}
+
+	public static function printToLog($access_code) {
+		Yii::log("access code: $access_code");
 	}
 
 	public static function cleanIfNeed() {

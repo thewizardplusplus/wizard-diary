@@ -24,6 +24,7 @@ class Constants extends AccessConstants {
 	const ACCESS_CODE_LENGTH = 5;
 	const ACCESS_CODE_LIFETIME_IN_S = 60;
 	const ACCESS_CODE_SEND_EMAIL = false;
+	const ACCESS_CODE_PRINT_TO_LOG = false;
 	// 30 days
 	const ACCESS_LOG_LIFETIME_IN_S_DEFAULT = 2592000;
 	const ACCESS_LOG_LIFETIME_IN_S_MINIMUM = 0;
