@@ -33,7 +33,6 @@ class Point extends CActiveRecord {
 					'CANCELED'
 				)
 			),
-			array('check', 'boolean', 'falseValue' => 0, 'trueValue' => 1),
 			array('order', 'numerical')
 		);
 	}

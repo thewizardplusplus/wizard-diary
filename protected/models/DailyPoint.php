@@ -22,7 +22,6 @@ class DailyPoint extends CActiveRecord {
 	public function rules() {
 		return array(
 			array('text', 'safe'),
-			array('check', 'boolean', 'falseValue' => 0, 'trueValue' => 1),
 			array('order', 'numerical')
 		);
 	}
