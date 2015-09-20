@@ -5,8 +5,8 @@ class DailyPointsAdder {
 		Yii::app()
 			->db
 			->createCommand(
-				'INSERT INTO {{points}} (date, text, `check`, daily) '
-				. 'SELECT CURDATE(), text, `check`, TRUE '
+				'INSERT INTO {{points}} (date, text, daily) '
+				. 'SELECT CURDATE(), text, TRUE '
 				. 'FROM {{daily_points}} '
 				. 'ORDER BY `order`'
 			)
