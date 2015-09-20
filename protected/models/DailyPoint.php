@@ -60,9 +60,6 @@ class DailyPoint extends CActiveRecord {
 	protected function beforeSave() {
 		$result = parent::beforeSave();
 		if ($result) {
-			if (!$this->isNewRecord and empty($this->text)) {
-				$this->check = 0;
-			}
 			if (!empty($this->text) and substr($this->text, -1) != ';') {
 				$this->text .= ';';
 			}
