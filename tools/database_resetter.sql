@@ -1,3 +1,5 @@
+START TRANSACTION;
+
 DELETE FROM `diary_accesses`;
 ALTER TABLE `diary_accesses` AUTO_INCREMENT = 1;
 
@@ -29,3 +31,5 @@ ALTER TABLE `diary_points` AUTO_INCREMENT = 1;
 
 DELETE FROM `diary_sessions`;
 ALTER TABLE `diary_sessions` AUTO_INCREMENT = 1;
+
+COMMIT;
