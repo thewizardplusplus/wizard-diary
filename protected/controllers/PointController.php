@@ -105,14 +105,6 @@ class PointController extends CController {
 		}
 	}
 
-	public function actionDelete($id) {
-		$model = $this->loadModel($id);
-		$date = $model->date;
-		$model->delete();
-
-		Point::renumberOrderFieldsForDate($date);
-	}
-
 	public function actionAddDailyPoints() {
 		DailyPointsAdder::addDailyPoints();
 		$this->redirect($this->createUrl('point/list'));

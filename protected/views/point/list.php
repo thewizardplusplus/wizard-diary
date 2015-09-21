@@ -24,10 +24,6 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/deleting_dialog.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/ajax_error_dialog.js'),
 		CClientScript::POS_HEAD
 	);
@@ -59,42 +55,11 @@
 					'type' => 'raw',
 					'value' =>
 						'"<span '
-							. 'id = \"point-text-" . $data->id . "\" '
 							. 'class = '
 								. '\"state-" . $data->getStateClass()'
-								. '. " point-text\" '
-							. 'data-text = '
-								. '\"" . $data->getRealText() . "\">"'
+								. '. " point-text\">"'
 							. '. $data->getFormattedText() .'
 						. '"</span>"'
-				),
-				array(
-					'class' => 'CButtonColumn',
-					'template' => '{delete}',
-					'buttons' => array(
-						'delete' => array(
-							'label' =>
-								'<span '
-									. 'class = '
-										. '"glyphicon '
-										. 'glyphicon-trash">'
-								. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"point/delete",'
-									. 'array('
-										. '"id" => $data->id,'
-										. '"_id" => $data->id'
-									. ')'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Удалить пункт'),
-							'click' =>
-								'function() {'
-									. 'return PointList.deleting(this);'
-								. '}'
-						)
-					)
 				)
 			),
 			'itemsCssClass' => 'table',
@@ -132,43 +97,4 @@
 			'extraRowPos' => 'above'
 		)
 	); ?>
-</div>
-
-<div class = "modal deleting-dialog">
-	<div class = "modal-dialog">
-		<div class = "modal-content">
-			<div class = "modal-header">
-				<button
-					class = "close"
-					type = "button"
-					data-dismiss = "modal"
-					aria-hidden = "true">
-					&times;
-				</button>
-				<h4 class = "modal-title">
-					<span class = "glyphicon glyphicon-warning-sign"></span>
-					Внимание!
-				</h4>
-			</div>
-
-			<div class = "modal-body">
-				<p>
-					Ты точно хочешь удалить
-					<span class = "point-description"></span>?
-				</p>
-			</div>
-
-			<div class = "modal-footer">
-				<button type = "button" class = "btn btn-primary ok-button">
-					OK
-				</button>
-				<button
-					class = "btn btn-default"
-					type = "button"
-					data-dismiss = "modal">
-					Отмена
-				</button>
-			</div>
-		</div>
-	</div>
 </div>

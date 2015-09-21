@@ -64,9 +64,7 @@ class Point extends CActiveRecord {
 			'<strong>$1</strong><br />$2',
 			$text
 		);
-		if (!empty($text)) {
-			$text .= ';';
-		}
+
 		$text = str_replace('&quot;', '"', $text);
 		$text = preg_replace(
 			'/"([^"]*)"/',
@@ -74,7 +72,14 @@ class Point extends CActiveRecord {
 			$text
 		);
 		$text = str_replace('"', '&quot;', $text);
+
 		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
+
+		if (!empty($text)) {
+			$text .= ';';
+		} else {
+			$text = '&nbsp;';
+		}
 
 		return $text;
 	}
