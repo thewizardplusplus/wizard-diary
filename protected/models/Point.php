@@ -82,13 +82,15 @@ class Point extends CActiveRecord {
 	protected function beforeSave() {
 		$result = parent::beforeSave();
 		if ($result) {
+			if (!empty($this->text) and substr($this->text, -1) == ';') {
+				$this->text = substr($this->text, 0, -1);
+			}
+
 			if ($this->isNewRecord) {
 				$this->date = date('Y-m-d');
-			} elseif (empty($this->text)) {
-				$this->state = 'INITIAL';
 			}
-			if (!empty($this->text) and substr($this->text, -1) != ';') {
-				$this->text .= ';';
+			if (empty($this->text)) {
+				$this->state = 'INITIAL';
 			}
 		}
 

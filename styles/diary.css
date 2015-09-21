@@ -272,6 +272,10 @@ a.state-initial:focus {
 	padding: 5px 10px;
 }
 
+.point-text input {
+	font-weight: normal;
+}
+
 .stats-view.empty-label {
 	display: none;
 	font-style: italic;
