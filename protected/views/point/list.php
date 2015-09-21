@@ -31,10 +31,6 @@
 		CHtml::asset('scripts/point_list.js'),
 		CClientScript::POS_HEAD
 	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/selection.js'),
-		CClientScript::POS_HEAD
-	);
 
 	$this->pageTitle = Yii::app()->name;
 ?>
@@ -47,7 +43,7 @@
 			'dataProvider' => $data_provider,
 			'template' => '{pager} {items} {pager}',
 			'hideHeader' => true,
-			'selectableRows' => 2,
+			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
 				array('class' => 'PointStateColumn'),
@@ -70,7 +66,6 @@
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'selectionChanged' => 'function() { Selection.process(); }',
 			'emptyText' => 'Нет пунктов.',
 			'pager' => array(
 				'maxButtonCount' => 0,

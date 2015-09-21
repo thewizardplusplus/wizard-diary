@@ -55,54 +55,13 @@ class PointController extends CController {
 	}
 
 	public function actionUpdate($id) {
-		if (isset($_POST['Point'])) {
-			$model = $this->loadModel($id);
-			$model->attributes = $_POST['Point'];
-			$model->save();
-		}
-	}
-
-	public function actionAge() {
-		if (!isset($_POST['ids']) or !is_array($_POST['ids'])) {
-			throw new CHttpException(500, 'Неверные параметры запроса.');
-		}
-		foreach ($_POST['ids'] as $id) {
-			if (!is_numeric($id)) {
-				throw new CHttpException(500, 'Неверные параметры запроса.');
-			}
+		if (!isset($_POST['Point'])) {
+			return;
 		}
 
-		$ids = array_map('intval', $_POST['ids']);
-		$ids_in_string = implode(', ', $ids);
-
-		$start_order_value = Constants::MAXIMAL_ORDER_VALUE - 2 * count($ids);
-		Yii::app()
-			->db
-			->createCommand('SET @order = ' . $start_order_value)
-			->execute();
-		Point::model()->updateAll(
-			array(
-				'date' => new CDbExpression('DATE_SUB(date, INTERVAL 1 DAY)'),
-				'order' => new CDbExpression('(@order := @order + 2)')
-			),
-			array(
-				'condition' => 'id IN (' . $ids_in_string . ')',
-				'order' => '`order`, id'
-			)
-		);
-
-		$dates = Yii::app()
-			->db
-			->createCommand(
-				'SELECT date '
-				. 'FROM {{points}} '
-				. 'WHERE id IN (' . $ids_in_string . ')'
-				. 'GROUP BY date'
-			)
-			->queryAll();
-		foreach ($dates as $date) {
-			Point::renumberOrderFieldsForDate($date['date']);
-		}
+		$model = $this->loadModel($id);
+		$model->attributes = $_POST['Point'];
+		$model->save();
 	}
 
 	public function actionAddDailyPoints() {

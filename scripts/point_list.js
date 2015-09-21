@@ -4,7 +4,6 @@ $(document).ready(
 	function() {
 		var point_list = $('#point-list');
 		var UpdatePointList = function() {
-			Selection.hideAgePointsButton();
 			point_list.yiiGridView(
 				'update',
 				{
