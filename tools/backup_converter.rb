@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
 
+require 'mysql2'
 require 'optparse'
 require 'pathname'
 require 'rexml/document'
-require 'mysql2'
 require 'clipboard'
+
+DEFAULT_TABLE_PREFIX = 'diary_'
 
 module Initializable
 	def initialize parameters = {}
@@ -22,6 +24,41 @@ class Point
 	attr_accessor :state
 	attr_accessor :daily
 	attr_accessor :order
+
+	def to_s
+		escaped_text = escapeForSql text
+		"('#{date}', '#{escaped_text}', '#{state}', #{daily}, #{order})"
+	end
+end
+
+class PointGroup
+	def initialize xml, table_prefix = DEFAULT_TABLE_PREFIX
+		@points = []
+		xml.elements.each 'diary/days/day' do |day_element|
+			order = 3
+			day_element.elements.each 'point' do |point_element|
+				@points << Point.new(
+					date: day_element.attributes['date'],
+					text: point_element.cdatas().join(''),
+					state: point_element.attributes['state'],
+					daily: getBooleanValue(point_element, 'daily'),
+					order: order
+				)
+
+				order += 2
+			end
+		end
+
+		@table_prefix = table_prefix
+	end
+
+	def to_s
+		points_description = @points.join ",\n\t"
+		"DELETE FROM `#{@table_prefix}points`;\n" +
+			"INSERT INTO `#{@table_prefix}points` " +
+				"(`date`, `text`, `state`, `daily`, `order`)\n" +
+			"VALUES\n\t#{points_description};\n"
+	end
 end
 
 class DailyPoint
@@ -29,6 +66,35 @@ class DailyPoint
 
 	attr_accessor :text
 	attr_accessor :order
+
+	def to_s
+		escaped_text = escapeForSql text
+		"('#{escaped_text}', #{order})"
+	end
+end
+
+class DailyPointGroup
+	def initialize xml, table_prefix = DEFAULT_TABLE_PREFIX
+		@daily_points = []
+		order = 3
+		xml.elements.each 'diary/daily-points/daily-point' do |element|
+			@daily_points << DailyPoint.new(
+				text: element.cdatas().join(''),
+				order: order
+			)
+
+			order += 2
+		end
+
+		@table_prefix = table_prefix
+	end
+
+	def to_s
+		daily_points_description = @daily_points.join ",\n\t"
+		"DELETE FROM `#{@table_prefix}daily_points`;\n" +
+			"INSERT INTO `#{@table_prefix}daily_points` (`text`, `order`)\n" +
+			"VALUES\n\t#{daily_points_description};\n"
+	end
 end
 
 class Import
@@ -37,16 +103,54 @@ class Import
 	attr_accessor :date
 	attr_accessor :points_description
 	attr_accessor :imported
+
+	def to_s
+		escaped_points_description = escapeForSql points_description
+		"('#{date}', '#{escaped_points_description}', #{imported})"
+	end
+end
+
+class ImportGroup
+	def initialize xml, table_prefix = DEFAULT_TABLE_PREFIX
+		@imports = []
+		xml.elements.each 'diary/imports/import' do |element|
+			@imports << Import.new(
+				date: element.attributes['date'],
+				points_description: element.cdatas().join(''),
+				imported: getBooleanValue(element, 'imported')
+			)
+		end
+
+		@table_prefix = table_prefix
+	end
+
+	def to_s
+		imports_description = @imports.join ",\n\t"
+		"DELETE FROM `#{@table_prefix}imports`;\n" +
+			"INSERT INTO `#{@table_prefix}imports` " +
+				"(`date`, `points_description`, `imported`)\n" +
+			"VALUES\n\t#{imports_description};\n"
+	end
+end
+
+def escapeForSql text
+	Mysql2::Client.escape text
+end
+
+def getBooleanValue element, attribute
+	!!element.attributes[attribute] &&
+		(element.attributes[attribute] == 'true' ||
+		element.attributes[attribute] == '1')
 end
 
 def parseOptions
-	options = {:prefix => 'diary_'}
+	options = {:prefix => DEFAULT_TABLE_PREFIX}
 	OptionParser.new do |option_parser|
 		option_parser.program_name = Pathname.new($0).basename
 		option_parser.banner =
 			"Usage: #{option_parser.program_name} [options] filename"
 
-		option_parser.on('--prefix PREFIX', 'table name prefix') do |prefix|
+		option_parser.on '--prefix PREFIX', 'table name prefix' do |prefix|
 			options[:prefix] = prefix
 		end
 	end.parse!
@@ -57,122 +161,20 @@ def parseOptions
 	options
 end
 
-def loadXml(filename)
-	file = File.new(filename)
-	REXML::Document.new(file)
-end
-
-def getBooleanValue(element, attribute)
-	!!element.attributes[attribute] &&
-	(element.attributes[attribute] == 'true' ||
-	element.attributes[attribute] == '1')
-end
-
-def extractPoints(xml)
-	points = []
-	xml.elements.each('diary/days/day') do |day_element|
-		order = 3
-		day_element.elements.each('point') do |point_element|
-			points << Point.new(
-				date: day_element.attributes['date'],
-				text: point_element.cdatas().join(''),
-				state: point_element.attributes['state'],
-				daily: getBooleanValue(point_element, 'daily'),
-				order: order
-			)
-
-			order += 2
-		end
-	end
-
-	points
-end
-
-def extractDailyPoints(xml)
-	daily_points = []
-	order = 3
-	xml.elements.each('diary/daily-points/daily-point') do |daily_point_element|
-		daily_points << DailyPoint.new(
-			text: daily_point_element.cdatas().join(''),
-			order: order
-		)
-
-		order += 2
-	end
-
-	daily_points
-end
-
-def extractImports(xml)
-	imports = []
-	xml.elements.each('diary/imports/import') do |import_element|
-		imports << Import.new(
-			date: import_element.attributes['date'],
-			points_description: import_element.cdatas().join(''),
-			imported: getBooleanValue(import_element, 'imported')
-		)
-	end
-
-	imports
-end
-
-def generatePointsSql(points, table_prefix)
-	"DELETE FROM `#{table_prefix}points`;\n" +
-	"INSERT INTO `#{table_prefix}points` " +
-		"(`date`, `text`, `state`, `daily`, `order`)\n" +
-	"VALUES\n" +
-	points.map do |point|
-		text = Mysql2::Client.escape(point.text)
-		"\t(" +
-			"'#{point.date}', " +
-			"'#{text}', " +
-			"'#{point.state}', " +
-			"#{point.daily}, " +
-			"#{point.order}" +
-		")"
-	end.join(",\n") + ";\n"
-end
-
-def generateDailyPointsSql(daily_points, table_prefix)
-	"DELETE FROM `#{table_prefix}daily_points`;\n" +
-	"INSERT INTO `#{table_prefix}daily_points` (`text`, `order`)\n" +
-	"VALUES\n" +
-	daily_points.map do |daily_point|
-		text = Mysql2::Client.escape(daily_point.text)
-		"\t(" +
-			"'#{text}', " +
-			"#{daily_point.order}" +
-		")"
-	end.join(",\n") + ";\n"
-end
-
-def generateImportsSql(imports, table_prefix)
-	"DELETE FROM `#{table_prefix}imports`;\n" +
-	"INSERT INTO `#{table_prefix}imports` " +
-		"(`date`, `points_description`, `imported`)\n" +
-	"VALUES\n" +
-	imports.map do |import|
-		points_description = Mysql2::Client.escape(import.points_description)
-		"\t(" +
-			"'#{import.date}', " +
-			"'#{points_description}', " +
-			"#{import.imported}" +
-		")"
-	end.join(",\n") + ";\n"
+def loadXml filename
+	file = File.new filename
+	REXML::Document.new file
 end
 
 begin
 	options = parseOptions
-	xml = loadXml(options[:filename])
-	points = extractPoints(xml)
-	daily_points = extractDailyPoints(xml)
-	imports = extractImports(xml)
-	sql =
-		generatePointsSql(points, options[:prefix]) + "\n" +
-		generateDailyPointsSql(daily_points, options[:prefix]) + "\n" +
-		generateImportsSql(imports, options[:prefix])
+	xml = loadXml options[:filename]
+	points = PointGroup.new xml, options[:prefix]
+	daily_points = DailyPointGroup.new xml, options[:prefix]
+	imports = ImportGroup.new xml, options[:prefix]
+	sql = "#{points}\n#{daily_points}\n#{imports}"
 
-	Clipboard.copy(sql)
+	Clipboard.copy sql
 	puts sql
 rescue Exception => exception
 	puts "Error: \"#{exception.message}\"."
