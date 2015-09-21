@@ -150,8 +150,14 @@ def parseOptions
 		option_parser.banner =
 			"Usage: #{option_parser.program_name} [options] filename"
 
-		option_parser.on '--prefix PREFIX', 'table name prefix' do |prefix|
+		option_parser.on '--prefix PREFIX', ' - table name prefix;' do |prefix|
 			options[:prefix] = prefix
+		end
+		option_parser.on(
+			'--no-transaction',
+			' - disable a transaction using.'
+		) do |prefix|
+			options[:no_transaction] = true
 		end
 	end.parse!
 
@@ -166,13 +172,22 @@ def loadXml filename
 	REXML::Document.new file
 end
 
+def generateSql points, daily_points, imports, no_transaction
+	sql = "#{points}\n#{daily_points}\n#{imports}";
+	if !no_transaction
+		sql = "START TRANSACTION;\n\n#{sql}\nCOMMIT;"
+	end
+
+	sql
+end
+
 begin
 	options = parseOptions
 	xml = loadXml options[:filename]
 	points = PointGroup.new xml, options[:prefix]
 	daily_points = DailyPointGroup.new xml, options[:prefix]
 	imports = ImportGroup.new xml, options[:prefix]
-	sql = "#{points}\n#{daily_points}\n#{imports}"
+	sql = generateSql points, daily_points, imports, options[:no_transaction]
 
 	Clipboard.copy sql
 	puts sql
