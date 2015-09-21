@@ -150,14 +150,26 @@ def parseOptions
 		option_parser.banner =
 			"Usage: #{option_parser.program_name} [options] filename"
 
-		option_parser.on '--prefix PREFIX', ' - table name prefix;' do |prefix|
+		option_parser.on(
+			'-p PREFIX',
+			'--prefix PREFIX',
+			' - table name prefix;'
+		) do |prefix|
 			options[:prefix] = prefix
 		end
 		option_parser.on(
+			'-t',
 			'--no-transaction',
-			' - disable a transaction using.'
+			' - disable a transaction using;'
 		) do |prefix|
 			options[:no_transaction] = true
+		end
+		option_parser.on(
+			'-c',
+			'--no-clipboard',
+			' - disable a copying to clipboard.'
+		) do |prefix|
+			options[:no_clipboard] = true
 		end
 	end.parse!
 
@@ -181,6 +193,14 @@ def generateSql points, daily_points, imports, no_transaction
 	sql
 end
 
+def outpurSql sql, no_clipboard
+	puts sql
+
+	if !no_clipboard
+		Clipboard.copy sql
+	end
+end
+
 begin
 	options = parseOptions
 	xml = loadXml options[:filename]
@@ -188,9 +208,9 @@ begin
 	daily_points = DailyPointGroup.new xml, options[:prefix]
 	imports = ImportGroup.new xml, options[:prefix]
 	sql = generateSql points, daily_points, imports, options[:no_transaction]
-
-	Clipboard.copy sql
-	puts sql
+	outpurSql sql, options[:no_clipboard]
 rescue Exception => exception
-	puts "Error: \"#{exception.message}\"."
+	if exception.message != 'exit'
+		puts "Error: \"#{exception.message}\"."
+	end
 end
