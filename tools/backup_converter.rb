@@ -20,6 +20,7 @@ class Point
 	attr_accessor :date
 	attr_accessor :text
 	attr_accessor :state
+	attr_accessor :daily
 	attr_accessor :order
 end
 
@@ -61,6 +62,12 @@ def loadXml(filename)
 	REXML::Document.new(file)
 end
 
+def getBooleanValue(element, attribute)
+	!!element.attributes[attribute] &&
+	(element.attributes[attribute] == 'true' ||
+	element.attributes[attribute] == '1')
+end
+
 def extractPoints(xml)
 	points = []
 	xml.elements.each('diary/days/day') do |day_element|
@@ -70,6 +77,7 @@ def extractPoints(xml)
 				date: day_element.attributes['date'],
 				text: point_element.cdatas().join(''),
 				state: point_element.attributes['state'],
+				daily: getBooleanValue(point_element, 'daily'),
 				order: order
 			)
 
@@ -101,10 +109,7 @@ def extractImports(xml)
 		imports << Import.new(
 			date: import_element.attributes['date'],
 			points_description: import_element.cdatas().join(''),
-			imported:
-				!!import_element.attributes['imported'] &&
-				(import_element.attributes['imported'] == 'true' ||
-				import_element.attributes['imported'] == '1')
+			imported: getBooleanValue(import_element, 'imported')
 		)
 	end
 
@@ -113,7 +118,8 @@ end
 
 def generatePointsSql(points, table_prefix)
 	"DELETE FROM `#{table_prefix}points`;\n" +
-	"INSERT INTO `#{table_prefix}points` (`date`, `text`, `state`, `order`)\n" +
+	"INSERT INTO `#{table_prefix}points` " +
+		"(`date`, `text`, `state`, `daily`, `order`)\n" +
 	"VALUES\n" +
 	points.map do |point|
 		text = Mysql2::Client.escape(point.text)
@@ -121,6 +127,7 @@ def generatePointsSql(points, table_prefix)
 			"'#{point.date}', " +
 			"'#{text}', " +
 			"'#{point.state}', " +
+			"#{point.daily}, " +
 			"#{point.order}" +
 		")"
 	end.join(",\n") + ";\n"
