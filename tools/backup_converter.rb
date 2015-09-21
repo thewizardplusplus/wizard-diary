@@ -165,6 +165,13 @@ def parseOptions
 			options[:no_transaction] = true
 		end
 		option_parser.on(
+			'-q',
+			'--quiet',
+			' - disable a printing to stdout;'
+		) do |prefix|
+			options[:quiet] = true
+		end
+		option_parser.on(
 			'-c',
 			'--no-clipboard',
 			' - disable a copying to clipboard.'
@@ -193,10 +200,11 @@ def generateSql points, daily_points, imports, no_transaction
 	sql
 end
 
-def outpurSql sql, no_clipboard
-	puts sql
-
-	if !no_clipboard
+def outpurSql sql, options
+	if !options[:quiet]
+		puts sql
+	end
+	if !options[:no_transaction]
 		Clipboard.copy sql
 	end
 end
@@ -208,7 +216,7 @@ begin
 	daily_points = DailyPointGroup.new xml, options[:prefix]
 	imports = ImportGroup.new xml, options[:prefix]
 	sql = generateSql points, daily_points, imports, options[:no_transaction]
-	outpurSql sql, options[:no_clipboard]
+	outpurSql sql, options
 rescue Exception => exception
 	if exception.message != 'exit'
 		puts "Error: \"#{exception.message}\"."
