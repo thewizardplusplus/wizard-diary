@@ -6,7 +6,17 @@ require 'rexml/document'
 require 'mysql2'
 require 'clipboard'
 
+module Initializable
+	def initialize parameters = {}
+		parameters.each do |key, value|
+			send "#{key}=", value
+		end
+	end
+end
+
 class Point
+	include Initializable
+
 	attr_accessor :date
 	attr_accessor :text
 	attr_accessor :state
@@ -14,11 +24,15 @@ class Point
 end
 
 class DailyPoint
+	include Initializable
+
 	attr_accessor :text
 	attr_accessor :order
 end
 
 class Import
+	include Initializable
+
 	attr_accessor :date
 	attr_accessor :points_description
 	attr_accessor :imported
@@ -52,13 +66,13 @@ def extractPoints(xml)
 	xml.elements.each('diary/days/day') do |day_element|
 		order = 3
 		day_element.elements.each('point') do |point_element|
-			point = Point.new
-			point.date = day_element.attributes['date']
-			point.text = point_element.cdatas().join('')
-			point.state = point_element.attributes['state']
-			point.order = order
+			points << Point.new(
+				date: day_element.attributes['date'],
+				text: point_element.cdatas().join(''),
+				state: point_element.attributes['state'],
+				order: order
+			)
 
-			points << point
 			order += 2
 		end
 	end
@@ -70,11 +84,11 @@ def extractDailyPoints(xml)
 	daily_points = []
 	order = 3
 	xml.elements.each('diary/daily-points/daily-point') do |daily_point_element|
-		daily_point = DailyPoint.new
-		daily_point.text = daily_point_element.cdatas().join('')
-		daily_point.order = order
+		daily_points << DailyPoint.new(
+			text: daily_point_element.cdatas().join(''),
+			order: order
+		)
 
-		daily_points << daily_point
 		order += 2
 	end
 
@@ -84,15 +98,14 @@ end
 def extractImports(xml)
 	imports = []
 	xml.elements.each('diary/imports/import') do |import_element|
-		import = Import.new
-		import.date = import_element.attributes['date']
-		import.points_description = import_element.cdatas().join('')
-		import.imported =
-			!!import_element.attributes['imported'] &&
-			(import_element.attributes['imported'] == 'true' ||
-			import_element.attributes['imported'] == '1')
-
-		imports << import
+		imports << Import.new(
+			date: import_element.attributes['date'],
+			points_description: import_element.cdatas().join(''),
+			imported:
+				!!import_element.attributes['imported'] &&
+				(import_element.attributes['imported'] == 'true' ||
+				import_element.attributes['imported'] == '1')
+		)
 	end
 
 	imports
