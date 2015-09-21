@@ -4,6 +4,7 @@ require 'optparse'
 require 'pathname'
 require 'rexml/document'
 require 'mysql2'
+require 'clipboard'
 
 class Point
 	attr_accessor :date
@@ -151,6 +152,7 @@ begin
 		generateDailyPointsSql(daily_points, options[:prefix]) + "\n" +
 		generateImportsSql(imports, options[:prefix])
 
+	Clipboard.copy(sql)
 	puts sql
 rescue Exception => exception
 	puts "Error: \"#{exception.message}\"."
