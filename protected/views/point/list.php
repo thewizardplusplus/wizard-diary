@@ -218,37 +218,6 @@
 	); ?>
 </div>
 
-<?= CHtml::beginForm('#', 'post', array('id' => 'point-addition-form')) ?>
-	<div class = "input-group">
-		<?php $this->widget(
-			'zii.widgets.jui.CJuiAutoComplete',
-			array(
-				'name' => 'Point_text',
-				'sourceUrl' => $this->createUrl('point/autocomplete'),
-				'options' => array(
-					'position' => new CJavaScriptExpression(
-						'{'
-							. 'my: "left bottom",'
-							. 'at: "left top",'
-							. 'collision: "flip"'
-						. '}'
-					)
-				),
-				'htmlOptions' => array(
-					'class' => 'form-control',
-					'autocomplete' => 'off',
-					'autofocus' => 'autofocus'
-				)
-			)
-		); ?>
-		<a
-			class = "input-group-addon add-point-button"
-			href = "<?= $this->createUrl('point/create') ?>">
-			<span class = "glyphicon glyphicon-plus"></span>
-		</a>
-	</div>
-<?= CHtml::endForm() ?>
-
 <div class = "modal deleting-dialog">
 	<div class = "modal-dialog">
 		<div class = "modal-content">

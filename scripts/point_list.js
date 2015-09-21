@@ -15,7 +15,7 @@ $(document).ready(
 				}
 			);
 		};
-		var RequestToPointList = function(url, data, callback) {
+		var RequestToPointList = function(url, data) {
 			$.extend(data, CSRF_TOKEN);
 			point_list.yiiGridView(
 				'update',
@@ -25,75 +25,10 @@ $(document).ready(
 					data: data,
 					success: function() {
 						UpdatePointList();
-
-						if (typeof callback == 'function') {
-							callback();
-						}
 					}
 				}
 			);
 		};
-
-		var autoflipping = false;
-		var RequestAnimationFrame =
-			requestAnimationFrame
-				|| mozRequestAnimationFrame
-				|| webkitRequestAnimationFrame
-				|| function(callback) {
-				setTimeout(callback, 1000 / 60);
-			};
-		var StartAutoflipping = function() {
-			var number_of_point = $('.point-text').length;
-			autoflipping = true;
-			var Autoflip = function() {
-				var flip_buttons = $('.page-controller .next:not(.disabled) a');
-
-				if (
-					autoflipping
-					&& ($('.point-text').length == number_of_point
-					|| flip_buttons.length == 0)
-				) {
-					RequestAnimationFrame(Autoflip);
-				}
-				flip_buttons.first().click();
-			};
-
-			Autoflip();
-		};
-
-		var add_point_input = $('#Point_text');
-		var add_point_button = $('.add-point-button');
-		var AddPoint = function() {
-			var text = add_point_input.val();
-			add_point_input.val('');
-			RequestToPointList(
-				add_point_button.attr('href'),
-				{
-					'Point[text]': text,
-					'Point[state]': text != '' ? 'SATISFIED' : 'INITIAL'
-				},
-				function() {
-					$('html, body').animate(
-						{
-							scrollTop: $(document).height() - $(window).height()
-						}
-					);
-					StartAutoflipping();
-				}
-			);
-		};
-		add_point_button.click(
-			function() {
-				AddPoint();
-				return false;
-			}
-		);
-		$('#point-addition-form').submit(
-			function() {
-				AddPoint();
-				return false;
-			}
-		);
 
 		$.editable.addInputType(
 			'bootstrapped-line-edit',
@@ -230,7 +165,6 @@ $(document).ready(
 			},
 			afterUpdate: function() {
 				PointList.initialize();
-				autoflipping = false;
 			}
 		};
 
