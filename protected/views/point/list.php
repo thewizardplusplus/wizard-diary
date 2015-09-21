@@ -64,44 +64,14 @@
 								. '\"state-" . $data->getStateClass()'
 								. '. " point-text\" '
 							. 'data-text = '
-								. '\"" . $data->getRealText() . "\" '
-							. 'data-update-url = '
-								. '\"" . $this->grid->controller->createUrl('
-									. '"point/update",'
-									. 'array("id" => $data->id)'
-								. ') . "\" '
-							. 'data-saving-icon-url = '
-								. '\"" . Yii::app()->request->baseUrl'
-								. '. "/images/processing-icon.gif\">"'
+								. '\"" . $data->getRealText() . "\">"'
 							. '. $data->getFormattedText() .'
 						. '"</span>"'
 				),
 				array(
 					'class' => 'CButtonColumn',
-					'template' => '{update} {delete}',
+					'template' => '{delete}',
 					'buttons' => array(
-						'update' => array(
-							'label' =>
-								'<span '
-									. 'class = '
-										. '"glyphicon '
-										. 'glyphicon-pencil">'
-								. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"point/update",'
-									. 'array('
-										. '"id" => $data->id,'
-										. '"_id" => $data->id'
-									. ')'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Изменить пункт'),
-							'click' =>
-								'function() {'
-									. 'return PointList.editing(this);'
-								. '}'
-						),
 						'delete' => array(
 							'label' =>
 								'<span '

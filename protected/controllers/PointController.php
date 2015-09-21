@@ -58,13 +58,7 @@ class PointController extends CController {
 		if (isset($_POST['Point'])) {
 			$model = $this->loadModel($id);
 			$model->attributes = $_POST['Point'];
-			$result = $model->save();
-
-			if ($result) {
-				if (isset($_POST['Point']['text'])) {
-					echo $model->text;
-				}
-			}
+			$model->save();
 		}
 	}
 
