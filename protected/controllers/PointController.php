@@ -64,9 +64,6 @@ class PointController extends CController {
 				if (isset($_POST['Point']['text'])) {
 					echo $model->text;
 				}
-				if (isset($_POST['Point']['order'])) {
-					Point::renumberOrderFieldsForDate($model->date);
-				}
 			}
 		}
 	}

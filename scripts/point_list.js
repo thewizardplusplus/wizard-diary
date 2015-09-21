@@ -86,13 +86,6 @@ $(document).ready(
 		);
 
 		PointList = {
-			move: function(url) {
-				RequestToPointList(
-					url,
-					{ 'Point[order]': $.url(url).param('order') }
-				);
-				return false;
-			},
 			editing: function(link) {
 				var element_id =
 					'point-text-'
