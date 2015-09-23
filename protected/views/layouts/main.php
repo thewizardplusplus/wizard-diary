@@ -21,6 +21,10 @@
 			CHtml::asset('scripts/ajax_error_dialog.js'),
 			CClientScript::POS_HEAD
 		);
+		Yii::app()->getClientScript()->registerScriptFile(
+			CHtml::asset('scripts/backuping.js'),
+			CClientScript::POS_HEAD
+		);
 	}
 
 	$copyright_years = Constants::COPYRIGHT_START_YEAR;
@@ -166,6 +170,24 @@
 								); ?>
 							</li>
 						</ul>
+						<button
+							class =
+								"btn btn-primary navbar-btn create-backup-button"
+							data-create-backup-url =
+								"<?= $this->createUrl('backup/create') ?>"
+							data-dropbox-app-key =
+								"<?= Constants::DROPBOX_APP_KEY ?>"
+							data-dropbox-redirect-url =
+								"<?= Constants::DROPBOX_REDIRECT_URL ?>">
+							<img
+								src = "<?=
+									Yii::app()->request->baseUrl
+								?>/images/processing-icon.gif"
+								alt = "..." />
+							<span class = "glyphicon glyphicon-compressed">
+							</span>
+							<span>Бекап</span>
+						</button>
 						<?= CHtml::beginForm(
 							$this->createUrl('site/logout'),
 							'post',
