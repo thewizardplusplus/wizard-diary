@@ -25,7 +25,6 @@ $(document).ready(
 				processing_animation_image.show();
 				backup_icon.hide();
 
-				var backup_list = $('#backup-list');
 				var backup_url = create_backup_button.data('create-backup-url');
 				var data = $.extend(
 					{authorization_code: authorization_code},
@@ -37,26 +36,40 @@ $(document).ready(
 					backup_icon.show();
 				};
 
-				backup_list.yiiGridView(
-					'update',
-					{
-						type: 'POST',
-						url: backup_url,
-						data: data,
-						success: function() {
-							FinishAnimation();
-							backup_list.yiiGridView(
-								'update',
-								{
-									url:
-										location.pathname
-											+ location.search
-											+ location.hash
-								}
-							);
+				var backup_list = $('#backup-list');
+				if (backup_list.length) {
+					backup_list.yiiGridView(
+						'update',
+						{
+							type: 'POST',
+							url: backup_url,
+							data: data,
+							success: function() {
+								FinishAnimation();
+								backup_list.yiiGridView(
+									'update',
+									{
+										url:
+											location.pathname
+												+ location.search
+												+ location.hash
+									}
+								);
+							}
 						}
-					}
-				);
+					);
+				} else {
+					$.post(
+						'sdfg' + backup_url,
+						data,
+						FinishAnimation
+					).fail(
+						function(xhr, text_status) {
+							FinishAnimation();
+							AjaxErrorDialog.handler(xhr, text_status);
+						}
+					);
+				}
 			},
 			error: AjaxErrorDialog.show
 		};
