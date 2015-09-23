@@ -4,6 +4,8 @@
 	 * @var CArrayDataProvider $data_provider
 	 * @var string $my_date
 	 * @var string $date
+	 * @var string $raw_date
+	 * @var array $stats
 	 */
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -11,13 +13,33 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Пункты за ' . $my_date;
+	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
 
-<header class = "page-header">
+<header class = "page-header clearfix">
 	<h4>
-		Пункты за <span title = "<?= $date ?>"><?= $my_date ?></span>
+		<time title = "<?= $date ?>"><?= $my_date ?></time>
+
+		<span
+			class = "label label-<?=
+				$stats['completed']
+					? 'success'
+					: 'primary'
+			?> day-completed-flag"
+			data-stats-url = "<?=
+				$this->createUrl('day/stats', array('date' => $raw_date))
+			?>">
+			<?=
+				$stats['completed']
+					? 'Завершён'
+					: 'Не завершён'
+			?>
+		</span>
 	</h4>
+
+	<p class = "unimportant-text italic-text">
+		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
+	</p>
 </header>
 
 <div class = "table-responsive">

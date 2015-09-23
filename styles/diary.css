@@ -267,14 +267,14 @@ a.state-initial:focus {
 }
 
 .import-flag,
-.saved-flag {
+.saved-flag,
+.day-completed-flag {
 	cursor: default;
 }
 
-.day-completed-flag {
+.day-completed-flag-column .day-completed-flag {
 	width: 100%;
 	text-align: left;
-	cursor: default;
 }
 
 #import-list .button-column {
