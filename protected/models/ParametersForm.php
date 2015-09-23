@@ -3,12 +3,10 @@
 class ParametersForm extends CFormModel {
 	public $password;
 	public $password_copy;
-	public $points_on_page;
 	public $access_log_lifetime_in_s;
 
 	public function __construct() {
 		parent::__construct();
-		$this->points_on_page = Parameters::getModel()->points_on_page;
 		$this->access_log_lifetime_in_s =
 			Parameters::getModel()->access_log_lifetime_in_s;
 	}
@@ -23,20 +21,6 @@ class ParametersForm extends CFormModel {
 				'message' =>
 					'Поле &laquo;{attribute}&raquo; должно в точности '
 						. 'повторять поле &laquo;{compareAttribute}&raquo;.'
-			),
-			array(
-				'points_on_page',
-				'default',
-				'value' => Constants::POINTS_ON_PAGE_DEFAULT
-			),
-			array(
-				'points_on_page',
-				'numerical',
-				'min' => Constants::POINTS_ON_PAGE_MINIMUM,
-				'max' => Constants::POINTS_ON_PAGE_MAXIMUM,
-				'message' => '{attribute} должно быть числом.',
-				'tooSmall' => '{attribute} должно быть не меньше {min}.',
-				'tooBig' => '{attribute} должно быть не больше {max}.',
 			),
 			array(
 				'access_log_lifetime_in_s',
@@ -64,7 +48,6 @@ class ParametersForm extends CFormModel {
 		return array(
 			'password' => 'Пароль',
 			'password_copy' => 'Пароль (копия)',
-			'points_on_page' => 'Число пунктов на странице',
 			'access_log_lifetime_in_s' => 'Время жизни лога доступа, с',
 		);
 	}
@@ -76,7 +59,6 @@ class ParametersForm extends CFormModel {
 				$this->password
 			);
 		}
-		$model->points_on_page = $this->points_on_page;
 		$model->access_log_lifetime_in_s = $this->access_log_lifetime_in_s;
 		$model->save();
 	}

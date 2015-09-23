@@ -36,10 +36,6 @@ class ParametersController extends CController {
 			count($model->getErrors('password_copy'))
 				? ' has-error'
 				: '';
-		$points_on_page_container_class =
-			count($model->getErrors('points_on_page'))
-				? ' has-error'
-				: '';
 		$access_log_lifetime_container_class =
 			count($model->getErrors('access_log_lifetime_in_s'))
 				? ' has-error'
@@ -51,8 +47,6 @@ class ParametersController extends CController {
 				'password_container_class' => $password_container_class,
 				'password_copy_container_class' =>
 					$password_copy_container_class,
-				'points_on_page_container_class' =>
-					$points_on_page_container_class,
 				'access_log_lifetime_container_class' =>
 					$access_log_lifetime_container_class
 			)

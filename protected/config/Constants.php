@@ -11,9 +11,6 @@ class Constants extends AccessConstants {
 	const DEFAULT_PASSWORD = 'admin';
 	const COPYRIGHT_START_YEAR = 2014;
 	const DAYS_IN_MY_YEAR = 300;
-	const POINTS_ON_PAGE_DEFAULT = 24;
-	const POINTS_ON_PAGE_MINIMUM = 1;
-	const POINTS_ON_PAGE_MAXIMUM = 255;
 	// relatively at /protected/controllers
 	const BACKUPS_RELATIVE_PATH = '/../../backups';
 	const BACKUPS_CREATE_DURATION_ACCURACY = 2;

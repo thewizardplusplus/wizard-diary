@@ -36,7 +36,6 @@ DROP TABLE IF EXISTS `diary_parameters`;
 CREATE TABLE `diary_parameters` (
 	`id` BIGINT UNSIGNED NOT NULL DEFAULT 1 PRIMARY KEY,
 	`password_hash` TEXT NOT NULL,
-	`points_on_page` TINYINT UNSIGNED NOT NULL DEFAULT 24,
 	-- default value - 1 month
 	`access_log_lifetime_in_s` INT UNSIGNED NOT NULL DEFAULT 2592000
 ) ENGINE = MYISAM;
