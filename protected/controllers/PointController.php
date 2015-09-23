@@ -2,18 +2,11 @@
 
 class PointController extends CController {
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + create, update, age, delete',
-			'ajaxOnly + autocomplete, create, update, age, delete'
-		);
+		return array('accessControl', 'postOnly + update', 'ajaxOnly + update');
 	}
 
 	public function accessRules() {
-		return array(
-			array('allow', 'users' => array('admin')),
-			array('deny')
-		);
+		return array(array('allow', 'users' => array('admin')), array('deny'));
 	}
 
 	public function actionList() {

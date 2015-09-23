@@ -6,10 +6,7 @@ class ParametersController extends CController {
 	}
 
 	public function accessRules() {
-		return array(
-			array('allow', 'users' => array('admin')),
-			array('deny')
-		);
+		return array(array('allow', 'users' => array('admin')), array('deny'));
 	}
 
 	public function actionUpdate() {
