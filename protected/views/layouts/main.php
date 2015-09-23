@@ -186,7 +186,7 @@
 								alt = "..." />
 							<span class = "glyphicon glyphicon-compressed">
 							</span>
-							<span>Создать бекап</span>
+							<span>Бекап</span>
 						</button>
 						<?= CHtml::beginForm(
 							$this->createUrl('site/logout'),
