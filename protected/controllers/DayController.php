@@ -25,7 +25,7 @@ class DayController extends CController {
 							. 'ELSE 0 '
 						. 'END'
 					. ') AS \'projects\''
-				. 'FROM `diary_points`'
+				. 'FROM `{{points}}`'
 				. 'GROUP BY `date`'
 			)
 			->queryAll();
@@ -42,5 +42,28 @@ class DayController extends CController {
 		);
 
 		$this->render('list', array('data_provider' => $data_provider));
+	}
+
+	public function actionView($date) {
+		$data_provider = new CActiveDataProvider(
+			'Point',
+			array(
+				'criteria' => array(
+					'condition' => 'date = :date',
+					'params' => array('date' => $date),
+					'order' => '`order`'
+				),
+				'pagination' => false
+			)
+		);
+
+		$this->render(
+			'view',
+			array(
+				'data_provider' => $data_provider,
+				'my_date' => DateFormatter::formatMyDate($date),
+				'date' => DateFormatter::formatDate(CHtml::encode($date))
+			)
+		);
 	}
 }
