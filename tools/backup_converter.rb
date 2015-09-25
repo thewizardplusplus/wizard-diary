@@ -200,7 +200,7 @@ def generateSql points, daily_points, imports, no_transaction
 	sql
 end
 
-def outpurSql sql, options
+def outputSql sql, options
 	if !options[:quiet]
 		puts sql
 	end
@@ -216,7 +216,7 @@ begin
 	daily_points = DailyPointGroup.new xml, options[:prefix]
 	imports = ImportGroup.new xml, options[:prefix]
 	sql = generateSql points, daily_points, imports, options[:no_transaction]
-	outpurSql sql, options
+	outputSql sql, options
 rescue Exception => exception
 	if exception.message != 'exit'
 		puts "Error: \"#{exception.message}\"."
