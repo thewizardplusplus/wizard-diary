@@ -107,6 +107,10 @@
 												)
 											),
 											array(
+												'label' => 'Пункты',
+												'url' => array('stats/points')
+											),
+											array(
 												'label' => '',
 												'itemOptions' => array(
 													'class' => 'divider'
