@@ -46,7 +46,6 @@ class StatsController extends CController {
 				return !$item['initial'];
 			}
 		);
-		$data = array_slice($data, 0, Constants::STATS_DAYS_LIMIT);
 		$data = array_reverse($data);
 		$data = array_map(
 			function($item) {
