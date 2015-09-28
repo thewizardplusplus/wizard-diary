@@ -39,7 +39,7 @@
 </header>
 
 <p>
-	Среднее значение: <?= number_format($mean, 2, '.', '') ?> пункта.
+	Среднее количество: <?= number_format($mean, 2, '.', '') ?> пункта.
 </p>
 
 <div class = "stats-view points"></div>
