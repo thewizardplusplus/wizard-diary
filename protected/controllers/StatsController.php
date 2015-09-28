@@ -69,6 +69,30 @@ class StatsController extends CController {
 		$this->render('daily_points', array('data' => $data));
 	}
 
+	public function actionPoints() {
+		$data = Yii::app()
+			->db
+			->createCommand()
+			->select(
+				array(
+					'date',
+					'SUM('
+						. 'CASE '
+							. 'WHEN `daily` = FALSE AND LENGTH(`text`) > 0 '
+								. 'THEN 1 '
+							. 'ELSE 0 '
+						. 'END'
+					. ') AS \'number\''
+				)
+			)
+			->from('{{points}}')
+			->group('date')
+			->order('date')
+			->queryAll();
+
+		$this->render('points', array('data' => $data));
+	}
+
 	public function actionProjects() {
 		$points = Point::model()->findAll(
 			array('condition' => 'text != "" AND daily = FALSE')
