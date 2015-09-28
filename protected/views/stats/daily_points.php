@@ -2,6 +2,7 @@
 	/**
 	 * @var StatsController $this
 	 * @var array $data
+	 * @var float $mean
 	 */
 
 	Yii::app()->getClientScript()->registerCssFile(
@@ -36,6 +37,10 @@
 <header class = "page-header">
 	<h4>Статистика: ежедневные пункты</h4>
 </header>
+
+<p>
+	Среднее выполнение: <?= number_format($mean, 2, '.', '') ?>%.
+</p>
 
 <div class = "stats-view daily-points"></div>
 

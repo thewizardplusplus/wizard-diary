@@ -66,7 +66,13 @@ class StatsController extends CController {
 			$data
 		);
 
-		$this->render('daily_points', array('data' => $data));
+		$mean = 0;
+		foreach ($data as $item) {
+			$mean += $item['satisfied'];
+		}
+		$mean /= count($data);
+
+		$this->render('daily_points', array('data' => $data, 'mean' => $mean));
 	}
 
 	public function actionPoints() {
