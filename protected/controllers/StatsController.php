@@ -16,7 +16,7 @@ class StatsController extends CController {
 		$points = Point::model()->findAll(
 			array(
 				'condition' => 'text != "" AND daily = TRUE',
-				'order' => 'date DESC'
+				'order' => 'date'
 			)
 		);
 
@@ -26,17 +26,22 @@ class StatsController extends CController {
 				$data[$point->date] = array(
 					'initial' => false,
 					'satisfied' => 0,
+					'canceled' => 0,
 					'total' => 0
 				);
 			}
 
 			$data[$point->date]['total'] += 1;
-			if ($point->state == 'INITIAL') {
-				$data[$point->date]['initial'] = true;
-			} else if ($point->state == 'SATISFIED') {
-				$data[$point->date]['satisfied'] += 1;
-			} else if ($point->state == 'CANCELED') {
-				$data[$point->date]['total'] -= 1;
+			switch ($point->state) {
+				case 'INITIAL':
+					$data[$point->date]['initial'] = true;
+					break;
+				case 'SATISFIED':
+					$data[$point->date]['satisfied'] += 1;
+					break;
+				case 'CANCELED':
+					$data[$point->date]['canceled'] += 1;
+					break;
 			}
 		}
 
@@ -46,11 +51,12 @@ class StatsController extends CController {
 				return !$item['initial'];
 			}
 		);
-		$data = array_reverse($data);
 		$data = array_map(
 			function($item) {
 				return round(
-					100 * $item['satisfied'] / $item['total'],
+					100
+						* $item['satisfied']
+						/ ($item['total'] - $item['canceled']),
 					2
 				);
 			},
