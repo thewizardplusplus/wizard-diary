@@ -90,7 +90,13 @@ class StatsController extends CController {
 			->order('date')
 			->queryAll();
 
-		$this->render('points', array('data' => $data));
+		$mean = 0;
+		foreach ($data as $item) {
+			$mean += $item['number'];
+		}
+		$mean /= count($data);
+
+		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
 
 	public function actionProjects() {
