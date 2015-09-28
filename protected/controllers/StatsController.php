@@ -53,11 +53,14 @@ class StatsController extends CController {
 		);
 		$data = array_map(
 			function($item) {
-				return round(
-					100
-						* $item['satisfied']
-						/ ($item['total'] - $item['canceled']),
-					2
+				$not_canceled = $item['total'] - $item['canceled'];
+				return array(
+					'satisfied' => round(
+						100 * $item['satisfied'] / $not_canceled,
+						2
+					),
+					'total' => 10 * $item['total'],
+					'not_canceled' => 10 * $not_canceled
 				);
 			},
 			$data
