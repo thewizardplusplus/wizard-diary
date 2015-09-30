@@ -25,8 +25,8 @@
 					this.addZeros(date.getMinutes(), 2) + ':' +
 					this.addZeros(date.getSeconds(), 2);
 			case links.Graph.StepDate.SCALE.SECOND:
-				return this.addZeros(date.getDate(), 2) + ' ' +
-					MONTHS[date.getMonth()] + ' ' +
+				return this.addZeros(date.getDate(), 2) + '.' +
+					this.addZeros(date.getMonth(), 2) + ' ' +
 					this.addZeros(date.getHours(), 2) + ':' +
 					this.addZeros(date.getMinutes(), 2);
 			case links.Graph.StepDate.SCALE.MINUTE:
