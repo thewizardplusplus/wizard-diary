@@ -6,7 +6,7 @@ class Constants extends AccessConstants {
 	const DEBUG = false;
 	const TRACE_LEVEL = 5;
 	const APP_NAME = 'Wizard Diary';
-	const APP_VERSION = 'v5.0';
+	const APP_VERSION = 'v5.1';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const DEFAULT_PASSWORD = 'admin';
 	const COPYRIGHT_START_YEAR = 2014;
@@ -23,7 +23,8 @@ class Constants extends AccessConstants {
 	const DROPBOX_REDIRECT_URL = '/backup/redirect';
 	const ACCESS_CODE_LENGTH = 5;
 	const ACCESS_CODE_LIFETIME_IN_S = 60;
-	const ACCESS_CODE_SEND_EMAIL = false;
+	// support 'sms', 'email', 'log' and unions by '|'
+	const ACCESS_CODE_TARGETS = 'log';
 	// 30 days
 	const ACCESS_LOG_LIFETIME_IN_S_DEFAULT = 2592000;
 	const ACCESS_LOG_LIFETIME_IN_S_MINIMUM = 0;
@@ -33,5 +34,4 @@ class Constants extends AccessConstants {
 	const LOGIN_LIMIT_TIME_WINDOW_IN_S = 60;
 	const LOGIN_LIMIT_MAXIMAL_COUNT = 12;
 	const MAXIMAL_ORDER_VALUE = 1000000;
-	const STATS_DAYS_LIMIT = 24;
 }

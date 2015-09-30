@@ -25,8 +25,8 @@
 					this.addZeros(date.getMinutes(), 2) + ':' +
 					this.addZeros(date.getSeconds(), 2);
 			case links.Graph.StepDate.SCALE.SECOND:
-				return this.addZeros(date.getDate(), 2) + '.' +
-					this.addZeros(date.getMonth(), 2) + ' ' +
+				return this.addZeros(date.getDate(), 2) + ' ' +
+					MONTHS[date.getMonth()] + ' ' +
 					this.addZeros(date.getHours(), 2) + ':' +
 					this.addZeros(date.getMinutes(), 2);
 			case links.Graph.StepDate.SCALE.MINUTE:
@@ -104,68 +104,33 @@
 				return;
 			}
 
-			var dates = Object.keys(STATS_DATA);
-
 			var data = [];
-			for (var i = 0; i < dates.length; i++) {
-				var date_string = dates[i];
-				var date = new Date(Date.parse(date_string));
-				var value = STATS_DATA[date_string];
-				var row = [
-					date,
-					value.not_canceled,
-					value.total,
-					value.satisfied
-				];
+			for (var i = 0; i < STATS_DATA.length; i++) {
+				var item = STATS_DATA[i];
+				var date = new Date(Date.parse(item.date));
+				var row = [date, parseInt(item.number)];
 				data.push(row);
 			}
 
 			var data_table = new google.visualization.DataTable();
 			data_table.addColumn('date', 'date');
-			data_table.addColumn('number', 'not canceled');
-			data_table.addColumn('number', 'total');
-			data_table.addColumn('number', 'satisfied');
+			data_table.addColumn('number', 'points');
 			data_table.addRows(data);
 
 			var options = {
 				legend: {visible: false},
-				lines: [
-					{color: '#808080'},
-					{color: '#333333'},
-					{color: '#5cb85c'}
-				],
+				line: {color: '#5cb85c'},
 				tooltip: function(point) {
 					var date = moment(point.date).format('DD.MM.YYYY');
-					var real_value = point.value / 10;
-
-					var value_title = '';
-					switch (point.line) {
-						case 0:
-							value_title =
-								'Неотменённых: '
-								+ real_value
-								+ ' '
-								+ GetPointUnit(real_value)
-								+ '.';
-							break;
-						case 1:
-							value_title =
-								'Всего: '
-								+ real_value
-								+ ' '
-								+ GetPointUnit(real_value)
-								+ '.';
-							break;
-						case 2:
-							value_title = 'Выполнено: ' + point.value + '%.';
-							break;
-					}
-
 					return '<div>Дата: ' + date + '.</div>'
-						+ '<div>' + value_title + '</div>';
+						+ '<div>Всего: '
+							+ point.value
+							+ ' '
+							+ GetPointUnit(point.value)
+						+ '.</div>';
 				}
 			};
-			var container = $('.stats-view.daily-points').get(0);
+			var container = $('.stats-view.points').get(0);
 			var graph = new links.Graph(container);
 			var DrawFunction = function() {
 				graph.draw(data_table, options);

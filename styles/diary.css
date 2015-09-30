@@ -272,31 +272,42 @@ a.state-initial:focus {
 	padding: 5px 10px;
 }
 
-.stats-view.daily-points .graph-frame {
+.stats-view.empty-label {
+	display: none;
+	font-style: italic;
+}
+
+.stats-view.daily-points .graph-frame,
+.stats-view.points .graph-frame {
 	background-color: #428bca;
 	border: 1px solid #dddddd;
 	border-radius: 4px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-.stats-view.daily-points .graph-axis-text {
+.stats-view.daily-points .graph-axis-text,
+.stats-view.points .graph-axis-text {
 	color: white;
 	cursor: default;
 }
 
-.stats-view.daily-points .graph-axis-button {
+.stats-view.daily-points .graph-axis-button,
+.stats-view.points .graph-axis-button {
 	background-color: #5cb85c;
 }
 
-.stats-view.daily-points .graph-axis-button:hover {
+.stats-view.daily-points .graph-axis-button:hover,
+.stats-view.points .graph-axis-button:hover {
 	background-color: #449d44;
 }
 
-.stats-view.daily-points .graph-canvas {
+.stats-view.daily-points .graph-canvas,
+.stats-view.points .graph-canvas {
 	background-color: #fcf8e3;
 }
 
-.stats-view.daily-points .graph-tooltip-label {
+.stats-view.daily-points .graph-tooltip-label,
+.stats-view.points .graph-tooltip-label {
 	border-radius: 4px;
 }
 

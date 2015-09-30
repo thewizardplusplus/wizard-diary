@@ -22,11 +22,42 @@ class AccessCode {
 	}
 
 	public static function send() {
-		$access_code = self::generate();
+		if (empty(Constants::ACCESS_CODE_TARGETS)) {
+			throw new CException('Список назначений для кода доступа пуст.');
+		}
 
-		self::sendSms($access_code);
-		if (Constants::ACCESS_CODE_SEND_EMAIL) {
-			self::sendEmail($access_code);
+		$targets = explode('|', Constants::ACCESS_CODE_TARGETS);
+		$targets = array_map('trim', $targets);
+
+		$counter = 0;
+		$access_code = self::generate();
+		foreach ($targets as $target) {
+			if (empty($target)) {
+				throw new CException(
+					"Назначение #$counter для кода доступа пусто."
+				);
+			}
+
+			switch ($target) {
+				case 'sms':
+					self::sendSms($access_code);
+					break;
+				case 'email':
+					self::sendEmail($access_code);
+					break;
+				case 'log':
+					self::printToLog($access_code);
+					break;
+				default:
+					throw new CException(
+						"Недопустимое назначение #$counter "
+						. "(&laquo;$target&raquo;) для кода доступа."
+					);
+
+					break;
+			}
+
+			$counter++;
 		}
 
 		self::set($access_code);
@@ -55,12 +86,12 @@ class AccessCode {
 
 	public static function sendEmail($access_code) {
 		$headers =
-			"From: thewizardplusplus <do-not-reply@thewizardplusplus.ru>\r\n"
+			"From: " . Constants::ACCESS_CODE_EMAIL_FROM . "\r\n"
 			. "Reply-To: <>\r\n"
 			. "MIME-Version: 1.0\r\n"
 			. "Content-Type: text/plain; charset=utf-8\r\n";
 		$result = mail(
-			'thewizardplusplus <thewizardplusplus@yandex.ru>',
+			Constants::ACCESS_CODE_EMAIL_TO,
 			'Access code',
 			$access_code,
 			$headers
@@ -68,6 +99,10 @@ class AccessCode {
 		if (!$result) {
 			throw new CException('Ошибка отправки кода доступа в Email.');
 		}
+	}
+
+	public static function printToLog($access_code) {
+		Yii::log("access code: $access_code");
 	}
 
 	public static function cleanIfNeed() {

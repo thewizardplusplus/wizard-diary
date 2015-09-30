@@ -1,8 +1,19 @@
 $(document).ready(
 	function() {
 		var SEARCH_DELAY = 500;
+		var DATE_PATTERN = /^\d+\.\d+$/;
 
-		var tree = $('.project-list').jstree(
+		var search_form = $('.search-form');
+		var project_list = $('.project-list');
+		if (STATS_DATA.length == 0) {
+			search_form.hide();
+			project_list.hide();
+			$('.empty-label').show();
+
+			return;
+		}
+
+		var tree = project_list.jstree(
 			{
 				core: {
 					data: STATS_DATA,
@@ -37,14 +48,65 @@ $(document).ready(
 				}
 			}
 		);
+
+		var GetSelectedPoints = function(instance, node_id) {
+			var node_text = instance.get_node(node_id).text;
+			if (DATE_PATTERN.test(node_text)) {
+				return '';
+			}
+
+			var text = node_text;
+			while (true) {
+				var parent_id = instance.get_parent(node_id);
+				if (parent_id == '#') {
+					break;
+				}
+
+				var node_text = instance.get_node(parent_id).text;
+				if (!DATE_PATTERN.test(node_text)) {
+					text = node_text + ', ' + text;
+				}
+
+				node_id = parent_id;
+			}
+
+			return text;
+		};
+
+		var selected_points_text_view = $('.selected-points-text-view');
+		// http://stackoverflow.com/a/5797700/3884331
+		selected_points_text_view.focus(
+			function() {
+				var self = $(this);
+				self.select();
+
+				// work around Chrome's little problem
+				self.mouseup(
+					function() {
+						// prevent further mouseup intervention
+						self.unbind("mouseup");
+						return false;
+					}
+				);
+			}
+		);
+
 		tree.on(
 			'select_node.jstree',
 			function (event, data) {
+				var points_text = GetSelectedPoints(
+					data.instance,
+					data.selected
+				);
+				if (points_text) {
+					selected_points_text_view.val(points_text);
+				}
+
 				data.instance.deselect_node(data.selected, true);
 			}
 		);
 
-		$('.search-form').on(
+		search_form.on(
 			'submit',
 			function (event) {
 				event.preventDefault();
@@ -54,7 +116,7 @@ $(document).ready(
 		);
 
 		var search_timer = null;
-		var search_input = $('.search-input');
+		var search_input = $('.search-input', search_form);
 		search_input.keyup(
 			function () {
 				clearTimeout(search_timer);
@@ -70,7 +132,7 @@ $(document).ready(
 			}
 		);
 
-		$('.clean-button').click(
+		$('.clean-button', search_form).click(
 			function() {
 				search_input.val('');
 				search_input.focus();

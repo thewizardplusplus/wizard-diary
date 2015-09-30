@@ -27,22 +27,22 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/stats_daily_points.js'),
+		CHtml::asset('scripts/stats_points.js'),
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Статистика: ежедневные пункты';
+	$this->pageTitle = Yii::app()->name . ' - Статистика: пункты';
 ?>
 
 <header class = "page-header">
-	<h4>Статистика: ежедневные пункты</h4>
+	<h4>Статистика: пункты</h4>
 </header>
 
 <p>
-	Среднее выполнение: <?= number_format($mean, 2, '.', '') ?>%.
+	Среднее количество: <?= number_format($mean, 2, '.', '') ?> пункта.
 </p>
 
-<div class = "stats-view daily-points"></div>
+<div class = "stats-view points"></div>
 
 <p class = "stats-view empty-label">
 	Нет пунктов.

@@ -43,6 +43,21 @@
 			</div>
 		</div>
 	</div>
+	<div class = "form-group">
+		<div class = "input-group">
+			<div class = "input-group-addon">
+				<span class = "glyphicon glyphicon-share"></span>
+			</div>
+			<input
+				class = "form-control search-input selected-points-text-view"
+				placeholder = "Выбор..."
+				readonly = "readonly" />
+		</div>
+	</div>
 </form>
 
 <div class = "stats-view project-list"></div>
+
+<p class = "stats-view empty-label">
+	Нет пунктов.
+</p>

@@ -13,51 +13,96 @@ class StatsController extends CController {
 	}
 
 	public function actionDailyPoints() {
-		$data = array();
 		$points = Point::model()->findAll(
 			array(
 				'condition' => 'text != "" AND daily = TRUE',
-				'order' => 'date DESC'
+				'order' => 'date'
 			)
 		);
+
+		$data = array();
 		foreach ($points as $point) {
 			if (!array_key_exists($point->date, $data)) {
 				$data[$point->date] = array(
 					'initial' => false,
 					'satisfied' => 0,
+					'canceled' => 0,
 					'total' => 0
 				);
 			}
 
 			$data[$point->date]['total'] += 1;
-			if ($point->state == 'INITIAL') {
-				$data[$point->date]['initial'] = true;
-			} else if ($point->state == 'SATISFIED') {
-				$data[$point->date]['satisfied'] += 1;
-			} else if ($point->state == 'CANCELED') {
-				$data[$point->date]['total'] -= 1;
+			switch ($point->state) {
+				case 'INITIAL':
+					$data[$point->date]['initial'] = true;
+					break;
+				case 'SATISFIED':
+					$data[$point->date]['satisfied'] += 1;
+					break;
+				case 'CANCELED':
+					$data[$point->date]['canceled'] += 1;
+					break;
 			}
 		}
 
 		$data = array_filter(
 			$data,
 			function($item) {
-				return $item['initial'] == 0;
+				return !$item['initial'];
 			}
 		);
-		$data = array_slice($data, 0, Constants::STATS_DAYS_LIMIT);
-		$data = array_reverse($data);
 		$data = array_map(
 			function($item) {
-				return round(
-					100 * $item['satisfied'] / $item['total'],
-					2
+				$not_canceled = $item['total'] - $item['canceled'];
+				return array(
+					'satisfied' => round(
+						100 * $item['satisfied'] / $not_canceled,
+						2
+					),
+					'total' => 10 * $item['total'],
+					'not_canceled' => 10 * $not_canceled
 				);
 			},
 			$data
 		);
 
-		$this->render('daily_points', array('data' => $data));
+		$mean = 0;
+		foreach ($data as $item) {
+			$mean += $item['satisfied'];
+		}
+		$mean /= count($data);
+
+		$this->render('daily_points', array('data' => $data, 'mean' => $mean));
+	}
+
+	public function actionPoints() {
+		$data = Yii::app()
+			->db
+			->createCommand()
+			->select(
+				array(
+					'date',
+					'SUM('
+						. 'CASE '
+							. 'WHEN `daily` = FALSE AND LENGTH(`text`) > 0 '
+								. 'THEN 1 '
+							. 'ELSE 0 '
+						. 'END'
+					. ') AS \'number\''
+				)
+			)
+			->from('{{points}}')
+			->group('date')
+			->order('date')
+			->queryAll();
+
+		$mean = 0;
+		foreach ($data as $item) {
+			$mean += $item['number'];
+		}
+		$mean /= count($data);
+
+		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
 
 	public function actionProjects() {
