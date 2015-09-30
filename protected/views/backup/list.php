@@ -59,7 +59,7 @@
 			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
-					. 'AjaxErrorDialog.handler(xhr, text_status);'
+					. 'BackupUtils.error(xhr, text_status);'
 				. '}',
 			'emptyText' => 'Нет бекапов.',
 			'summaryText' => 'Бекапы {start}-{end} из {count}.',
