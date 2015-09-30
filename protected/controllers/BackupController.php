@@ -6,7 +6,11 @@ class BackupController extends CController {
 	const BACKUP_VERSION = 4;
 
 	public function filters() {
-		return array('accessControl', 'postOnly + create', 'ajaxOnly + create');
+		return array(
+			'accessControl',
+			'postOnly + create, save',
+			'ajaxOnly + create, save'
+		);
 	}
 
 	public function accessRules() {
@@ -111,30 +115,15 @@ class BackupController extends CController {
 	public function actionCreate() {
 		$start_time = microtime(true);
 
-		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		BackupController::testBackupDirectory($backups_path);
+		$backup_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
+		BackupController::testBackupDirectory($backup_path);
 
-		$backup_name =
-			'database_dump_'
-			. date('Y-m-d-H-i-s');
-		$backup_path =
-			$backups_path
-			. '/'
-			. $backup_name
-			. '.xml';
+		$backup_name = 'database_dump_' . date('Y-m-d-H-i-s');
+		$backup_path .= '/' . $backup_name . '.xml';
 		$dump = $this->dumpDatabase();
 		$result = file_put_contents($backup_path, $dump);
 		if (!$result) {
 			throw new CException('Не удалось записать бекап на диск.');
-		}
-
-		if (isset($_POST['authorization_code'])) {
-			$this->saveFileToDropbox(
-				$_POST['authorization_code'],
-				$backup_path
-			);
-		} else {
-			throw new CException('Не передан авторизационный код.');
 		}
 
 		$elapsed_time = microtime(true) - $start_time;
@@ -142,6 +131,23 @@ class BackupController extends CController {
 		$backup->create_time = date('Y-m-d H:i:s', filemtime($backup_path));
 		$backup->create_duration = $elapsed_time;
 		$backup->save();
+
+		$data = array('backup_path' => $backup_path);
+		echo json_encode($data);
+	}
+
+	public function actionSave() {
+		if (!isset($_POST['authorization_code'])) {
+			throw new CException('Не передан авторизационный код.');
+		}
+		if (!isset($_POST['backup_path'])) {
+			throw new CException('Не передан путь к бекапу.');
+		}
+
+		$this->saveFileToDropbox(
+			$_POST['authorization_code'],
+			$_POST['backup_path']
+		);
 	}
 
 	public function actionRedirect() {
@@ -153,19 +159,19 @@ class BackupController extends CController {
 		echo 'if (window.opener) {';
 		if (isset($_GET['code'])) {
 			echo
-				'window.opener.Backup.create("'
-				. CHtml::encode($_GET['code'])
-				. '");';
+				'window.opener.Backup.create('
+					. "'" . CHtml::encode($_GET['code']) . "'"
+				. ');';
 		} else if (
 			isset($_GET['error'])
 			and $_GET['error'] != 'access_denied'
 		) {
 			echo
-				'window.opener.Backup.error("'
-				. (isset($_GET['error_description'])
-					? CHtml::encode($_GET['error_description'])
-					: '')
-				. '");';
+				'window.opener.Backup.error('
+					. "'" . (isset($_GET['error_description'])
+						? CHtml::encode($_GET['error_description'])
+						: '') . "'"
+				. ');';
 		}
 		echo '}';
 		echo 'close();';

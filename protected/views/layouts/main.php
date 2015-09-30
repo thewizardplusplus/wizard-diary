@@ -179,6 +179,8 @@
 								"btn btn-primary navbar-btn create-backup-button"
 							data-create-backup-url =
 								"<?= $this->createUrl('backup/create') ?>"
+							data-save-backup-url =
+								"<?= $this->createUrl('backup/save') ?>"
 							data-dropbox-app-key =
 								"<?= Constants::DROPBOX_APP_KEY ?>"
 							data-dropbox-redirect-url =
