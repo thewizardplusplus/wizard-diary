@@ -30,8 +30,9 @@ CREATE TABLE `diary_imports` (
 DROP TABLE IF EXISTS `diary_backups`;
 CREATE TABLE `diary_backups` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`create_time` DATETIME NOT NULL,
-	`create_duration` FLOAT NOT NULL DEFAULT 0.0
+	`create_time` DATETIME NOT NULL UNIQUE,
+	`create_duration` FLOAT NOT NULL DEFAULT 0.0,
+	`save_duration` FLOAT NOT NULL DEFAULT 0.0,
 ) ENGINE = MYISAM;
 
 DROP TABLE IF EXISTS `diary_parameters`;

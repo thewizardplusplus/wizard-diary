@@ -34,6 +34,12 @@
 					'htmlOptions' => array('class' => 'backup_create_duration')
 				),
 				array(
+					'header' => 'Длительность сохранения*, с',
+					'name' => 'save_duration',
+					'type' => 'raw',
+					'htmlOptions' => array('class' => 'backup_create_duration')
+				),
+				array(
 					'class' => 'CButtonColumn',
 					'header' => 'Скачать',
 					'template' => '{download}',
@@ -55,7 +61,10 @@
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' =>
-				'Backup::getRowClassByCreateDuration($data->create_duration)',
+				'Backup::getRowClassByCreateDuration('
+					. '$data->create_duration,'
+					. '$data->save_duration'
+				. ')',
 			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
