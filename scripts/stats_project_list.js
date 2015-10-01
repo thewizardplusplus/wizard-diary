@@ -55,7 +55,7 @@ $(document).ready(
 				return '';
 			}
 
-			var text = node_text;
+			var text = node_text + (!instance.is_leaf(node_id) ? ', ' : '');
 			while (true) {
 				var parent_id = instance.get_parent(node_id);
 				if (parent_id == '#') {
