@@ -14,10 +14,7 @@ class BackupController extends CController {
 	}
 
 	public function accessRules() {
-		return array(
-			array('allow', 'users' => array('admin')),
-			array('deny')
-		);
+		return array(array('allow', 'users' => array('admin')), array('deny'));
 	}
 
 	public function actionList() {
@@ -27,9 +24,9 @@ class BackupController extends CController {
 		$backups_create_durations = array();
 		$backups_from_db = Backup::model()->findAll();
 		foreach ($backups_from_db as $backup) {
-			$backups_create_durations[$backup->create_time] = round(
-				$backup->create_duration,
-				Constants::BACKUPS_CREATE_DURATION_ACCURACY
+			$backups_create_durations[$backup->create_time] = array(
+				'create_duration' => $backup->create_duration,
+				'save_duration' => $backup->save_duration,
 			);
 		}
 
@@ -38,64 +35,82 @@ class BackupController extends CController {
 		foreach ($filenames as $filename) {
 			$filename = $backups_path . '/' . $filename;
 			if (
-				is_file($filename)
-				and pathinfo($filename, PATHINFO_EXTENSION) == 'xml'
+				!is_file($filename)
+				|| pathinfo($filename, PATHINFO_EXTENSION) != 'xml'
 			) {
-				$backup = new stdClass();
-				$timestamp = filemtime($filename);
-				$backup->timestamp = $timestamp;
-				$backup->formatted_timestamp =
-					'<time>'
-						. date('d.m.Y H:i:s', $timestamp)
-					. '</time>';
-				$file_size = filesize($filename);
-				if ($file_size < 1024) {
-					$backup->size = $file_size . ' Б';
-				} else if ($file_size > 1024 and $file_size < 1024 * 1024) {
-					$backup->size =
-						round(
-							$file_size / 1024,
-							Constants::BACKUPS_SIZE_ACCURACY
-						)
-						. ' КиБ';
-				} else if (
-					$file_size > 1024 * 1024
-					and $file_size < 1024 * 1024 * 1024
-				) {
-					$backup->size =
-						round(
-							$file_size / (1024 * 1024),
-							Constants::BACKUPS_SIZE_ACCURACY
-						)
-						. ' МиБ';
-				} else {
-					$backup->size =
-						round(
-							$file_size / (1024 * 1024 * 1024),
-							Constants::BACKUPS_SIZE_ACCURACY
-						)
-						. ' ГиБ';
-				}
-				$create_duration = date('Y-m-d H:i:s', $timestamp);
-				if (
-					array_key_exists(
-						$create_duration,
-						$backups_create_durations
-					)
-				) {
-					$backup->create_duration = $backups_create_durations[
-						$create_duration
-					];
-				} else {
-					$backup->create_duration = '&mdash;';
-				}
-				$backup->link = substr(
-					realpath($filename),
-					strlen($_SERVER['DOCUMENT_ROOT'])
-				);
-
-				$backups[] = $backup;
+				continue;
 			}
+
+			$backup = new stdClass();
+
+			$timestamp = filemtime($filename);
+			$backup->timestamp = $timestamp;
+			$backup->formatted_timestamp =
+				'<time>'
+					. date('d.m.Y H:i:s', $timestamp)
+				. '</time>';
+
+			$file_size = filesize($filename);
+			if ($file_size < 1024) {
+				$backup->size = $file_size . ' Б';
+			} else if ($file_size > 1024 and $file_size < 1024 * 1024) {
+				$backup->size =
+					round(
+						$file_size / 1024,
+						Constants::BACKUPS_SIZE_ACCURACY
+					)
+					. ' КиБ';
+			} else if (
+				$file_size > 1024 * 1024
+				and $file_size < 1024 * 1024 * 1024
+			) {
+				$backup->size =
+					round(
+						$file_size / (1024 * 1024),
+						Constants::BACKUPS_SIZE_ACCURACY
+					)
+					. ' МиБ';
+			} else {
+				$backup->size =
+					round(
+						$file_size / (1024 * 1024 * 1024),
+						Constants::BACKUPS_SIZE_ACCURACY
+					)
+					. ' ГиБ';
+			}
+
+			$backup->create_duration = '&mdash;';
+			$backup->save_duration = '&mdash;';
+			$create_duration_index = date('Y-m-d H:i:s', $timestamp);
+			if (
+				array_key_exists(
+					$create_duration_index,
+					$backups_create_durations
+				)
+			) {
+				$durations = $backups_create_durations[
+					$create_duration_index
+				];
+				if ($durations['create_duration'] != 0) {
+					$backup->create_duration = round(
+						$durations['create_duration'],
+						Constants::BACKUPS_CREATE_DURATION_ACCURACY
+					);
+				}
+				if ($durations['save_duration'] != 0) {
+					$backup->save_duration = round(
+						$durations['save_duration'],
+						Constants::BACKUPS_CREATE_DURATION_ACCURACY
+					);
+				}
+			}
+
+			$backup->link = substr(
+				realpath($filename),
+				strlen($_SERVER['DOCUMENT_ROOT'])
+			);
+
+			$backups[] = $backup;
 		}
 
 		$data_provider = new CArrayDataProvider(
@@ -126,17 +141,23 @@ class BackupController extends CController {
 			throw new CException('Не удалось записать бекап на диск.');
 		}
 
+		$create_time = date('Y-m-d H:i:s', filemtime($backup_path));
+		$data = array(
+			'backup_path' => $backup_path,
+			'create_time' => $create_time
+		);
+		echo json_encode($data);
+
 		$elapsed_time = microtime(true) - $start_time;
 		$backup = new Backup();
-		$backup->create_time = date('Y-m-d H:i:s', filemtime($backup_path));
+		$backup->create_time = $create_time;
 		$backup->create_duration = $elapsed_time;
 		$backup->save();
-
-		$data = array('backup_path' => $backup_path);
-		echo json_encode($data);
 	}
 
 	public function actionSave() {
+		$start_time = microtime(true);
+
 		if (!isset($_POST['authorization_code'])) {
 			throw new CException('Не передан авторизационный код.');
 		}
@@ -148,6 +169,15 @@ class BackupController extends CController {
 			$_POST['authorization_code'],
 			$_POST['backup_path']
 		);
+
+		if (isset($_POST['create_time'])) {
+			$elapsed_time = microtime(true) - $start_time;
+			$backup = Backup::model()->findByAttributes(
+				array('create_time' => $_POST['create_time'])
+			);
+			$backup->save_duration = $elapsed_time;
+			$backup->save();
+		}
 	}
 
 	public function actionRedirect() {
