@@ -67,44 +67,50 @@ $(document).ready(
 
 		create_backup_button.click(
 			function() {
-				create_backup_button.prop('disabled', true);
-				processing_animation_image.show();
-				backup_icon.hide();
+				BackupDialog.show(
+					function() {
+						create_backup_button.prop('disabled', true);
+						processing_animation_image.show();
+						backup_icon.hide();
 
-				if (backup_list.length) {
-					backup_list.yiiGridView(
-						'update',
-						{
-							type: 'POST',
-							url: create_backup_url,
-							data: CSRF_TOKEN,
-							success: function(data) {
-								backup_list.yiiGridView(
-									'update',
-									{
-										url:
-											location.pathname
-												+ location.search
-												+ location.hash
+						if (backup_list.length) {
+							backup_list.yiiGridView(
+								'update',
+								{
+									type: 'POST',
+									url: create_backup_url,
+									data: CSRF_TOKEN,
+									success: function(data) {
+										backup_list.yiiGridView(
+											'update',
+											{
+												url:
+													location.pathname
+														+ location.search
+														+ location.hash
+											}
+										);
+
+										global_data = JSON.parse(data);
+										GetAccessToDropbox();
 									}
-								);
-
-								global_data = JSON.parse(data);
-								GetAccessToDropbox();
-							}
+								}
+							);
+						} else {
+							$.post(
+								create_backup_url,
+								CSRF_TOKEN,
+								function(data) {
+									global_data = data;
+									GetAccessToDropbox();
+								},
+								'json'
+							).fail(BackupUtils.error);
 						}
-					);
-				} else {
-					$.post(
-						create_backup_url,
-						CSRF_TOKEN,
-						function(data) {
-							global_data = data;
-							GetAccessToDropbox();
-						},
-						'json'
-					).fail(BackupUtils.error);
-				}
+
+						BackupDialog.hide();
+					}
+				);
 			}
 		);
 	}
