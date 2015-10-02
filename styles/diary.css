@@ -299,6 +299,16 @@ a.state-initial:focus {
 	font-style: italic;
 }
 
+/* http://stackoverflow.com/a/4407335/3884331 */
+.not-selectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .stats-view.daily-points .graph-frame,
 .stats-view.points .graph-frame {
 	background-color: #428bca;

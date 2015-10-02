@@ -51,7 +51,7 @@ class PointFormatter {
 		if (!empty($text)) {
 			$text .= ';';
 		} else {
-			$text = '&nbsp;';
+			$text = '<span class = "not-selectable">&nbsp;</span>';
 		}
 
 		return $text;
