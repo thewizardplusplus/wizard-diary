@@ -61,8 +61,8 @@
 							. 'class = '
 								. '\"state-" . $data->getStateClass()'
 								. '. " point-text\">"'
-							. '. $data->getFormattedText() .'
-						. '"</span>"'
+							. '. PointFormatter::formatPointText($data->text)'
+						. '. "</span>"'
 				)
 			),
 			'itemsCssClass' => 'table',
