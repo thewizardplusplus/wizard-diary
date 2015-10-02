@@ -79,7 +79,21 @@ class DayController extends CController {
 	}
 
 	public function actionUpdate($date) {
-		$points_description = 'Test.';
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text'),
+				'condition' => 'date = :date AND `daily` = FALSE',
+				'params' => array('date' => $date),
+				'order' => '`order`'
+			)
+		);
+
+		$points_description = '';
+		foreach ($points as $point) {
+			$points_description .= "\n" . trim($point->text);
+		}
+		$points_description = trim($points_description);
+
 		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
 
