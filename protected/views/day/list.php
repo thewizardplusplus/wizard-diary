@@ -66,6 +66,27 @@
 								. '$data["projects"]'
 							. ')'
 						. '. "</span>"'
+				),
+				array(
+					'class' => 'CButtonColumn',
+					'template' => '{update}',
+					'buttons' => array(
+						'update' => array(
+							'label' =>
+								'<span '
+									. 'class = '
+										. '"glyphicon '
+										. 'glyphicon-pencil">'
+									. '</span>',
+							'url' =>
+								'$this->grid->controller->createUrl('
+									. '"day/update",'
+									. 'array("date" => $data["date"])'
+								. ')',
+							'imageUrl' => false,
+							'options' => array('title' => 'Изменить день')
+						)
+					)
 				)
 			),
 			'itemsCssClass' => 'table',

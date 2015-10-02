@@ -22,6 +22,7 @@ return array(
 				'access-code' => 'site/accessCode',
 				'days' => 'day/list',
 				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
+				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',

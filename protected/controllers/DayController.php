@@ -58,9 +58,9 @@ class DayController extends CController {
 				'pagination' => false
 			)
 		);
+		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
 
-		$encoded_date = CHtml::encode($date);
 		$this->render(
 			'view',
 			array(
@@ -76,6 +76,10 @@ class DayController extends CController {
 	public function actionStats($date) {
 		$stats = $this->getStats($date);
 		echo json_encode($stats);
+	}
+
+	public function actionUpdate($date) {
+		echo 'UPDATE DAY';
 	}
 
 	private function getStats($date) {

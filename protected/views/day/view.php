@@ -16,7 +16,15 @@
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
 
-<header class = "page-header clearfix">
+<header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?=
+			$this->createUrl('day/update', array('date' => $raw_date))
+		?>">
+		<span class = "glyphicon glyphicon-pencil"></span> Изменить
+	</a>
+
 	<h4>
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
