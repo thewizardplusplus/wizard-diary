@@ -46,6 +46,7 @@ class PointFormatter {
 		);
 		$text = str_replace('"', '&quot;', $text);
 
+		$text = preg_replace('/\s-(?:>|&gt;)\s/', ' &#10148; ', $text);
 		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
 
 		if (!empty($text)) {
