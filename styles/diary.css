@@ -257,7 +257,8 @@ a.state-initial:focus {
 	text-align: center;
 }
 
-#import-editor {
+#import-editor,
+#day-editor {
 	height: 250px;
 	font-size: 14px;
 }

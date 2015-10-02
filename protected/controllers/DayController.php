@@ -79,7 +79,20 @@ class DayController extends CController {
 	}
 
 	public function actionUpdate($date) {
-		echo 'UPDATE DAY';
+		$points_description = 'Test.';
+		$encoded_date = CHtml::encode($date);
+		$stats = $this->getStats($date);
+
+		$this->render(
+			'update',
+			array(
+				'points_description' => $points_description,
+				'my_date' => DateFormatter::formatMyDate($date),
+				'date' => DateFormatter::formatDate($encoded_date),
+				'raw_date' => CHtml::encode($encoded_date),
+				'stats' => $stats
+			)
+		);
 	}
 
 	private function getStats($date) {
