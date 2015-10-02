@@ -232,22 +232,6 @@
 			</footer>
 		</section>
 
-		<?php if ($this->route == 'point/list') { ?>
-			<nav class = "navbar navbar-default navbar-fixed-bottom age-points-button-container">
-				<div class = "container">
-					<button
-						class = "btn btn-default navbar-btn navbar-right age-points-button"
-						data-age-points-url = "<?= $this->createUrl('point/age') ?>">
-						<img
-							src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
-							alt = "..." />
-						<span class = "glyphicon glyphicon-time"></span>
-						<span>На день назад</span>
-					</button>
-				</div>
-			</nav>
-		<?php } ?>
-
 		<div class = "modal ajax-error-dialog">
 			<div class = "modal-dialog">
 				<div class = "modal-content">

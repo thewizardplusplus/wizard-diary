@@ -58,55 +58,6 @@
 			'selectableRows' => 0,
 			'columns' => array(
 				array(
-					'class' => 'CButtonColumn',
-					'template' => '{check} {uncheck}',
-					'buttons' => array(
-						'check' => array(
-							'label' =>
-								'<span class = "glyphicon glyphicon-unchecked">'
-									. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array("id" => $data->id)'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Отметить пункт'),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.checking('
-										. '$(this).attr("href"),'
-										. 'true'
-									. ');'
-								. '}',
-							'visible' => '!empty($data->text) and !$data->check'
-						),
-						'uncheck' => array(
-							'label' =>
-							'<span class = "glyphicon glyphicon-check">'
-								. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array("id" => $data->id)'
-								. ')',
-							'imageUrl' => false,
-							'options' => array(
-								'title' => 'Снять отметку с пункта'
-							),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.checking('
-										. '$(this).attr("href"),'
-										. 'false'
-									. ');'
-								. '}',
-							'visible' => '!empty($data->text) and $data->check'
-						)
-					),
-					'htmlOptions' => array('class' => 'button-column narrow')
-				),
-				array(
 					'type' => 'raw',
 					'value' =>
 						'"<span '

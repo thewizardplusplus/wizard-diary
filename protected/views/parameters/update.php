@@ -4,7 +4,6 @@
 	 * @var ParametersForm $model
 	 * @var string $password_container_class
 	 * @var string $password_copy_container_class
-	 * @var string $points_on_page_container_class
 	 * @var string $access_log_lifetime_container_class
 	 * @var CActiveForm $form
 	 */
@@ -89,26 +88,6 @@
 				<?= $form->error($model, 'password_copy') ?>
 			</div>
 		</fieldset>
-	</div>
-
-	<div class = "form-group<?= $points_on_page_container_class ?>">
-		<?= $form->labelEx(
-			$model,
-			'points_on_page',
-			array('class' => 'control-label')
-		) ?>
-		<?= $form->textField(
-			$model,
-			'points_on_page',
-			array(
-				'class' => 'form-control',
-				'autocomplete' => 'off',
-				'min' => Constants::POINTS_ON_PAGE_MINIMUM,
-				'max' => Constants::POINTS_ON_PAGE_MAXIMUM,
-				'autofocus' => 'autofocus'
-			)
-		) ?>
-		<?= $form->error($model, 'points_on_page') ?>
 	</div>
 
 	<div class = "form-group<?= $access_log_lifetime_container_class ?>">

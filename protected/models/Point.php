@@ -33,7 +33,6 @@ class Point extends CActiveRecord {
 					'CANCELED'
 				)
 			),
-			array('check', 'boolean', 'falseValue' => 0, 'trueValue' => 1),
 			array('order', 'numerical')
 		);
 	}
@@ -65,9 +64,7 @@ class Point extends CActiveRecord {
 			'<strong>$1</strong><br />$2',
 			$text
 		);
-		if (!empty($text)) {
-			$text .= ';';
-		}
+
 		$text = str_replace('&quot;', '"', $text);
 		$text = preg_replace(
 			'/"([^"]*)"/',
@@ -75,26 +72,16 @@ class Point extends CActiveRecord {
 			$text
 		);
 		$text = str_replace('"', '&quot;', $text);
+
 		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
 
-		return $text;
-	}
-
-	protected function beforeSave() {
-		$result = parent::beforeSave();
-		if ($result) {
-			if ($this->isNewRecord) {
-				$this->date = date('Y-m-d');
-			} elseif (empty($this->text)) {
-				$this->state = 'INITIAL';
-				$this->check = 0;
-			}
-			if (!empty($this->text) and substr($this->text, -1) != ';') {
-				$this->text .= ';';
-			}
+		if (!empty($text)) {
+			$text .= ';';
+		} else {
+			$text = '&nbsp;';
 		}
 
-		return $result;
+		return $text;
 	}
 
 	private static $row_classes_for_states = array(

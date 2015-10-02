@@ -33,10 +33,6 @@
 			<xs:extension base = "xs:string">
 				<xs:attribute name = "state" type = "State" use = "required" />
 				<xs:attribute
-					name = "check"
-					type = "xs:boolean"
-					default = "false" />
-				<xs:attribute
 					name = "daily"
 					type = "xs:boolean"
 					default = "false" />
@@ -57,20 +53,9 @@
 		<xs:sequence>
 			<xs:element
 				name = "daily-point"
-				type = "DailyPoint"
+				type = "xs:string"
 				maxOccurs = "unbounded" />
 		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name = "DailyPoint">
-		<xs:simpleContent>
-			<xs:extension base = "xs:string">
-				<xs:attribute
-						name = "check"
-						type = "xs:boolean"
-						default = "false" />
-			</xs:extension>
-		</xs:simpleContent>
 	</xs:complexType>
 
 	<xs:complexType name = "ImportGroup">

@@ -118,13 +118,6 @@ $(document).ready(
 		);
 
 		DailyPointList = {
-			checking: function(url, checked) {
-				RequestToPointList(
-					url,
-					{ 'DailyPoint[check]': checked ? 1 : 0 }
-				);
-				return false;
-			},
 			move: function(url) {
 				RequestToPointList(
 					url,
