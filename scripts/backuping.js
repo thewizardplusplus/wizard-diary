@@ -9,6 +9,7 @@ $(document).ready(
 		var redirect_url = create_backup_button.data('dropbox-redirect-url');
 		var processing_animation_image = $('img', create_backup_button);
 		var backup_icon = $('span', create_backup_button);
+		var backup_list = $('#backup-list');
 		var FinishAnimation = function() {
 			create_backup_button.prop('disabled', false);
 			processing_animation_image.hide();
@@ -29,13 +30,14 @@ $(document).ready(
 			AjaxErrorDialog.handler(xhr, text_status);
 		};
 
-		var backup_path = '';
+		var global_data = {backup_path: '', create_time: ''};
 		window.Backup = {
 			create: function(authorization_code) {
 				var data = $.extend(
 					{
 						authorization_code: authorization_code,
-						backup_path: backup_path
+						backup_path: global_data.backup_path,
+						create_time: global_data.create_time
 					},
 					CSRF_TOKEN
 				);
@@ -45,6 +47,18 @@ $(document).ready(
 					data,
 					function() {
 						FinishAnimation();
+
+						if (backup_list.length) {
+							backup_list.yiiGridView(
+								'update',
+								{
+									url:
+										location.pathname
+											+ location.search
+											+ location.hash
+								}
+							);
+						}
 					}
 				).fail(BackupUtils.error);
 			},
@@ -53,47 +67,50 @@ $(document).ready(
 
 		create_backup_button.click(
 			function() {
-				create_backup_button.prop('disabled', true);
-				processing_animation_image.show();
-				backup_icon.hide();
+				BackupDialog.show(
+					function() {
+						create_backup_button.prop('disabled', true);
+						processing_animation_image.show();
+						backup_icon.hide();
 
-				var backup_list = $('#backup-list');
-				if (backup_list.length) {
-					backup_list.yiiGridView(
-						'update',
-						{
-							type: 'POST',
-							url: create_backup_url,
-							data: CSRF_TOKEN,
-							success: function(data) {
-								backup_list.yiiGridView(
-									'update',
-									{
-										url:
-											location.pathname
-												+ location.search
-												+ location.hash
+						if (backup_list.length) {
+							backup_list.yiiGridView(
+								'update',
+								{
+									type: 'POST',
+									url: create_backup_url,
+									data: CSRF_TOKEN,
+									success: function(data) {
+										backup_list.yiiGridView(
+											'update',
+											{
+												url:
+													location.pathname
+														+ location.search
+														+ location.hash
+											}
+										);
+
+										global_data = JSON.parse(data);
+										GetAccessToDropbox();
 									}
-								);
-
-								data = JSON.parse(data);
-								backup_path = data.backup_path;
-
-								GetAccessToDropbox();
-							}
+								}
+							);
+						} else {
+							$.post(
+								create_backup_url,
+								CSRF_TOKEN,
+								function(data) {
+									global_data = data;
+									GetAccessToDropbox();
+								},
+								'json'
+							).fail(BackupUtils.error);
 						}
-					);
-				} else {
-					$.post(
-						create_backup_url,
-						CSRF_TOKEN,
-						function(data) {
-							backup_path = data.backup_path;
-							GetAccessToDropbox();
-						},
-						'json'
-					).fail(BackupUtils.error);
-				}
+
+						BackupDialog.hide();
+					}
+				);
 			}
 		);
 	}

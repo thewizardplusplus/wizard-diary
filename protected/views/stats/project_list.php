@@ -49,7 +49,7 @@
 				<span class = "glyphicon glyphicon-share"></span>
 			</div>
 			<input
-				class = "form-control search-input selected-points-text-view"
+				class = "form-control selected-points-text-view"
 				placeholder = "Выбор..."
 				readonly = "readonly" />
 		</div>

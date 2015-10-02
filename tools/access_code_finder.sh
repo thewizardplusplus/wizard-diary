@@ -17,6 +17,24 @@ function ShowHelp() {
 	echo -e "\t-q, --quiet         - disable a printing to stdout."
 }
 
+function ProcessOptions() {
+	local -r option="$1"
+
+	case "$option" in
+		-h|--help)
+			ShowHelp
+			exit
+
+			;;
+		-c|--no-clipboard)
+			no_clipboard=TRUE
+			;;
+		-q|--quiet)
+			quiet=TRUE
+			;;
+	esac
+}
+
 function FindAccessCode() {
 	local -r script_path=`dirname $0`
 
@@ -42,24 +60,6 @@ function CopyToClipboard() {
 	then
 		printf "$message" | xclip -selection clipboard -i
 	fi
-}
-
-function ProcessOptions() {
-	local -r option="$1"
-
-	case "$option" in
-		-h|--help)
-			ShowHelp
-			exit
-
-			;;
-		-c|--no-clipboard)
-			no_clipboard=TRUE
-			;;
-		-q|--quiet)
-			quiet=TRUE
-			;;
-	esac
 }
 
 ProcessOptions "$@"
