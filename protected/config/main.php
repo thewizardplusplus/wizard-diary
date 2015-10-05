@@ -77,11 +77,7 @@ return array(
 						'https://cdnjs.cloudflare.com'
 						. '/ajax/libs/Chart.js/1.0.2/',
 					'js' => array('Chart.min.js')
-				),
-				'sortable' => array(
-					'baseUrl' => 'https://cdn.jsdelivr.net/sortable/latest/',
-					'js' => array('Sortable.min.js')
-				),
+				)
 			)
 		),
 		'widgetFactory' => array(

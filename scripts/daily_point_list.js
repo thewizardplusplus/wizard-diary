@@ -183,8 +183,14 @@ $(document).ready(
 					}
 				);
 
-				var points_table = $('table', point_list);
-				Sortable.create(points_table.get(0));
+				$('#daily-point-list table').sortable(
+					{
+						containerSelector: 'table',
+						itemPath: '> tbody',
+						itemSelector: 'tr',
+						placeholder: '<tr class = "placeholder"></tr>'
+					}
+				);
 			}
 		};
 
