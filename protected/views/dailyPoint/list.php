@@ -5,6 +5,7 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerPackage('sortable');
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/jquery.jeditable.min.js'),
 		CClientScript::POS_HEAD

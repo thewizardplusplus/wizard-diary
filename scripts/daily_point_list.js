@@ -182,6 +182,9 @@ $(document).ready(
 						);
 					}
 				);
+
+				var points_table = $('table', point_list);
+				Sortable.create(points_table.get(0));
 			}
 		};
 
