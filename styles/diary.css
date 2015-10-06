@@ -72,6 +72,7 @@ form .panel :last-child {
 /* AJAX request process animation styles. */
 .age-points-button img,
 .save-import-button img,
+.save-day-button img,
 .create-backup-button img {
 	display: none;
 	height: 18px;

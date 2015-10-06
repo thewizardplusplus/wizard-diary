@@ -24,7 +24,21 @@
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
 
-<header class = "page-header clearfix">
+<header class = "page-header clearfix header-with-button">
+	<button
+		class = "btn btn-primary pull-right save-day-button"
+		title = "Сохранить"
+		data-save-url = "<?=
+			$this->createUrl('day/update', array('date' => $raw_date))
+		?>">
+		<img
+			src = "<?=
+				Yii::app()->request->baseUrl
+			?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-floppy-disk"></span>
+	</button>
+
 	<h4>
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
@@ -39,6 +53,12 @@
 					? 'Завершён'
 					: 'Не завершён'
 			?>
+		</span>
+
+		<span
+			class = "label label-success saved-flag"
+			title = "Сохранено">
+			<span class = "glyphicon glyphicon-floppy-saved"></span>
 		</span>
 	</h4>
 

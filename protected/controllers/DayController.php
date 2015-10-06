@@ -167,7 +167,11 @@ class DayController extends CController {
 
 			$points_description .= $line . "\n";
 		}
-		$points_description = trim($points_description) . "\n";
+
+		$points_description = trim($points_description);
+		if (!empty($points_description)) {
+			$points_description .= "\n";
+		}
 
 		return $points_description;
 	}
