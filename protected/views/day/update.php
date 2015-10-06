@@ -13,6 +13,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/point_unit.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/day_editor.js'),
 		CClientScript::POS_HEAD
 	);
@@ -38,7 +42,7 @@
 		</span>
 	</h4>
 
-	<p class = "unimportant-text italic-text">
+	<p class = "unimportant-text italic-text number-of-points-view">
 		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
 	</p>
 </header>
