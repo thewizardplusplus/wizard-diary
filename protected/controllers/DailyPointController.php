@@ -37,20 +37,47 @@ class DailyPointController extends CController {
 	}
 
 	public function actionUpdate($id) {
-		if (isset($_POST['DailyPoint'])) {
-			$model = $this->loadModel($id);
-			$model->attributes = $_POST['DailyPoint'];
-			$result = $model->save();
-
-			if ($result) {
-				if (isset($_POST['DailyPoint']['text'])) {
-					echo $model->text;
-				}
-				if (isset($_POST['DailyPoint']['order'])) {
-					DailyPoint::renumberOrderFieldsForDate();
-				}
-			}
+		if (!isset($_POST['DailyPoint'])) {
+			return;
 		}
+
+		$model = $this->loadModel($id);
+		$model->attributes = $_POST['DailyPoint'];
+		$result = $model->save();
+		if (!$result) {
+			return;
+		}
+
+		if (isset($_POST['DailyPoint']['text'])) {
+			echo $model->text;
+		}
+		if (isset($_POST['DailyPoint']['order'])) {
+			DailyPoint::renumberOrderFieldsForDate();
+		}
+	}
+
+	public function actionOrder() {
+		if (!isset($_POST['ids']) || !is_array($_POST['ids'])) {
+			return;
+		}
+
+		$sql = '';
+		$order = 3;
+		foreach ($_POST['ids'] as $id) {
+			if (!is_numeric($id)) {
+				continue;
+			}
+
+			$sql .= sprintf(
+				"UPDATE `{{daily_points}}` SET `order` = %d WHERE `id` = %d;\n",
+				$order,
+				intval($id)
+			);
+			$order += 2;
+		}
+		$sql = "START TRANSACTION;\n\n${sql}\nCOMMIT;\n";
+
+		Yii::app()->db->createCommand($sql)->execute();
 	}
 
 	public function actionDelete($id) {
