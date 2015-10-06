@@ -34,7 +34,7 @@ google.setOnLoadCallback(
 			lines: [
 				{color: '#808080'},
 				{color: '#333333'},
-				{color: '#5cb85c'}
+				{color: '#5cb85c', width: 4}
 			],
 			tooltip: function(point) {
 				var date = moment(point.date).format('DD.MM.YYYY');
