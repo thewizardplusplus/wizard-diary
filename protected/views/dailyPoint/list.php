@@ -5,6 +5,13 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DAILY_POINT_ORDER_URL = \''
+			. $this->createUrl('dailyPoint/order')
+		. '\';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/jquery.jeditable.min.js'),
 		CClientScript::POS_HEAD
@@ -67,6 +74,7 @@
 						'"<span '
 							. 'id = \"daily-point-text-" . $data->id . "\" '
 							. 'class = \"daily-point-text\" '
+							. 'data-id = \"" . $data->id . "\" '
 							. 'data-text = '
 								. '\"" . PointFormatter::encodePointText('
 									. '$data->text'

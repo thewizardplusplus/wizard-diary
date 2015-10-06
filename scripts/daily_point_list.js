@@ -188,7 +188,31 @@ $(document).ready(
 						containerSelector: 'table',
 						itemPath: '> tbody',
 						itemSelector: 'tr',
-						placeholder: '<tr class = "placeholder"></tr>'
+						placeholder: '<tr class = "placeholder"></tr>',
+						onDrop: function(item, container) {
+							// default code
+							item
+								.removeClass(
+									container.group.options.draggedClass
+								)
+								.removeAttr('style');
+							$('body').removeClass(
+								container.group.options.bodyClass
+							);
+
+							var ids =
+								$('.daily-point-text')
+								.map(
+									function() {
+										return $(this).data('id');
+									}
+								)
+								.get();
+							RequestToPointList(
+								DAILY_POINT_ORDER_URL,
+								{'ids': ids}
+							);
+						}
 					}
 				);
 			}
