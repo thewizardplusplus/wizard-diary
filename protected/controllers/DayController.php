@@ -88,12 +88,7 @@ class DayController extends CController {
 			)
 		);
 
-		$points_description = '';
-		foreach ($points as $point) {
-			$points_description .= "\n" . trim($point->text);
-		}
-		$points_description = trim($points_description);
-
+		$points_description = $this->prepareImport($points);
 		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
 
@@ -132,5 +127,48 @@ class DayController extends CController {
 			->where('date = :date', array('date' => $date))
 			->group('date')
 			->queryRow();
+	}
+
+	private function prepareImport($points) {
+		$points_description = '';
+		$last_parts = array();
+		foreach ($points as $point) {
+			$text = trim($point->text);
+			if (empty($text)) {
+				$points_description .= "\n";
+				continue;
+			}
+
+			$parts = explode(',', $text);
+			$parts = array_map('trim', $parts);
+
+			$number_of_parts = count($parts);
+			$minimal_number = min(count($last_parts), $number_of_parts);
+
+			$line = '';
+			$last_index = 0;
+			for ($i = 0; $i < $minimal_number; $i++) {
+				if ($parts[$i] != $last_parts[$i]) {
+					$last_index = $i;
+					break;
+				}
+
+				$line .= str_repeat(' ', 4);
+			}
+			$last_parts = $parts;
+
+			for ($j = $last_index; $j < $number_of_parts; $j++) {
+				if (strlen(trim($line)) != 0) {
+					$line .= ', ';
+				}
+
+				$line .= $parts[$j];
+			}
+
+			$points_description .= $line . "\n";
+		}
+		$points_description = trim($points_description) . "\n";
+
+		return $points_description;
 	}
 }
