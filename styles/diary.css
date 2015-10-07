@@ -274,6 +274,16 @@ a.state-initial:focus {
 	cursor: default;
 }
 
+.day-editor-header .saved-flag {
+	height: 24px;
+	font-size: 67%;
+}
+
+.day-editor-header .day-completed-flag {
+	height: 24px;
+	padding: 6px 10px 6px 10px !important;
+}
+
 .day-completed-flag-column .day-completed-flag {
 	width: 100%;
 	text-align: left;

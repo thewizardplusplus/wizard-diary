@@ -53,7 +53,7 @@
 		<span class = "glyphicon glyphicon-floppy-disk"></span>
 	</button>
 
-	<h4>
+	<h4 class = "day-editor-header">
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
 		<span
