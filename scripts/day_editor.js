@@ -93,7 +93,7 @@ $(document).ready(
 					SetSavedFlag(true);
 					FinishAnimation();
 
-					if (callback) {
+					if (typeof callback !== 'undefined') {
 						callback();
 					}
 				}
@@ -104,7 +104,11 @@ $(document).ready(
 				}
 			);
 		};
-		save_button.click(SaveViaAjax);
+		save_button.click(
+			function() {
+				SaveViaAjax();
+			}
+		);
 		$(window).keydown(
 			function(event) {
 				if (

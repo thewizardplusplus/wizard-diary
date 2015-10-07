@@ -1,6 +1,8 @@
 <?php
 
 class DayController extends CController {
+	const ONE_LEVEL_EDITOR_INDENT = '    ';
+
 	public function filters() {
 		return array('accessControl', 'ajaxOnly + stats');
 	}
@@ -79,6 +81,16 @@ class DayController extends CController {
 	}
 
 	public function actionUpdate($date) {
+		if (isset($_POST['points_description'])) {
+			$points_description = $this->extendImport(
+				$_POST['points_description']
+			);
+			$sql = $this->importToSql($date, $points_description);
+			Yii::app()->db->createCommand($sql)->execute();
+
+			return;
+		}
+
 		$points = Point::model()->findAll(
 			array(
 				'select' => array('text'),
@@ -153,7 +165,7 @@ class DayController extends CController {
 					break;
 				}
 
-				$line .= str_repeat(' ', 4);
+				$line .= self::ONE_LEVEL_EDITOR_INDENT;
 			}
 			$last_parts = $parts;
 
@@ -165,6 +177,10 @@ class DayController extends CController {
 				$line .= $parts[$j];
 			}
 
+			if (!empty($line) and substr($line, -1) == ';') {
+				$line = substr($line, 0, -1);
+			}
+
 			$points_description .= $line . "\n";
 		}
 
@@ -174,5 +190,108 @@ class DayController extends CController {
 		}
 
 		return $points_description;
+	}
+
+	private function extendImport($points_description) {
+		$lines = explode("\n", $points_description);
+
+		$last_line_blocks = array();
+		$extended_lines = array_map(
+			function($line) use (&$last_line_blocks) {
+				$line = rtrim($line);
+
+				$extended_line = '';
+				while (substr($line, 0, 4) == self::ONE_LEVEL_EDITOR_INDENT) {
+					if (!empty($last_line_blocks)) {
+						$extended_line .= array_shift($last_line_blocks) . ', ';
+					}
+
+					$line = substr($line, 4);
+				}
+				$extended_line .= $line;
+
+				if (!empty($extended_line)) {
+					$last_line_blocks = array_map(
+						'trim',
+						explode(',', $extended_line)
+					);
+				}
+
+				return $extended_line;
+			},
+			$lines
+		);
+		$extended_lines = array_map(
+			function($extended_line) {
+				if (
+					!empty($extended_line)
+					and substr($extended_line, -1) == ';'
+				) {
+					$extended_line = substr($extended_line, 0, -1);
+				}
+
+				return $extended_line;
+			},
+			$extended_lines
+		);
+
+		if (
+			!empty($extended_lines)
+			&& empty($extended_lines[count($extended_lines) - 1])
+		) {
+			$extended_lines = array_slice(
+				$extended_lines,
+				0,
+				count($extended_lines) - 1
+			);
+		}
+		if (!empty($extended_lines)) {
+			array_unshift($extended_lines, '');
+		}
+
+		return $extended_lines;
+	}
+
+	private function importToSql($date, $extended_points) {
+		$escaped_date = Yii::app()->db->quoteValue($date);
+		$deleting_sql = sprintf(
+			'DELETE FROM {{points}} WHERE `date` = %s AND `daily` = FALSE;',
+			$escaped_date
+		);
+
+		$order = Constants::MAXIMAL_ORDER_VALUE - 2 * count($extended_points);
+		$points_sql_lines = array_map(
+			function($extended_point) use ($escaped_date, &$order) {
+				$sql_line = sprintf(
+					'(%s, %s, "%s", %d)',
+					$escaped_date,
+					Yii::app()->db->quoteValue($extended_point),
+					!empty($extended_point) ? 'SATISFIED' : 'INITIAL',
+					$order
+				);
+				$order += 2;
+
+				return $sql_line;
+			},
+			$extended_points
+		);
+
+		$points_sql = '';
+		if (!empty($points_sql_lines)) {
+			$points_sql = sprintf(
+				"INSERT INTO `{{points}}` (`date`, `text`, `state`, `order`)\n"
+					. "VALUES\n\t%s;",
+				implode(",\n\t", $points_sql_lines)
+			);
+		}
+
+		$renumber_sql = Point::getRenumberOrderSql($date);
+
+		return
+			"START TRANSACTION;\n\n"
+			. "$deleting_sql\n\n"
+			. "$points_sql\n\n"
+			. "$renumber_sql\n\n"
+			. "COMMIT;";
 	}
 }
