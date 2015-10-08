@@ -97,42 +97,6 @@ class DailyPointGroup
 	end
 end
 
-class Import
-	include Initializable
-
-	attr_accessor :date
-	attr_accessor :points_description
-	attr_accessor :imported
-
-	def to_s
-		escaped_points_description = escapeForSql points_description
-		"('#{date}', '#{escaped_points_description}', #{imported})"
-	end
-end
-
-class ImportGroup
-	def initialize xml, table_prefix = DEFAULT_TABLE_PREFIX
-		@imports = []
-		xml.elements.each 'diary/imports/import' do |element|
-			@imports << Import.new(
-				date: element.attributes['date'],
-				points_description: element.cdatas().join(''),
-				imported: getBooleanValue(element, 'imported')
-			)
-		end
-
-		@table_prefix = table_prefix
-	end
-
-	def to_s
-		imports_description = @imports.join ",\n\t"
-		"DELETE FROM `#{@table_prefix}imports`;\n" +
-			"INSERT INTO `#{@table_prefix}imports` " +
-				"(`date`, `points_description`, `imported`)\n" +
-			"VALUES\n\t#{imports_description};\n"
-	end
-end
-
 def escapeForSql text
 	Mysql2::Client.escape text
 end
@@ -191,8 +155,8 @@ def loadXml filename
 	REXML::Document.new file
 end
 
-def generateSql points, daily_points, imports, no_transaction
-	sql = "#{points}\n#{daily_points}\n#{imports}";
+def generateSql groups, no_transaction
+	sql = groups.join "\n"
 	if !no_transaction
 		sql = "START TRANSACTION;\n\n#{sql}\nCOMMIT;"
 	end
@@ -214,8 +178,7 @@ begin
 	xml = loadXml options[:filename]
 	points = PointGroup.new xml, options[:prefix]
 	daily_points = DailyPointGroup.new xml, options[:prefix]
-	imports = ImportGroup.new xml, options[:prefix]
-	sql = generateSql points, daily_points, imports, options[:no_transaction]
+	sql = generateSql [points, daily_points], options[:no_transaction]
 	outputSql sql, options
 rescue Exception => exception
 	if exception.message != 'exit'

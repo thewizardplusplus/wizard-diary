@@ -5,6 +5,7 @@ require_once('dropbox-sdk/Dropbox/autoload.php');
 class BackupController extends CController {
 	/* v5:
 	 *     - remove checks from points and daily points;
+	 *     - remove imports;
 	 */
 	const BACKUP_VERSION = 5;
 
@@ -271,27 +272,6 @@ class BackupController extends CController {
 			$daily_points_dump .= "\t\t<daily-point>$text</daily-point>\n";
 		}
 
-		$imports_dump = '';
-		$imports = Import::model()->findAll(array('order' => 'date'));
-		foreach ($imports as $import) {
-			$imported_flag = $import->imported ? ' imported = "true"' : '';
-			$points_description =
-				!empty($import->points_description)
-					? '<![CDATA['
-						. str_replace(
-							']]>',
-							']]]><![CDATA[]>',
-							$import->points_description
-						)
-						. ']]>'
-					: '';
-
-			$imports_dump .=
-				"\t\t<import date = \"{$import->date}\"$imported_flag>"
-					. "$points_description"
-				. "</import>\n";
-		}
-
 		return
 			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
 			. "<diary version = \"" . self::BACKUP_VERSION . "\">\n"
@@ -301,9 +281,6 @@ class BackupController extends CController {
 				. "\t<daily-points>\n"
 					. "$daily_points_dump"
 				. "\t</daily-points>\n"
-				. "\t<imports>\n"
-					. "$imports_dump"
-				. "\t</imports>\n"
 			. "</diary>\n";
 	}
 
