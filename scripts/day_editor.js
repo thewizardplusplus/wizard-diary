@@ -5,6 +5,79 @@ $(document).ready(
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
+		var FormatPoints = function(points, cursor_position) {
+			points = points.map(
+				function(point, index) {
+					if (
+						typeof cursor_position == 'undefined'
+						|| cursor_position.row != index
+					) {
+						return point.replace(/\s+$/, '');
+					} else {
+						return point;
+					}
+				}
+			);
+
+			while (
+				points.length
+				&& points[0].trim().length == 0
+				&& (typeof cursor_position == 'undefined'
+				|| cursor_position.row > 0)
+			) {
+				points.shift();
+				if (typeof cursor_position != 'undefined') {
+					cursor_position.row--;
+				}
+			}
+			while (
+				points.length
+				&& points.slice(-1)[0].trim().length == 0
+				&& (typeof cursor_position == 'undefined'
+				|| cursor_position.row + 1 < points.length)
+			) {
+				points.pop();
+			}
+			if (points.length && points.slice(-1)[0].length != 0) {
+				points.push('');
+			}
+
+			if (typeof cursor_position != 'undefined') {
+				return {
+					points: points,
+					cursor_position: cursor_position
+				};
+			} else {
+				return points;
+			}
+		};
+		var FormatPointsDescription = function(
+			points_description,
+			cursor_position
+		) {
+			var points = points_description.split('\n');
+			var result = FormatPoints(points, cursor_position);
+			points_description = result.points.join('\n');
+
+			return {
+				points_description: points_description,
+				cursor_position: result.cursor_position
+			};
+		};
+		day_editor.formatContent = function() {
+			var points_description = this.getValue();
+			var cursor_position = this.getCursorPosition();
+			var result = FormatPointsDescription(
+				points_description,
+				cursor_position
+			);
+
+			this.setValue(result.points_description, -1);
+			if (typeof result.cursor_position != 'undefined') {
+				this.moveCursorToPosition(result.cursor_position);
+			}
+		};
+
 		var saved_flag_container = $('.saved-flag');
 		var saved_flag_icon = $('span', saved_flag_container);
 		var is_saved = true;
@@ -82,6 +155,7 @@ $(document).ready(
 			save_icon.hide();
 			day_editor_container.addClass('wait');
 
+			day_editor.formatContent();
 			var data = $.extend(
 				{'points_description': day_editor.getValue()},
 				CSRF_TOKEN
