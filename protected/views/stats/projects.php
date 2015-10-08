@@ -28,6 +28,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/point_unit.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/chap_links_custom_labels.js'),
 		CClientScript::POS_HEAD
 	);
