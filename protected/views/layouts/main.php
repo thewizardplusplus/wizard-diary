@@ -82,10 +82,6 @@
 									array(
 										'label' => 'Ежедневно',
 										'url' => array('dailyPoint/list')
-									),
-									array(
-										'label' => 'Импорт',
-										'url' => array('import/list')
 									)
 								),
 								'htmlOptions' => array(

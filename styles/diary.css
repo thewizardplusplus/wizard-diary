@@ -71,7 +71,6 @@ form .panel :last-child {
 
 /* AJAX request process animation styles. */
 .age-points-button img,
-.save-import-button img,
 .save-day-button img,
 .create-backup-button img {
 	display: none;
@@ -274,28 +273,12 @@ body.dragging * {
 	width: 105px;
 }
 
-.import-flag-column {
-	width: 50px;
-	text-align: center;
-}
-
-.import-date-column {
-	width: 55px;
-	text-align: center;
-}
-
-#import-editor,
 #day-editor {
 	height: 250px;
 	font-size: 14px;
 	border-radius: 4px;
 }
 
-.import-view pre {
-	white-space: pre-wrap;
-}
-
-.import-flag,
 .saved-flag,
 .day-completed-flag {
 	cursor: default;
@@ -313,10 +296,6 @@ body.dragging * {
 
 .day-completed-flag-column .day-completed-flag {
 	width: 100%;
-	text-align: left;
-}
-
-#import-list .button-column {
 	text-align: left;
 }
 

@@ -6,7 +6,6 @@
 		<xs:sequence>
 			<xs:element name = "days" type = "DayGroup" />
 			<xs:element name = "daily-points" type = "DailyPointGroup" />
-			<xs:element name = "imports" type = "ImportGroup" />
 		</xs:sequence>
 		<xs:attribute name = "version" type = "xs:unsignedLong" default = "1" />
 	</xs:complexType>
@@ -56,27 +55,5 @@
 				type = "xs:string"
 				maxOccurs = "unbounded" />
 		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name = "ImportGroup">
-		<xs:sequence>
-			<xs:element
-				name = "import"
-				type = "Import"
-				minOccurs = "0"
-				maxOccurs = "unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name = "Import">
-		<xs:simpleContent>
-			<xs:extension base = "xs:string">
-				<xs:attribute name = "date" type = "xs:date" use = "required" />
-				<xs:attribute
-					name = "imported"
-					type = "xs:boolean"
-					default = "false" />
-			</xs:extension>
-		</xs:simpleContent>
 	</xs:complexType>
 </xs:schema>
