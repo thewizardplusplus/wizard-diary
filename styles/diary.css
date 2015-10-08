@@ -262,6 +262,7 @@ a.state-initial:focus {
 #day-editor {
 	height: 250px;
 	font-size: 14px;
+	border-radius: 4px;
 }
 
 .import-view pre {
