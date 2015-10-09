@@ -5,6 +5,8 @@ $(document).ready(
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
+		var day_mobile_editor = $('#day-mobile-editor');
+
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
 				function(point, index) {
@@ -114,8 +116,7 @@ $(document).ready(
 		};
 
 		var number_of_points_view = $('.number-of-points-view');
-		var SetNumberOfPoints = function() {
-			var points_description = day_editor.getValue();
+		var SetNumberOfPoints = function(points_description) {
 			var points =
 				points_description
 				.split('\n')
@@ -132,11 +133,25 @@ $(document).ready(
 				+ GetPointUnit(number_of_points)
 			);
 		};
+
 		day_editor.on(
 			'change',
 			function() {
 				SetSavedFlag(false);
-				SetNumberOfPoints();
+
+				var points_description = day_editor.getValue();
+				SetNumberOfPoints(points_description);
+				day_mobile_editor.val(day_editor.getValue());
+			}
+		);
+		day_mobile_editor.on(
+			'change',
+			function() {
+				SetSavedFlag(false);
+
+				var points_description = day_mobile_editor.val();
+				SetNumberOfPoints(points_description);
+				day_editor.setValue(points_description, -1);
 			}
 		);
 

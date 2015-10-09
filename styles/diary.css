@@ -281,7 +281,7 @@ body.dragging * {
 
 #day-mobile-editor {
 	height: 250px;
-	padding: 0;
+	padding: 0 5px;
 	background-color: #141414;
 	font-family: monospace;
 	font-size: 12px;
