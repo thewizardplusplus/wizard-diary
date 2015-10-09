@@ -8,16 +8,8 @@
 	 * @var array $stats
 	 */
 
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('jquery-linedtextarea/jquery-linedtextarea.css')
-	);
-
 	Yii::app()->getClientScript()->registerScriptFile(
 		Yii::app()->request->baseUrl . '/scripts/ace/ace.js',
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('jquery-linedtextarea/jquery-linedtextarea.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(

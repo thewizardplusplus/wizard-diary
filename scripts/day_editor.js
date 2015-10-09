@@ -5,8 +5,6 @@ $(document).ready(
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
-		$('#day-mobile-editor').linedtextarea();
-
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
 				function(point, index) {

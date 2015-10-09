@@ -279,6 +279,15 @@ body.dragging * {
 	border-radius: 4px;
 }
 
+#day-mobile-editor {
+	height: 250px;
+	padding: 0;
+	background-color: #141414;
+	font-family: monospace;
+	font-size: 12px;
+	color: #F8F8F8;
+}
+
 .saved-flag,
 .day-completed-flag {
 	cursor: default;
