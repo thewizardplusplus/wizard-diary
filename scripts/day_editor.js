@@ -12,7 +12,9 @@ $(document).ready(
 						typeof cursor_position == 'undefined'
 						|| cursor_position.row != index
 					) {
-						return point.replace(/\s+$/, '');
+						return point
+							.replace(/((?!\s).)\s{2,}(?=\S)/g, '$1 ')
+							.replace(/\s+$/, '');
 					} else {
 						return point;
 					}
