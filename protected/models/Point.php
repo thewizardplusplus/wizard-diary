@@ -5,14 +5,14 @@ class Point extends CActiveRecord {
 		return parent::model($class_name);
 	}
 
-	public static function renumberOrderFieldsForDate($date) {
-		Yii::app()->db->createCommand('SET @order = 1')->execute();
-		Point::model()->updateAll(
-			array('order' => new CDbExpression('(@order := @order + 2)')),
-			array(
-				'condition' => 'date = "' . $date . '"',
-				'order' => '`order`, id'
-			)
+	public static function getRenumberOrderSql($date) {
+		return sprintf(
+			"SET @order = 1;\n"
+				. "UPDATE {{points}}\n"
+				. "SET `order` = (@order := @order + 2)\n"
+				. "WHERE `date` = %s\n"
+				. "ORDER BY `daily` DESC, `order`, `id`;",
+			Yii::app()->db->quoteValue($date)
 		);
 	}
 
@@ -33,7 +33,6 @@ class Point extends CActiveRecord {
 					'CANCELED'
 				)
 			),
-			array('check', 'boolean', 'falseValue' => 0, 'trueValue' => 1),
 			array('order', 'numerical')
 		);
 	}
@@ -47,54 +46,6 @@ class Point extends CActiveRecord {
 			. (!$this->daily
 				? self::$row_classes_for_states[$this->state]
 				: 'warning');
-	}
-
-	public function getRealText() {
-		$text = $this->text;
-		if (!empty($text) and substr($text, -1) == ';') {
-			$text = substr($text, 0, -1);
-		}
-
-		return CHtml::encode($text);
-	}
-
-	public function getFormattedText() {
-		$text = $this->getRealText();
-		$text = preg_replace(
-			'/^([^,]+,)\s*(.+)$/',
-			'<strong>$1</strong><br />$2',
-			$text
-		);
-		if (!empty($text)) {
-			$text .= ';';
-		}
-		$text = str_replace('&quot;', '"', $text);
-		$text = preg_replace(
-			'/"([^"]*)"/',
-			'&laquo;$1&raquo;',
-			$text
-		);
-		$text = str_replace('"', '&quot;', $text);
-		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
-
-		return $text;
-	}
-
-	protected function beforeSave() {
-		$result = parent::beforeSave();
-		if ($result) {
-			if ($this->isNewRecord) {
-				$this->date = date('Y-m-d');
-			} elseif (empty($this->text)) {
-				$this->state = 'INITIAL';
-				$this->check = 0;
-			}
-			if (!empty($this->text) and substr($this->text, -1) != ';') {
-				$this->text .= ';';
-			}
-		}
-
-		return $result;
 	}
 
 	private static $row_classes_for_states = array(

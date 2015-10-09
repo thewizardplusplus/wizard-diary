@@ -1,11 +1,9 @@
 $(document).ready(
 	function() {
-		var IMPORT_EDITOR_SAVE_TIMEOUT = 2000;
-
-		var import_editor = ace.edit('import-editor');
-		import_editor.setTheme('ace/theme/twilight');
-		import_editor.setShowInvisibles(true);
-		import_editor.setShowPrintMargin(false);
+		var day_editor = ace.edit('day-editor');
+		day_editor.setTheme('ace/theme/twilight');
+		day_editor.setShowInvisibles(true);
+		day_editor.setShowPrintMargin(false);
 
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
@@ -14,7 +12,9 @@ $(document).ready(
 						typeof cursor_position == 'undefined'
 						|| cursor_position.row != index
 					) {
-						return point.replace(/\s+$/, '');
+						return point
+							.replace(/((?!\s).)\s{2,}(?=\S)/g, '$1 ')
+							.replace(/\s+$/, '');
 					} else {
 						return point;
 					}
@@ -66,20 +66,18 @@ $(document).ready(
 				cursor_position: result.cursor_position
 			};
 		};
-		import_editor.formatAndReturnPointsDescription = function() {
-			var points_description = import_editor.getValue();
-			var cursor_position = import_editor.getCursorPosition();
+		day_editor.formatContent = function() {
+			var points_description = this.getValue();
+			var cursor_position = this.getCursorPosition();
 			var result = FormatPointsDescription(
 				points_description,
 				cursor_position
 			);
 
-			import_editor.setValue(result.points_description, -1);
+			this.setValue(result.points_description, -1);
 			if (typeof result.cursor_position != 'undefined') {
-				import_editor.moveCursorToPosition(result.cursor_position);
+				this.moveCursorToPosition(result.cursor_position);
 			}
-
-			return result.points_description;
 		};
 
 		var saved_flag_container = $('.saved-flag');
@@ -116,82 +114,52 @@ $(document).ready(
 		};
 
 		var number_of_points_view = $('.number-of-points-view');
-		var FormatNumberOfPoints = function(number_of_points) {
-			var unit = '';
-			var modulo = number_of_points % 10;
-			if (
-				modulo == 1
-				&& (number_of_points < 10 || number_of_points > 20)
-			) {
-				unit = 'пункт';
-			} else if (
-				modulo > 1 && modulo < 5
-				&& (number_of_points < 10 || number_of_points > 20)
-			) {
-				unit = 'пункта';
-			} else {
-				unit = 'пунктов';
-			}
-
-			return number_of_points.toString() + ' ' + unit;
-		};
 		var SetNumberOfPoints = function() {
-			var points_description = import_editor.getValue();
-			var points = points_description.split('\n');
-			points = FormatPoints(points);
+			var points_description = day_editor.getValue();
+			var points =
+				points_description
+				.split('\n')
+				.filter(
+					function(line) {
+						return line.trim().length != 0;
+					}
+				);
 
-			var number_of_points = points.length - 1;
-			if (number_of_points < 0) {
-				number_of_points = 0;
-			}
-
-			var formatted_number_of_points = FormatNumberOfPoints(
-				number_of_points
+			var number_of_points = points.length;
+			number_of_points_view.text(
+				number_of_points.toString()
+				+ ' '
+				+ GetPointUnit(number_of_points)
 			);
-			number_of_points_view.text(formatted_number_of_points);
 		};
-
-		import_editor.on(
+		day_editor.on(
 			'change',
 			function() {
 				SetSavedFlag(false);
 				SetNumberOfPoints();
 			}
 		);
-		import_editor.on(
-			'paste',
-			function(event) {
-				event.text =
-					event.text
-					.replace(/\u21e5|\u00b7/g, ' ')
-					.replace(/\u00b6/g, '')
-					.replace(/^\s*\d+\s\|\s/gm, '');
-			}
-		);
 
-		var save_button = $('.save-import-button');
+		var save_button = $('.save-day-button');
 		var save_url = save_button.data('save-url');
 		var processing_animation_image = $('img', save_button);
 		var save_icon = $('span', save_button);
-		var import_editor_container = $(import_editor.container);
+		var day_editor_container = $(day_editor.container);
 		var FinishAnimation = function() {
 			save_button.prop('disabled', false);
 			processing_animation_image.hide();
 			save_icon.show();
-			import_editor_container.removeClass('wait');
+			day_editor_container.removeClass('wait');
 		};
-		var SaveViaAjax = function() {
+		var SaveViaAjax = function(callback) {
 			save_button.prop('disabled', true);
 			processing_animation_image.show();
 			save_icon.hide();
-			import_editor_container.addClass('wait');
+			day_editor_container.addClass('wait');
 
+			day_editor.formatContent();
 			var data = $.extend(
-				{
-					'Import[points_description]':
-						import_editor
-						.formatAndReturnPointsDescription()
-				},
+				{'points_description': day_editor.getValue()},
 				CSRF_TOKEN
 			);
 			$.post(
@@ -200,6 +168,10 @@ $(document).ready(
 				function() {
 					SetSavedFlag(true);
 					FinishAnimation();
+
+					if (typeof callback !== 'undefined') {
+						callback();
+					}
 				}
 			).fail(
 				function(xhr, text_status) {
@@ -208,60 +180,11 @@ $(document).ready(
 				}
 			);
 		};
-
-		var form = $('.import-form');
-		form.submit(
+		save_button.click(
 			function() {
-				var points_description =
-					import_editor
-					.formatAndReturnPointsDescription();
-				$('#Import_points_description').val(points_description);
+				SaveViaAjax();
 			}
 		);
-
-		save_button.click(SaveViaAjax);
-
-		var save_and_import_button = $('.save-and-import-button');
-		var import_date = save_and_import_button.data('date');
-		var import_my_date = save_and_import_button.data('my-date');
-		save_and_import_button.click(
-			function() {
-				ImportDialog.show(
-					import_my_date,
-					import_date,
-					function() {
-						$('#Import_import').val('true');
-						form.submit();
-					}
-				);
-			}
-		);
-
-		var close_button = $('.close-button');
-		var import_date = close_button.data('date');
-		var import_my_date = close_button.data('my-date');
-		var view_url = close_button.data('view-url');
-		var CloseImportEditor = function() {
-			location.href = view_url;
-		};
-		close_button.click(
-			function() {
-				if (!is_saved) {
-					CloseDialog.show(
-						import_my_date,
-						import_date,
-						function() {
-							$('#Import_close').val('true');
-							form.submit();
-						},
-						CloseImportEditor
-					);
-				} else {
-					CloseImportEditor();
-				}
-			}
-		);
-
 		$(window).keydown(
 			function(event) {
 				if (
@@ -271,6 +194,40 @@ $(document).ready(
 					event.preventDefault();
 					SaveViaAjax();
 				}
+			}
+		);
+
+		var close_button = $('.close-button');
+		var day_date = close_button.data('date');
+		var day_my_date = close_button.data('my-date');
+		var view_url = close_button.data('view-url');
+		var CloseDayEditor = function() {
+			location.href = view_url;
+		};
+		close_button.click(
+			function() {
+				if (!is_saved) {
+					CloseDialog.show(
+						day_my_date,
+						day_date,
+						function() {
+							CloseDialog.hide();
+							SaveViaAjax(CloseDayEditor);
+						},
+						CloseDayEditor
+					);
+				} else {
+					CloseDayEditor();
+				}
+			}
+		);
+
+		var form = $('.day-form');
+		form.submit(
+			function() {
+				event.preventDefault();
+				event.stopPropagation();
+				return false;
 			}
 		);
 	}

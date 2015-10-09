@@ -71,7 +71,7 @@ form .panel :last-child {
 
 /* AJAX request process animation styles. */
 .age-points-button img,
-.save-import-button img,
+.save-day-button img,
 .create-backup-button img {
 	display: none;
 	height: 18px;
@@ -207,6 +207,32 @@ a.state-initial:focus {
 	background: url('/images/processing-icon.gif') right center no-repeat;
 }
 
+/* jQuery Sortable styles */
+body.dragging,
+body.dragging * {
+	cursor: move !important;
+}
+
+.dragged {
+	position: absolute;
+	opacity: 0.5;
+	z-index: 2000;
+}
+
+#daily-point-list table tr.placeholder {
+	position: relative;
+	border-top: 2px solid #f0ad4e;
+}
+
+#daily-point-list table tr.placeholder:before {
+	position: absolute;
+	top: -14px;
+	left: -10px;
+	content: '➤';
+	font-size: larger;
+	color: #f0ad4e;
+}
+
 /* Additional styles. */
 .age-points-button,
 .input-group-addon
@@ -239,31 +265,37 @@ a.state-initial:focus {
 	color: #888;
 }
 
-.import-flag-column {
+.day-date-column {
 	width: 50px;
-	text-align: center;
 }
 
-.import-date-column {
-	width: 55px;
-	text-align: center;
+.day-completed-flag-column {
+	width: 105px;
 }
 
-#import-editor {
+#day-editor {
 	height: 250px;
 	font-size: 14px;
+	border-radius: 4px;
 }
 
-.import-view pre {
-	white-space: pre-wrap;
-}
-
-.import-flag,
-.saved-flag {
+.saved-flag,
+.day-completed-flag {
 	cursor: default;
 }
 
-#import-list .button-column {
+.day-editor-header .saved-flag {
+	height: 24px;
+	font-size: 67%;
+}
+
+.day-editor-header .day-completed-flag {
+	height: 24px;
+	padding: 6px 10px 6px 10px !important;
+}
+
+.day-completed-flag-column .day-completed-flag {
+	width: 100%;
 	text-align: left;
 }
 
@@ -272,9 +304,27 @@ a.state-initial:focus {
 	padding: 5px 10px;
 }
 
+.point-text input {
+	font-weight: normal;
+}
+
+.italic-text {
+	font-style: italic;
+}
+
 .stats-view.empty-label {
 	display: none;
 	font-style: italic;
+}
+
+/* http://stackoverflow.com/a/4407335/3884331 */
+.not-selectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .stats-view.daily-points .graph-frame,

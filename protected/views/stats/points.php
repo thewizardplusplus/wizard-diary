@@ -23,6 +23,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/point_unit.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/chap_links_custom_labels.js'),
 		CClientScript::POS_HEAD
 	);
@@ -42,7 +46,7 @@
 	<h4>Статистика: пункты</h4>
 </header>
 
-<p>
+<p class = "mean-view">
 	Среднее количество: <?= number_format($mean, 2, '.', '') ?> пункта.
 </p>
 

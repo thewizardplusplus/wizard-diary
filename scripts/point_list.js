@@ -2,9 +2,34 @@ var PointList = {};
 
 $(document).ready(
 	function() {
+		var day_completed_flag = $('.day-completed-flag');
+		var stats_url = day_completed_flag.data('stats-url');
+		var UpdateDayCompletedFlag = function() {
+			$.get(
+				stats_url,
+				function(data) {
+					if (data.completed == "1") {
+						day_completed_flag
+							.text('Завершён')
+							.removeClass('label-primary')
+							.addClass('label-success');
+					} else {
+						day_completed_flag
+							.text('Не завершён')
+							.removeClass('label-success')
+							.addClass('label-primary');
+					}
+				},
+				'json'
+			).fail(
+				function(xhr, text_status) {
+					AjaxErrorDialog.handler(xhr, text_status);
+				}
+			);
+		};
+
 		var point_list = $('#point-list');
 		var UpdatePointList = function() {
-			Selection.hideAgePointsButton();
 			point_list.yiiGridView(
 				'update',
 				{
@@ -15,7 +40,7 @@ $(document).ready(
 				}
 			);
 		};
-		var RequestToPointList = function(url, data, callback) {
+		var RequestToPointList = function(url, data) {
 			$.extend(data, CSRF_TOKEN);
 			point_list.yiiGridView(
 				'update',
@@ -25,201 +50,14 @@ $(document).ready(
 					data: data,
 					success: function() {
 						UpdatePointList();
-
-						if (typeof callback == 'function') {
-							callback();
-						}
+						UpdateDayCompletedFlag();
 					}
 				}
 			);
 		};
-
-		var autoflipping = false;
-		var RequestAnimationFrame =
-			requestAnimationFrame
-				|| mozRequestAnimationFrame
-				|| webkitRequestAnimationFrame
-				|| function(callback) {
-				setTimeout(callback, 1000 / 60);
-			};
-		var StartAutoflipping = function() {
-			var number_of_point = $('.point-text').length;
-			autoflipping = true;
-			var Autoflip = function() {
-				var flip_buttons = $('.page-controller .next:not(.disabled) a');
-
-				if (
-					autoflipping
-					&& ($('.point-text').length == number_of_point
-					|| flip_buttons.length == 0)
-				) {
-					RequestAnimationFrame(Autoflip);
-				}
-				flip_buttons.first().click();
-			};
-
-			Autoflip();
-		};
-
-		var add_point_input = $('#Point_text');
-		var add_point_button = $('.add-point-button');
-		var AddPoint = function() {
-			var text = add_point_input.val();
-			add_point_input.val('');
-			RequestToPointList(
-				add_point_button.attr('href'),
-				{
-					'Point[text]': text,
-					'Point[state]': text != '' ? 'SATISFIED' : 'INITIAL'
-				},
-				function() {
-					$('html, body').animate(
-						{
-							scrollTop: $(document).height() - $(window).height()
-						}
-					);
-					StartAutoflipping();
-				}
-			);
-		};
-		add_point_button.click(
-			function() {
-				AddPoint();
-				return false;
-			}
-		);
-		$('#point-addition-form').submit(
-			function() {
-				AddPoint();
-				return false;
-			}
-		);
-
-		$.editable.addInputType(
-			'bootstrapped-line-edit',
-			{
-				element : function() {
-					var block = $('<div class = "input-group"></div>');
-					$(this).append(block);
-
-					var input = $('<input class = "form-control" />');
-					input.on('click', function() { return false; });
-					block.append(input);
-
-					return input;
-				},
-				buttons: function(settings, original) {
-					var form = this;
-					var block = $(form).find('.input-group');
-					var submit_button = $(
-						'<a class = "input-group-addon" href = "#">'
-							+ '<span class = "glyphicon glyphicon-floppy-disk">'
-							+ '</span>'
-						+ '</a>'
-					);
-					var cancel_button = $(
-						'<a class = "input-group-addon" href = "#">'
-							+ '<span class = "glyphicon glyphicon-remove">'
-							+ '</span>'
-						+ '</a>'
-					);
-
-					block.append(submit_button).append(cancel_button);
-					submit_button.click(
-						function() {
-							if (submit_button.attr('type') != 'submit') {
-								form.submit();
-							}
-
-							return false;
-						}
-					);
-					cancel_button.click(
-						function() {
-							var reset = $.editable.types[settings.type].reset;
-							if (!$.isFunction(reset)) {
-								reset = $.editable.types['defaults'].reset;
-							}
-
-							reset.apply(form, [settings, original]);
-
-							return false;
-						}
-					);
-				}
-			}
-		);
 
 		PointList = {
-			checking: function(url, checked) {
-				RequestToPointList(url, { 'Point[check]': checked ? 1 : 0 });
-				return false;
-			},
-			move: function(url) {
-				RequestToPointList(
-					url,
-					{ 'Point[order]': $.url(url).param('order') }
-				);
-				return false;
-			},
-			editing: function(link) {
-				var element_id =
-					'point-text-'
-						+ $.url($(link).attr('href')).param('_id');
-				$('#' + element_id).trigger(element_id + '-edit');
-
-				return false;
-			},
-			deleting: function(link) {
-				var url = $(link).attr('href');
-				var text = $('#point-text-' + $.url(url).param('_id'))
-					.data('text');
-				if (text != '') {
-					text =
-						'пункт <strong>&laquo;'
-							+ text
-							+ '&raquo;</strong>';
-				} else {
-					text = 'пункт-разделитель';
-				}
-				DeletingDialog.show(
-					text,
-					function() {
-						DeletingDialog.hide();
-						RequestToPointList(url, {});
-					}
-				);
-
-				return false;
-			},
 			initialize: function() {
-				$('.point-text').each(
-					function(id, item) {
-						item = $(item);
-						item.editable(
-							item.data('update-url'),
-							{
-								type: 'bootstrapped-line-edit',
-								event: item.attr('id') + '-edit',
-								name: 'Point[text]',
-								data: item.data('text'),
-								submitdata: CSRF_TOKEN,
-								onblur: 'ignore',
-								indicator:
-									'<img src = "'
-										+ item.data('saving-icon-url')
-										+ '" alt = "Сохранение..." />',
-								placeholder: '',
-								callback: UpdatePointList,
-								onerror: function(settings, original, xhr) {
-									AjaxErrorDialog.handler(xhr);
-									original.reset();
-								}
-							}
-						);
-					}
-				);
-
 				$('.dropdown-menu a[class^=state]').click(
 					function() {
 						var link = $(this);
@@ -234,7 +72,6 @@ $(document).ready(
 			},
 			afterUpdate: function() {
 				PointList.initialize();
-				autoflipping = false;
 			}
 		};
 

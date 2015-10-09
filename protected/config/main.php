@@ -3,7 +3,7 @@
 return array(
 	'name' => Constants::APP_NAME,
 	'basePath' => __DIR__ . '/..',
-	'defaultController' => 'point/list',
+	'defaultController' => 'day/list',
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
@@ -20,16 +20,12 @@ return array(
 			'rules' => array(
 				'login' => 'site/login',
 				'access-code' => 'site/accessCode',
-				'points' => 'point/list',
-				'point/<id:\d+>/update' => 'point/update',
-				'point/<id:\d+>/delete' => 'point/delete',
+				'days' => 'day/list',
+				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
+				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
-				'imports' => 'import/list',
-				'import/<id:\d+>/view' => 'import/view',
-				'import/<id:\d+>/update' => 'import/update',
-				'import/<id:\d+>/import' => 'import/import',
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/project_list' => 'stats/projectList',
 				'backups' => 'backup/list',

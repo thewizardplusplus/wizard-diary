@@ -5,12 +5,23 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DAILY_POINT_ORDER_URL = \''
+			. $this->createUrl('dailyPoint/order')
+		. '\';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/jquery.jeditable.min.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/purl.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/jquery-sortable-min.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -58,62 +69,16 @@
 			'selectableRows' => 0,
 			'columns' => array(
 				array(
-					'class' => 'CButtonColumn',
-					'template' => '{check} {uncheck}',
-					'buttons' => array(
-						'check' => array(
-							'label' =>
-								'<span class = "glyphicon glyphicon-unchecked">'
-									. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array("id" => $data->id)'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Отметить пункт'),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.checking('
-										. '$(this).attr("href"),'
-										. 'true'
-									. ');'
-								. '}',
-							'visible' => '!empty($data->text) and !$data->check'
-						),
-						'uncheck' => array(
-							'label' =>
-							'<span class = "glyphicon glyphicon-check">'
-								. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array("id" => $data->id)'
-								. ')',
-							'imageUrl' => false,
-							'options' => array(
-								'title' => 'Снять отметку с пункта'
-							),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.checking('
-										. '$(this).attr("href"),'
-										. 'false'
-									. ');'
-								. '}',
-							'visible' => '!empty($data->text) and $data->check'
-						)
-					),
-					'htmlOptions' => array('class' => 'button-column narrow')
-				),
-				array(
 					'type' => 'raw',
 					'value' =>
 						'"<span '
 							. 'id = \"daily-point-text-" . $data->id . "\" '
 							. 'class = \"daily-point-text\" '
+							. 'data-id = \"" . $data->id . "\" '
 							. 'data-text = '
-								. '\"" . $data->getRealText() . "\" '
+								. '\"" . PointFormatter::encodePointText('
+									. '$data->text'
+								. ') . "\" '
 							. 'data-update-url = '
 								. '\"" . $this->grid->controller->createUrl('
 									. '"dailyPoint/update",'
@@ -122,7 +87,7 @@
 							. 'data-saving-icon-url = '
 								. '\"" . Yii::app()->request->baseUrl'
 								. '. "/images/processing-icon.gif\">"'
-						. '. $data->getFormattedText() .'
+						. '. PointFormatter::formatPointText($data->text) .'
 						. '"</span>"'
 				),
 				array(

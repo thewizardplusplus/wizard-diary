@@ -6,10 +6,7 @@ class StatsController extends CController {
 	}
 
 	public function accessRules() {
-		return array(
-			array('allow', 'users' => array('admin')),
-			array('deny')
-		);
+		return array(array('allow', 'users' => array('admin')), array('deny'));
 	}
 
 	public function actionDailyPoints() {
@@ -67,10 +64,12 @@ class StatsController extends CController {
 		);
 
 		$mean = 0;
-		foreach ($data as $item) {
-			$mean += $item['satisfied'];
+		if (!empty($data)) {
+			foreach ($data as $item) {
+				$mean += $item['satisfied'];
+			}
+			$mean /= count($data);
 		}
-		$mean /= count($data);
 
 		$this->render('daily_points', array('data' => $data, 'mean' => $mean));
 	}
@@ -97,10 +96,12 @@ class StatsController extends CController {
 			->queryAll();
 
 		$mean = 0;
-		foreach ($data as $item) {
-			$mean += $item['number'];
+		if (!empty($data)) {
+			foreach ($data as $item) {
+				$mean += $item['number'];
+			}
+			$mean /= count($data);
 		}
-		$mean /= count($data);
 
 		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
