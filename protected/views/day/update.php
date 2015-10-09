@@ -8,8 +8,16 @@
 	 * @var array $stats
 	 */
 
+	Yii::app()->getClientScript()->registerCssFile(
+		CHtml::asset('jquery-linedtextarea/jquery-linedtextarea.css')
+	);
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		Yii::app()->request->baseUrl . '/scripts/ace/ace.js',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('jquery-linedtextarea/jquery-linedtextarea.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -88,9 +96,32 @@
 ) ?>
 	<div class = "form-group">
 		<?= CHtml::label('Описание пунктов', 'points_description') ?>
-		<div id = "day-editor"><?=
-			CHtml::encode($points_description)
-		?></div>
+
+		<div>
+			<ul class = "nav nav-tabs">
+				<li class = "active">
+					<a href = "#default" data-toggle = "tab">По умолчанию</a>
+				</li>
+				<li>
+					<a href = "#mobile" data-toggle = "tab">Мобильный</a>
+				</li>
+			</ul>
+
+			<div class = "tab-content">
+				<div id = "default" class = "tab-pane active">
+					<div id = "day-editor"><?=
+						CHtml::encode($points_description)
+					?></div>
+				</div>
+				<div id = "mobile" class = "tab-pane">
+					<?= CHtml::textArea(
+						'day-mobile-editor',
+						$points_description,
+						array('class' => 'form-control')
+					) ?>
+				</div>
+			</div>
+		</div>
 	</div>
 <?= CHtml::endForm() ?>
 
