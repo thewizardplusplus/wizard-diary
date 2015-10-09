@@ -6,13 +6,16 @@ class DailyPoint extends CActiveRecord {
 	}
 
 	public static function renumberOrderFieldsForDate() {
-		Yii::app()->db->createCommand('SET @order = 1')->execute();
-		DailyPoint::model()->updateAll(
-			// new values
-			array('order' => new CDbExpression('(@order := @order + 2)')),
-			// sorting
-			array('order' => '`order`')
-		);
+		$sql =
+			"START TRANSACTION;\n"
+			. "\n"
+			. "SET @order = 1;\n"
+			. "UPDATE {{daily_points}}\n"
+			. "SET `order` = (@order := @order + 2)\n"
+			. "ORDER BY `order`, `id`;\n"
+			. "\n"
+			. "COMMIT;";
+		Yii::app()->db->createCommand($sql)->execute();
 	}
 
 	public function tableName() {

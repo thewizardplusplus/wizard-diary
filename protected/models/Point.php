@@ -11,19 +11,8 @@ class Point extends CActiveRecord {
 				. "UPDATE {{points}}\n"
 				. "SET `order` = (@order := @order + 2)\n"
 				. "WHERE `date` = %s\n"
-				. "ORDER BY `order`, `id`;",
+				. "ORDER BY `daily` DESC, `order`, `id`;",
 			Yii::app()->db->quoteValue($date)
-		);
-	}
-
-	public static function renumberOrderFieldsForDate($date) {
-		Yii::app()->db->createCommand('SET @order = 1')->execute();
-		Point::model()->updateAll(
-			array('order' => new CDbExpression('(@order := @order + 2)')),
-			array(
-				'condition' => 'date = "' . $date . '"',
-				'order' => '`order`, id'
-			)
 		);
 	}
 
