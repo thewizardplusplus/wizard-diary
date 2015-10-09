@@ -2,7 +2,9 @@ google.load('visualization', '1.0');
 google.setOnLoadCallback(
 	function() {
 		if (STATS_DATA.length == 0) {
+			$('.mean-view').hide();
 			$('.empty-label').show();
+
 			return;
 		}
 
