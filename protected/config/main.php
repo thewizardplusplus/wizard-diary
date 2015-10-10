@@ -54,7 +54,7 @@ return array(
 			'packages' => array(
 				'jquery' => array(
 					'baseUrl' => 'https://code.jquery.com/',
-					'js' => array('jquery-2.1.1.min.js')
+					'js' => array('jquery-2.1.4.min.js')
 				),
 				'jquery.ui' => array(
 					'baseUrl' => 'https://code.jquery.com/ui/1.10.4/',
