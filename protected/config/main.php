@@ -68,12 +68,6 @@ return array(
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
-				),
-				'chart.js' => array(
-					'baseUrl' =>
-						'https://cdnjs.cloudflare.com'
-						. '/ajax/libs/Chart.js/1.0.2/',
-					'js' => array('Chart.min.js')
 				)
 			)
 		),
