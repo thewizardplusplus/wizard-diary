@@ -53,7 +53,7 @@
 		<span class = "glyphicon glyphicon-floppy-disk"></span>
 	</button>
 
-	<h4 class = "day-editor-header">
+	<h4 class = "clearfix day-editor-header">
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
 		<span
@@ -76,7 +76,7 @@
 		</span>
 	</h4>
 
-	<p class = "unimportant-text italic-text number-of-points-view">
+	<p class = "pull-left unimportant-text italic-text number-of-points-view">
 		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
 	</p>
 </header>

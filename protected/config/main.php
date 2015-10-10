@@ -64,7 +64,7 @@ return array(
 				),
 				'bootstrap' => array(
 					'baseUrl' =>
-						'https://netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+						'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/',
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')

@@ -46,7 +46,7 @@
 	<div class = "form-group">
 		<div class = "input-group">
 			<div class = "input-group-addon">
-				<span class = "glyphicon glyphicon-share"></span>
+				<span class = "glyphicon glyphicon-copy"></span>
 			</div>
 			<input
 				class = "form-control selected-points-text-view"
