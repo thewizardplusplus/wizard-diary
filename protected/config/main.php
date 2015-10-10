@@ -57,7 +57,7 @@ return array(
 					'js' => array('jquery-2.1.4.min.js')
 				),
 				'jquery.ui' => array(
-					'baseUrl' => 'https://code.jquery.com/ui/1.10.4/',
+					'baseUrl' => 'https://code.jquery.com/ui/1.11.4/',
 					'js' => array('jquery-ui.min.js'),
 					'css' => array('themes/start/jquery-ui.css'),
 					'depends' => array('jquery')
