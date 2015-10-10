@@ -387,6 +387,10 @@ body.dragging * {
 	opacity: 1;
 }
 
+.stats-view.projects .timeline-axis-grid-minor {
+	border-color: #c0c0c0;
+}
+
 .stats-view.projects .timeline-event {
 	border: 0;
 	border-radius: 0;
