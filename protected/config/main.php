@@ -91,6 +91,13 @@ return array(
 						'https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/',
 					'js' => array('jquery-sortable-min.js'),
 					'depends' => array('jquery')
+				),
+				'jstree' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/',
+					'js' => array('jstree.min.js'),
+					'css' => array('themes/default/style.min.css'),
+					'depends' => array('jquery')
 				)
 			)
 		),

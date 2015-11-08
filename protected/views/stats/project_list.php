@@ -4,17 +4,11 @@
 	 * @var array $data
 	 */
 
-	Yii::app()->getClientScript()->registerCssFile(
-		Yii::app()->request->baseUrl . '/jstree/themes/default/style.min.css'
-	);
+	Yii::app()->getClientScript()->registerPackage('jstree');
 
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var STATS_DATA = ' . json_encode($data) . ';',
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		Yii::app()->request->baseUrl . '/jstree/jstree.min.js',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
