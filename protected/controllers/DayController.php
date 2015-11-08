@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/StatsController.php');
+
 class DayController extends CController {
 	const ONE_LEVEL_EDITOR_INDENT = '    ';
 
@@ -40,6 +42,7 @@ class DayController extends CController {
 			->from('{{points}}')
 			->group('date')
 			->queryAll();
+		$daily_stats = StatsController::collectDailyStats();
 
 		$data_provider = new CArrayDataProvider(
 			$days,
@@ -52,7 +55,13 @@ class DayController extends CController {
 			)
 		);
 
-		$this->render('list', array('data_provider' => $data_provider));
+		$this->render(
+			'list',
+			array(
+				'data_provider' => $data_provider,
+				'daily_stats' => $daily_stats
+			)
+		);
 	}
 
 	public function actionView($date) {
@@ -121,6 +130,22 @@ class DayController extends CController {
 				'stats' => $stats
 			)
 		);
+	}
+
+	public function findSatisfiedCounter($daily_stats, $date) {
+		if (array_key_exists($date, $daily_stats)) {
+			return $daily_stats[$date]['satisfied'];
+		} else {
+			return -1;
+		}
+	}
+
+	public function formatSatisfiedCounter($satisfied_counter) {
+		if ($satisfied_counter != -1) {
+			return $satisfied_counter . '%';
+		} else {
+			return '&mdash;';
+		}
 	}
 
 	private function getStats($date) {
