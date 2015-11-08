@@ -75,6 +75,12 @@ return array(
 					'js' => array('purl.min.js'),
 					'depends' => array('jquery')
 				),
+				'jeditable' => array(
+					'baseUrl' =>
+						'https://cdn.jsdelivr.net/jquery.jeditable/1.7.3/',
+					'js' => array('jquery.jeditable.js'),
+					'depends' => array('jquery')
+				),
 				'moment' => array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/',
