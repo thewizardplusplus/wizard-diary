@@ -7,16 +7,13 @@
 
 	Yii::app()->getClientScript()->registerPackage('purl');
 	Yii::app()->getClientScript()->registerPackage('jeditable');
+	Yii::app()->getClientScript()->registerPackage('sortable');
 
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var DAILY_POINT_ORDER_URL = \''
 			. $this->createUrl('dailyPoint/order')
 		. '\';',
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/jquery-sortable-min.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
