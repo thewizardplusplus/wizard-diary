@@ -5,6 +5,8 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerPackage('purl');
+
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var DAILY_POINT_ORDER_URL = \''
@@ -14,10 +16,6 @@
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/jquery.jeditable.min.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/purl.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(

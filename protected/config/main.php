@@ -68,6 +68,12 @@ return array(
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
+				),
+				'purl' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/',
+					'js' => array('purl.min.js'),
+					'depends' => array('jquery')
 				)
 			)
 		),
