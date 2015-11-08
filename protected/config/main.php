@@ -98,6 +98,11 @@ return array(
 					'js' => array('jstree.min.js'),
 					'css' => array('themes/default/style.min.css'),
 					'depends' => array('jquery')
+				),
+				'ace' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
+					'js' => array('ace.js')
 				)
 			)
 		),

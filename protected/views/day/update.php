@@ -8,10 +8,8 @@
 	 * @var array $stats
 	 */
 
-	Yii::app()->getClientScript()->registerScriptFile(
-		Yii::app()->request->baseUrl . '/scripts/ace/ace.js',
-		CClientScript::POS_HEAD
-	);
+	Yii::app()->getClientScript()->registerPackage('ace');
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
