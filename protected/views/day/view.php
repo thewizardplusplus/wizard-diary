@@ -38,11 +38,13 @@
 			data-stats-url = "<?=
 				$this->createUrl('day/stats', array('date' => $raw_date))
 			?>">
-			<?=
-				$stats['completed']
-					? 'Завершён'
-					: 'Не завершён'
-			?>
+			<span
+				class = "glyphicon glyphicon-<?=
+					$stats['completed']
+						? 'check'
+						: 'unchecked'
+				?>">
+			</span>
 		</span>
 	</h4>
 
