@@ -62,6 +62,8 @@
 					'type' => 'raw',
 					'value' =>
 						'"<span class = \"unimportant-text italic-text\">"'
+							. '. $data["daily"]'
+							. '. "+"'
 							. '. PointFormatter::formatNumberOfPoints('
 								. '$data["projects"]'
 							. ')'
