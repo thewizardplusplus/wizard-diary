@@ -34,14 +34,17 @@
 					? 'success'
 					: 'primary'
 			?> day-completed-flag"
+			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>"
 			data-stats-url = "<?=
 				$this->createUrl('day/stats', array('date' => $raw_date))
 			?>">
-			<?=
-				$stats['completed']
-					? 'Завершён'
-					: 'Не завершён'
-			?>
+			<span
+				class = "glyphicon glyphicon-<?=
+					$stats['completed']
+						? 'check'
+						: 'edit'
+				?>">
+			</span>
 		</span>
 	</h4>
 

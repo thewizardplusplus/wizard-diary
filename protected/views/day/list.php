@@ -23,6 +23,32 @@
 				array(
 					'type' => 'raw',
 					'value' =>
+						'"<span '
+							. 'class = \"'
+								. 'label '
+								. 'label-"'
+									. '. ($data["completed"]'
+										. '? "success"'
+										. ': "primary") . " '
+								. 'day-completed-flag\" '
+							. 'title = \""'
+								. '. ($data["completed"]'
+									. '? "Завершён"'
+									. ': "Не завершён") . "\">'
+							. '<span '
+								. 'class = \"glyphicon glyphicon-"'
+									. '. ($data["completed"]'
+										. '? "check"'
+										. ': "edit") . "\">'
+							. '</span>'
+						. '</span>"',
+					'htmlOptions' => array(
+						'class' => 'day-completed-flag-column'
+					)
+				),
+				array(
+					'type' => 'raw',
+					'value' =>
 						'"<a '
 							. 'href = \""'
 								. '. $this->grid->controller->createUrl('
@@ -40,25 +66,6 @@
 							. ' . "</time>'
 						. '</a>"',
 					'htmlOptions' => array('class' => 'day-date-column')
-				),
-				array(
-					'type' => 'raw',
-					'value' =>
-						'"<span '
-							. 'class = \"'
-								. 'label '
-								. 'label-"'
-									. '. ($data["completed"]'
-										. '? "success"'
-										. ': "primary") . " '
-								. 'day-completed-flag\">"'
-							. '. ($data["completed"]'
-								. '? "Завершён"'
-								. ': "Не завершён")'
-						. '. "</span>"',
-					'htmlOptions' => array(
-						'class' => 'day-completed-flag-column'
-					)
 				),
 				array(
 					'type' => 'raw',

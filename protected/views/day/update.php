@@ -61,12 +61,15 @@
 				$stats['completed']
 					? 'success'
 					: 'primary'
-			?> day-completed-flag">
-			<?=
-				$stats['completed']
-					? 'Завершён'
-					: 'Не завершён'
-			?>
+			?> day-completed-flag"
+			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>">
+			<span
+				class = "glyphicon glyphicon-<?=
+					$stats['completed']
+						? 'check'
+						: 'edit'
+				?>">
+			</span>
 		</span>
 
 		<span
