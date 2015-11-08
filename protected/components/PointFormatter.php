@@ -48,6 +48,13 @@ class PointFormatter {
 
 		$text = preg_replace('/\s-(?:>|&gt;)\s/', ' &#10148; ', $text);
 		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
+		$text = preg_replace_callback(
+			'/\(key\s([^\)]+)\)/',
+			function($matches) {
+				return sprintf('<kbd>%s</kbd>', trim($matches[1]));
+			},
+			$text
+		);
 
 		if (!empty($text)) {
 			$text .= ';';
