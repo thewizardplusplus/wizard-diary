@@ -44,10 +44,13 @@ class StatsController extends CController {
 			function($item) {
 				$not_canceled = $item['total'] - $item['canceled'];
 				return array(
-					'satisfied' => round(
-						100 * $item['satisfied'] / $not_canceled,
-						2
-					),
+					'satisfied' =>
+						$not_canceled != 0
+							? round(
+								100 * $item['satisfied'] / $not_canceled,
+								2
+							)
+							: 100,
 					'total' => 10 * $item['total'],
 					'not_canceled' => 10 * $not_canceled
 				);
