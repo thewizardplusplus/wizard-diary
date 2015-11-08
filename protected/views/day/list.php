@@ -70,7 +70,14 @@
 				array(
 					'type' => 'raw',
 					'value' =>
-						'"<span class = \"unimportant-text italic-text\">"'
+						'"<span '
+							. 'class = \"unimportant-text italic-text\""'
+							. '. ($this->grid->owner->findSatisfiedCounter('
+									. '$this->grid->dailyStats,'
+									. '$data["date"]'
+								. ') != -1'
+								. '? " title = \"Выполнено\""'
+								. ': "") . ">"'
 							. '. $this->grid->owner->formatSatisfiedCounter('
 								. '$this->grid->owner->findSatisfiedCounter('
 									. '$this->grid->dailyStats,'
