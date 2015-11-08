@@ -42,7 +42,7 @@
 				class = "glyphicon glyphicon-<?=
 					$stats['completed']
 						? 'check'
-						: 'unchecked'
+						: 'edit'
 				?>">
 			</span>
 		</span>

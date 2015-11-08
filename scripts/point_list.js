@@ -15,7 +15,7 @@ $(document).ready(
 							.removeClass('label-primary')
 							.addClass('label-success');
 						day_completed_inner_flag
-							.removeClass('glyphicon-unchecked')
+							.removeClass('glyphicon-edit')
 							.addClass('glyphicon-check');
 					} else {
 						day_completed_flag
@@ -24,7 +24,7 @@ $(document).ready(
 							.addClass('label-primary');
 						day_completed_inner_flag
 							.removeClass('glyphicon-check')
-							.addClass('glyphicon-unchecked');
+							.addClass('glyphicon-edit');
 					}
 				},
 				'json'

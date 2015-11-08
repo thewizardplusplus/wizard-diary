@@ -39,7 +39,7 @@
 								. 'class = \"glyphicon glyphicon-"'
 									. '. ($data["completed"]'
 										. '? "check"'
-										. ': "unchecked") . "\">'
+										. ': "edit") . "\">'
 							. '</span>'
 						. '</span>"',
 					'htmlOptions' => array(
