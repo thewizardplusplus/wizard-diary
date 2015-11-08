@@ -74,6 +74,11 @@ return array(
 						'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/',
 					'js' => array('purl.min.js'),
 					'depends' => array('jquery')
+				),
+				'moment' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/',
+					'js' => array('moment-with-locales.min.js')
 				)
 			)
 		),
