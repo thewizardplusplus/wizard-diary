@@ -34,6 +34,7 @@
 					? 'success'
 					: 'primary'
 			?> day-completed-flag"
+			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>"
 			data-stats-url = "<?=
 				$this->createUrl('day/stats', array('date' => $raw_date))
 			?>">

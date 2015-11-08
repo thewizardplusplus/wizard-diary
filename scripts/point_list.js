@@ -11,11 +11,13 @@ $(document).ready(
 					if (data.completed == "1") {
 						day_completed_flag
 							.text('Завершён')
+							.attr('title', 'Завершён')
 							.removeClass('label-primary')
 							.addClass('label-success');
 					} else {
 						day_completed_flag
 							.text('Не завершён')
+							.attr('title', 'Не завершён')
 							.removeClass('label-success')
 							.addClass('label-primary');
 					}

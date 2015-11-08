@@ -61,7 +61,8 @@
 				$stats['completed']
 					? 'success'
 					: 'primary'
-			?> day-completed-flag">
+			?> day-completed-flag"
+			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>">
 			<?=
 				$stats['completed']
 					? 'Завершён'
