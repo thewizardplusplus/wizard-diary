@@ -10,14 +10,14 @@ CREATE TABLE `diary_points` (
 	`state` ENUM('INITIAL', 'SATISFIED', 'NOT_SATISFIED', 'CANCELED') NOT NULL DEFAULT 'INITIAL',
 	`daily` BOOLEAN NOT NULL DEFAULT FALSE,
 	`order` BIGINT UNSIGNED NOT NULL DEFAULT 18446744073709551615
-) ENGINE = MYISAM;
+) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_daily_points`;
 CREATE TABLE `diary_daily_points` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`text` TEXT NOT NULL,
 	`order` BIGINT UNSIGNED NOT NULL DEFAULT 18446744073709551615
-) ENGINE = MYISAM;
+) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_backups`;
 CREATE TABLE `diary_backups` (
@@ -25,7 +25,7 @@ CREATE TABLE `diary_backups` (
 	`create_time` DATETIME NOT NULL UNIQUE,
 	`create_duration` FLOAT NOT NULL DEFAULT 0.0,
 	`save_duration` FLOAT NOT NULL DEFAULT 0.0
-) ENGINE = MYISAM;
+) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_parameters`;
 CREATE TABLE `diary_parameters` (
@@ -33,7 +33,7 @@ CREATE TABLE `diary_parameters` (
 	`password_hash` TEXT NOT NULL,
 	-- default value - 1 month
 	`access_log_lifetime_in_s` INT UNSIGNED NOT NULL DEFAULT 2592000
-) ENGINE = MYISAM;
+) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_accesses`;
 CREATE TABLE `diary_accesses` (
@@ -43,6 +43,6 @@ CREATE TABLE `diary_accesses` (
 	`method` ENUM('GET', 'POST', 'HEAD', 'PUT', 'DELETE') NOT NULL DEFAULT 'GET',
 	`url` TEXT NOT NULL,
 	`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE = MYISAM;
+) ENGINE = InnoDB;
 
 COMMIT;
