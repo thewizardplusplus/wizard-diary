@@ -1,15 +1,7 @@
 <?php
 
 class StatsController extends CController {
-	public function filters() {
-		return array('accessControl');
-	}
-
-	public function accessRules() {
-		return array(array('allow', 'users' => array('admin')), array('deny'));
-	}
-
-	public function actionDailyPoints() {
+	public static function collectDailyStats() {
 		$points = Point::model()->findAll(
 			array(
 				'condition' => 'text != "" AND daily = TRUE',
@@ -62,6 +54,20 @@ class StatsController extends CController {
 			},
 			$data
 		);
+
+		return $data;
+	}
+
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(array('allow', 'users' => array('admin')), array('deny'));
+	}
+
+	public function actionDailyPoints() {
+		$data = self::collectDailyStats();
 
 		$mean = 0;
 		if (!empty($data)) {

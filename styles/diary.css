@@ -299,6 +299,10 @@ body.dragging * {
 	text-align: left;
 }
 
+.day-satisfied-column {
+	width: 50px;
+}
+
 .label {
 	display: inline-block;
 	padding: 5px 10px;

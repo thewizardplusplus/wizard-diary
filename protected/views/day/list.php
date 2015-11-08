@@ -2,6 +2,7 @@
 	/**
 	 * @var DayController $this
 	 * @var CArrayDataProvider $data_provider
+	 * @var array $daily_stats
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Дни';
@@ -9,10 +10,11 @@
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
-		'zii.widgets.grid.CGridView',
+		'DayGridView',
 		array(
 			'id' => 'day-list',
 			'dataProvider' => $data_provider,
+			'dailyStats' => $daily_stats,
 			'template' => '{items} {summary} {pager}',
 			'hideHeader' => true,
 			'selectableRows' => 0,
@@ -62,6 +64,21 @@
 					'type' => 'raw',
 					'value' =>
 						'"<span class = \"unimportant-text italic-text\">"'
+							. '. $this->grid->owner->formatSatisfiedCounter('
+								. '$this->grid->owner->findSatisfiedCounter('
+									. '$this->grid->dailyStats,'
+									. '$data["date"]'
+								. ')'
+							. ')'
+						. '. "</span>"',
+					'htmlOptions' => array('class' => 'day-satisfied-column')
+				),
+				array(
+					'type' => 'raw',
+					'value' =>
+						'"<span class = \"unimportant-text italic-text\">"'
+							. '. $data["daily"]'
+							. '. "+"'
 							. '. PointFormatter::formatNumberOfPoints('
 								. '$data["projects"]'
 							. ')'
