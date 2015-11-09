@@ -8,10 +8,8 @@
 	 * @var array $stats
 	 */
 
-	Yii::app()->getClientScript()->registerScriptFile(
-		Yii::app()->request->baseUrl . '/scripts/ace/ace.js',
-		CClientScript::POS_HEAD
-	);
+	Yii::app()->getClientScript()->registerPackage('ace');
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
@@ -53,7 +51,7 @@
 		<span class = "glyphicon glyphicon-floppy-disk"></span>
 	</button>
 
-	<h4 class = "day-editor-header">
+	<h4 class = "clearfix day-editor-header">
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
 		<span
@@ -79,7 +77,7 @@
 		</span>
 	</h4>
 
-	<p class = "unimportant-text italic-text number-of-points-view">
+	<p class = "pull-left unimportant-text italic-text number-of-points-view">
 		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
 	</p>
 </header>

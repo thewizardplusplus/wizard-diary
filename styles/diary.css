@@ -248,6 +248,10 @@ body.dragging * {
 	margin-right: 5px;
 }
 
+.header-with-button p {
+	margin-bottom: 0;
+}
+
 .small-text {
 	font-size: smaller;
 }
@@ -371,6 +375,10 @@ body.dragging * {
 .stats-view.projects .timeline-axis {
 	background-color: #428bca;
 	opacity: 1;
+}
+
+.stats-view.projects .timeline-axis-grid-minor {
+	border-color: #c0c0c0;
 }
 
 .stats-view.projects .timeline-event {

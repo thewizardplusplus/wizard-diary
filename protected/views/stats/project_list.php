@@ -4,17 +4,11 @@
 	 * @var array $data
 	 */
 
-	Yii::app()->getClientScript()->registerCssFile(
-		Yii::app()->request->baseUrl . '/jstree/themes/default/style.min.css'
-	);
+	Yii::app()->getClientScript()->registerPackage('jstree');
 
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var STATS_DATA = ' . json_encode($data) . ';',
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		Yii::app()->request->baseUrl . '/jstree/jstree.min.js',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -46,7 +40,7 @@
 	<div class = "form-group">
 		<div class = "input-group">
 			<div class = "input-group-addon">
-				<span class = "glyphicon glyphicon-share"></span>
+				<span class = "glyphicon glyphicon-copy"></span>
 			</div>
 			<input
 				class = "form-control selected-points-text-view"
