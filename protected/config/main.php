@@ -48,7 +48,8 @@ return array(
 		'session' => array(
 			'class' => 'CDbHttpSession',
 			'connectionID' => 'db',
-			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions'
+			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions',
+			'timeout' => 300
 		),
 		'clientScript' => array(
 			'packages' => array(
