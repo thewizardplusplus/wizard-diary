@@ -3,6 +3,7 @@ var PointList = {};
 $(document).ready(
 	function() {
 		var day_completed_flag = $('.day-completed-flag');
+		var day_completed_inner_flag = $('span.glyphicon', day_completed_flag);
 		var stats_url = day_completed_flag.data('stats-url');
 		var UpdateDayCompletedFlag = function() {
 			$.get(
@@ -10,14 +11,20 @@ $(document).ready(
 				function(data) {
 					if (data.completed == "1") {
 						day_completed_flag
-							.text('Завершён')
+							.attr('title', 'Завершён')
 							.removeClass('label-primary')
 							.addClass('label-success');
+						day_completed_inner_flag
+							.removeClass('glyphicon-unchecked')
+							.addClass('glyphicon-check');
 					} else {
 						day_completed_flag
-							.text('Не завершён')
+							.attr('title', 'Не завершён')
 							.removeClass('label-success')
 							.addClass('label-primary');
+						day_completed_inner_flag
+							.removeClass('glyphicon-check')
+							.addClass('glyphicon-unchecked');
 					}
 				},
 				'json'

@@ -6,13 +6,13 @@ class Constants extends AccessConstants {
 	const DEBUG = false;
 	const TRACE_LEVEL = 5;
 	const APP_NAME = 'Wizard Diary';
-	const APP_VERSION = 'v6.0';
+	const APP_VERSION = 'v6.1';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const DEFAULT_PASSWORD = 'admin';
 	const COPYRIGHT_START_YEAR = 2014;
 	const DAYS_IN_MY_YEAR = 300;
 	// relatively at /protected/controllers
-	const BACKUPS_RELATIVE_PATH = '/../../backups';
+	const BACKUPS_RELATIVE_PATH = '/../../dumps';
 	const BACKUPS_CREATE_DURATION_ACCURACY = 2;
 	const BACKUPS_CREATE_SOFT_LIMIT = 0.75;
 	const BACKUPS_CREATE_HARD_LIMIT = 0.9;

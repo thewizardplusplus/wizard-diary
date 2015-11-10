@@ -48,32 +48,62 @@ return array(
 		'session' => array(
 			'class' => 'CDbHttpSession',
 			'connectionID' => 'db',
-			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions'
+			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions',
+			'timeout' => 300
 		),
 		'clientScript' => array(
 			'packages' => array(
 				'jquery' => array(
 					'baseUrl' => 'https://code.jquery.com/',
-					'js' => array('jquery-2.1.1.min.js')
+					'js' => array('jquery-2.1.4.min.js')
 				),
 				'jquery.ui' => array(
-					'baseUrl' => 'https://code.jquery.com/ui/1.10.4/',
+					'baseUrl' => 'https://code.jquery.com/ui/1.11.4/',
 					'js' => array('jquery-ui.min.js'),
 					'css' => array('themes/start/jquery-ui.css'),
 					'depends' => array('jquery')
 				),
 				'bootstrap' => array(
 					'baseUrl' =>
-						'https://netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+						'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/',
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
 				),
-				'chart.js' => array(
+				'purl' => array(
 					'baseUrl' =>
-						'https://cdnjs.cloudflare.com'
-						. '/ajax/libs/Chart.js/1.0.2/',
-					'js' => array('Chart.min.js')
+						'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/',
+					'js' => array('purl.min.js'),
+					'depends' => array('jquery')
+				),
+				'jeditable' => array(
+					'baseUrl' =>
+						'https://cdn.jsdelivr.net/jquery.jeditable/1.7.3/',
+					'js' => array('jquery.jeditable.js'),
+					'depends' => array('jquery')
+				),
+				'moment' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/',
+					'js' => array('moment-with-locales.min.js')
+				),
+				'sortable' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/',
+					'js' => array('jquery-sortable-min.js'),
+					'depends' => array('jquery')
+				),
+				'jstree' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/',
+					'js' => array('jstree.min.js'),
+					'css' => array('themes/default/style.min.css'),
+					'depends' => array('jquery')
+				),
+				'ace' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
+					'js' => array('ace.js')
 				)
 			)
 		),

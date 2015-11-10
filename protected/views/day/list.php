@@ -2,6 +2,7 @@
 	/**
 	 * @var DayController $this
 	 * @var CArrayDataProvider $data_provider
+	 * @var array $daily_stats
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Дни';
@@ -9,15 +10,42 @@
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
-		'zii.widgets.grid.CGridView',
+		'DayGridView',
 		array(
 			'id' => 'day-list',
 			'dataProvider' => $data_provider,
+			'dailyStats' => $daily_stats,
 			'template' => '{items} {summary} {pager}',
 			'hideHeader' => true,
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
+				array(
+					'type' => 'raw',
+					'value' =>
+						'"<span '
+							. 'class = \"'
+								. 'label '
+								. 'label-"'
+									. '. ($data["completed"]'
+										. '? "success"'
+										. ': "primary") . " '
+								. 'day-completed-flag\" '
+							. 'title = \""'
+								. '. ($data["completed"]'
+									. '? "Завершён"'
+									. ': "Не завершён") . "\">'
+							. '<span '
+								. 'class = \"glyphicon glyphicon-"'
+									. '. ($data["completed"]'
+										. '? "check"'
+										. ': "unchecked") . "\">'
+							. '</span>'
+						. '</span>"',
+					'htmlOptions' => array(
+						'class' => 'day-completed-flag-column'
+					)
+				),
 				array(
 					'type' => 'raw',
 					'value' =>
@@ -43,25 +71,28 @@
 					'type' => 'raw',
 					'value' =>
 						'"<span '
-							. 'class = \"'
-								. 'label '
-								. 'label-"'
-									. '. ($data["completed"]'
-										. '? "success"'
-										. ': "primary") . " '
-								. 'day-completed-flag\">"'
-							. '. ($data["completed"]'
-								. '? "Завершён"'
-								. ': "Не завершён")'
+							. 'class = \"unimportant-text italic-text\""'
+							. '. ($this->grid->owner->findSatisfiedCounter('
+									. '$this->grid->dailyStats,'
+									. '$data["date"]'
+								. ') != -1'
+								. '? " title = \"Выполнено\""'
+								. ': "") . ">"'
+							. '. $this->grid->owner->formatSatisfiedCounter('
+								. '$this->grid->owner->findSatisfiedCounter('
+									. '$this->grid->dailyStats,'
+									. '$data["date"]'
+								. ')'
+							. ')'
 						. '. "</span>"',
-					'htmlOptions' => array(
-						'class' => 'day-completed-flag-column'
-					)
+					'htmlOptions' => array('class' => 'day-satisfied-column')
 				),
 				array(
 					'type' => 'raw',
 					'value' =>
 						'"<span class = \"unimportant-text italic-text\">"'
+							. '. $data["daily"]'
+							. '. "+"'
 							. '. PointFormatter::formatNumberOfPoints('
 								. '$data["projects"]'
 							. ')'

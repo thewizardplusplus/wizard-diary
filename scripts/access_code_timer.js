@@ -2,7 +2,7 @@ $(document).ready(
 	function() {
 		var login_url = $('#access-code-lifetime').data('login-url');
 
-		var counting = new countUp(
+		var counting = new CountUp(
 			'access-code-lifetime',
 			ACCESS_CODE_LIFETIME,
 			0,

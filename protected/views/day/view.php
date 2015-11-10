@@ -25,7 +25,7 @@
 		<span class = "glyphicon glyphicon-pencil"></span> Изменить
 	</a>
 
-	<h4>
+	<h4 class = "clearfix">
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
 		<span
@@ -34,18 +34,21 @@
 					? 'success'
 					: 'primary'
 			?> day-completed-flag"
+			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>"
 			data-stats-url = "<?=
 				$this->createUrl('day/stats', array('date' => $raw_date))
 			?>">
-			<?=
-				$stats['completed']
-					? 'Завершён'
-					: 'Не завершён'
-			?>
+			<span
+				class = "glyphicon glyphicon-<?=
+					$stats['completed']
+						? 'check'
+						: 'unchecked'
+				?>">
+			</span>
 		</span>
 	</h4>
 
-	<p class = "unimportant-text italic-text">
+	<p class = "pull-left unimportant-text italic-text">
 		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
 	</p>
 </header>

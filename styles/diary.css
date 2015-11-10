@@ -248,6 +248,10 @@ body.dragging * {
 	margin-right: 5px;
 }
 
+.header-with-button p {
+	margin-bottom: 0;
+}
+
 .small-text {
 	font-size: smaller;
 }
@@ -270,11 +274,16 @@ body.dragging * {
 }
 
 .day-completed-flag-column {
-	width: 105px;
+	width: 50px;
+	text-align: center;
+}
+
+.day-satisfied-column {
+	width: 50px;
 }
 
 #day-editor {
-	height: 250px;
+	height: 500px;
 	font-size: 14px;
 	border-radius: 4px;
 }
@@ -282,21 +291,6 @@ body.dragging * {
 .saved-flag,
 .day-completed-flag {
 	cursor: default;
-}
-
-.day-editor-header .saved-flag {
-	height: 24px;
-	font-size: 67%;
-}
-
-.day-editor-header .day-completed-flag {
-	height: 24px;
-	padding: 6px 10px 6px 10px !important;
-}
-
-.day-completed-flag-column .day-completed-flag {
-	width: 100%;
-	text-align: left;
 }
 
 .label {
@@ -381,6 +375,10 @@ body.dragging * {
 .stats-view.projects .timeline-axis {
 	background-color: #428bca;
 	opacity: 1;
+}
+
+.stats-view.projects .timeline-axis-grid-minor {
+	border-color: #c0c0c0;
 }
 
 .stats-view.projects .timeline-event {

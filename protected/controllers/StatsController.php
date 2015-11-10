@@ -1,15 +1,7 @@
 <?php
 
 class StatsController extends CController {
-	public function filters() {
-		return array('accessControl');
-	}
-
-	public function accessRules() {
-		return array(array('allow', 'users' => array('admin')), array('deny'));
-	}
-
-	public function actionDailyPoints() {
+	public static function collectDailyStats() {
 		$points = Point::model()->findAll(
 			array(
 				'condition' => 'text != "" AND daily = TRUE',
@@ -52,16 +44,33 @@ class StatsController extends CController {
 			function($item) {
 				$not_canceled = $item['total'] - $item['canceled'];
 				return array(
-					'satisfied' => round(
-						100 * $item['satisfied'] / $not_canceled,
-						2
-					),
+					'satisfied' =>
+						$not_canceled != 0
+							? round(
+								100 * $item['satisfied'] / $not_canceled,
+								2
+							)
+							: 100,
 					'total' => 10 * $item['total'],
 					'not_canceled' => 10 * $not_canceled
 				);
 			},
 			$data
 		);
+
+		return $data;
+	}
+
+	public function filters() {
+		return array('accessControl');
+	}
+
+	public function accessRules() {
+		return array(array('allow', 'users' => array('admin')), array('deny'));
+	}
+
+	public function actionDailyPoints() {
+		$data = self::collectDailyStats();
 
 		$mean = 0;
 		if (!empty($data)) {
