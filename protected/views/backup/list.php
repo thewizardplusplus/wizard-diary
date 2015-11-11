@@ -7,7 +7,7 @@
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
-<header class = "page-header clearfix">
+<header class = "page-header">
 	<h4>Бекапы</h4>
 </header>
 
@@ -54,6 +54,32 @@
 							'url' => '$data->link',
 							'imageUrl' => false,
 							'options' => array('title' => 'Скачать')
+						)
+					)
+				),
+				array(
+					'class' => 'CButtonColumn',
+					'header' => 'Изменения',
+					'template' => '{diff}',
+					'buttons' => array(
+						'diff' => array(
+							'label' =>
+								'<span '
+									. 'class = '
+										. '"glyphicon '
+										. 'glyphicon-random">'
+								. '</span>',
+							'url' => '$this->grid->controller->createUrl('
+									. '"backup/diff",'
+									. 'array('
+										. '"file" => $data->filename,'
+										. '"previous_file" =>'
+											. '$data->previous_filename'
+									. ')'
+								.')',
+							'imageUrl' => false,
+							'options' => array('title' => 'Изменения'),
+							'visible' => '!is_null($data->previous_filename)'
 						)
 					)
 				)

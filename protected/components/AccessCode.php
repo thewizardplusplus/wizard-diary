@@ -1,6 +1,6 @@
 <?php
 
-require_once('sms-ru/src/smsru.php');
+require_once(__DIR__ . '/../../sms-ru/src/smsru.php');
 
 class AccessCode {
 	public static function isSetted() {

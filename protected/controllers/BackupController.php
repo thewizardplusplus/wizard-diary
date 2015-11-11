@@ -1,6 +1,8 @@
 <?php
 
-require_once('dropbox-sdk/Dropbox/autoload.php');
+require_once(__DIR__ . '/../../dropbox-sdk/Dropbox/autoload.php');
+require_once(__DIR__ . '/../../php-diff/Diff.php');
+require_once(__DIR__ . '/../../php-diff/Diff/Renderer/Text/Unified.php');
 
 class BackupController extends CController {
 	/* v5:
@@ -23,7 +25,7 @@ class BackupController extends CController {
 
 	public function actionList() {
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		BackupController::testBackupDirectory($backups_path);
+		$this->testBackupDirectory($backups_path);
 
 		$backups_create_durations = array();
 		$backups_from_db = Backup::model()->findAll();
@@ -35,18 +37,21 @@ class BackupController extends CController {
 		}
 
 		$backups = array();
-		$filenames = scandir($backups_path);
-		foreach ($filenames as $filename) {
-			$filename = $backups_path . '/' . $filename;
-			if (
-				!is_file($filename)
-				|| pathinfo($filename, PATHINFO_EXTENSION) != 'xml'
-			) {
-				continue;
-			}
-
+		$filenames = $this->getBackupList($backups_path);
+		$number_of_filenames = count($filenames);
+		for ($i = 0; $i < $number_of_filenames; $i++) {
 			$backup = new stdClass();
 
+			$filename = $filenames[$i];
+			$backup->filename = $this->getBackupDate($filename);
+			$backup->previous_filename = null;
+			if ($i < $number_of_filenames - 1) {
+				$backup->previous_filename = $this->getBackupDate(
+					$filenames[$i + 1]
+				);
+			}
+
+			$filename = $backups_path . '/' . $filename;
 			$timestamp = filemtime($filename);
 			$backup->timestamp = $timestamp;
 			$backup->formatted_timestamp =
@@ -135,7 +140,7 @@ class BackupController extends CController {
 		$start_time = microtime(true);
 
 		$backup_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		BackupController::testBackupDirectory($backup_path);
+		$this->testBackupDirectory($backup_path);
 
 		$backup_name = 'database_dump_' . date('Y-m-d-H-i-s');
 		$backup_path .= '/' . $backup_name . '.xml';
@@ -213,7 +218,64 @@ class BackupController extends CController {
 		echo '</script>';
 	}
 
-	private static function testBackupDirectory($path) {
+	public function actionDiff($file, $previous_file) {
+		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
+		$filename = $backups_path . '/' . $this->makeBackupFilename($file);
+		$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
+
+		$previous_filename =
+			$backups_path
+			. '/'
+			. $this->makeBackupFilename($previous_file);
+		$previous_filename_lines = file(
+			$previous_filename,
+			FILE_IGNORE_NEW_LINES
+		);
+
+		$diff = new Diff($filename_lines, $previous_filename_lines);
+
+		$diff_renderer = new Diff_Renderer_Text_Unified;
+		$diff_representation = $diff->Render($diff_renderer);
+
+		$this->render(
+			'diff',
+			array('diff_representation' => $diff_representation)
+		);
+	}
+
+	private function getBackupList($backups_path) {
+		$backups = array();
+		$filenames = scandir($backups_path);
+		foreach ($filenames as $filename) {
+			if (
+				!is_file($backups_path . '/' . $filename)
+				|| pathinfo($filename, PATHINFO_EXTENSION) != 'xml'
+			) {
+				continue;
+			}
+
+			$backups[] = $filename;
+		}
+
+		rsort($backups);
+		return $backups;
+	}
+
+	private function getBackupDate($backup_filename) {
+		$backup_filename = preg_replace(
+			'/^database_dump_/',
+			'',
+			$backup_filename
+		);
+		$backup_filename = preg_replace('/\.xml$/', '', $backup_filename);
+		return $backup_filename;
+	}
+
+	private function makeBackupFilename($backup_date) {
+		return sprintf('database_dump_%s.xml', $backup_date);
+	}
+
+	private function testBackupDirectory($path) {
 		if (!file_exists($path)) {
 			$result = mkdir($path);
 			if (!$result) {
