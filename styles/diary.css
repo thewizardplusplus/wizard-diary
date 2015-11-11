@@ -282,7 +282,8 @@ body.dragging * {
 	width: 50px;
 }
 
-#day-editor {
+#day-editor,
+#diff-viewer {
 	height: 500px;
 	font-size: 14px;
 	border-radius: 4px;

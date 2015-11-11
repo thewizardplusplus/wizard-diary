@@ -7,7 +7,7 @@
 	 * @var CActiveForm $form
 	 */
 
-	require_once('recaptcha/recaptchalib.php');
+	require_once(__DIR__ . '/../../../recaptcha/recaptchalib.php');
 
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/custom_recaptcha.js'),

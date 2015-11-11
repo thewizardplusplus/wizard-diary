@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/config/Constants.php');
+require_once(__DIR__ . '/config/Constants.php');
 
-$config = dirname(__FILE__) . '/config/console.php';
-require_once(dirname(__FILE__) . '/../yii/framework/yiic.php');
+$config = __DIR__ . '/config/console.php';
+require_once(__DIR__ . '/../yii/framework/yiic.php');

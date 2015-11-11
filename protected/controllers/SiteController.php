@@ -1,6 +1,6 @@
 <?php
 
-require_once('recaptcha/recaptchalib.php');
+require_once(__DIR__ . '/../../recaptcha/recaptchalib.php');
 
 class SiteController extends CController {
 	public function filters() {

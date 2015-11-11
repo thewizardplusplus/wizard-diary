@@ -29,6 +29,8 @@ return array(
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/project_list' => 'stats/projectList',
 				'backups' => 'backup/list',
+				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
+					'backup/diff',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list'
 			)
