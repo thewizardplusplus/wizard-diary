@@ -5,8 +5,6 @@ $(document).ready(
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
-		var day_mobile_editor = $('#day-mobile-editor');
-
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
 				function(point, index) {
@@ -141,9 +139,10 @@ $(document).ready(
 
 				var points_description = day_editor.getValue();
 				SetNumberOfPoints(points_description);
-				day_mobile_editor.val(day_editor.getValue());
 			}
 		);
+
+		var day_mobile_editor = $('#day-mobile-editor');
 		day_mobile_editor.on(
 			'change',
 			function() {
@@ -151,7 +150,24 @@ $(document).ready(
 
 				var points_description = day_mobile_editor.val();
 				SetNumberOfPoints(points_description);
-				day_editor.setValue(points_description, -1);
+			}
+		);
+		$('a[data-toggle="tab"]').on(
+			'show.bs.tab',
+			function(event) {
+				var target = $(event.target).attr('href').slice(1);
+				switch (target) {
+					case 'default':
+						var points_description = day_mobile_editor.val();
+						day_editor.setValue(points_description, -1);
+
+						break;
+					case 'mobile':
+						var points_description = day_editor.getValue();
+						day_mobile_editor.val(day_editor.getValue());
+
+						break;
+				}
 			}
 		);
 
