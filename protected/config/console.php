@@ -2,7 +2,7 @@
 
 return array(
 	'name' => Constants::APP_NAME,
-	'basePath' => dirname(__FILE__) . '/..',
+	'basePath' => __DIR__ . '/..',
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
