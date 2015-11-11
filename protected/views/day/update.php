@@ -8,6 +8,8 @@
 	 * @var array $stats
 	 */
 
+	Yii::app()->getClientScript()->registerPackage('mobile-detect');
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		Yii::app()->request->baseUrl . '/scripts/ace/ace.js',
 		CClientScript::POS_HEAD

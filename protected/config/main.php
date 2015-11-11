@@ -74,6 +74,12 @@ return array(
 						'https://cdnjs.cloudflare.com'
 						. '/ajax/libs/Chart.js/1.0.2/',
 					'js' => array('Chart.min.js')
+				),
+				'mobile-detect' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/'
+							. 'mobile-detect/1.3.0/',
+					'js' => array('mobile-detect.min.js')
 				)
 			)
 		),

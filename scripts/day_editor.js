@@ -309,5 +309,10 @@ $(document).ready(
 				return false;
 			}
 		);
+
+		var detector = new MobileDetect(navigator.userAgent);
+		if (detector.mobile()) {
+			$('a[href="#mobile"]').tab('show');
+		}
 	}
 );
