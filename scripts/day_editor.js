@@ -6,6 +6,9 @@ $(document).ready(
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
+		var day_mobile_editor = $('#day-mobile-editor');
+		var previous_mobile_editor_content = day_mobile_editor.val();
+
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
 				function(point, index) {
@@ -60,7 +63,11 @@ $(document).ready(
 		) {
 			var points = points_description.split('\n');
 			var result = FormatPoints(points, cursor_position);
-			points_description = result.points.join('\n');
+			if (typeof cursor_position != 'undefined') {
+				points_description = result.points.join('\n');
+			} else {
+				points_description = result.join('\n');
+			}
 
 			return {
 				points_description: points_description,
@@ -79,6 +86,12 @@ $(document).ready(
 			if (typeof result.cursor_position != 'undefined') {
 				this.moveCursorToPosition(result.cursor_position);
 			}
+		};
+		day_mobile_editor.formatContent = function() {
+			var points_description = this.val();
+			var result = FormatPointsDescription(points_description);
+			this.val(result.points_description);
+			previous_mobile_editor_content = result.points_description;
 		};
 
 		var saved_flag_container = $('.saved-flag');
@@ -115,8 +128,7 @@ $(document).ready(
 		};
 
 		var number_of_points_view = $('.number-of-points-view');
-		var SetNumberOfPoints = function() {
-			var points_description = day_editor.getValue();
+		var SetNumberOfPoints = function(points_description) {
 			var points =
 				points_description
 				.split('\n')
@@ -133,11 +145,51 @@ $(document).ready(
 				+ GetPointUnit(number_of_points)
 			);
 		};
+
 		day_editor.on(
 			'change',
 			function() {
 				SetSavedFlag(false);
-				SetNumberOfPoints();
+
+				var points_description = day_editor.getValue();
+				SetNumberOfPoints(points_description);
+			}
+		);
+		day_mobile_editor.on(
+			'keyup',
+			function() {
+				var points_description = day_mobile_editor.val();
+				if (points_description == previous_mobile_editor_content) {
+					return;
+				}
+
+				SetSavedFlag(false);
+				SetNumberOfPoints(points_description);
+
+				previous_mobile_editor_content = points_description;
+			}
+		);
+		$('a[data-toggle="tab"]').on(
+			'show.bs.tab',
+			function(event) {
+				var backupped_saved_flag = is_saved;
+
+				var target = $(event.target).attr('href').slice(1);
+				switch (target) {
+					case 'default':
+						var points_description = day_mobile_editor.val();
+						day_editor.setValue(points_description, -1);
+
+						break;
+					case 'mobile':
+						var points_description = day_editor.getValue();
+						day_mobile_editor.val(points_description);
+						previous_mobile_editor_content = points_description;
+
+						break;
+				}
+
+				SetSavedFlag(backupped_saved_flag);
 			}
 		);
 
@@ -146,21 +198,48 @@ $(document).ready(
 		var processing_animation_image = $('img', save_button);
 		var save_icon = $('span', save_button);
 		var day_editor_container = $(day_editor.container);
+		var GetActiveEditor = function() {
+			return $('.tab-pane.active').attr('id');
+		};
 		var FinishAnimation = function() {
 			save_button.prop('disabled', false);
 			processing_animation_image.hide();
 			save_icon.show();
-			day_editor_container.removeClass('wait');
+
+			var active_editor = GetActiveEditor();
+			switch (active_editor) {
+				case 'default':
+					day_editor_container.removeClass('wait');
+					break;
+				case 'mobile':
+					day_mobile_editor.removeClass('wait');
+					break;
+			}
 		};
 		var SaveViaAjax = function(callback) {
 			save_button.prop('disabled', true);
 			processing_animation_image.show();
 			save_icon.hide();
-			day_editor_container.addClass('wait');
 
-			day_editor.formatContent();
+			var points_description = '';
+			var active_editor = GetActiveEditor();
+			switch (active_editor) {
+				case 'default':
+					day_editor_container.addClass('wait');
+					day_editor.formatContent();
+					points_description = day_editor.getValue();
+
+					break;
+				case 'mobile':
+					day_mobile_editor.addClass('wait');
+					day_mobile_editor.formatContent();
+					points_description = day_mobile_editor.val();
+
+					break;
+			}
+
 			var data = $.extend(
-				{'points_description': day_editor.getValue()},
+				{'points_description': points_description},
 				CSRF_TOKEN
 			);
 			$.post(
@@ -231,5 +310,10 @@ $(document).ready(
 				return false;
 			}
 		);
+
+		var detector = new MobileDetect(navigator.userAgent);
+		if (detector.mobile()) {
+			$('a[href="#mobile"]').tab('show');
+		}
 	}
 );

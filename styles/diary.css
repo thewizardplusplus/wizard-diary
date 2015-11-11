@@ -285,8 +285,17 @@ body.dragging * {
 #day-editor,
 #diff-viewer {
 	height: 500px;
-	font-size: 14px;
 	border-radius: 4px;
+	font-size: 14px;
+}
+
+#day-mobile-editor {
+	height: 250px;
+	padding: 0 5px;
+	background-color: #141414;
+	font-family: monospace;
+	font-size: 12px;
+	color: #f8f8f8;
 }
 
 .saved-flag,

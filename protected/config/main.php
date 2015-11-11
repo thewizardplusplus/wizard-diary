@@ -86,12 +86,14 @@ return array(
 				),
 				'moment' => array(
 					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/',
+						'https://cdnjs.cloudflare.com/ajax/libs/'
+							. 'moment.js/2.10.6/',
 					'js' => array('moment-with-locales.min.js')
 				),
 				'sortable' => array(
 					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/',
+						'https://cdnjs.cloudflare.com/ajax/libs/'
+							. 'jquery-sortable/0.9.13/',
 					'js' => array('jquery-sortable-min.js'),
 					'depends' => array('jquery')
 				),
@@ -106,6 +108,12 @@ return array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
 					'js' => array('ace.js')
+				),
+				'mobile-detect' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/'
+							. 'mobile-detect/1.3.0/',
+					'js' => array('mobile-detect.min.js')
 				)
 			)
 		),

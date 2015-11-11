@@ -9,6 +9,7 @@
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
+	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
@@ -89,9 +90,32 @@
 ) ?>
 	<div class = "form-group">
 		<?= CHtml::label('Описание пунктов', 'points_description') ?>
-		<div id = "day-editor"><?=
-			CHtml::encode($points_description)
-		?></div>
+
+		<div>
+			<ul class = "nav nav-tabs">
+				<li class = "active">
+					<a href = "#default" data-toggle = "tab">По умолчанию</a>
+				</li>
+				<li>
+					<a href = "#mobile" data-toggle = "tab">Мобильный</a>
+				</li>
+			</ul>
+
+			<div class = "tab-content">
+				<div id = "default" class = "tab-pane active">
+					<div id = "day-editor"><?=
+						CHtml::encode($points_description)
+					?></div>
+				</div>
+				<div id = "mobile" class = "tab-pane">
+					<?= CHtml::textArea(
+						'day-mobile-editor',
+						$points_description,
+						array('class' => 'form-control')
+					) ?>
+				</div>
+			</div>
+		</div>
 	</div>
 <?= CHtml::endForm() ?>
 
