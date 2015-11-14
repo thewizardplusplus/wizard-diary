@@ -42,7 +42,23 @@ class DayController extends CController {
 			->from('{{points}}')
 			->group('date')
 			->queryAll();
-		$daily_stats = StatsController::collectDailyStats();
+		$days = DateCompleter::complete(
+			$days,
+			function($key, $value) {
+				return $value['date'];
+			},
+			function(&$dates, $key, $value, $date) {
+				$dates[] =
+					!is_null($value)
+						? $value
+						: array(
+							'date' => $date,
+							'completed' => true,
+							'daily' => 0,
+							'projects' => 0
+						);
+			}
+		);
 
 		$data_provider = new CArrayDataProvider(
 			$days,
@@ -54,6 +70,7 @@ class DayController extends CController {
 				)
 			)
 		);
+		$daily_stats = StatsController::collectDailyStats();
 
 		$this->render(
 			'list',
@@ -132,9 +149,12 @@ class DayController extends CController {
 		);
 	}
 
-	public function findSatisfiedCounter($daily_stats, $date) {
+	public function findSatisfiedCounter($daily_stats, $data) {
+		$date = $data['date'];
 		if (array_key_exists($date, $daily_stats)) {
 			return $daily_stats[$date]['satisfied'];
+		} else if ($data['daily'] == 0) {
+			return 100;
 		} else {
 			return -1;
 		}
@@ -149,7 +169,7 @@ class DayController extends CController {
 	}
 
 	private function getStats($date) {
-		return Yii::app()
+		$row = Yii::app()
 			->db
 			->createCommand()
 			->select(
@@ -171,6 +191,11 @@ class DayController extends CController {
 			->where('date = :date', array('date' => $date))
 			->group('date')
 			->queryRow();
+		if ($row === false) {
+			return array('date' => $date, 'completed' => true, 'projects' => 0);
+		}
+
+		return $row;
 	}
 
 	private function prepareImport($points) {
