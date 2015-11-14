@@ -121,6 +121,18 @@ class StatsController extends CController {
 			->group('date')
 			->order('date')
 			->queryAll();
+		$data = DateCompleter::complete(
+			$data,
+			function($key, $value) {
+				return $value['date'];
+			},
+			function(&$dates, $key, $value, $date) {
+				$dates[] =
+					!is_null($value)
+						? $value
+						: array('date' => $date, 'number' => 0);
+			}
+		);
 
 		$mean = 0;
 		if (!empty($data)) {
