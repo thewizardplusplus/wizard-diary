@@ -58,6 +58,24 @@ class StatsController extends CController {
 			$data
 		);
 
+		$data = DateCompleter::complete(
+			$data,
+			function($key, $value) {
+				return $key;
+			},
+			function(&$dates, $key, $value, $date) {
+				if (!is_null($value)) {
+					$dates[$date] = $value;
+				} else {
+					$dates[$date] = array(
+						'satisfied' => 100,
+						'total' => 0,
+						'not_canceled' => 0
+					);
+				}
+			}
+		);
+
 		return $data;
 	}
 
