@@ -9,10 +9,29 @@ class SiteController extends CController {
 
 	public function accessRules() {
 		return array(
-			array('allow', 'actions' => array('error', 'login', 'accessCode')),
+			array('allow', 'actions' => array('error', 'login', 'accessCode', 'test')),
 			array('allow', 'users' => array('admin')),
 			array('deny')
 		);
+	}
+
+	public function actionTest() {
+		$result = DateCompleter::complete(
+			array(
+				'2015-01-01' => 'test #1',
+				'2015-01-04' => 'test #2',
+				'2015-02-06' => 'test #3',
+				'2015-02-10' => 'test #4'
+			),
+			function($key, $value) {
+				return $key;
+			},
+			function(&$dates, $key, $value, $date) {
+				return $dates[$date] = !is_null($value) ? $value : '-';
+			},
+			'2015-03-10'
+		);
+		echo sprintf('<pre><code>%s</code></pre>', print_r($result, true));
 	}
 
 	public function actionError() {
