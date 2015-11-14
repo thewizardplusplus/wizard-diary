@@ -8,6 +8,11 @@
 	Yii::app()->getClientScript()->registerPackage('purl');
 	Yii::app()->getClientScript()->registerPackage('jeditable');
 	Yii::app()->getClientScript()->registerPackage('sortable');
+	Yii::app()->getClientScript()->registerPackage('jquery.ui');
+
+	Yii::app()->getClientScript()->registerCssFile(
+		CHtml::asset('styles/custom_spinner.css')
+	);
 
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
@@ -29,6 +34,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/custom_spinner.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/daily_points_dialog.js'),
 		CClientScript::POS_HEAD
 	);
@@ -40,14 +49,30 @@
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
-<div class = "clearfix header-with-button">
-	<button
-		class = "btn btn-primary pull-right add-daily-points-button"
-		data-add-daily-points-url = "<?=
-			$this->createUrl('point/addDailyPoints')
-		?>">
-		<span class = "glyphicon glyphicon-share-alt"></span> Добавить
-	</button>
+<div class = "clearfix">
+	<form
+		class = "form-inline panel panel-default pull-right daily-points-adding-form">
+		<div class = "form-group">
+			<label for = "day">День</label>
+			<input
+				id = "day"
+				class = "form-control"
+				min = "1"
+				max = "<?= Constants::DAYS_IN_MY_YEAR ?>"
+				required = "required" />
+		</div>
+		<div class = "form-group">
+			<label for = "year">Год</label>
+			<input
+				id = "year"
+				class = "form-control"
+				min = "1"
+				required = "required" />
+		</div>
+		<button type = "submit" class = "btn btn-primary">
+			<span class = "glyphicon glyphicon-share-alt"></span> Добавить
+		</button>
+	</form>
 </div>
 
 <div class = "table-responsive">

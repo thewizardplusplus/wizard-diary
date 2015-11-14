@@ -331,6 +331,10 @@ body.dragging * {
 	user-select: none;
 }
 
+.daily-points-adding-form {
+	padding: 10px;
+}
+
 .stats-view.daily-points .graph-frame,
 .stats-view.points .graph-frame {
 	background-color: #428bca;
