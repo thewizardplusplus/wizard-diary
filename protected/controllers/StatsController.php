@@ -58,6 +58,24 @@ class StatsController extends CController {
 			$data
 		);
 
+		$data = DateCompleter::complete(
+			$data,
+			function($key, $value) {
+				return $key;
+			},
+			function(&$dates, $key, $value, $date) {
+				if (!is_null($value)) {
+					$dates[$date] = $value;
+				} else {
+					$dates[$date] = array(
+						'satisfied' => 100,
+						'total' => 0,
+						'not_canceled' => 0
+					);
+				}
+			}
+		);
+
 		return $data;
 	}
 
@@ -103,6 +121,18 @@ class StatsController extends CController {
 			->group('date')
 			->order('date')
 			->queryAll();
+		$data = DateCompleter::complete(
+			$data,
+			function($key, $value) {
+				return $value['date'];
+			},
+			function(&$dates, $key, $value, $date) {
+				$dates[] =
+					!is_null($value)
+						? $value
+						: array('date' => $date, 'number' => 0);
+			}
+		);
 
 		$mean = 0;
 		if (!empty($data)) {
