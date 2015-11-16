@@ -5,6 +5,7 @@
 	 * @var DailyPointForm $model
 	 * @var string $day_container_class
 	 * @var string $year_container_class
+	 * @var object $my_date
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('purl');
@@ -117,6 +118,7 @@
 					'class' => 'form-control',
 					'autocomplete' => 'off',
 					'min' => 1,
+					'max' => $my_date->year,
 					'required' => 'required'
 				)
 			) ?>

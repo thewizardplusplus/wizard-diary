@@ -8,7 +8,9 @@ class DailyPointForm extends CFormModel {
 		parent::__construct();
 
 		$this->day = $day;
+		$this->maximal_day = $day;
 		$this->year = $year;
+		$this->maximal_year = $year;
 	}
 
 	public function rules() {
@@ -33,11 +35,15 @@ class DailyPointForm extends CFormModel {
 				'year',
 				'numerical',
 				'min' => 1,
+				'max' => $this->maximal_year,
 				'message' =>
 					'Поле &laquo;{attribute}&raquo; должно быть числом.',
 				'tooSmall' =>
 					'Поле &laquo;{attribute}&raquo; должно быть '
-						. 'не меньше {min}.'
+						. 'не меньше {min}.',
+				'tooBig' =>
+					'Поле &laquo;{attribute}&raquo; должно быть '
+						. 'не больше {max}.'
 			)
 		);
 	}
@@ -45,4 +51,7 @@ class DailyPointForm extends CFormModel {
 	public function attributeLabels() {
 		return array('day' => 'День', 'year' => 'Год');
 	}
+
+	private $maximal_day;
+	private $maximal_year;
 }

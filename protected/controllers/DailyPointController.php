@@ -53,7 +53,8 @@ class DailyPointController extends CController {
 				'data_provider' => $data_provider,
 				'model' => $model,
 				'day_container_class' => $day_container_class,
-				'year_container_class' => $year_container_class
+				'year_container_class' => $year_container_class,
+				'my_date' => $my_date
 			)
 		);
 	}
