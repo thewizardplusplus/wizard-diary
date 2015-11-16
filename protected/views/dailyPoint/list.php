@@ -94,7 +94,7 @@
 					'class' => 'form-control',
 					'autocomplete' => 'off',
 					'min' => 1,
-					'max' => Constants::DAYS_IN_MY_YEAR,
+					'max' => $my_date->day,
 					'required' => 'required'
 				)
 			) ?>

@@ -20,16 +20,13 @@ class DailyPointForm extends CFormModel {
 				'day',
 				'numerical',
 				'min' => 1,
-				'max' => Constants::DAYS_IN_MY_YEAR,
 				'message' =>
 					'Поле &laquo;{attribute}&raquo; должно быть числом.',
 				'tooSmall' =>
 					'Поле &laquo;{attribute}&raquo; должно быть '
-						. 'не меньше {min}.',
-				'tooBig' =>
-					'Поле &laquo;{attribute}&raquo; должно быть '
-						. 'не больше {max}.'
+						. 'не меньше {min}.'
 			),
+			array('day', 'validateDayTopLimit', 'skipOnError' => true),
 			array('year', 'required'),
 			array(
 				'year',
@@ -50,6 +47,25 @@ class DailyPointForm extends CFormModel {
 
 	public function attributeLabels() {
 		return array('day' => 'День', 'year' => 'Год');
+	}
+
+	public function validateDayTopLimit() {
+		$day_top_limit = Constants::DAYS_IN_MY_YEAR;
+		if ($this->year == $this->maximal_year) {
+			$day_top_limit = $this->maximal_day;
+		}
+
+		if ($this->day > $day_top_limit) {
+			$this->addError(
+				'day',
+				sprintf(
+					'Поле &laquo;%s&raquo; должно быть не больше %d '
+						. '(для выбранного года).',
+					$this->getAttributeLabel('day'),
+					$day_top_limit
+				)
+			);
+		}
 	}
 
 	private $maximal_day;
