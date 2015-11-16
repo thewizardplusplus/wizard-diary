@@ -4,6 +4,13 @@ class DailyPointForm extends CFormModel {
 	public $day;
 	public $year;
 
+	public function __construct($day, $year) {
+		parent::__construct();
+
+		$this->day = $day;
+		$this->year = $year;
+	}
+
 	public function rules() {
 		return array(
 			array('day', 'required'),
