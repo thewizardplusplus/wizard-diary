@@ -35,4 +35,15 @@ class DateFormatter {
 
 		return $my_day . '.' . $my_year;
 	}
+
+	public static function getDatePartsInMyFormat($date) {
+		$my_date = self::formatMyDate($date);
+		$my_date_parts = array_map('intval', explode('.', $my_date));
+
+		$result = new stdClass;
+		$result->day = $my_date_parts[0];
+		$result->year = $my_date_parts[1];
+
+		return $result;
+	}
 }

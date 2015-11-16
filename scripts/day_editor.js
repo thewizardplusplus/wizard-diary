@@ -302,9 +302,8 @@ $(document).ready(
 			}
 		);
 
-		var form = $('.day-form');
-		form.submit(
-			function() {
+		$('.day-form').submit(
+			function(event) {
 				event.preventDefault();
 				event.stopPropagation();
 				return false;

@@ -5,6 +5,7 @@
 	 * @var DailyPointForm $model
 	 * @var string $day_container_class
 	 * @var string $year_container_class
+	 * @var string $date
 	 * @var object $my_date
 	 */
 
@@ -138,8 +139,12 @@
 		<?= CHtml::htmlButton(
 			'<span class = "glyphicon glyphicon-share-alt"></span> Добавить',
 			array(
-				'class' => 'btn btn-primary',
-				'type' => 'submit'
+				'class' => 'btn btn-primary add-daily-points-button',
+				'type' => 'submit',
+				'data-add-daily-points-url' => $this->createUrl(
+					'day/addDailyPoints',
+					array('date' => $date)
+				)
 			)
 		) ?>
 	<?php $this->endWidget(); ?>

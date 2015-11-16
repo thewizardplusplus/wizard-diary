@@ -28,9 +28,17 @@ $(document).ready(
 			function() {
 				DailyPointsDialog.show(
 					function() {
-						window.location = add_daily_points_url;
+						console.log('ok');
 					}
 				);
+			}
+		);
+
+		$('.daily-point-form').submit(
+			function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				return false;
 			}
 		);
 	}

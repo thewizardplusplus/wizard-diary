@@ -149,6 +149,11 @@ class DayController extends CController {
 		);
 	}
 
+	public function actionAddDailyPoints($date) {
+		$date = DailyPointsAdder::addDailyPoints();
+		$this->redirect($this->createUrl('day/view', array('date' => $date)));
+	}
+
 	public function findSatisfiedCounter($daily_stats, $data) {
 		$date = $data['date'];
 		if (array_key_exists($date, $daily_stats)) {

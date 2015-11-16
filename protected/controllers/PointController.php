@@ -19,11 +19,6 @@ class PointController extends CController {
 		$model->save();
 	}
 
-	public function actionAddDailyPoints() {
-		$date = DailyPointsAdder::addDailyPoints();
-		$this->redirect($this->createUrl('day/view', array('date' => $date)));
-	}
-
 	private function loadModel($id) {
 		$model = Point::model()->findByPk($id);
 		if (is_null($model)) {

@@ -14,8 +14,12 @@ class DailyPointController extends CController {
 	}
 
 	public function actionList() {
-		$my_date = $this->getCurrentDateInMyFormat();
-		$model = new DailyPointForm($my_date->day, $my_date->year);
+		$current_date = date('Y-m-d');
+		$my_current_date = DateFormatter::getDatePartsInMyFormat($current_date);
+		$model = new DailyPointForm(
+			$my_current_date->day,
+			$my_current_date->year
+		);
 
 		if (isset($_POST['ajax']) and $_POST['ajax'] == 'daily-point-form') {
 			echo CActiveForm::validate($model);
@@ -54,7 +58,8 @@ class DailyPointController extends CController {
 				'model' => $model,
 				'day_container_class' => $day_container_class,
 				'year_container_class' => $year_container_class,
-				'my_date' => $my_date
+				'date' => $current_date,
+				'my_date' => $my_current_date
 			)
 		);
 	}
@@ -127,17 +132,5 @@ class DailyPointController extends CController {
 		}
 
 		return $model;
-	}
-
-	private function getCurrentDateInMyFormat() {
-		$current_date = date('Y-m-d');
-		$my_date = DateFormatter::formatMyDate($current_date);
-		$my_date_parts = array_map('intval', explode('.', $my_date));
-
-		$result = new stdClass;
-		$result->day = $my_date_parts[0];
-		$result->year = $my_date_parts[1];
-
-		return $result;
 	}
 }
