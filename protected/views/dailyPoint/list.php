@@ -24,6 +24,16 @@
 		. '\';',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DAYS_IN_MY_YEAR = ' . Constants::DAYS_IN_MY_YEAR . ';',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var MY_DATE = ' . json_encode($my_date) . ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/deleting_dialog.js'),
 		CClientScript::POS_HEAD
@@ -37,15 +47,11 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_spinner.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/daily_points_dialog.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/daily_points_adding.js'),
+		CHtml::asset('scripts/daily_point_form.js'),
 		CClientScript::POS_HEAD
 	);
 
