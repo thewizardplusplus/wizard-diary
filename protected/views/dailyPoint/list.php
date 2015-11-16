@@ -1,8 +1,10 @@
 <?php
 	/**
 	 * @var DailyPointController $this
-	 * @var DailyPoint $model
 	 * @var CActiveDataProvider $data_provider
+	 * @var DailyPointForm $model
+	 * @var string $day_container_class
+	 * @var string $year_container_class
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('purl');
@@ -50,29 +52,89 @@
 ?>
 
 <div class = "clearfix">
-	<form
-		class = "form-inline panel panel-default pull-right daily-points-adding-form">
-		<div class = "form-group">
-			<label for = "day">День</label>
-			<input
-				id = "day"
-				class = "form-control"
-				min = "1"
-				max = "<?= Constants::DAYS_IN_MY_YEAR ?>"
-				required = "required" />
+	<?php $form = $this->beginWidget(
+		'CActiveForm',
+		array(
+			'id' => 'daily-point-form',
+			'enableAjaxValidation' => true,
+			'enableClientValidation' => true,
+			'errorMessageCssClass' => 'alert alert-danger',
+			'clientOptions' => array(
+				'errorCssClass' => 'has-error',
+				'successCssClass' => 'has-success'
+			),
+			'htmlOptions' => array(
+				'class' =>
+					'form-inline '
+					. 'panel '
+					. 'panel-default '
+					. 'pull-right '
+					. 'daily-point-form'
+			)
+		)
+	); ?>
+		<?= $form->errorSummary(
+			$model,
+			NULL,
+			NULL,
+			array('class' => 'alert alert-danger')
+		) ?>
+
+		<div class = "form-group<?= $day_container_class ?>">
+			<?= $form->labelEx(
+				$model,
+				'day',
+				array('class' => 'control-label')
+			) ?>
+			<?= $form->textField(
+				$model,
+				'day',
+				array(
+					'class' => 'form-control',
+					'autocomplete' => 'off',
+					'min' => 1,
+					'max' => Constants::DAYS_IN_MY_YEAR,
+					'required' => 'required'
+				)
+			) ?>
+			<?= $form->error(
+				$model,
+				'day',
+				array('hideErrorMessage' => true)
+			) ?>
 		</div>
-		<div class = "form-group">
-			<label for = "year">Год</label>
-			<input
-				id = "year"
-				class = "form-control"
-				min = "1"
-				required = "required" />
+
+		<div class = "form-group<?= $year_container_class ?>">
+			<?= $form->labelEx(
+				$model,
+				'year',
+				array('class' => 'control-label')
+			) ?>
+			<?= $form->textField(
+				$model,
+				'year',
+				array(
+					'class' => 'form-control',
+					'autocomplete' => 'off',
+					'min' => 1,
+					'required' => 'required'
+				)
+			) ?>
+			<?= $form->error(
+				$model,
+				'year',
+				array('hideErrorMessage' => true)
+			) ?>
 		</div>
-		<button type = "submit" class = "btn btn-primary">
-			<span class = "glyphicon glyphicon-share-alt"></span> Добавить
-		</button>
-	</form>
+
+		<?= CHtml::htmlButton(
+			'<span class = "glyphicon glyphicon-share-alt"></span> Добавить',
+			array(
+				'class' => 'btn btn-primary',
+				'type' => 'submit'
+			)
+		) ?>
+	<?php $this->endWidget(); ?>
 </div>
 
 <div class = "table-responsive">

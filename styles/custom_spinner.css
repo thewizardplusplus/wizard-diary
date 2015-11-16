@@ -3,12 +3,12 @@
 	display: block;
 }
 
-.daily-points-adding-form .ui-spinner {
+.daily-point-form .ui-spinner {
 	display: inline-block;
 }
 
 @media (max-width: 768px) {
-	.daily-points-adding-form .ui-spinner {
+	.daily-point-form .ui-spinner {
 		display: block;
 	}
 }

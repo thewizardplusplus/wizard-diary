@@ -14,6 +14,30 @@ class DailyPointController extends CController {
 	}
 
 	public function actionList() {
+		$model = new DailyPointForm();
+
+		if (isset($_POST['ajax']) and $_POST['ajax'] == 'daily-point-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		if (isset($_POST['DailyPointForm'])) {
+			$model->attributes = $_POST['DailyPointForm'];
+			$result = $model->validate();
+			if ($result) {
+				Yii::log('daily point form validated', 'info');
+			}
+		}
+
+		$day_container_class =
+			count($model->getErrors('day'))
+				? ' has-error'
+				: '';
+		$year_container_class =
+			count($model->getErrors('year'))
+				? ' has-error'
+				: '';
+
 		$data_provider = new CActiveDataProvider(
 			'DailyPoint',
 			array(
@@ -21,7 +45,16 @@ class DailyPointController extends CController {
 				'pagination' => false
 			)
 		);
-		$this->render('list', array('data_provider' => $data_provider));
+
+		$this->render(
+			'list',
+			array(
+				'data_provider' => $data_provider,
+				'model' => $model,
+				'day_container_class' => $day_container_class,
+				'year_container_class' => $year_container_class
+			)
+		);
 	}
 
 	public function actionCreate() {
