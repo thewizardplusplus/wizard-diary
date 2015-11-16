@@ -9,8 +9,8 @@
 
 	Yii::app()->getClientScript()->registerPackage('purl');
 	Yii::app()->getClientScript()->registerPackage('jeditable');
-	Yii::app()->getClientScript()->registerPackage('sortable');
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
+	Yii::app()->getClientScript()->registerPackage('sortable');
 
 	Yii::app()->getClientScript()->registerCssFile(
 		CHtml::asset('styles/custom_spinner.css')
