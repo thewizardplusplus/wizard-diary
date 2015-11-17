@@ -23,8 +23,6 @@ return array(
 				'days' => 'day/list',
 				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
-				'day/<date:\d\d\d\d-\d\d-\d\d>/add_daily_points' =>
-					'day/addDailyPoints',
 				'daily_points' => 'dailyPoint/list',
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',

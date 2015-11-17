@@ -28,10 +28,7 @@ class DailyPointController extends CController {
 
 		if (isset($_POST['DailyPointForm'])) {
 			$model->attributes = $_POST['DailyPointForm'];
-			$result = $model->validate();
-			if ($result) {
-				Yii::log('daily point form validated', 'info');
-			}
+			$model->validate();
 		}
 
 		$day_container_class =

@@ -20,24 +20,15 @@ $(document).ready(
 			}
 		);
 
-		var add_daily_points_button = $('.add-daily-points-button');
-		var add_daily_points_url = add_daily_points_button.data(
-			'add-daily-points-url'
-		);
-		add_daily_points_button.click(
+		var daily_point_form = $('.daily-point-form');
+		$('.add-daily-points-button').click(
 			function() {
 				DailyPointsDialog.show(
 					function() {
-						console.log('ok');
+						daily_point_form.submit();
 					}
 				);
-			}
-		);
 
-		$('.daily-point-form').submit(
-			function(event) {
-				event.preventDefault();
-				event.stopPropagation();
 				return false;
 			}
 		);

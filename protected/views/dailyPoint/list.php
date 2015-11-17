@@ -64,6 +64,7 @@
 		'CActiveForm',
 		array(
 			'id' => 'daily-point-form',
+			'action' => $this->createUrl('day/addDailyPoints'),
 			'enableAjaxValidation' => true,
 			'enableClientValidation' => true,
 			'errorMessageCssClass' => 'alert alert-danger',
@@ -140,11 +141,7 @@
 			'<span class = "glyphicon glyphicon-share-alt"></span> Добавить',
 			array(
 				'class' => 'btn btn-primary add-daily-points-button',
-				'type' => 'submit',
-				'data-add-daily-points-url' => $this->createUrl(
-					'day/addDailyPoints',
-					array('date' => $date)
-				)
+				'type' => 'submit'
 			)
 		) ?>
 	<?php $this->endWidget(); ?>
