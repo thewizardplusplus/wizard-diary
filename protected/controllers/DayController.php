@@ -6,11 +6,7 @@ class DayController extends CController {
 	const ONE_LEVEL_EDITOR_INDENT = '    ';
 
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + actionAddDailyPoints',
-			'ajaxOnly + stats'
-		);
+		return array('accessControl', 'ajaxOnly + stats');
 	}
 
 	public function accessRules() {
@@ -151,27 +147,6 @@ class DayController extends CController {
 				'stats' => $stats
 			)
 		);
-	}
-
-	public function actionAddDailyPoints() {
-		if (!isset($_POST['DailyPointForm'])) {
-			throw new CHttpException(400, 'Некорректный запрос.');
-		}
-
-		$current_date = date('Y-m-d');
-		$my_current_date = DateFormatter::getDatePartsInMyFormat($current_date);
-		$model = new DailyPointForm(
-			$my_current_date->day,
-			$my_current_date->year
-		);
-		$model->attributes = $_POST['DailyPointForm'];
-		$result = $model->validate();
-		if (!$result) {
-			throw new CHttpException(400, 'Невалидные данные.');
-		}
-
-		$date = DailyPointsAdder::addDailyPoints();
-		$this->redirect($this->createUrl('day/view', array('date' => $date)));
 	}
 
 	public function findSatisfiedCounter($daily_stats, $data) {

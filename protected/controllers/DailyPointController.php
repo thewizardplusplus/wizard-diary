@@ -28,7 +28,18 @@ class DailyPointController extends CController {
 
 		if (isset($_POST['DailyPointForm'])) {
 			$model->attributes = $_POST['DailyPointForm'];
-			$model->validate();
+			$result = $model->validate();
+			if ($result) {
+				$target_date = DateFormatter::getDateFromMyDateParts(
+					$model->day,
+					$model->year
+				);
+
+				DailyPointsAdder::addDailyPoints($target_date);
+				$this->redirect(
+					$this->createUrl('day/view', array('date' => $target_date))
+				);
+			}
 		}
 
 		$day_container_class =

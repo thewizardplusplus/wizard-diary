@@ -64,7 +64,6 @@
 		'CActiveForm',
 		array(
 			'id' => 'daily-point-form',
-			'action' => $this->createUrl('day/addDailyPoints'),
 			'enableAjaxValidation' => true,
 			'enableClientValidation' => true,
 			'errorMessageCssClass' => 'alert alert-danger',
