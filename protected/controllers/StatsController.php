@@ -151,6 +151,45 @@ class StatsController extends CController {
 			->createCommand($this->achievements_query)
 			->queryAll();
 
+		$new_data = array();
+		foreach ($data as $row) {
+			$new_data[$row['name']][] = array(
+				'consecutive_days' => $row['consecutive_days'],
+				'date' => $row['date']
+			);
+		}
+		$data = $new_data;
+
+		$new_data = array();
+		foreach ($data as $name => $rows) {
+			$last_row = null;
+			foreach ($rows as $row) {
+				$nearest_level = 0;
+				foreach ($this->achievements_levels as $level) {
+					if ($level <= $row['consecutive_days']) {
+						$nearest_level = $level;
+						break;
+					}
+				}
+
+				$last_row = array(
+					'level' => $nearest_level,
+					'date' => $row['date']
+				);
+				$new_data[$name][] = $last_row;
+			}
+
+			foreach ($this->achievements_levels as $level) {
+				if ($level < $last_row['level']) {
+					$new_data[$name][] = array(
+						'level' => $level,
+						'date' => $last_row['date']
+					);
+				}
+			}
+		}
+		$data = $new_data;
+
 		$this->render('achievements', array('data' => $data));
 	}
 
@@ -557,4 +596,5 @@ class StatsController extends CController {
 				>= `full_minimal_date_list`.`consecutive_days`
 		ORDER BY `name`, `date` DESC;
 ACHIEVEMENTS_QUERY;
+	private $achievements_levels = array(48, 24, 12, 6, 1);
 }
