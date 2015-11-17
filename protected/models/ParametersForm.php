@@ -39,7 +39,7 @@ class ParametersForm extends CFormModel {
 						. 'не меньше {min}.',
 				'tooBig' =>
 					'Поле &laquo;{attribute}&raquo; должно быть '
-						. 'не больше {max}.',
+						. 'не больше {max}.'
 			)
 		);
 	}

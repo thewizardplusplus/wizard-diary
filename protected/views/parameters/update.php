@@ -15,11 +15,7 @@
 	);
 
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_spinner.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/password_cleaning.js'),
+		CHtml::asset('scripts/parameters_form.js'),
 		CClientScript::POS_HEAD
 	);
 

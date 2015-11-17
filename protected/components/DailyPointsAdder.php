@@ -1,8 +1,7 @@
 <?php
 
 class DailyPointsAdder {
-	public static function addDailyPoints() {
-		$date = date('Y-m-d');
+	public static function addDailyPoints($date) {
 		$escaped_date = Yii::app()->db->quoteValue($date);
 
 		$sql = "START TRANSACTION;\n\n";
@@ -22,6 +21,5 @@ class DailyPointsAdder {
 		$sql .= 'COMMIT;';
 
 		Yii::app()->db->createCommand($sql)->execute();
-		return $date;
 	}
 }

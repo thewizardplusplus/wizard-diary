@@ -3,6 +3,16 @@
 	display: block;
 }
 
+.daily-point-form .ui-spinner {
+	display: inline-block;
+}
+
+@media (max-width: 768px) {
+	.daily-point-form .ui-spinner {
+		display: block;
+	}
+}
+
 .ui-widget-content {
 	border: none;
 }

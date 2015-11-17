@@ -1,19 +1,38 @@
 <?php
 	/**
 	 * @var DailyPointController $this
-	 * @var DailyPoint $model
 	 * @var CActiveDataProvider $data_provider
+	 * @var DailyPointForm $model
+	 * @var string $day_container_class
+	 * @var string $year_container_class
+	 * @var string $date
+	 * @var object $my_date
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('purl');
 	Yii::app()->getClientScript()->registerPackage('jeditable');
+	Yii::app()->getClientScript()->registerPackage('jquery.ui');
 	Yii::app()->getClientScript()->registerPackage('sortable');
+
+	Yii::app()->getClientScript()->registerCssFile(
+		CHtml::asset('styles/custom_spinner.css')
+	);
 
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var DAILY_POINT_ORDER_URL = \''
 			. $this->createUrl('dailyPoint/order')
 		. '\';',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DAYS_IN_MY_YEAR = ' . Constants::DAYS_IN_MY_YEAR . ';',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var MY_DATE = ' . json_encode($my_date) . ';',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -33,21 +52,98 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/daily_points_adding.js'),
+		CHtml::asset('scripts/daily_point_form.js'),
 		CClientScript::POS_HEAD
 	);
 
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
-<div class = "clearfix header-with-button">
-	<button
-		class = "btn btn-primary pull-right add-daily-points-button"
-		data-add-daily-points-url = "<?=
-			$this->createUrl('point/addDailyPoints')
-		?>">
-		<span class = "glyphicon glyphicon-share-alt"></span> Добавить
-	</button>
+<div class = "clearfix">
+	<?php $form = $this->beginWidget(
+		'CActiveForm',
+		array(
+			'id' => 'daily-point-form',
+			'enableAjaxValidation' => true,
+			'enableClientValidation' => true,
+			'errorMessageCssClass' => 'alert alert-danger',
+			'clientOptions' => array(
+				'errorCssClass' => 'has-error',
+				'successCssClass' => 'has-success'
+			),
+			'htmlOptions' => array(
+				'class' =>
+					'form-inline '
+					. 'panel '
+					. 'panel-default '
+					. 'pull-right '
+					. 'daily-point-form'
+			)
+		)
+	); ?>
+		<?= $form->errorSummary(
+			$model,
+			NULL,
+			NULL,
+			array('class' => 'alert alert-danger')
+		) ?>
+
+		<div class = "form-group<?= $day_container_class ?>">
+			<?= $form->labelEx(
+				$model,
+				'day',
+				array('class' => 'control-label')
+			) ?>
+			<?= $form->textField(
+				$model,
+				'day',
+				array(
+					'class' => 'form-control',
+					'autocomplete' => 'off',
+					'min' => 1,
+					'max' => $my_date->day,
+					'required' => 'required'
+				)
+			) ?>
+			<?= $form->error(
+				$model,
+				'day',
+				array('hideErrorMessage' => true)
+			) ?>
+		</div>
+
+		<div class = "form-group<?= $year_container_class ?>">
+			<?= $form->labelEx(
+				$model,
+				'year',
+				array('class' => 'control-label')
+			) ?>
+			<?= $form->textField(
+				$model,
+				'year',
+				array(
+					'class' => 'form-control',
+					'autocomplete' => 'off',
+					'min' => 1,
+					'max' => $my_date->year,
+					'required' => 'required'
+				)
+			) ?>
+			<?= $form->error(
+				$model,
+				'year',
+				array('hideErrorMessage' => true)
+			) ?>
+		</div>
+
+		<?= CHtml::htmlButton(
+			'<span class = "glyphicon glyphicon-share-alt"></span> Добавить',
+			array(
+				'class' => 'btn btn-primary add-daily-points-button',
+				'type' => 'submit'
+			)
+		) ?>
+	<?php $this->endWidget(); ?>
 </div>
 
 <div class = "table-responsive">

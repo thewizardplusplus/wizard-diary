@@ -331,6 +331,20 @@ body.dragging * {
 	user-select: none;
 }
 
+.daily-point-form {
+	padding: 10px;
+}
+
+.daily-point-form #daily-point-form_es_ {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.daily-point-form #DailyPointForm_day_em_,
+.daily-point-form #DailyPointForm_year_em_ {
+	margin-bottom: 0;
+}
+
 .stats-view.daily-points .graph-frame,
 .stats-view.points .graph-frame {
 	background-color: #428bca;
