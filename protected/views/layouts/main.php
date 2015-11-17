@@ -118,6 +118,18 @@
 												)
 											),
 											array(
+												'label' => 'Достижения',
+												'url' => array(
+													'stats/achievements'
+												)
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Прогресс проектов',
 												'url' => array('stats/projects')
 											),

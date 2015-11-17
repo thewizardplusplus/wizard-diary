@@ -145,6 +145,11 @@ class StatsController extends CController {
 		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
 
+	public function actionAchievements() {
+		$data = array();
+		$this->render('achievements', array('data' => $data));
+	}
+
 	public function actionProjects() {
 		$points = Point::model()->findAll(
 			array('condition' => 'text != "" AND daily = FALSE')
