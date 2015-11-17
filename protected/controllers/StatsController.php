@@ -146,7 +146,11 @@ class StatsController extends CController {
 	}
 
 	public function actionAchievements() {
-		$data = array();
+		$data = Yii::app()
+			->db
+			->createCommand($this->achievements_query)
+			->queryAll();
+
 		$this->render('achievements', array('data' => $data));
 	}
 
@@ -370,4 +374,187 @@ class StatsController extends CController {
 
 		$this->render('project_list', array('data' => $data));
 	}
+
+	private $achievements_query = <<<ACHIEVEMENTS_QUERY
+		SELECT
+			`source_copy_4`.`name`,
+			`source_copy_4`.`consecutive_days`,
+			`source_copy_4`.`date`
+		FROM (
+			SELECT
+				`name`,
+				`consecutive_days`,
+				MIN(`date`) AS 'date'
+			FROM (
+				SELECT
+					`name`,
+					COUNT(*) AS 'consecutive_days',
+					MAX(`date`) AS 'date'
+				FROM (
+					SELECT
+						IF(
+							`source_copy_2`.date IS NULL,
+							@counter := @counter + 1,
+							@counter
+						) AS 'group',
+						`source_copy_1`.name,
+						`source_copy_1`.date
+					FROM (
+						SELECT
+							`text` AS 'name',
+							`date`
+						FROM `diary_points`
+						WHERE `daily` = TRUE
+							AND `text` != ''
+							AND `state` = 'SATISFIED'
+						GROUP BY `name`, `date`
+						ORDER BY `name`, `date`
+					) AS `source_copy_1`
+					CROSS JOIN (
+						SELECT @counter := 0
+					) AS `counter_init`
+					LEFT JOIN (
+						SELECT
+							`text` AS 'name',
+							`date`
+						FROM `diary_points`
+						WHERE `daily` = TRUE
+							AND `text` != ''
+							AND `state` = 'SATISFIED'
+						GROUP BY `name`, `date`
+						ORDER BY `name`, `date`
+					) AS `source_copy_2`
+						ON `source_copy_1`.name = `source_copy_2`.name
+							AND `source_copy_1`.date
+								= `source_copy_2`.date + INTERVAL 1 DAY
+				) AS `group_list`
+				GROUP BY `group`
+			) AS `consecutive_days_list`
+			GROUP BY `name`, `consecutive_days`
+			ORDER BY `name`, `consecutive_days` DESC
+		) AS `source_copy_4`
+		CROSS JOIN (
+			SELECT
+				`source_copy_3`.`name`,
+				`source_copy_3`.`consecutive_days`
+			FROM (
+				SELECT
+					`name`,
+					`consecutive_days`,
+					MIN(`date`) AS 'date'
+				FROM (
+					SELECT
+						`name`,
+						COUNT(*) AS 'consecutive_days',
+						MAX(`date`) AS 'date'
+					FROM (
+						SELECT
+							IF(
+								`source_copy_2`.date IS NULL,
+								@counter := @counter + 1,
+								@counter
+							) AS 'group',
+							`source_copy_1`.name,
+							`source_copy_1`.date
+						FROM (
+							SELECT
+								`text` AS 'name',
+								`date`
+							FROM `diary_points`
+							WHERE `daily` = TRUE
+								AND `text` != ''
+								AND `state` = 'SATISFIED'
+							GROUP BY `name`, `date`
+							ORDER BY `name`, `date`
+						) AS `source_copy_1`
+						CROSS JOIN (
+							SELECT @counter := 0
+						) AS `counter_init`
+						LEFT JOIN (
+							SELECT
+								`text` AS 'name',
+								`date`
+							FROM `diary_points`
+							WHERE `daily` = TRUE
+								AND `text` != ''
+								AND `state` = 'SATISFIED'
+							GROUP BY `name`, `date`
+							ORDER BY `name`, `date`
+						) AS `source_copy_2`
+							ON `source_copy_1`.name = `source_copy_2`.name
+								AND `source_copy_1`.date
+									= `source_copy_2`.date + INTERVAL 1 DAY
+					) AS `group_list`
+					GROUP BY `group`
+				) AS `consecutive_days_list`
+				GROUP BY `name`, `consecutive_days`
+				ORDER BY `name`, `consecutive_days` DESC
+			) AS `source_copy_3`
+			CROSS JOIN (
+				SELECT
+					`name`,
+					MIN(`date`) AS `minimal_date`
+				FROM (
+					SELECT
+						`name`,
+						`consecutive_days`,
+						MIN(`date`) AS 'date'
+					FROM (
+						SELECT
+							`name`,
+							COUNT(*) AS 'consecutive_days',
+							MAX(`date`) AS 'date'
+						FROM (
+							SELECT
+								IF(
+									`source_copy_2`.date IS NULL,
+									@counter := @counter + 1,
+									@counter
+								) AS 'group',
+								`source_copy_1`.name,
+								`source_copy_1`.date
+							FROM (
+								SELECT
+									`text` AS 'name',
+									`date`
+								FROM `diary_points`
+								WHERE `daily` = TRUE
+									AND `text` != ''
+									AND `state` = 'SATISFIED'
+								GROUP BY `name`, `date`
+								ORDER BY `name`, `date`
+							) AS `source_copy_1`
+							CROSS JOIN (
+								SELECT @counter := 0
+							) AS `counter_init`
+							LEFT JOIN (
+								SELECT
+									`text` AS 'name',
+									`date`
+								FROM `diary_points`
+								WHERE `daily` = TRUE
+									AND `text` != ''
+									AND `state` = 'SATISFIED'
+								GROUP BY `name`, `date`
+								ORDER BY `name`, `date`
+							) AS `source_copy_2`
+								ON `source_copy_1`.name = `source_copy_2`.name
+									AND `source_copy_1`.date
+										= `source_copy_2`.date + INTERVAL 1 DAY
+						) AS `group_list`
+						GROUP BY `group`
+					) AS `consecutive_days_list`
+					GROUP BY `name`, `consecutive_days`
+					ORDER BY `name`, `consecutive_days` DESC
+				) AS `source_copy_5`
+				GROUP BY `name`
+			) AS `minimal_date_list`
+			WHERE `source_copy_3`.`name` = `minimal_date_list`.`name`
+				AND `source_copy_3`.`date` = `minimal_date_list`.`minimal_date`
+		) AS `full_minimal_date_list`
+		ON `source_copy_4`.`name` = `full_minimal_date_list`.`name`
+			AND `source_copy_4`.`consecutive_days`
+				>= `full_minimal_date_list`.`consecutive_days`
+		ORDER BY `name`, `date` DESC;
+ACHIEVEMENTS_QUERY;
 }
