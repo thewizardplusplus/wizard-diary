@@ -146,51 +146,92 @@ class StatsController extends CController {
 	}
 
 	public function actionAchievements() {
-		$data = Yii::app()
-			->db
-			->createCommand($this->achievements_query)
-			->queryAll();
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text', 'date'),
+				'condition' =>
+					'daily = TRUE AND text != "" AND state = "SATISFIED"',
+				'order' => 'date'
+			)
+		);
 
-		$new_data = array();
-		foreach ($data as $row) {
-			$new_data[$row['name']][] = array(
-				'consecutive_days' => $row['consecutive_days'],
-				'date' => $row['date']
-			);
-		}
-		$data = $new_data;
+		$data = array();
+		foreach ($points as $point) {
+			$date = date_create($point->date);
+			if (!array_key_exists($point->text, $data)) {
+				$data[$point->text] = array(
+					'dates' => array($point->date),
+					'last_date' => $date,
+					'achievements' => array('#1' => $point->date)
+				);
 
-		$new_data = array();
-		foreach ($data as $name => $rows) {
-			$last_row = null;
-			foreach ($rows as $row) {
-				$nearest_level = 0;
+				continue;
+			}
+
+			if ($data[$point->text]['last_date']->diff($date)->days <= 1) {
+				$data[$point->text]['dates'][] = $point->date;
+
+				$number_of_dates = count($data[$point->text]['dates']);
 				foreach ($this->achievements_levels as $level) {
-					if ($level <= $row['consecutive_days']) {
-						$nearest_level = $level;
+					if ($level > $number_of_dates) {
 						break;
 					}
-				}
 
-				$last_row = array(
-					'level' => $nearest_level,
-					'date' => $row['date']
-				);
-				$new_data[$name][] = $last_row;
+					$level_key = sprintf('#%d', $level);
+					if (
+						array_key_exists(
+							$level_key,
+							$data[$point->text]['achievements']
+						)
+					) {
+						continue;
+					}
+
+					$data[$point->text]['achievements'][$level_key] =
+						$point->date;
+				}
+			} else {
+				$data[$point->text]['dates'] = array($point->date);
 			}
 
-			foreach ($this->achievements_levels as $level) {
-				if ($level < $last_row['level']) {
-					$new_data[$name][] = array(
-						'level' => $level,
-						'date' => $last_row['date']
-					);
-				}
+			$data[$point->text]['last_date'] = $date;
+		}
+
+		$achievements = array();
+		$future_achievements = array();
+		foreach ($data as $text => $subdata) {
+			foreach ($subdata['achievements'] as $level => $date) {
+				$achievements[] = array(
+					'point' => $text,
+					'level' => $level,
+					'name' => $this->achievements_names[$level],
+					'date' => $date
+				);
 			}
 		}
-		$data = $new_data;
+		usort(
+			$achievements,
+			function($achievement_1, $achievement_2) {
+				$date_1 = date_create($achievement_1['date']);
+				$date_2 = date_create($achievement_2['date']);
 
-		$this->render('achievements', array('data' => $data));
+				$difference = $date_1->diff($date_2);
+				if ($difference->days == 0) {
+					return 0;
+				}
+				return $difference->invert == 1 ? -1 : 1;
+			}
+		);
+
+		$this->render(
+			'achievements',
+			array(
+				'data' => array(
+					'achievements' => $achievements,
+					'future_achievements' => $future_achievements
+				)
+			)
+		);
 	}
 
 	public function actionProjects() {
@@ -414,187 +455,12 @@ class StatsController extends CController {
 		$this->render('project_list', array('data' => $data));
 	}
 
-	private $achievements_query = <<<ACHIEVEMENTS_QUERY
-		SELECT
-			`source_copy_4`.`name`,
-			`source_copy_4`.`consecutive_days`,
-			`source_copy_4`.`date`
-		FROM (
-			SELECT
-				`name`,
-				`consecutive_days`,
-				MIN(`date`) AS 'date'
-			FROM (
-				SELECT
-					`name`,
-					COUNT(*) AS 'consecutive_days',
-					MAX(`date`) AS 'date'
-				FROM (
-					SELECT
-						IF(
-							`source_copy_2`.date IS NULL,
-							@counter := @counter + 1,
-							@counter
-						) AS 'group',
-						`source_copy_1`.name,
-						`source_copy_1`.date
-					FROM (
-						SELECT
-							`text` AS 'name',
-							`date`
-						FROM `diary_points`
-						WHERE `daily` = TRUE
-							AND `text` != ''
-							AND `state` = 'SATISFIED'
-						GROUP BY `name`, `date`
-						ORDER BY `name`, `date`
-					) AS `source_copy_1`
-					CROSS JOIN (
-						SELECT @counter := 0
-					) AS `counter_init`
-					LEFT JOIN (
-						SELECT
-							`text` AS 'name',
-							`date`
-						FROM `diary_points`
-						WHERE `daily` = TRUE
-							AND `text` != ''
-							AND `state` = 'SATISFIED'
-						GROUP BY `name`, `date`
-						ORDER BY `name`, `date`
-					) AS `source_copy_2`
-						ON `source_copy_1`.name = `source_copy_2`.name
-							AND `source_copy_1`.date
-								= `source_copy_2`.date + INTERVAL 1 DAY
-				) AS `group_list`
-				GROUP BY `group`
-			) AS `consecutive_days_list`
-			GROUP BY `name`, `consecutive_days`
-			ORDER BY `name`, `consecutive_days` DESC
-		) AS `source_copy_4`
-		CROSS JOIN (
-			SELECT
-				`source_copy_3`.`name`,
-				`source_copy_3`.`consecutive_days`
-			FROM (
-				SELECT
-					`name`,
-					`consecutive_days`,
-					MIN(`date`) AS 'date'
-				FROM (
-					SELECT
-						`name`,
-						COUNT(*) AS 'consecutive_days',
-						MAX(`date`) AS 'date'
-					FROM (
-						SELECT
-							IF(
-								`source_copy_2`.date IS NULL,
-								@counter := @counter + 1,
-								@counter
-							) AS 'group',
-							`source_copy_1`.name,
-							`source_copy_1`.date
-						FROM (
-							SELECT
-								`text` AS 'name',
-								`date`
-							FROM `diary_points`
-							WHERE `daily` = TRUE
-								AND `text` != ''
-								AND `state` = 'SATISFIED'
-							GROUP BY `name`, `date`
-							ORDER BY `name`, `date`
-						) AS `source_copy_1`
-						CROSS JOIN (
-							SELECT @counter := 0
-						) AS `counter_init`
-						LEFT JOIN (
-							SELECT
-								`text` AS 'name',
-								`date`
-							FROM `diary_points`
-							WHERE `daily` = TRUE
-								AND `text` != ''
-								AND `state` = 'SATISFIED'
-							GROUP BY `name`, `date`
-							ORDER BY `name`, `date`
-						) AS `source_copy_2`
-							ON `source_copy_1`.name = `source_copy_2`.name
-								AND `source_copy_1`.date
-									= `source_copy_2`.date + INTERVAL 1 DAY
-					) AS `group_list`
-					GROUP BY `group`
-				) AS `consecutive_days_list`
-				GROUP BY `name`, `consecutive_days`
-				ORDER BY `name`, `consecutive_days` DESC
-			) AS `source_copy_3`
-			CROSS JOIN (
-				SELECT
-					`name`,
-					MIN(`date`) AS `minimal_date`
-				FROM (
-					SELECT
-						`name`,
-						`consecutive_days`,
-						MIN(`date`) AS 'date'
-					FROM (
-						SELECT
-							`name`,
-							COUNT(*) AS 'consecutive_days',
-							MAX(`date`) AS 'date'
-						FROM (
-							SELECT
-								IF(
-									`source_copy_2`.date IS NULL,
-									@counter := @counter + 1,
-									@counter
-								) AS 'group',
-								`source_copy_1`.name,
-								`source_copy_1`.date
-							FROM (
-								SELECT
-									`text` AS 'name',
-									`date`
-								FROM `diary_points`
-								WHERE `daily` = TRUE
-									AND `text` != ''
-									AND `state` = 'SATISFIED'
-								GROUP BY `name`, `date`
-								ORDER BY `name`, `date`
-							) AS `source_copy_1`
-							CROSS JOIN (
-								SELECT @counter := 0
-							) AS `counter_init`
-							LEFT JOIN (
-								SELECT
-									`text` AS 'name',
-									`date`
-								FROM `diary_points`
-								WHERE `daily` = TRUE
-									AND `text` != ''
-									AND `state` = 'SATISFIED'
-								GROUP BY `name`, `date`
-								ORDER BY `name`, `date`
-							) AS `source_copy_2`
-								ON `source_copy_1`.name = `source_copy_2`.name
-									AND `source_copy_1`.date
-										= `source_copy_2`.date + INTERVAL 1 DAY
-						) AS `group_list`
-						GROUP BY `group`
-					) AS `consecutive_days_list`
-					GROUP BY `name`, `consecutive_days`
-					ORDER BY `name`, `consecutive_days` DESC
-				) AS `source_copy_5`
-				GROUP BY `name`
-			) AS `minimal_date_list`
-			WHERE `source_copy_3`.`name` = `minimal_date_list`.`name`
-				AND `source_copy_3`.`date` = `minimal_date_list`.`minimal_date`
-		) AS `full_minimal_date_list`
-		ON `source_copy_4`.`name` = `full_minimal_date_list`.`name`
-			AND `source_copy_4`.`consecutive_days`
-				>= `full_minimal_date_list`.`consecutive_days`
-		ORDER BY `name`, `date` DESC;
-ACHIEVEMENTS_QUERY;
-	private $achievements_levels = array(48, 24, 12, 6, 1);
+	private $achievements_levels = array(1, 6, 12, 24, 48);
+	private $achievements_names = array(
+		'#1' => 'Первая попытка',
+		'#6' => 'Выдержка',
+		'#12' => 'Работа над собой',
+		'#24' => 'Сила воли',
+		'#48' => 'Привычка'
+	);
 }
