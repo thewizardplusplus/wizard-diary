@@ -7,6 +7,10 @@
 	 */
 ?>
 
-<div>
-	<pre><code><?= print_r($data, true) ?></code></pre>
+<div class = "panel panel-info achievement-view">
+	<h4>Достижение &laquo;<?= $data['name'] ?>&raquo;</h4>
+	<p>
+		Выполнение пункта <strong>&laquo;<?= $data['point'] ?>&raquo;</strong>
+		в течение <strong><?= $data['days'] ?></strong>.
+	</p>
 </div>

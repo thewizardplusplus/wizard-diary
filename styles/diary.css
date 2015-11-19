@@ -442,3 +442,8 @@ body.dragging * {
 .dropdown-header {
 	cursor: default;
 }
+
+.achievement-view {
+	margin-bottom: 10px;
+	padding: 5px 10px;
+}

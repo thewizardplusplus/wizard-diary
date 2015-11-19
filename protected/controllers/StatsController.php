@@ -154,6 +154,7 @@ class StatsController extends CController {
 				$achievements[] = array(
 					'point' => $text,
 					'level' => $level,
+					'days' => $this->formatDays($level),
 					'name' => $this->achievements_names[$level],
 					'date' => $date
 				);
@@ -235,6 +236,7 @@ class StatsController extends CController {
 						$future_achievements[] = array(
 							'point' => $text,
 							'level' => $next_level,
+							'days' => $this->formatDays($level),
 							'name' => $this->achievements_names[$next_level]
 						);
 					}
@@ -551,5 +553,16 @@ class StatsController extends CController {
 		}
 
 		return $data;
+	}
+
+	private function formatDays($level) {
+		$days = intval(substr($level, 1));
+		$modulo = $days % 10;
+		$unit =
+			($modulo == 1 and ($days < 10 or $days > 20))
+				? 'дня'
+				: 'дней';
+
+		return sprintf("%d %s", $days, $unit);
 	}
 }
