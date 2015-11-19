@@ -9,11 +9,12 @@
 
 <div class = "panel panel-success media achievement-view">
 	<div class = "media-left">
-		<img
+		<canvas
 			class = "media-object"
-			src = "https://placehold.it/64x64"
-			alt = ""
-			data-hash = "<?= CHtml::encode($data['hash']) ?>" />
+			width = "64"
+			height = "64"
+			data-jdenticon-hash = "<?= CHtml::encode($data['hash']) ?>">
+		</canvas>
 	</div>
 	<div class = "media-body">
 		<h4 class = "media-heading">

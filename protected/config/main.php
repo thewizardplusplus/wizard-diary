@@ -115,6 +115,10 @@ return array(
 						'https://cdnjs.cloudflare.com/ajax/libs/'
 							. 'mobile-detect/1.3.0/',
 					'js' => array('mobile-detect.min.js')
+				),
+				'jdenticon' => array(
+					'baseUrl' => 'https://cdn.jsdelivr.net/jdenticon/1.3.2/',
+					'js' => array('jdenticon.min.js')
 				)
 			)
 		),
