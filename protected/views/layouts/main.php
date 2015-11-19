@@ -102,12 +102,6 @@
 									array(
 										'items' => array(
 											array(
-												'label' => 'Пункты',
-												'itemOptions' => array(
-													'class' => 'dropdown-header'
-												)
-											),
-											array(
 												'label' => 'Ежедневные пункты',
 												'url' => array(
 													'stats/dailyPoints'
@@ -118,9 +112,9 @@
 												'url' => array('stats/points')
 											),
 											array(
-												'label' => 'Достижения',
+												'label' => '',
 												'itemOptions' => array(
-													'class' => 'dropdown-header'
+													'class' => 'divider'
 												)
 											),
 											array(
@@ -136,9 +130,9 @@
 												)
 											),
 											array(
-												'label' => 'Проекты',
+												'label' => '',
 												'itemOptions' => array(
-													'class' => 'dropdown-header'
+													'class' => 'divider'
 												)
 											),
 											array(
