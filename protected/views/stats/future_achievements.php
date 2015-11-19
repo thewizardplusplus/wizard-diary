@@ -4,14 +4,8 @@
 	 * @var CArrayDataProvider $future_achievements_provider
 	 */
 
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/pnglib.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/identicon.js'),
-		CClientScript::POS_HEAD
-	);
+	Yii::app()->getClientScript()->registerPackage('jdenticon');
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/achievements_icons.js'),
 		CClientScript::POS_HEAD
