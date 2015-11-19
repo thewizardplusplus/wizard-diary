@@ -1,23 +1,23 @@
 <?php
 	/**
 	 * @var StatsController $this
-	 * @var CArrayDataProvider $achievements_provider
+	 * @var CArrayDataProvider $future_achievements_provider
 	 */
 
-	$this->pageTitle = Yii::app()->name . ' - Статистика: достижения';
+	$this->pageTitle = Yii::app()->name . ' - Статистика: будущие достижения';
 ?>
 
 <header class = "page-header">
-	<h4>Статистика: достижения</h4>
+	<h4>Статистика: будущие достижения</h4>
 </header>
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
 		'zii.widgets.CListView',
 		array(
-			'id' => 'achievements-list',
-			'dataProvider' => $achievements_provider,
-			'itemView' => '_achievements_view',
+			'id' => 'future-achievements-list',
+			'dataProvider' => $future_achievements_provider,
+			'itemView' => '_future_achievements_view',
 			'template' => '{items} {summary} {pager}',
 			'enableHistory' => true,
 			'loadingCssClass' => 'wait',
@@ -26,7 +26,7 @@
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'emptyText' => 'Нет достижений.',
+			'emptyText' => 'Нет будущих достижений.',
 			'summaryText' => 'Достижения {start}-{end} из {count}.',
 			'pager' => array(
 				'header' => '',

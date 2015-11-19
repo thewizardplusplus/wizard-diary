@@ -146,57 +146,38 @@ class StatsController extends CController {
 	}
 
 	public function actionAchievements() {
-		$points = Point::model()->findAll(
+		$data = $this->getAchievementsData();
+
+		$achievements = array();
+		foreach ($data as $text => $subdata) {
+			foreach ($subdata['achievements'] as $level => $date) {
+				$achievements[] = array(
+					'point' => $text,
+					'level' => $level,
+					'name' => $this->achievements_names[$level],
+					'date' => $date
+				);
+			}
+		}
+
+		$achievements_provider = new CArrayDataProvider(
+			$achievements,
 			array(
-				'select' => array('text', 'date'),
-				'condition' =>
-					'daily = TRUE AND text != "" AND state = "SATISFIED"',
-				'order' => 'date'
+				'keyField' => 'date',
+				'sort' => array(
+					'attributes' => array('date'),
+					'defaultOrder' => array('date' => CSort::SORT_DESC)
+				)
 			)
 		);
 
-		$data = array();
-		foreach ($points as $point) {
-			$date = date_create($point->date);
-			if (!array_key_exists($point->text, $data)) {
-				$data[$point->text] = array(
-					'dates' => array($point->date),
-					'last_date' => $date,
-					'achievements' => array('#1' => $point->date)
-				);
+		$this->render(
+			'achievements',
+			array('achievements_provider' => $achievements_provider)
+		);
+	}
 
-				continue;
-			}
-
-			if ($data[$point->text]['last_date']->diff($date)->days <= 1) {
-				$data[$point->text]['dates'][] = $point->date;
-
-				$number_of_dates = count($data[$point->text]['dates']);
-				foreach ($this->achievements_levels as $level) {
-					if ($level > $number_of_dates) {
-						break;
-					}
-
-					$level_key = sprintf('#%d', $level);
-					if (
-						array_key_exists(
-							$level_key,
-							$data[$point->text]['achievements']
-						)
-					) {
-						continue;
-					}
-
-					$data[$point->text]['achievements'][$level_key] =
-						$point->date;
-				}
-			} else {
-				$data[$point->text]['dates'] = array($point->date);
-			}
-
-			$data[$point->text]['last_date'] = $date;
-		}
-
+	public function actionFutureAchievements() {
 		$points = Yii::app()
 			->db
 			->createCommand()
@@ -239,18 +220,12 @@ class StatsController extends CController {
 			$leading_uncompleted_days++;
 		}
 
-		$achievements = array();
+		$data = $this->getAchievementsData();
+
 		$future_achievements = array();
 		$current_date = date_create('2015-03-17');
 		foreach ($data as $text => $subdata) {
 			foreach ($subdata['achievements'] as $level => $date) {
-				$achievements[] = array(
-					'point' => $text,
-					'level' => $level,
-					'name' => $this->achievements_names[$level],
-					'date' => $date
-				);
-
 				if (
 					date_create($date)->diff($current_date)->days
 					<= $leading_uncompleted_days
@@ -267,16 +242,6 @@ class StatsController extends CController {
 			}
 		}
 
-		$achievements_provider = new CArrayDataProvider(
-			$achievements,
-			array(
-				'keyField' => 'date',
-				'sort' => array(
-					'attributes' => array('date'),
-					'defaultOrder' => array('date' => CSort::SORT_DESC)
-				)
-			)
-		);
 		$future_achievements_provider = new CArrayDataProvider(
 			$future_achievements,
 			array(
@@ -289,9 +254,8 @@ class StatsController extends CController {
 		);
 
 		$this->render(
-			'achievements',
+			'future_achievements',
 			array(
-				'achievements_provider' => $achievements_provider,
 				'future_achievements_provider' => $future_achievements_provider
 			)
 		);
@@ -533,4 +497,59 @@ class StatsController extends CController {
 		'#24' => 'Сила воли',
 		'#48' => 'Привычка'
 	);
+
+	private function getAchievementsData() {
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text', 'date'),
+				'condition' =>
+					'daily = TRUE AND text != "" AND state = "SATISFIED"',
+				'order' => 'date'
+			)
+		);
+
+		$data = array();
+		foreach ($points as $point) {
+			$date = date_create($point->date);
+			if (!array_key_exists($point->text, $data)) {
+				$data[$point->text] = array(
+					'dates' => array($point->date),
+					'last_date' => $date,
+					'achievements' => array('#1' => $point->date)
+				);
+
+				continue;
+			}
+
+			if ($data[$point->text]['last_date']->diff($date)->days <= 1) {
+				$data[$point->text]['dates'][] = $point->date;
+
+				$number_of_dates = count($data[$point->text]['dates']);
+				foreach ($this->achievements_levels as $level) {
+					if ($level > $number_of_dates) {
+						break;
+					}
+
+					$level_key = sprintf('#%d', $level);
+					if (
+						array_key_exists(
+							$level_key,
+							$data[$point->text]['achievements']
+						)
+					) {
+						continue;
+					}
+
+					$data[$point->text]['achievements'][$level_key] =
+						$point->date;
+				}
+			} else {
+				$data[$point->text]['dates'] = array($point->date);
+			}
+
+			$data[$point->text]['last_date'] = $date;
+		}
+
+		return $data;
+	}
 }

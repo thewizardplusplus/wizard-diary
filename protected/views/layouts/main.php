@@ -130,6 +130,12 @@
 												)
 											),
 											array(
+												'label' => 'Будущие достижения',
+												'url' => array(
+													'stats/futureAchievements'
+												)
+											),
+											array(
 												'label' => 'Проекты',
 												'itemOptions' => array(
 													'class' => 'dropdown-header'

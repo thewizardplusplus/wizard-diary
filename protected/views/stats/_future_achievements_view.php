@@ -8,6 +8,5 @@
 ?>
 
 <div>
-	#future
 	<pre><code><?= print_r($data, true) ?></code></pre>
 </div>
