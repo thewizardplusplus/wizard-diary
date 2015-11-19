@@ -151,11 +151,13 @@ class StatsController extends CController {
 		$achievements = array();
 		foreach ($data as $text => $subdata) {
 			foreach ($subdata['achievements'] as $level => $date) {
+				$name = $this->achievements_names[$level];
 				$achievements[] = array(
 					'point' => $text,
 					'level' => $level,
 					'days' => $this->formatDays($level),
-					'name' => $this->achievements_names[$level],
+					'name' => $name,
+					'hash' => $this->hashAchievement($name, $text),
 					'date' => $date
 				);
 			}
@@ -224,7 +226,7 @@ class StatsController extends CController {
 		$data = $this->getAchievementsData();
 
 		$future_achievements = array();
-		$current_date = date_create('2015-03-17');
+		$current_date = date_create();
 		foreach ($data as $text => $subdata) {
 			foreach ($subdata['achievements'] as $level => $date) {
 				if (
@@ -233,11 +235,13 @@ class StatsController extends CController {
 				) {
 					$next_level = $this->next_achievements_levels[$level];
 					if (!is_null($next_level)) {
+						$name = $this->achievements_names[$next_level];
 						$future_achievements[] = array(
 							'point' => $text,
 							'level' => $next_level,
 							'days' => $this->formatDays($level),
-							'name' => $this->achievements_names[$next_level]
+							'name' => $name,
+							'hash' => $this->hashAchievement($name, $text)
 						);
 					}
 				}
@@ -564,5 +568,9 @@ class StatsController extends CController {
 				: 'дней';
 
 		return sprintf("%d %s", $days, $unit);
+	}
+
+	private function hashAchievement($name, $point) {
+		return md5(sprintf('%s:%s', $name, $point));
 	}
 }

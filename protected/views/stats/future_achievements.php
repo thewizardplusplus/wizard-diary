@@ -4,6 +4,19 @@
 	 * @var CArrayDataProvider $future_achievements_provider
 	 */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/pnglib.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/identicon.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/achievements_icons.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Статистика: будущие достижения';
 ?>
 
@@ -22,6 +35,10 @@
 			'enableHistory' => true,
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
+			'afterAjaxUpdate' =>
+				'function() {'
+					. 'AchievementsIcons.afterUpdate();'
+				. '}',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
