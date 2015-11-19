@@ -11,9 +11,9 @@
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var CSRF_TOKEN = {'
-			. '\'' . Yii::app()->request->csrfTokenName . '\':'
-				. '\'' . Yii::app()->request->csrfToken . '\''
-		. '};',
+				. '\'' . Yii::app()->request->csrfTokenName . '\':'
+					. '\'' . Yii::app()->request->csrfToken . '\''
+			. '};',
 		CClientScript::POS_HEAD
 	);
 	if (!Yii::app()->user->isGuest) {
@@ -102,6 +102,12 @@
 									array(
 										'items' => array(
 											array(
+												'label' => 'Пункты',
+												'itemOptions' => array(
+													'class' => 'dropdown-header'
+												)
+											),
+											array(
 												'label' => 'Ежедневные пункты',
 												'url' => array(
 													'stats/dailyPoints'
@@ -112,9 +118,9 @@
 												'url' => array('stats/points')
 											),
 											array(
-												'label' => '',
+												'label' => 'Достижения',
 												'itemOptions' => array(
-													'class' => 'divider'
+													'class' => 'dropdown-header'
 												)
 											),
 											array(
@@ -124,9 +130,9 @@
 												)
 											),
 											array(
-												'label' => '',
+												'label' => 'Проекты',
 												'itemOptions' => array(
-													'class' => 'divider'
+													'class' => 'dropdown-header'
 												)
 											),
 											array(

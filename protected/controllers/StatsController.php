@@ -267,33 +267,32 @@ class StatsController extends CController {
 			}
 		}
 
-		usort(
+		$achievements_provider = new CArrayDataProvider(
 			$achievements,
-			function($achievement_1, $achievement_2) {
-				$date_1 = date_create($achievement_1['date']);
-				$date_2 = date_create($achievement_2['date']);
-
-				$difference = $date_1->diff($date_2);
-				if ($difference->days == 0) {
-					return 0;
-				}
-				return $difference->invert == 1 ? -1 : 1;
-			}
+			array(
+				'keyField' => 'date',
+				'sort' => array(
+					'attributes' => array('date'),
+					'defaultOrder' => array('date' => CSort::SORT_DESC)
+				)
+			)
 		);
-		usort(
+		$future_achievements_provider = new CArrayDataProvider(
 			$future_achievements,
-			function($achievement_1, $achievement_2) {
-				return strcmp($achievement_1['point'], $achievement_2['point']);
-			}
+			array(
+				'keyField' => 'point',
+				'sort' => array(
+					'attributes' => array('point'),
+					'defaultOrder' => array('point' => CSort::SORT_ASC)
+				)
+			)
 		);
 
 		$this->render(
 			'achievements',
 			array(
-				'data' => array(
-					'achievements' => $achievements,
-					'future_achievements' => $future_achievements
-				)
+				'achievements_provider' => $achievements_provider,
+				'future_achievements_provider' => $future_achievements_provider
 			)
 		);
 	}
