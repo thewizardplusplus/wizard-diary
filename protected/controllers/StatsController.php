@@ -197,8 +197,51 @@ class StatsController extends CController {
 			$data[$point->text]['last_date'] = $date;
 		}
 
+		$points = Yii::app()
+			->db
+			->createCommand()
+			->select(
+				array(
+					'date',
+					'NOT MAX('
+							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
+						. ') AS \'completed\'',
+					'SUM('
+							. 'CASE '
+								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'daily\''
+				)
+			)
+			->from('{{points}}')
+			->group('date')
+			->order('date DESC')
+			->queryAll();
+
+		$leading_uncompleted_days = 0;
+		$last_date = date_create();
+		foreach ($points as $point) {
+			if (intval($point['daily']) == 0) {
+				break;
+			}
+			if ($point['completed']) {
+				break;
+			}
+
+			$date = date_create($point['date']);
+			if ($date->diff($last_date)->days > 1) {
+				break;
+			}
+			$last_date = $date;
+
+			$leading_uncompleted_days++;
+		}
+
 		$achievements = array();
 		$future_achievements = array();
+		$current_date = date_create('2015-03-17');
 		foreach ($data as $text => $subdata) {
 			foreach ($subdata['achievements'] as $level => $date) {
 				$achievements[] = array(
@@ -207,8 +250,23 @@ class StatsController extends CController {
 					'name' => $this->achievements_names[$level],
 					'date' => $date
 				);
+
+				if (
+					date_create($date)->diff($current_date)->days
+					<= $leading_uncompleted_days
+				) {
+					$next_level = $this->next_achievements_levels[$level];
+					if (!is_null($next_level)) {
+						$future_achievements[] = array(
+							'point' => $text,
+							'level' => $next_level,
+							'name' => $this->achievements_names[$next_level]
+						);
+					}
+				}
 			}
 		}
+
 		usort(
 			$achievements,
 			function($achievement_1, $achievement_2) {
@@ -220,6 +278,12 @@ class StatsController extends CController {
 					return 0;
 				}
 				return $difference->invert == 1 ? -1 : 1;
+			}
+		);
+		usort(
+			$future_achievements,
+			function($achievement_1, $achievement_2) {
+				return strcmp($achievement_1['point'], $achievement_2['point']);
 			}
 		);
 
@@ -456,6 +520,13 @@ class StatsController extends CController {
 	}
 
 	private $achievements_levels = array(1, 6, 12, 24, 48);
+	private $next_achievements_levels = array(
+		'#1' => '#6',
+		'#6' => '#12',
+		'#12' => '#24',
+		'#24' => '#48',
+		'#48' => null
+	);
 	private $achievements_names = array(
 		'#1' => 'Первая попытка',
 		'#6' => 'Выдержка',
