@@ -438,3 +438,12 @@ body.dragging * {
 .stats-view.project-list .glyphicon-file {
 	color: #5cb85c;
 }
+
+.dropdown-header {
+	cursor: default;
+}
+
+.achievement-view {
+	margin-bottom: 10px;
+	padding: 10px;
+}

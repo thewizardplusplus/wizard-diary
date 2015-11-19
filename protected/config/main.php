@@ -27,6 +27,7 @@ return array(
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
 				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
 				'stats/daily_points' => 'stats/dailyPoints',
+				'stats/future_achievements' => 'stats/futureAchievements',
 				'stats/project_list' => 'stats/projectList',
 				'backups' => 'backup/list',
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
