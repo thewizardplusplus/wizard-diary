@@ -119,6 +119,11 @@ return array(
 				'jdenticon' => array(
 					'baseUrl' => 'https://cdn.jsdelivr.net/jdenticon/1.3.2/',
 					'js' => array('jdenticon.min.js')
+				),
+				'awesome-bootstrap-checkbox' => array(
+					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
+						. 'awesome-bootstrap-checkbox/0.3.5/',
+					'css' => array('awesome-bootstrap-checkbox.min.css')
 				)
 			)
 		),
