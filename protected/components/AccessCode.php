@@ -122,12 +122,21 @@ class AccessCode {
 	}
 
 	private static function generate() {
-		$access_code = '';
-		for ($i = 0; $i < Constants::ACCESS_CODE_LENGTH; $i++) {
-			$access_code .= mt_rand(0, 9);
+		$access_code =
+			Yii::app()
+			->getSecurityManager()
+			->generateRandomString(Constants::ACCESS_CODE_LENGTH, true);
+		if ($access_code === false) {
+			$access_code =
+				Yii::app()
+				->getSecurityManager()
+				->generateRandomString(Constants::ACCESS_CODE_LENGTH, false);
+			if ($access_code === false) {
+				throw new CException('Ошибка генерации кода доступа.');
+			}
 		}
 
-		return $access_code;
+		return strtr($access_code, array('_' => '5', '~' => '5'));
 	}
 
 	private static function set($access_code, $need_user_remember) {
