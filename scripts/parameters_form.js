@@ -9,6 +9,8 @@ $(document).ready(
 			},
 			PASSWORD_CLEANING_DELAY_IN_S
 		);
+
+		$('#ParametersForm_session_lifetime_in_min').spinner();
 		$('#ParametersForm_access_log_lifetime_in_s').spinner();
 	}
 );

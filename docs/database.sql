@@ -30,7 +30,8 @@ CREATE TABLE `diary_backups` (
 DROP TABLE IF EXISTS `diary_parameters`;
 CREATE TABLE `diary_parameters` (
 	`id` BIGINT UNSIGNED NOT NULL DEFAULT 1 PRIMARY KEY,
-	`password_hash` TEXT NOT NULL,
+	`password_hash` VARCHAR(255) NOT NULL,
+	`session_lifetime_in_min` INT UNSIGNED NOT NULL DEFAULT 12,
 	-- default value - 1 month
 	`access_log_lifetime_in_s` INT UNSIGNED NOT NULL DEFAULT 2592000
 ) ENGINE = InnoDB;
