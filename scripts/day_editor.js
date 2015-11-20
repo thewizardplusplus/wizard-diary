@@ -1,10 +1,40 @@
 $(document).ready(
 	function() {
+		var lang_tools = ace.require('ace/ext/language_tools');
+
 		var day_editor = ace.edit('day-editor');
 		day_editor.$blockScrolling = Infinity;
 		day_editor.setTheme('ace/theme/twilight');
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
+
+		day_editor.setOptions({enableBasicAutocompletion: true});
+		lang_tools.addCompleter(
+			{
+				getCompletions: function(
+					editor,
+					session,
+					position,
+					prefix,
+					callback
+				) {
+					console.log(arguments);
+					callback(
+						null,
+						['one', 'two', 'three', 'four', 'five'].map(
+							function(word, index, array) {
+								return {
+									name: word,
+									value: word,
+									score: index,
+									meta: 'test'
+								};
+							}
+						)
+					);
+				}
+			}
+		);
 
 		var day_mobile_editor = $('#day-mobile-editor');
 		var previous_mobile_editor_content = day_mobile_editor.val();

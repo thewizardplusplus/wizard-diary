@@ -9,6 +9,7 @@
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
+	Yii::app()->getClientScript()->registerPackage('ace-language-tools');
 	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
 	Yii::app()->getClientScript()->registerScriptFile(
