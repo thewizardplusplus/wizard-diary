@@ -13,6 +13,10 @@ class AccessCode {
 			&& Yii::app()->session['ACCESS_CODE'] == $access_code;
 	}
 
+	public static function isNeedUserRemember() {
+		return self::isSetted() && Yii::app()->session['NEED_USER_REMEMBER'];
+	}
+
 	public static function getRemainingLifetime() {
 		return
 			!is_null(Yii::app()->session['ACCESS_CODE_SETTING_TIME'])
@@ -21,7 +25,7 @@ class AccessCode {
 				: 0;
 	}
 
-	public static function send() {
+	public static function send($need_user_remember) {
 		if (empty(Constants::ACCESS_CODE_TARGETS)) {
 			throw new CException('Список назначений для кода доступа пуст.');
 		}
@@ -60,7 +64,7 @@ class AccessCode {
 			$counter++;
 		}
 
-		self::set($access_code);
+		self::set($access_code, $need_user_remember);
 	}
 
 	public static function sendSms($access_code) {
@@ -114,6 +118,7 @@ class AccessCode {
 	public static function clean() {
 		unset(Yii::app()->session['ACCESS_CODE']);
 		unset(Yii::app()->session['ACCESS_CODE_SETTING_TIME']);
+		unset(Yii::app()->session['NEED_USER_REMEMBER']);
 	}
 
 	private static function generate() {
@@ -125,8 +130,9 @@ class AccessCode {
 		return $access_code;
 	}
 
-	private static function set($access_code) {
+	private static function set($access_code, $need_user_remember) {
 		Yii::app()->session['ACCESS_CODE'] = $access_code;
 		Yii::app()->session['ACCESS_CODE_SETTING_TIME'] = time();
+		Yii::app()->session['NEED_USER_REMEMBER'] = $need_user_remember;
 	}
 }

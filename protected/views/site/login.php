@@ -9,6 +9,10 @@
 
 	require_once(__DIR__ . '/../../../recaptcha/recaptchalib.php');
 
+	Yii::app()->getClientScript()->registerPackage(
+		'awesome-bootstrap-checkbox'
+	);
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/custom_recaptcha.js'),
 		CClientScript::POS_HEAD
@@ -79,6 +83,11 @@
 				Constants::RECAPTCHA_PUBLIC_KEY
 			?>">
 		</script>
+	</div>
+
+	<div class = "checkbox checkbox-primary need-remember-flag">
+		<?= $form->checkBox($model, 'need_remember') ?>
+		<?= $form->labelEx($model, 'need_remember') ?>
 	</div>
 
 	<?= CHtml::htmlButton(

@@ -4,15 +4,12 @@
 	 * @var ParametersForm $model
 	 * @var string $password_container_class
 	 * @var string $password_copy_container_class
+	 * @var string $session_lifetime_container_class
 	 * @var string $access_log_lifetime_container_class
 	 * @var CActiveForm $form
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
-
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_spinner.css')
-	);
 
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/parameters_form.js'),
@@ -84,6 +81,25 @@
 				<?= $form->error($model, 'password_copy') ?>
 			</div>
 		</fieldset>
+	</div>
+
+	<div class = "form-group<?= $session_lifetime_container_class ?>">
+		<?= $form->labelEx(
+			$model,
+			'session_lifetime_in_min',
+			array('class' => 'control-label')
+		) ?>
+		<?= $form->textField(
+			$model,
+			'session_lifetime_in_min',
+			array(
+				'class' => 'form-control',
+				'autocomplete' => 'off',
+				'min' => Constants::SESSION_LIFETIME_IN_MIN_MINIMUM,
+				'max' => Constants::SESSION_LIFETIME_IN_MIN_MAXIMUM
+			)
+		) ?>
+		<?= $form->error($model, 'session_lifetime_in_min') ?>
 	</div>
 
 	<div class = "form-group<?= $access_log_lifetime_container_class ?>">

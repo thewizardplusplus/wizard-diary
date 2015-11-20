@@ -118,17 +118,6 @@ body {
 	font-size: larger;
 }
 
-/* Date row styles. */
-.date-row {
-	display: block;
-	margin: 5px;
-}
-
-.date-row .label {
-	padding-bottom: 0.2em;
-	font-size: larger;
-}
-
 /* Button column styles. */
 .button-column {
 	font-size: larger;
@@ -144,8 +133,7 @@ body {
 }
 
 .danger .backup_create_duration,
-.warning .backup_create_duration
-{
+.warning .backup_create_duration {
 	font-weight: bold;
 }
 
@@ -155,8 +143,7 @@ body {
 }
 
 .dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus
-{
+.dropdown-menu > li > a:focus {
 	background: #428bca;
 	color: white !important;
 }
@@ -188,25 +175,6 @@ a.state-initial:focus {
 	color: rgb(128, 128, 128) !important;
 }
 
-/* Adding point form styles. */
-#Point_text {
-	border-top-left-radius: 4px;
-	border-bottom-left-radius: 4px;
-}
-
-.ui-autocomplete {
-	z-index: 1100;
-	/* Minimal screen size (QVGA) on mobile (Android)
-	 * minus height text point input field.
-	 */
-	max-height: 206px;
-	overflow-x: hidden;
-}
-
-.ui-autocomplete-loading {
-	background: url('/images/processing-icon.gif') right center no-repeat;
-}
-
 /* jQuery Sortable styles */
 body.dragging,
 body.dragging * {
@@ -233,116 +201,57 @@ body.dragging * {
 	color: #f0ad4e;
 }
 
-/* Additional styles. */
-.age-points-button,
-.input-group-addon
-{
-	color: #428bca;
+/* Corrections styles for Awesome Bootstrap Checkbox. */
+.checkbox input[type=checkbox]:checked + label:after {
+	font-family: 'Glyphicons Halflings';
+	content: "\e013";
 }
 
-.header-with-button {
-	padding-bottom: 20px;
+.checkbox label {
+	padding-left: 5px;
 }
 
-.header-with-button .btn + .btn {
-	margin-right: 5px;
+.checkbox label:after {
+	padding-left: 4px;
+	padding-top: 2px;
+	font-size: 9px;
 }
 
-.header-with-button p {
-	margin-bottom: 0;
+/* Corrections styles for jQuery UI Spinner. */
+.ui-spinner {
+	display: block;
 }
 
-.small-text {
-	font-size: smaller;
-}
-
-.unimportant-text {
-	color: #777;
-}
-
-.backups-legend,
-.access-log-legend {
-	margin-top: 10px;
-}
-
-.additional-info {
-	color: #888;
-}
-
-.day-date-column {
-	width: 50px;
-}
-
-.day-completed-flag-column {
-	width: 50px;
-	text-align: center;
-}
-
-.day-satisfied-column {
-	width: 50px;
-}
-
-#day-editor,
-#diff-viewer {
-	height: 500px;
-	border-radius: 4px;
-	font-size: 14px;
-}
-
-#day-mobile-editor {
-	height: 250px;
-	padding: 0 5px;
-	background-color: #141414;
-	font-family: monospace;
-	font-size: 12px;
-	color: #f8f8f8;
-}
-
-.saved-flag,
-.day-completed-flag {
-	cursor: default;
-}
-
-.label {
+.daily-point-form .ui-spinner {
 	display: inline-block;
-	padding: 5px 10px;
 }
 
-.point-text input {
-	font-weight: normal;
+@media (max-width: 768px) {
+	.daily-point-form .ui-spinner {
+		display: block;
+	}
 }
 
-.italic-text {
-	font-style: italic;
+.ui-widget-content {
+	border: none;
 }
 
+.ui-spinner-input {
+	margin: 0;
+}
+
+.ui-corner-tr {
+	border-top-right-radius: 4px;
+}
+
+.ui-corner-br {
+	border-bottom-right-radius: 4px;
+}
+
+/* Stats styles. */
 .stats-view.empty-label {
 	display: none;
 	font-style: italic;
-}
-
-/* http://stackoverflow.com/a/4407335/3884331 */
-.not-selectable {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-.daily-point-form {
-	padding: 10px;
-}
-
-.daily-point-form #daily-point-form_es_ {
-	margin-top: 0;
-	margin-bottom: 10px;
-}
-
-.daily-point-form #DailyPointForm_day_em_,
-.daily-point-form #DailyPointForm_year_em_ {
-	margin-bottom: 0;
 }
 
 .stats-view.daily-points .graph-frame,
@@ -439,7 +348,121 @@ body.dragging * {
 	color: #5cb85c;
 }
 
+/* Daily point form styles. */
+.daily-point-form {
+	padding: 10px;
+}
+
+.daily-point-form #daily-point-form_es_ {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.daily-point-form #DailyPointForm_day_em_,
+.daily-point-form #DailyPointForm_year_em_ {
+	margin-bottom: 0;
+}
+
+/* Header with button styles. */
+.header-with-button {
+	padding-bottom: 20px;
+}
+
+.header-with-button .btn + .btn {
+	margin-right: 5px;
+}
+
+.header-with-button p {
+	margin-bottom: 0;
+}
+
+/* Day list styles. */
+.day-date-column {
+	width: 50px;
+}
+
+.day-completed-flag-column {
+	width: 50px;
+	text-align: center;
+}
+
+.day-satisfied-column {
+	width: 50px;
+}
+
+/* Editors styles. */
+#day-editor,
+#diff-viewer {
+	height: 500px;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+#day-mobile-editor {
+	height: 250px;
+	padding: 0 5px;
+	background-color: #141414;
+	font-family: monospace;
+	font-size: 12px;
+	color: #f8f8f8;
+}
+
+.saved-flag,
+.day-completed-flag {
+	cursor: default;
+}
+
+.label {
+	display: inline-block;
+	padding: 5px 10px;
+}
+
+/* Utils styles. */
+.small-text {
+	font-size: smaller;
+}
+
+.unimportant-text {
+	color: #777;
+}
+
+.italic-text {
+	font-style: italic;
+}
+
+/* http://stackoverflow.com/a/4407335/3884331 */
+.not-selectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Additional styles. */
+.input-group-addon {
+	color: #428bca;
+}
+
+.backups-legend,
+.access-log-legend {
+	margin-top: 10px;
+}
+
+.additional-info {
+	color: #888;
+}
+
+.point-text input {
+	font-weight: normal;
+}
+
 .achievement-view {
 	margin-bottom: 10px;
 	padding: 10px;
+}
+
+.need-remember-flag {
+	margin-bottom: 20px;
 }
