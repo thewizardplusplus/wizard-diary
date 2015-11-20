@@ -10,10 +10,6 @@
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
 
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_spinner.css')
-	);
-
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/parameters_form.js'),
 		CClientScript::POS_HEAD

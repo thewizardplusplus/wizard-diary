@@ -14,10 +14,6 @@
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
 	Yii::app()->getClientScript()->registerPackage('sortable');
 
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_spinner.css')
-	);
-
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var DAILY_POINT_ORDER_URL = \''
