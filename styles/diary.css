@@ -462,3 +462,7 @@ body.dragging * {
 	margin-bottom: 10px;
 	padding: 10px;
 }
+
+.need-remember-flag {
+	margin-bottom: 20px;
+}

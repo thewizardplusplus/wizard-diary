@@ -50,7 +50,7 @@ class SiteController extends CController {
 					$_POST['recaptcha_response_field']
 				);
 				if ($result->is_valid) {
-					AccessCode::send();
+					AccessCode::send($model->need_remember);
 					$this->redirect($this->createUrl('site/accessCode'));
 				} else {
 					$model->addError(
@@ -97,7 +97,12 @@ class SiteController extends CController {
 			$model->attributes = $_POST['AccessCodeForm'];
 			$result = $model->validate();
 			if ($result) {
-				$result = Yii::app()->user->login(new DummyUserIdentity());
+				$result = Yii::app()->user->login(
+					new DummyUserIdentity(),
+					AccessCode::isNeedUserRemember()
+						? Parameters::getModel()->session_lifetime_in_min * 60
+						: 0
+				);
 				if ($result) {
 					AccessCode::clean();
 					$this->redirect(Yii::app()->user->returnUrl);

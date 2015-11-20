@@ -14,6 +14,7 @@ return array(
 		'application.models.*'
 	),
 	'components' => array(
+		'user' => array('allowAutoLogin' => true),
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'showScriptName' => false,

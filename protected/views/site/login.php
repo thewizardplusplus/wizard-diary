@@ -85,7 +85,7 @@
 		</script>
 	</div>
 
-	<div class = "checkbox checkbox-primary">
+	<div class = "checkbox checkbox-primary need-remember-flag">
 		<?= $form->checkBox($model, 'need_remember') ?>
 		<?= $form->labelEx($model, 'need_remember') ?>
 	</div>
