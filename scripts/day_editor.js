@@ -27,13 +27,8 @@ $(document).ready(
 					callback(
 						null,
 						['one', 'two', 'three', 'four', 'five'].map(
-							function(word, index, array) {
-								return {
-									name: word,
-									value: word,
-									score: index,
-									meta: 'test'
-								};
+							function(word) {
+								return {value: word};
 							}
 						)
 					);
