@@ -8,7 +8,12 @@ $(document).ready(
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
-		day_editor.setOptions({enableBasicAutocompletion: true});
+		day_editor.setOptions(
+			{
+				enableBasicAutocompletion: true,
+				enableLiveAutocompletion: true
+			}
+		);
 		lang_tools.addCompleter(
 			{
 				getCompletions: function(
