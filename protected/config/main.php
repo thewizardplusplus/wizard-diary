@@ -53,7 +53,7 @@ return array(
 			'class' => 'CDbHttpSession',
 			'connectionID' => 'db',
 			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions',
-			'timeout' => 300
+			'timeout' => Constants::SESSION_GC_TIMEOUT_IN_S
 		),
 		'clientScript' => array(
 			'packages' => array(
