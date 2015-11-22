@@ -47,7 +47,7 @@
 		<link
 			rel = "icon"
 			type = "image/png"
-			href = "<?= Yii::app()->request->baseUrl ?>/images/favicon.png" />
+			href = "<?= Yii::app()->request->baseUrl ?>/images/logo.png" />
 		<title><?= $this->pageTitle ?></title>
 	</head>
 	<body>
@@ -67,11 +67,7 @@
 					<a
 						class = "navbar-brand"
 						href = "<?= Yii::app()->homeUrl ?>">
-						<img
-							alt = "<?= Yii::app()->name ?>"
-							src = "<?=
-								Yii::app()->request->baseUrl
-							?>/images/logo.png" />
+						<?= Yii::app()->name ?>
 					</a>
 				</div>
 
