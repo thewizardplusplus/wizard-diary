@@ -26,5 +26,18 @@
 			?>&raquo;</strong>
 			в течение <strong><?= $data['days'] ?></strong>.
 		</p>
+
+		<p class = "unimportant-text italic-text without-bottom-margin">
+			Выполнялся уже <strong><?= $data['completed_days'] ?></strong>.
+		</p>
+		<p class = "unimportant-text italic-text without-bottom-margin">
+			Осталось выполнять ещё <strong><?= $data['rest_days'] ?></strong>.
+		</p>
+		<p class = "unimportant-text italic-text">
+			Будет получено
+			<strong><time title = "<?= $data['date'] ?>"><?=
+				$data['my_date']
+			?></time></strong>.
+		</p>
 	</div>
 </div>

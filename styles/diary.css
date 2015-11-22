@@ -440,6 +440,10 @@ body.dragging * {
 	user-select: none;
 }
 
+.without-bottom-margin {
+	margin-bottom: 0;
+}
+
 /* Additional styles. */
 .input-group-addon {
 	color: #428bca;
@@ -462,4 +466,8 @@ body.dragging * {
 	margin-bottom: 10px;
 	padding: 10px;
 	background-color: #f8f8f8;
+}
+
+.achievement-view p:last-child {
+	margin-bottom: 0;
 }
