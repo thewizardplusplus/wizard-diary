@@ -170,8 +170,18 @@
 												'url' => array('backup/list')
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Лог доступа',
 												'url' => array('access/list')
+											),
+											array(
+												'label' => 'Сессии',
+												'url' => array('site/logoutAll')
 											),
 											array(
 												'label' => '',

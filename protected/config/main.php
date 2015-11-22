@@ -20,7 +20,8 @@ return array(
 			'showScriptName' => false,
 			'rules' => array(
 				'login' => 'site/login',
-				'access-code' => 'site/accessCode',
+				'access_code' => 'site/accessCode',
+				'logout_all' => 'site/logoutAll',
 				'days' => 'day/list',
 				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
