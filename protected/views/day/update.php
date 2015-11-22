@@ -20,6 +20,14 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/ace_wizard_diary_highlight_rules.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/ace_mode_wizard_diary.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/day_editor.js'),
 		CClientScript::POS_HEAD
 	);
