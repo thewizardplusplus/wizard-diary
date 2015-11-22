@@ -3,6 +3,7 @@ $(document).ready(
 		var day_editor = ace.edit('day-editor');
 		day_editor.$blockScrolling = Infinity;
 		day_editor.setTheme('ace/theme/twilight');
+		day_editor.getSession().setMode('ace/mode/wizard_diary');
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
 
