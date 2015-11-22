@@ -115,8 +115,16 @@ class DayController extends CController {
 
 	public function actionUpdate($date) {
 		if (isset($_POST['points_description'])) {
+			$number_of_daily_points = Point::model()->count(
+				array(
+					'condition' => 'date = :date AND `daily` = TRUE',
+					'params' => array('date' => $date)
+				)
+			);
+
 			$points_description = $this->extendImport(
-				$_POST['points_description']
+				$_POST['points_description'],
+				$number_of_daily_points
 			);
 			$sql = $this->importToSql($date, $points_description);
 			Yii::app()->db->createCommand($sql)->execute();
@@ -249,7 +257,10 @@ class DayController extends CController {
 		return $points_description;
 	}
 
-	private function extendImport($points_description) {
+	private function extendImport(
+		$points_description,
+		$number_of_daily_points
+	) {
 		$lines = explode("\n", $points_description);
 
 		$last_line_blocks = array();
@@ -302,7 +313,7 @@ class DayController extends CController {
 				count($extended_lines) - 1
 			);
 		}
-		if (!empty($extended_lines)) {
+		if (!empty($extended_lines) and $number_of_daily_points > 0) {
 			array_unshift($extended_lines, '');
 		}
 
