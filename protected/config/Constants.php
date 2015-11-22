@@ -20,7 +20,7 @@ class Constants extends AccessConstants {
 	const DROPBOX_REDIRECT_URL = '/backup/redirect';
 	const SESSION_LIFETIME_IN_MIN_DEFAULT = 12;
 	const SESSION_LIFETIME_IN_MIN_MINIMUM = 1;
-	const SESSION_LIFETIME_IN_MIN_MAXIMUM = 30;
+	const SESSION_LIFETIME_IN_MIN_MAXIMUM = 60;
 	const ACCESS_CODE_LENGTH = 5;
 	const ACCESS_CODE_LIFETIME_IN_S = 60;
 	// support 'sms', 'email', 'log' and unions by '|'
