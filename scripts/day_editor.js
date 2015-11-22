@@ -37,6 +37,29 @@ $(document).ready(
 					cursor_position.row--;
 				}
 			}
+
+			var new_points = [];
+			var previous_point_length = 0;
+			for (var i = 0; i < points.length; i++) {
+				var point = points[i];
+				var point_length = point.trim().length;
+				if (
+					point_length > 0
+					|| previous_point_length > 0
+					|| (typeof cursor_position != 'undefined'
+					&& cursor_position.row == i)
+				) {
+					new_points.push(point);
+				} else if (typeof cursor_position != 'undefined') {
+					if (cursor_position.row > i) {
+						cursor_position.row--;
+					}
+				}
+
+				previous_point_length = point_length;
+			}
+			points = new_points;
+
 			while (
 				points.length
 				&& points.slice(-1)[0].trim().length == 0
