@@ -181,71 +181,59 @@ class StatsController extends CController {
 	}
 
 	public function actionFutureAchievements() {
-		$points = Yii::app()
-			->db
-			->createCommand()
-			->select(
-				array(
-					'date',
-					'NOT MAX('
-							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
-						. ') AS \'completed\'',
-					'SUM('
-							. 'CASE '
-								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
-									. 'THEN 1 '
-								. 'ELSE 0 '
-							. 'END'
-						. ') AS \'daily\''
-				)
-			)
-			->from('{{points}}')
-			->group('date')
-			->order('date DESC')
-			->queryAll();
-
-		$leading_uncompleted_days = 0;
-		$last_date = date_create();
-		foreach ($points as $point) {
-			if (intval($point['daily']) == 0) {
-				break;
-			}
-			if ($point['completed']) {
-				break;
-			}
-
-			$date = date_create($point['date']);
-			if ($date->diff($last_date)->days > 1) {
-				break;
-			}
-			$last_date = $date;
-
-			$leading_uncompleted_days++;
-		}
-
 		$data = $this->getAchievementsData();
+		$leading_uncompleted_days = $this->getLeadingUncompletedDays();
 
 		$future_achievements = array();
 		$current_date = date_create();
 		foreach ($data as $text => $subdata) {
-			foreach ($subdata['achievements'] as $level => $date) {
-				if (
-					date_create($date)->diff($current_date)->days
-					<= $leading_uncompleted_days
-				) {
-					$next_level = $this->next_achievements_levels[$level];
-					if (!is_null($next_level)) {
-						$name = $this->achievements_names[$next_level];
-						$future_achievements[] = array(
-							'point' => $text,
-							'level' => $next_level,
-							'days' => $this->formatDays($level),
-							'name' => $name,
-							'hash' => $this->hashAchievement($name, $text)
-						);
-					}
+			$streak_length = count($subdata['dates']);
+			$last_streak_date = date_create(
+				$subdata['dates'][$streak_length - 1]
+			);
+			if (
+				$last_streak_date->diff($current_date)->days
+				> $leading_uncompleted_days
+			) {
+				continue;
+			}
+
+			$next_level = null;
+			foreach ($this->achievements_levels as $level) {
+				if ($level > $streak_length) {
+					$next_level = $level;
+					break;
 				}
 			}
+			if (is_null($next_level)) {
+				continue;
+			}
+
+			$rest_days = $next_level - $streak_length;
+			$next_level = $this->formatLevel($next_level);
+			if (array_key_exists($next_level, $subdata['achievements'])) {
+				continue;
+			}
+
+			$last_streak_date->add(
+				DateInterval::createFromDateString(
+					sprintf('%d day', $rest_days)
+				)
+			);
+			$date = $last_streak_date->format('Y-m-d');
+
+			$name = $this->achievements_names[$next_level];
+			$future_achievements[] = array(
+				'point' => $text,
+				'level' => $next_level,
+				'days' => $this->formatDays($next_level),
+				'completed_days' => $this->formatCompletedDays($streak_length),
+				'rest_days' => $this->formatCompletedDays($rest_days),
+				'name' => $name,
+				'hash' => $this->hashAchievement($name, $text),
+				'date' => DateFormatter::formatDate($date),
+				'my_date' => DateFormatter::formatMyDate($date)
+			);
 		}
 
 		$future_achievements_provider = new CArrayDataProvider(
@@ -489,13 +477,6 @@ class StatsController extends CController {
 	}
 
 	private $achievements_levels = array(1, 6, 12, 24, 48);
-	private $next_achievements_levels = array(
-		'#1' => '#6',
-		'#6' => '#12',
-		'#12' => '#24',
-		'#24' => '#48',
-		'#48' => null
-	);
 	private $achievements_names = array(
 		'#1' => 'Первая попытка',
 		'#6' => 'Выдержка',
@@ -536,7 +517,7 @@ class StatsController extends CController {
 						break;
 					}
 
-					$level_key = sprintf('#%d', $level);
+					$level_key = $this->formatLevel($level);
 					if (
 						array_key_exists(
 							$level_key,
@@ -559,6 +540,56 @@ class StatsController extends CController {
 		return $data;
 	}
 
+	private function getLeadingUncompletedDays() {
+		$points = Yii::app()
+			->db
+			->createCommand()
+			->select(
+				array(
+					'date',
+					'NOT MAX('
+							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
+						. ') AS \'completed\'',
+					'SUM('
+							. 'CASE '
+								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'daily\''
+				)
+			)
+			->from('{{points}}')
+			->group('date')
+			->order('date DESC')
+			->queryAll();
+
+		$leading_uncompleted_days = 0;
+		$last_date = date_create();
+		foreach ($points as $point) {
+			if (intval($point['daily']) == 0) {
+				break;
+			}
+			if ($point['completed']) {
+				break;
+			}
+
+			$date = date_create($point['date']);
+			if ($date->diff($last_date)->days > 1) {
+				break;
+			}
+			$last_date = $date;
+
+			$leading_uncompleted_days++;
+		}
+
+		return $leading_uncompleted_days;
+	}
+
+	private function formatLevel($level) {
+		return sprintf('#%d', $level);
+	}
+
 	private function formatDays($level) {
 		$days = intval(substr($level, 1));
 		$modulo = $days % 10;
@@ -566,6 +597,19 @@ class StatsController extends CController {
 			($modulo == 1 and ($days < 10 or $days > 20))
 				? 'дня'
 				: 'дней';
+
+		return sprintf("%d %s", $days, $unit);
+	}
+
+	private function formatCompletedDays($days) {
+		$modulo = $days % 10;
+		if ($modulo == 1 and ($days < 10 or $days > 20)) {
+			$unit = 'день';
+		} else if ($modulo > 1 and $modulo < 5 and ($days < 10 or $days > 20)) {
+			$unit = 'дня';
+		} else {
+			$unit = 'дней';
+		}
 
 		return sprintf("%d %s", $days, $unit);
 	}
