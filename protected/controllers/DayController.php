@@ -249,8 +249,8 @@ class DayController extends CController {
 		$hierarchy = $new_hierarchy;
 
 		$prefix_forest = new PrefixForest();
-		foreach ($point_tails as $point_tail) {
-			$prefix_forest->add($point_tail);
+		foreach ($tails as $tail) {
+			$prefix_forest->add($tail);
 		}
 		$prefix_forest->clean();
 
