@@ -23,15 +23,76 @@ $(document).ready(
 					prefix,
 					callback
 				) {
-					console.log(arguments);
-					callback(
-						null,
-						['one', 'two', 'three', 'four', 'five'].map(
-							function(word) {
-								return {value: word};
+					var line_prefix =
+						session
+						.getLine(position.row)
+						.substr(0, position.column);
+					var line_prefix_parts =
+						line_prefix
+						.split(',')
+						.map(
+							function(part) {
+								return part.trim();
 							}
-						)
+						);
+
+					var alternatives = [];
+					switch (line_prefix_parts.length) {
+						case 1:
+							alternatives = Object.keys(
+								POINT_HIERARCHY.hierarchy
+							);
+
+							break;
+						case 2:
+							var level_1 = line_prefix_parts[0];
+							if (
+								POINT_HIERARCHY
+									.hierarchy
+									.hasOwnProperty(level_1)
+							) {
+								alternatives =
+									POINT_HIERARCHY
+									.hierarchy[level_1];
+							}
+
+							break;
+						default:
+							if (
+								POINT_HIERARCHY
+									.hierarchy
+									.hasOwnProperty(line_prefix_parts[0])
+								&& $.inArray(
+									line_prefix_parts[1],
+									POINT_HIERARCHY
+										.hierarchy[line_prefix_parts[0]]
+								) !== -1
+							) {
+								var tails = Object.keys(POINT_HIERARCHY.tails);
+								for (var i = 0; i < tails.length; i++) {
+									var tail = tails[i];
+									var counter = POINT_HIERARCHY.tails[tail];
+									alternatives.push(
+										{
+											value: tail,
+											score: counter
+										}
+									);
+								}
+							}
+					}
+					alternatives = alternatives.map(
+						function(alternative) {
+							if (typeof alternative === 'string') {
+								alternative = {value: alternative};
+							}
+							alternative.meta = 'global';
+
+							return alternative;
+						}
 					);
+
+					callback(null, alternatives);
 				}
 			}
 		);
