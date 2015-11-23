@@ -257,6 +257,15 @@ class DayController extends CController {
 		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
 
+	private function prepareRawPoints($points) {
+		$raw_points = array();
+		foreach ($points as $point) {
+			$raw_points[] = trim($point->text);
+		}
+
+		return $raw_points;
+	}
+
 	private function prepareImport($points) {
 		$points_description = '';
 		$last_parts = array();
