@@ -144,6 +144,7 @@ class DayController extends CController {
 		$points_description = $this->prepareImport($points);
 		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
+		$point_hierarchy = $this->getPointHierarchy();
 
 		$this->render(
 			'update',
@@ -152,7 +153,8 @@ class DayController extends CController {
 				'my_date' => DateFormatter::formatMyDate($date),
 				'date' => DateFormatter::formatDate($encoded_date),
 				'raw_date' => CHtml::encode($encoded_date),
-				'stats' => $stats
+				'stats' => $stats,
+				'point_hierarchy' => $point_hierarchy
 			)
 		);
 	}
@@ -204,6 +206,55 @@ class DayController extends CController {
 		}
 
 		return $row;
+	}
+
+	private function getPointHierarchy() {
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text'),
+				'condition' => '`daily` = FALSE AND LENGTH(TRIM(`text`)) > 0'
+			)
+		);
+
+		$hierarchy = array();
+		$tails = array();
+		foreach ($points as $point) {
+			$parts = array_map('trim', explode(',', $point->text));
+			$number_of_parts = count($parts);
+			if ($number_of_parts > 0) {
+				if (!array_key_exists($parts[0], $hierarchy)) {
+					$hierarchy[$parts[0]] = array();
+				}
+			}
+			if ($number_of_parts > 1) {
+				if (!in_array($parts[1], $hierarchy[$parts[0]])) {
+					$hierarchy[$parts[0]][] = $parts[1];
+				}
+			}
+			if ($number_of_parts > 2) {
+				$tails[] = implode(', ', array_slice($parts, 2));
+			}
+		}
+
+		$new_hierarchy = array();
+		foreach ($hierarchy as $level_1 => $level_2_list) {
+			sort($level_2_list, SORT_STRING);
+			$new_hierarchy[$level_1] = $level_2_list;
+		}
+		ksort($new_hierarchy, SORT_STRING);
+		$hierarchy = $new_hierarchy;
+
+		$prefix_forest = new PrefixForest();
+		foreach ($tails as $tail) {
+			$prefix_forest->add($tail);
+		}
+		$prefix_forest->clean();
+
+		$collector = new PrefixForestCollector();
+		$collector->collect($prefix_forest->root);
+		$tails = $collector->getLines();
+
+		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
 
 	private function prepareImport($points) {

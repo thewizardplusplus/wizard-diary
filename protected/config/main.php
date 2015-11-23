@@ -111,6 +111,11 @@ return array(
 						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
 					'js' => array('ace.js')
 				),
+				'ace-language-tools' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
+					'js' => array('ext-language_tools.js')
+				),
 				'mobile-detect' => array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/'

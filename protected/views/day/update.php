@@ -6,11 +6,18 @@
 	 * @var string $date
 	 * @var string $raw_date
 	 * @var array $stats
+	 * @var array $point_hierarchy
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
+	Yii::app()->getClientScript()->registerPackage('ace-language-tools');
 	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var POINT_HIERARCHY = ' . json_encode($point_hierarchy) . ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD

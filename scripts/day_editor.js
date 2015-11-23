@@ -1,11 +1,102 @@
 $(document).ready(
 	function() {
+		var lang_tools = ace.require('ace/ext/language_tools');
+
 		var day_editor = ace.edit('day-editor');
 		day_editor.$blockScrolling = Infinity;
 		day_editor.setTheme('ace/theme/twilight');
 		day_editor.getSession().setMode('ace/mode/wizard_diary');
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
+
+		day_editor.setOptions(
+			{
+				enableBasicAutocompletion: true,
+				enableLiveAutocompletion: true
+			}
+		);
+		lang_tools.addCompleter(
+			{
+				getCompletions: function(
+					editor,
+					session,
+					position,
+					prefix,
+					callback
+				) {
+					var line_prefix =
+						session
+						.getLine(position.row)
+						.substr(0, position.column);
+					var line_prefix_parts =
+						line_prefix
+						.split(',')
+						.map(
+							function(part) {
+								return part.trim();
+							}
+						);
+
+					var alternatives = [];
+					switch (line_prefix_parts.length) {
+						case 1:
+							alternatives = Object.keys(
+								POINT_HIERARCHY.hierarchy
+							);
+
+							break;
+						case 2:
+							var level_1 = line_prefix_parts[0];
+							if (
+								POINT_HIERARCHY
+									.hierarchy
+									.hasOwnProperty(level_1)
+							) {
+								alternatives =
+									POINT_HIERARCHY
+									.hierarchy[level_1];
+							}
+
+							break;
+						default:
+							if (
+								POINT_HIERARCHY
+									.hierarchy
+									.hasOwnProperty(line_prefix_parts[0])
+								&& $.inArray(
+									line_prefix_parts[1],
+									POINT_HIERARCHY
+										.hierarchy[line_prefix_parts[0]]
+								) !== -1
+							) {
+								var tails = Object.keys(POINT_HIERARCHY.tails);
+								for (var i = 0; i < tails.length; i++) {
+									var tail = tails[i];
+									var counter = POINT_HIERARCHY.tails[tail];
+									alternatives.push(
+										{
+											value: tail,
+											score: counter
+										}
+									);
+								}
+							}
+					}
+					alternatives = alternatives.map(
+						function(alternative) {
+							if (typeof alternative === 'string') {
+								alternative = {value: alternative};
+							}
+							alternative.meta = 'global';
+
+							return alternative;
+						}
+					);
+
+					callback(null, alternatives);
+				}
+			}
+		);
 
 		var day_mobile_editor = $('#day-mobile-editor');
 		var previous_mobile_editor_content = day_mobile_editor.val();
