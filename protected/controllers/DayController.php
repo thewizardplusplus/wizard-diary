@@ -251,6 +251,20 @@ class DayController extends CController {
 		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
 
+	private function makePrefixForest($point_tails) {
+		$prefix_forest = array();
+		foreach ($point_tails as $point_tail) {
+			$node = $prefix_forest;
+
+			$words = array_map('trim', explode(' ', $point_tail));
+			foreach ($words as $word) {
+				foreach ($root as $key => $value) {
+					//TODO
+				}
+			}
+		}
+	}
+
 	private function prepareImport($points) {
 		$points_description = '';
 		$last_parts = array();
