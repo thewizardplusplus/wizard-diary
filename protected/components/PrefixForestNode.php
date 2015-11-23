@@ -20,10 +20,6 @@ class PrefixForestNode {
 		return $this->getNumberOfChildren() == 0;
 	}
 
-	public function isNeedRemove($number_of_parent_children) {
-		return $number_of_parent_children == 1 && $this->isLeaf();
-	}
-
 	public function cleanChildren() {
 		$new_children = array();
 		$number_of_children = $this->getNumberOfChildren();
@@ -35,5 +31,9 @@ class PrefixForestNode {
 		}
 
 		$this->children = $new_children;
+	}
+
+	private function isNeedRemove($number_of_parent_children) {
+		return $number_of_parent_children == 1 && $this->isLeaf();
 	}
 }

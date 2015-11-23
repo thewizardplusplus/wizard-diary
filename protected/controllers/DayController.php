@@ -137,7 +137,6 @@ class DayController extends CController {
 		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
 		$point_hierarchy = $this->getPointHierarchy();
-		Yii::log(print_r($point_hierarchy, true), 'info');
 
 		$this->render(
 			'update',
@@ -225,18 +224,7 @@ class DayController extends CController {
 				}
 			}
 			if ($number_of_parts > 2) {
-				$tail = implode(', ', array_slice($parts, 2));
-				$result = preg_match(
-					'/[A-Z]/i',
-					$tail,
-					$matches,
-					PREG_OFFSET_CAPTURE
-				);
-				if ($result == 1) {
-					$tail = trim(substr($tail, 0, $matches[0][1]));
-				}
-
-				$tails[] = $tail;
+				$tails[] = implode(', ', array_slice($parts, 2));
 			}
 		}
 
@@ -254,7 +242,11 @@ class DayController extends CController {
 		}
 		$prefix_forest->clean();
 
-		return array('hierarchy' => $hierarchy, 'tails' => $prefix_forest);
+		$collector = new PrefixForestCollector();
+		$collector->collect($prefix_forest->root);
+		$tails = $collector->getLines();
+
+		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
 
 	private function prepareImport($points) {
