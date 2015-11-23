@@ -146,7 +146,8 @@ class DayController extends CController {
 				'my_date' => DateFormatter::formatMyDate($date),
 				'date' => DateFormatter::formatDate($encoded_date),
 				'raw_date' => CHtml::encode($encoded_date),
-				'stats' => $stats
+				'stats' => $stats,
+				'point_hierarchy' => $point_hierarchy
 			)
 		);
 	}
@@ -246,9 +247,6 @@ class DayController extends CController {
 		}
 		ksort($new_hierarchy, SORT_STRING);
 		$hierarchy = $new_hierarchy;
-
-		$tails = array_unique($tails);
-		sort($tails);
 
 		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
