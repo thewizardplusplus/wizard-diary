@@ -159,6 +159,22 @@ class DayController extends CController {
 		);
 	}
 
+	public function getRowClass($data) {
+		$my_date = DateFormatter::formatMyDate($data['date']);
+		$day = intval(explode('.', $my_date)[0]);
+
+		$row_class = '';
+		if (($day % Constants::DAYS_IN_MY_STREAK) == 0) {
+			$row_class = 'danger';
+		} else if (($day % (Constants::DAYS_IN_MY_STREAK / 2)) == 0) {
+			$row_class = 'warning';
+		} else if ((($day - 1) % Constants::DAYS_IN_MY_STREAK) == 0) {
+			$row_class = 'success';
+		}
+
+		return $row_class;
+	}
+
 	public function findSatisfiedCounter($daily_stats, $data) {
 		$date = $data['date'];
 		if (array_key_exists($date, $daily_stats)) {

@@ -11,6 +11,7 @@ class Constants extends AccessConstants {
 	const DEFAULT_PASSWORD = 'admin';
 	const COPYRIGHT_START_YEAR = 2014;
 	const DAYS_IN_MY_YEAR = 300;
+	const DAYS_IN_MY_STREAK = 12;
 	// relatively at /protected/controllers
 	const BACKUPS_RELATIVE_PATH = '/../../dumps';
 	const BACKUPS_CREATE_DURATION_ACCURACY = 2;
