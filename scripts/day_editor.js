@@ -8,13 +8,65 @@ $(document).ready(
 		day_editor.getSession().setMode('ace/mode/wizard_diary');
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
-
 		day_editor.setOptions(
 			{
 				enableBasicAutocompletion: true,
 				enableLiveAutocompletion: true
 			}
 		);
+
+		var GetLinePrefixParts = function(session, position) {
+			var line_prefix =
+				session
+				.getLine(position.row)
+				.substr(0, position.column);
+			var line_prefix_parts =
+				line_prefix
+				.split(',')
+				.map(
+					function(part) {
+						return part.trim();
+					}
+				);
+
+			return line_prefix_parts;
+		};
+		var GetProperty = function(object, property) {
+			return object.hasOwnProperty(property) ? object[property] : [];
+		};
+		var GetAlternatives = function(line_prefix_parts) {
+			var alternatives = [];
+			switch (line_prefix_parts.length) {
+				case 1:
+					alternatives = Object.keys(POINT_HIERARCHY.hierarchy);
+					break;
+				case 2:
+					alternatives = GetProperty(
+						POINT_HIERARCHY.hierarchy,
+						line_prefix_parts[0]
+					);
+
+					break;
+				default:
+					alternatives = $.map(
+						POINT_HIERARCHY.tails,
+						function(counter, tail) {
+							return {value: tail, score: counter};
+						}
+					);
+			}
+			alternatives = alternatives.map(
+				function(alternative) {
+					if (typeof alternative === 'string') {
+						alternative = {value: alternative};
+					}
+
+					return $.extend(alternative, {meta: 'global'});
+				}
+			);
+
+			return alternatives;
+		};
 		lang_tools.addCompleter(
 			{
 				getCompletions: function(
@@ -24,75 +76,11 @@ $(document).ready(
 					prefix,
 					callback
 				) {
-					var line_prefix =
-						session
-						.getLine(position.row)
-						.substr(0, position.column);
-					var line_prefix_parts =
-						line_prefix
-						.split(',')
-						.map(
-							function(part) {
-								return part.trim();
-							}
-						);
-
-					var alternatives = [];
-					switch (line_prefix_parts.length) {
-						case 1:
-							alternatives = Object.keys(
-								POINT_HIERARCHY.hierarchy
-							);
-
-							break;
-						case 2:
-							var level_1 = line_prefix_parts[0];
-							if (
-								POINT_HIERARCHY
-									.hierarchy
-									.hasOwnProperty(level_1)
-							) {
-								alternatives =
-									POINT_HIERARCHY
-									.hierarchy[level_1];
-							}
-
-							break;
-						default:
-							if (
-								POINT_HIERARCHY
-									.hierarchy
-									.hasOwnProperty(line_prefix_parts[0])
-								&& $.inArray(
-									line_prefix_parts[1],
-									POINT_HIERARCHY
-										.hierarchy[line_prefix_parts[0]]
-								) !== -1
-							) {
-								var tails = Object.keys(POINT_HIERARCHY.tails);
-								for (var i = 0; i < tails.length; i++) {
-									var tail = tails[i];
-									var counter = POINT_HIERARCHY.tails[tail];
-									alternatives.push(
-										{
-											value: tail,
-											score: counter
-										}
-									);
-								}
-							}
-					}
-					alternatives = alternatives.map(
-						function(alternative) {
-							if (typeof alternative === 'string') {
-								alternative = {value: alternative};
-							}
-							alternative.meta = 'global';
-
-							return alternative;
-						}
+					var line_prefix_parts = GetLinePrefixParts(
+						session,
+						position
 					);
-
+					var alternatives = GetAlternatives(line_prefix_parts);
 					callback(null, alternatives);
 				}
 			}
