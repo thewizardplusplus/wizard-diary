@@ -45,7 +45,8 @@
 </header>
 
 <p class = "mean-view">
-	Среднее количество: <?= number_format($mean, 2, '.', '') ?> пункта.
+	Среднее количество:
+	<strong><?= number_format($mean, 2, '.', '') ?> пункта</strong>.
 </p>
 
 <div class = "stats-view points"></div>
