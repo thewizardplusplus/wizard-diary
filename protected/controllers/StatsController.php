@@ -155,7 +155,7 @@ class StatsController extends CController {
 				$achievements[] = array(
 					'point' => $text,
 					'level' => $level,
-					'days' => $this->formatDays($level),
+					'days' => DayFormatter::formatDays($level),
 					'name' => $name,
 					'hash' => $this->hashAchievement($name, $text),
 					'date' => $date
@@ -226,9 +226,11 @@ class StatsController extends CController {
 			$future_achievements[] = array(
 				'point' => $text,
 				'level' => $next_level,
-				'days' => $this->formatDays($next_level),
-				'completed_days' => $this->formatCompletedDays($streak_length),
-				'rest_days' => $this->formatCompletedDays($rest_days),
+				'days' => DayFormatter::formatDays($next_level),
+				'completed_days' => DayFormatter::formatCompletedDays(
+					$streak_length
+				),
+				'rest_days' => DayFormatter::formatCompletedDays($rest_days),
 				'name' => $name,
 				'hash' => $this->hashAchievement($name, $text),
 				'date' => DateFormatter::formatDate($date),
@@ -588,30 +590,6 @@ class StatsController extends CController {
 
 	private function formatLevel($level) {
 		return sprintf('#%d', $level);
-	}
-
-	private function formatDays($level) {
-		$days = intval(substr($level, 1));
-		$modulo = $days % 10;
-		$unit =
-			($modulo == 1 and ($days < 10 or $days > 20))
-				? 'дня'
-				: 'дней';
-
-		return sprintf("%d %s", $days, $unit);
-	}
-
-	private function formatCompletedDays($days) {
-		$modulo = $days % 10;
-		if ($modulo == 1 and ($days < 10 or $days > 20)) {
-			$unit = 'день';
-		} else if ($modulo > 1 and $modulo < 5 and ($days < 10 or $days > 20)) {
-			$unit = 'дня';
-		} else {
-			$unit = 'дней';
-		}
-
-		return sprintf("%d %s", $days, $unit);
 	}
 
 	private function hashAchievement($name, $point) {

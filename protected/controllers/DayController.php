@@ -70,13 +70,29 @@ class DayController extends CController {
 				)
 			)
 		);
+
 		$daily_stats = StatsController::collectDailyStats();
+
+		$current_date = date('Y-m-d');
+		$day = $this->getMyDay($current_date);
+		$rest_days =
+			Constants::DAYS_IN_MY_STREAK
+			- $day % Constants::DAYS_IN_MY_STREAK
+			+ 1 /* for first streak day */;
+		$target_date = date_add(
+			date_create($current_date),
+			DateInterval::createFromDateString(sprintf('%d day', $rest_days))
+		);
+		$target_date = $target_date->format('Y-m-d');
 
 		$this->render(
 			'list',
 			array(
 				'data_provider' => $data_provider,
-				'daily_stats' => $daily_stats
+				'daily_stats' => $daily_stats,
+				'rest_days' => DayFormatter::formatCompletedDays($rest_days),
+				'target_date' => DateFormatter::formatDate($target_date),
+				'target_my_date' => DateFormatter::formatMyDate($target_date)
 			)
 		);
 	}
@@ -159,6 +175,20 @@ class DayController extends CController {
 		);
 	}
 
+	public function getRowClass($date) {
+		$row_class = '';
+		$day = $this->getMyDay($date);
+		if (($day % Constants::DAYS_IN_MY_STREAK) == 0) {
+			$row_class = 'danger';
+		} else if (($day % (Constants::DAYS_IN_MY_STREAK / 2)) == 0) {
+			$row_class = 'warning';
+		} else if ((($day - 1) % Constants::DAYS_IN_MY_STREAK) == 0) {
+			$row_class = 'success';
+		}
+
+		return $row_class;
+	}
+
 	public function findSatisfiedCounter($daily_stats, $data) {
 		$date = $data['date'];
 		if (array_key_exists($date, $daily_stats)) {
@@ -176,6 +206,11 @@ class DayController extends CController {
 		} else {
 			return '&mdash;';
 		}
+	}
+
+	private function getMyDay($date) {
+		$my_date = DateFormatter::formatMyDate($date);
+		return intval(explode('.', $my_date)[0]);
 	}
 
 	private function getStats($date) {

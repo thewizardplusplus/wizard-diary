@@ -3,10 +3,22 @@
 	 * @var DayController $this
 	 * @var CArrayDataProvider $data_provider
 	 * @var array $daily_stats
+	 * @var int $rest_days
+	 * @var string $target_date
+	 * @var string $target_my_date
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Дни';
 ?>
+
+<p class = "unimportant-text italic-text without-bottom-margin">
+	До следующей дюжины осталось <strong><?= $rest_days ?></strong>.
+</p>
+<p class = "unimportant-text italic-text">
+	Следующая дюжина начнётся <strong><time title = "<?= $target_date ?>"><?=
+		$target_my_date
+	?></time></strong>.
+</p>
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
@@ -122,6 +134,8 @@
 			),
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
+			'rowCssClassExpression' =>
+				'$this->controller->getRowClass($data["date"])',
 			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'

@@ -45,7 +45,8 @@
 </header>
 
 <p class = "mean-view">
-	Среднее выполнение: <?= number_format($mean, 2, '.', '') ?>%.
+	Среднее выполнение:
+	<strong><?= number_format($mean, 2, '.', '') ?>%</strong>.
 </p>
 
 <div class = "stats-view daily-points"></div>
