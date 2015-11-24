@@ -15,11 +15,64 @@ $(document).ready(
 			}
 		);
 
+		var ExtendImport = function(points_description) {
+			var last_line_blocks = [];
+			var extended_lines =
+				points_description
+				.split('\n')
+				.map(
+					function(line) {
+						var extended_line = '';
+						while (line.substr(0, 4) == '    ') {
+							if (last_line_blocks.length > 0) {
+								extended_line +=
+									last_line_blocks.shift()
+									+ ', ';
+							}
+
+							line = line.substr(4);
+						}
+						extended_line += line;
+
+						if (extended_line.length > 0) {
+							last_line_blocks =
+								extended_line
+								.split(',')
+								.map(
+									function(level) {
+										return level.trim();
+									}
+								);
+						}
+
+						return extended_line;
+					}
+				);
+			if (
+				extended_lines.length > 0
+				&& extended_lines[extended_lines.length - 1].length == 0
+			) {
+				extended_lines = extended_lines.slice(0, -1);
+			}
+
+			return extended_lines;
+		};
 		var GetLinePrefixParts = function(session, position) {
-			var line_prefix =
-				session
-				.getLine(position.row)
-				.substr(0, position.column);
+			var points_description = day_editor.getValue();
+			var full_line = ExtendImport(points_description)[position.row];
+			var full_line_parts = full_line.split(', ');
+
+			var column = position.column;
+			var real_line = session.getLine(position.row);
+			while (real_line.substr(0, 4) == '    ' && full_line_parts.length) {
+				column +=
+					full_line_parts.shift().length
+					+ 2 /* comma and space */
+					- 4 /* indent */;
+				real_line = real_line.substr(4);
+			}
+
+			var line_prefix = full_line.substr(0, column);
 			var line_prefix_parts =
 				line_prefix
 				.split(',')
@@ -58,7 +111,7 @@ $(document).ready(
 			alternatives = alternatives.map(
 				function(alternative) {
 					if (typeof alternative === 'string') {
-						alternative = {value: alternative};
+						alternative = {value: alternative + ', '};
 					}
 
 					return $.extend(alternative, {meta: 'global'});
