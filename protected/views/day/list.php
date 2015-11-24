@@ -122,7 +122,8 @@
 			),
 			'itemsCssClass' => 'table',
 			'loadingCssClass' => 'wait',
-			'rowCssClassExpression' => '$this->controller->getRowClass($data)',
+			'rowCssClassExpression' =>
+				'$this->controller->getRowClass($data["date"])',
 			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'

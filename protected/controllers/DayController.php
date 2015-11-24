@@ -159,11 +159,9 @@ class DayController extends CController {
 		);
 	}
 
-	public function getRowClass($data) {
-		$my_date = DateFormatter::formatMyDate($data['date']);
-		$day = intval(explode('.', $my_date)[0]);
-
+	public function getRowClass($date) {
 		$row_class = '';
+		$day = $this->getMyDay($date);
 		if (($day % Constants::DAYS_IN_MY_STREAK) == 0) {
 			$row_class = 'danger';
 		} else if (($day % (Constants::DAYS_IN_MY_STREAK / 2)) == 0) {
@@ -192,6 +190,11 @@ class DayController extends CController {
 		} else {
 			return '&mdash;';
 		}
+	}
+
+	private function getMyDay($date) {
+		$my_date = DateFormatter::formatMyDate($date);
+		return intval(explode('.', $my_date)[0]);
 	}
 
 	private function getStats($date) {
