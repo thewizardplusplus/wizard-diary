@@ -44,6 +44,7 @@ return array(
 				. ';dbname='
 				. Constants::DATABASE_NAME,
 			'emulatePrepare' => true,
+			'enableProfiling' => true,
 			'username' => Constants::DATABASE_USER,
 			'password' => Constants::DATABASE_PASSWORD,
 			'charset' => 'utf8',

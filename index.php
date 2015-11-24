@@ -1,5 +1,7 @@
 <?php
 
+define('YII_BEGIN_TIME', microtime(true));
+
 require_once(__DIR__ . '/protected/config/Constants.php');
 
 define('YII_DEBUG', Constants::DEBUG);
