@@ -232,7 +232,7 @@ class BackupController extends CController {
 			FILE_IGNORE_NEW_LINES
 		);
 
-		$diff = new Diff($filename_lines, $previous_filename_lines);
+		$diff = new Diff($previous_filename_lines, $filename_lines);
 
 		$diff_renderer = new Diff_Renderer_Text_Unified;
 		$diff_representation = $diff->Render($diff_renderer);
