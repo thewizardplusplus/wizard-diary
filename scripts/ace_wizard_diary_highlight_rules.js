@@ -25,6 +25,11 @@ define(
 						regex: '^([^,]+,|\\s{4})([^,]+,)',
 					},
 					{
+						// only first hierarchy level
+						token: 'keyword.control.wizard-diary',
+						regex: '^[^,]+,',
+					},
+					{
 						// double-quoted string
 						token: 'string.quoted.double.wizard-diary',
 						regex: '"(?:\\\\.|[^"])*"',
