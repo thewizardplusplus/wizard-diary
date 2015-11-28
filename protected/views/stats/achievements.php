@@ -18,6 +18,12 @@
 	<h4>Статистика: достижения</h4>
 </header>
 
+<p>
+	Получено <strong><?=
+		$this->formatAchievements($achievements_provider->getTotalItemCount())
+	?></strong>.
+</p>
+
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
 		'zii.widgets.CListView',

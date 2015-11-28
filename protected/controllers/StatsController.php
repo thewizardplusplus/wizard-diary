@@ -602,4 +602,21 @@ class StatsController extends CController {
 	private function hashAchievement($name, $point) {
 		return md5(sprintf('%s:%s', $name, $point));
 	}
+
+	public function formatAchievements($number) {
+		$unit = '';
+		$modulo = $number % 10;
+		if ($modulo == 1 and ($number < 10 or $number > 20)) {
+			$unit = 'достижение';
+		} else if (
+			$modulo > 1 and $modulo < 5
+			and ($number < 10 or $number > 20)
+		) {
+			$unit = 'достижения';
+		} else {
+			$unit = 'достижений';
+		}
+
+		return sprintf("%d %s", $number, $unit);
+	}
 }
