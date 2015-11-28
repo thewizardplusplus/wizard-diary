@@ -482,13 +482,14 @@ class StatsController extends CController {
 		$this->render('project_list', array('data' => $data));
 	}
 
-	private $achievements_levels = array(1, 6, 12, 24, 48);
+	private $achievements_levels = array(1, 6, 12, 24, 48, 96);
 	private $achievements_names = array(
 		'#1' => 'Первая попытка',
 		'#6' => 'Выдержка',
 		'#12' => 'Работа над собой',
 		'#24' => 'Сила воли',
-		'#48' => 'Привычка'
+		'#48' => 'Привычка',
+		'#96' => 'Новое лицо'
 	);
 
 	private function getAchievementsData() {
