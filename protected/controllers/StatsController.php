@@ -200,7 +200,14 @@ class StatsController extends CController {
 
 			$next_level = null;
 			foreach ($this->achievements_levels as $level) {
-				if ($level > $streak_length) {
+				$formatted_level = $this->formatLevel($level);
+				if (
+					$level > $streak_length
+					and !array_key_exists(
+						$formatted_level,
+						$subdata['achievements']
+					)
+				) {
 					$next_level = $level;
 					break;
 				}
@@ -211,9 +218,6 @@ class StatsController extends CController {
 
 			$rest_days = $next_level - $streak_length;
 			$next_level = $this->formatLevel($next_level);
-			if (array_key_exists($next_level, $subdata['achievements'])) {
-				continue;
-			}
 
 			$last_streak_date->add(
 				DateInterval::createFromDateString(
@@ -492,7 +496,9 @@ class StatsController extends CController {
 			array(
 				'select' => array('text', 'date'),
 				'condition' =>
-					'daily = TRUE AND text != "" AND state = "SATISFIED"',
+					'daily = TRUE '
+					. 'AND text != "" '
+					. 'AND (state = "SATISFIED" OR state = "CANCELED")',
 				'order' => 'date'
 			)
 		);
