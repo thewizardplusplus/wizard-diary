@@ -98,7 +98,7 @@ $(document).ready(
 					alternatives = $.map(
 						POINT_HIERARCHY.tails,
 						function(counter, tail) {
-							return {value: tail, score: counter};
+							return {value: tail + ' ', score: counter};
 						}
 					);
 			}
