@@ -496,7 +496,9 @@ class StatsController extends CController {
 			array(
 				'select' => array('text', 'date'),
 				'condition' =>
-					'daily = TRUE AND text != "" AND state = "SATISFIED"',
+					'daily = TRUE '
+					. 'AND text != "" '
+					. 'AND (state = "SATISFIED" OR state = "CANCELED")',
 				'order' => 'date'
 			)
 		);
