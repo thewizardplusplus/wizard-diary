@@ -22,17 +22,27 @@ define(
 							'keyword.control.wizard-diary',
 							'variable.language.wizard-diary'
 						],
-						regex: '^([^,]+,|\\s{4})([^,]+,)',
+						regex: '^([^,]+,|\\s{4})([^,]+,)'
+					},
+					{
+						// only first hierarchy level
+						token: 'keyword.control.wizard-diary',
+						regex: '^[^,]+,'
+					},
+					{
+						// identifiers
+						token: 'comment.line.wizard-diary',
+						regex: '[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*(?:\\(\\))?'
 					},
 					{
 						// double-quoted string
 						token: 'string.quoted.double.wizard-diary',
-						regex: '"(?:\\\\.|[^"])*"',
+						regex: '"(?:\\\\.|[^"])*"'
 					},
 					{
 						// operators `-` and `->`
 						token: 'keyword.operator.wizard-diary',
-						regex: '\\s->?\\s',
+						regex: '\\s->?\\s'
 					},
 					{
 						// operator `(key Key)`
@@ -41,7 +51,7 @@ define(
 							'constant.language.wizard-diary',
 							'keyword.operator.wizard-diary'
 						],
-						regex: '(\\(key\\s)([^\\)]+)(\\))',
+						regex: '(\\(key\\s)([^\\)]+)(\\))'
 					}
 				]
 			};
