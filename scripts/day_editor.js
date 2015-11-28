@@ -48,12 +48,6 @@ $(document).ready(
 						return extended_line;
 					}
 				);
-			if (
-				extended_lines.length > 0
-				&& extended_lines[extended_lines.length - 1].length == 0
-			) {
-				extended_lines = extended_lines.slice(0, -1);
-			}
 
 			return extended_lines;
 		};
@@ -104,7 +98,7 @@ $(document).ready(
 					alternatives = $.map(
 						POINT_HIERARCHY.tails,
 						function(counter, tail) {
-							return {value: tail, score: counter};
+							return {value: tail + ' ', score: counter};
 						}
 					);
 			}
