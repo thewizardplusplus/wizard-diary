@@ -118,15 +118,13 @@
 												)
 											),
 											array(
-												'label' => 'Достижения',
-												'url' => array(
-													'stats/achievements'
-												)
+												'label' => 'Прогресс проектов',
+												'url' => array('stats/projects')
 											),
 											array(
-												'label' => 'Будущие достижения',
+												'label' => 'Список проектов',
 												'url' => array(
-													'stats/futureAchievements'
+													'stats/projectList'
 												)
 											),
 											array(
@@ -136,13 +134,15 @@
 												)
 											),
 											array(
-												'label' => 'Прогресс проектов',
-												'url' => array('stats/projects')
+												'label' => 'Достижения',
+												'url' => array(
+													'stats/achievements'
+												)
 											),
 											array(
-												'label' => 'Список проектов',
+												'label' => 'Будущие достижения',
 												'url' => array(
-													'stats/projectList'
+													'stats/futureAchievements'
 												)
 											)
 										),
