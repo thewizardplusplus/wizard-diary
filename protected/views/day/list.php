@@ -4,6 +4,7 @@
 	 * @var CArrayDataProvider $data_provider
 	 * @var array $daily_stats
 	 * @var int $rest_days
+	 * @var int $rest_days_prefix
 	 * @var string $target_date
 	 * @var string $target_my_date
 	 */
@@ -12,10 +13,11 @@
 ?>
 
 <p class = "unimportant-text italic-text without-bottom-margin">
-	До следующей дюжины осталось <strong><?= $rest_days ?></strong>.
+	От текущей дюжины <?= $rest_days_prefix ?>
+	<strong><?= $rest_days ?></strong>.
 </p>
 <p class = "unimportant-text italic-text">
-	Следующая дюжина начнётся <strong><time title = "<?= $target_date ?>"><?=
+	Текущая дюжина закончится <strong><time title = "<?= $target_date ?>"><?=
 		$target_my_date
 	?></time></strong>.
 </p>

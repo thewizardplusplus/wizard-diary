@@ -24,4 +24,12 @@ class DayFormatter {
 
 		return sprintf("%d %s", $days, $unit);
 	}
+
+	public static function formatRestDaysPrefix($days) {
+		$modulo = $days % 10;
+		return
+			($modulo == 1 and ($days < 10 or $days > 20))
+				? 'остался'
+				: 'осталось';
+	}
 }
