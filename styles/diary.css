@@ -238,6 +238,11 @@ body.dragging * {
 
 .ui-spinner-input {
 	margin: 0;
+	padding: 6px 12px;
+	background: #fff;
+	border: 1px solid #ccc;
+	font-size: 14px !important;
+	color: #555;
 }
 
 .ui-corner-tr {
