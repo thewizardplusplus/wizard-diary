@@ -313,7 +313,8 @@ $(document).ready(
 					.trim()
 					.replace(/;$/, '')
 					.replace(/\u00ab([^\u00bb]*)\u00bb/, '"$1"')
-					.replace(/\s\u2014\s/, ' - ');
+					.replace(/\s\u2014\s/, ' - ')
+					.replace(/\s\u27a4\s/, ' -> ');
 			}
 		);
 
