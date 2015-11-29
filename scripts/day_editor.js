@@ -308,7 +308,7 @@ $(document).ready(
 		day_editor.on(
 			'paste',
 			function(event) {
-				event.text = event.text.trim();
+				event.text = event.text.trim().replace(/;$/, '');
 			}
 		);
 
