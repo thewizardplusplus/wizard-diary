@@ -14,7 +14,7 @@ return array(
 		'application.models.*'
 	),
 	'components' => array(
-		'user' => array('allowAutoLogin' => true),
+		'user' => array('allowAutoLogin' => true, 'autoRenewCookie' => true),
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'showScriptName' => false,
