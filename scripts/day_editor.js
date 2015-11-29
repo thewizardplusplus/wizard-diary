@@ -305,6 +305,13 @@ $(document).ready(
 				SetNumberOfPoints(points_description);
 			}
 		);
+		day_editor.on(
+			'paste',
+			function(event) {
+				event.text = event.text.trim();
+			}
+		);
+
 		day_mobile_editor.on(
 			'keyup',
 			function() {
