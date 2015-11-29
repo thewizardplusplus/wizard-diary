@@ -19,7 +19,6 @@ class Constants extends AccessConstants {
 	const BACKUPS_CREATE_HARD_LIMIT = 0.9;
 	const BACKUPS_SIZE_ACCURACY = 2;
 	const DROPBOX_REDIRECT_URL = '/backup/redirect';
-	const SESSION_GC_TIMEOUT_IN_S = 300;
 	const SESSION_LIFETIME_IN_MIN_DEFAULT = 12;
 	const SESSION_LIFETIME_IN_MIN_MINIMUM = 1;
 	const SESSION_LIFETIME_IN_MIN_MAXIMUM = 60;

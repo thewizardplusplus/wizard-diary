@@ -14,7 +14,7 @@ return array(
 		'application.models.*'
 	),
 	'components' => array(
-		'user' => array('allowAutoLogin' => true),
+		'user' => array('allowAutoLogin' => true, 'autoRenewCookie' => true),
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'showScriptName' => false,
@@ -54,7 +54,7 @@ return array(
 			'class' => 'CDbHttpSession',
 			'connectionID' => 'db',
 			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions',
-			'timeout' => Constants::SESSION_GC_TIMEOUT_IN_S
+			'timeout' => Constants::SESSION_LIFETIME_IN_MIN_MINIMUM * 60
 		),
 		'clientScript' => array(
 			'packages' => array(
@@ -131,20 +131,6 @@ return array(
 					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
 						. 'awesome-bootstrap-checkbox/0.3.5/',
 					'css' => array('awesome-bootstrap-checkbox.min.css')
-				)
-			)
-		),
-		'widgetFactory' => array(
-			'widgets' => array(
-				'CJuiAutoComplete' => array(
-					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
-					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
-					'theme' => 'start'
-				),
-				'CJuiTabs' => array(
-					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
-					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
-					'theme' => 'start'
 				)
 			)
 		),
