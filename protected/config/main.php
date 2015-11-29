@@ -62,18 +62,22 @@ return array(
 					'baseUrl' => 'https://code.jquery.com/',
 					'js' => array('jquery-2.1.4.min.js')
 				),
-				'jquery.ui' => array(
-					'baseUrl' => 'https://code.jquery.com/ui/1.11.4/',
-					'js' => array('jquery-ui.min.js'),
-					'css' => array('themes/start/jquery-ui.css'),
-					'depends' => array('jquery')
-				),
 				'bootstrap' => array(
 					'baseUrl' =>
 						'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/',
 					'js' => array('js/bootstrap.min.js'),
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
+				),
+				'jquery.ui' => array(
+					'baseUrl' => 'https://code.jquery.com/ui/1.11.4/',
+					'js' => array('jquery-ui.min.js'),
+					'css' => array('themes/start/jquery-ui.css'),
+					'depends' => array(
+						'jquery',
+						// doesn't depend, but should override
+						'bootstrap'
+					)
 				),
 				'purl' => array(
 					'baseUrl' =>
