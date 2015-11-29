@@ -263,12 +263,12 @@
 					</p>
 				</div>
 
-				<p>
-					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?><br />
-					<span class = "unimportant-text">
-						&copy; thewizardplusplus, <?= $copyright_years ?>
-					</span>
-				<p>
+				<p class = "without-bottom-margin">
+					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?>
+				</p>
+				<p class = "unimportant-text">
+					&copy; thewizardplusplus, <?= $copyright_years ?>
+				</p>
 			</footer>
 		</section>
 
