@@ -2,6 +2,8 @@
 	/**
 	 * @var StatsController $this
 	 * @var CArrayDataProvider $achievements_provider
+	 * @var array $achievements_levels
+	 * @var array $achievements_texts
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jdenticon');
@@ -18,11 +20,34 @@
 	<h4>Статистика: достижения</h4>
 </header>
 
-<p>
-	Получено <strong><?=
-		$this->formatAchievements($achievements_provider->getTotalItemCount())
-	?></strong>.
-</p>
+<div class = "clearfix">
+	<div class = "pull-right">
+		<?= CHtml::dropDownList(
+			'achievements_levels_select',
+			'',
+			$achievements_levels,
+			array(
+				'multiple' => 'multiple',
+				'data-selected-text-format' => 'count'
+			)
+		) ?>
+		<?= CHtml::dropDownList(
+			'achievements_texts_select',
+			'',
+			$achievements_texts,
+			array(
+				'multiple' => 'multiple',
+				'data-selected-text-format' => 'count'
+			)
+		) ?>
+	</div>
+
+	<p>
+		Получено <strong><?= $this->formatAchievements(
+			$achievements_provider->getTotalItemCount()
+		) ?></strong>.
+	</p>
+</div>
 
 <div class = "clearfix">
 	<?php $this->widget(
