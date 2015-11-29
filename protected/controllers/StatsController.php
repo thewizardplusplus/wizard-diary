@@ -367,6 +367,10 @@ class StatsController extends CController {
 	}
 
 	public function actionAchievements() {
+		if (isset($_GET['search'])) {
+			Yii::log(print_r($_GET['search'], true), 'info');
+		}
+
 		$data = $this->getAchievementsData();
 
 		$achievements = array();

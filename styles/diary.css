@@ -476,3 +476,18 @@ body.dragging * {
 .achievement-view p:last-child {
 	margin-bottom: 0;
 }
+
+.achievement-counter,
+.achievement-select,
+.achievement-list-reset-button {
+	margin-bottom: 20px;
+}
+
+.achievement-list-reset-button,
+.achievement-list-reset-button:focus,
+.achievement-list-reset-button:hover,
+.achievement-list-reset-button:active,
+.achievement-list-reset-button:active:focus,
+.achievement-list-reset-button:active:hover {
+	color: #428bca;
+}

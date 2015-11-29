@@ -7,7 +7,14 @@
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jdenticon');
+	Yii::app()->getClientScript()->registerPackage('bootstrap-select');
+	Yii::app()->getClientScript()->registerPackage('bootstrap-select-i18n');
+	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/achievements_selects.js'),
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/achievements_icons.js'),
 		CClientScript::POS_HEAD
@@ -27,8 +34,10 @@
 			'',
 			$achievements_levels,
 			array(
+				'class' => 'achievement-select',
 				'multiple' => 'multiple',
-				'data-selected-text-format' => 'count'
+				'title' => 'Достижения',
+				'data-selected-text-format' => 'count > 0'
 			)
 		) ?>
 		<?= CHtml::dropDownList(
@@ -36,13 +45,20 @@
 			'',
 			$achievements_texts,
 			array(
+				'class' => 'achievement-select',
 				'multiple' => 'multiple',
-				'data-selected-text-format' => 'count'
+				'title' => 'Пункты',
+				'data-selected-text-format' => 'count > 0',
+				'data-size' => count($achievements_levels)
 			)
+		) ?>
+		<?= CHtml::htmlButton(
+			'<span class = "glyphicon glyphicon-remove"></span>',
+			array('class' => 'btn btn-default achievement-list-reset-button')
 		) ?>
 	</div>
 
-	<p>
+	<p class = "pull-left achievement-counter">
 		Получено <strong><?= $this->formatAchievements(
 			$achievements_provider->getTotalItemCount()
 		) ?></strong>.
