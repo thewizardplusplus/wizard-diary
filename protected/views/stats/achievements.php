@@ -24,7 +24,7 @@
 	?></strong>.
 </p>
 
-<div class = "table-responsive clearfix">
+<div class = "clearfix">
 	<?php $this->widget(
 		'zii.widgets.CListView',
 		array(
