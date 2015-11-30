@@ -62,7 +62,6 @@
 			'template' => '{items}',
 			'hideHeader' => true,
 			'selectableRows' => 0,
-			'enableHistory' => true,
 			'columns' => array(
 				array('class' => 'PointStateColumn'),
 				array(
