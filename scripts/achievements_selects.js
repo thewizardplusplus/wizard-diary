@@ -38,5 +38,13 @@ $(document).ready(
 				UpdateAchievementList();
 			}
 		);
+
+		$('.achievements-selects-form').submit(
+			function (event) {
+				event.preventDefault();
+				event.stopPropagation();
+				return false;
+			}
+		);
 	}
 );

@@ -367,10 +367,6 @@ class StatsController extends CController {
 	}
 
 	public function actionAchievements() {
-		if (isset($_GET['search'])) {
-			Yii::log(print_r($_GET['search'], true), 'info');
-		}
-
 		$data = $this->getAchievementsData();
 
 		$achievements = array();
@@ -390,6 +386,37 @@ class StatsController extends CController {
 			}
 		}
 
+		if (isset($_GET['search'])) {
+			$levels = array();
+			if (
+				isset($_GET['search']['levels'])
+				and is_array($_GET['search']['levels'])
+			) {
+				$levels = $_GET['search']['levels'];
+			}
+
+			$texts = array();
+			if (
+				isset($_GET['search']['texts'])
+				and is_array($_GET['search']['texts'])
+			) {
+				$texts = $_GET['search']['texts'];
+			}
+
+			$achievements = array_filter(
+				$achievements,
+				function($achievement) use ($levels, $texts) {
+					$right_level =
+						count($levels) == 0
+						|| in_array($achievement['level'], $levels, true);
+					$right_text =
+						count($texts) == 0
+						|| in_array($achievement['point'], $texts, true);
+					return $right_level && $right_text;
+				}
+			);
+		}
+
 		$achievements_provider = new CArrayDataProvider(
 			$achievements,
 			array(
@@ -404,7 +431,6 @@ class StatsController extends CController {
 		$new_achievements_texts = array();
 		$achievements_texts = array_unique($achievements_texts);
 		foreach ($achievements_texts as $achievement_text) {
-			$achievement_text = '"' . $achievement_text . '"';
 			$new_achievements_texts[$achievement_text] = $achievement_text;
 		}
 		asort($new_achievements_texts);
