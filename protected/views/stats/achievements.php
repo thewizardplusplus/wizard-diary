@@ -27,36 +27,50 @@
 	<h4>Статистика: достижения</h4>
 </header>
 
-<div class = "clearfix">
-	<div class = "pull-right">
-		<?= CHtml::dropDownList(
-			'achievements_levels_select',
-			'',
-			$achievements_levels,
-			array(
-				'class' => 'achievement-select',
-				'multiple' => 'multiple',
-				'title' => 'Достижения',
-				'data-selected-text-format' => 'count > 0'
-			)
-		) ?>
-		<?= CHtml::dropDownList(
-			'achievements_texts_select',
-			'',
-			$achievements_texts,
-			array(
-				'class' => 'achievement-select',
-				'multiple' => 'multiple',
-				'title' => 'Пункты',
-				'data-selected-text-format' => 'count > 0',
-				'data-size' => count($achievements_levels)
-			)
-		) ?>
+<div class = "clearfix achievements-selects-container">
+	<?= CHtml::beginForm(
+		'#',
+		'get',
+		array('class' => 'form-inline pull-right achievements-selects-form')
+	) ?>
+		<div class = "form-group">
+			<?= CHtml::dropDownList(
+				'achievements_levels_select',
+				'',
+				$achievements_levels,
+				array(
+					'class' => 'achievement-select',
+					'multiple' => 'multiple',
+					'title' => 'Достижения',
+					'data-selected-text-format' => 'count > 0'
+				)
+			) ?>
+		</div>
+
+		<div class = "form-group">
+			<?= CHtml::dropDownList(
+				'achievements_texts_select',
+				'',
+				$achievements_texts,
+				array(
+					'class' => 'achievement-select',
+					'multiple' => 'multiple',
+					'title' => 'Пункты',
+					'data-selected-text-format' => 'count > 0',
+					'data-size' => count($achievements_levels)
+				)
+			) ?>
+		</div>
+
 		<?= CHtml::htmlButton(
-			'<span class = "glyphicon glyphicon-remove"></span>',
-			array('class' => 'btn btn-default achievement-list-reset-button')
+			'<span class = "glyphicon glyphicon-remove"></span> '
+				. '<span class = "visible-xs-inline">Очистить</span>',
+			array(
+				'class' => 'btn btn-default achievement-list-reset-button',
+				'type' => 'submit'
+			)
 		) ?>
-	</div>
+	<?= CHtml::endForm() ?>
 
 	<p class = "pull-left achievement-counter">
 		Получено <strong><?= $this->formatAchievements(
