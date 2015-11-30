@@ -401,8 +401,14 @@ class StatsController extends CController {
 			)
 		);
 
+		$new_achievements_texts = array();
 		$achievements_texts = array_unique($achievements_texts);
-		sort($achievements_texts);
+		foreach ($achievements_texts as $achievement_text) {
+			$achievement_text = '"' . $achievement_text . '"';
+			$new_achievements_texts[$achievement_text] = $achievement_text;
+		}
+		asort($new_achievements_texts);
+		$achievements_texts = $new_achievements_texts;
 
 		$this->render(
 			'achievements',
