@@ -73,9 +73,11 @@
 	<?= CHtml::endForm() ?>
 
 	<p class = "pull-left achievement-counter">
-		Получено <strong><?= $this->formatAchievements(
-			$achievements_provider->getTotalItemCount()
-		) ?></strong>.
+		Получено <strong><span class = "achievement-counter-view"><?=
+			$this->formatAchievements(
+				$achievements_provider->getTotalItemCount()
+			)
+		?></span></strong>.
 	</p>
 </div>
 
@@ -92,6 +94,7 @@
 			'summaryCssClass' => 'summary pull-right',
 			'afterAjaxUpdate' =>
 				'function() {'
+					. 'AchievementsSelects.afterUpdate();'
 					. 'AchievementsIcons.afterUpdate();'
 				. '}',
 			'ajaxUpdateError' =>
@@ -99,7 +102,11 @@
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
 			'emptyText' => 'Нет достижений.',
-			'summaryText' => 'Достижения {start}-{end} из {count}.',
+			'summaryText' =>
+				'Достижения {start}-{end} из '
+				. '<span class = "achievement-list-total-counter">'
+					. '{count}'
+				. '</span>.',
 			'pager' => array(
 				'header' => '',
 				'firstPageLabel' => '&lt;&lt;',

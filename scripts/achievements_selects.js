@@ -1,3 +1,5 @@
+var AchievementsSelects = {};
+
 $(document).ready(
 	function() {
 		var UPDATE_DELAY = 500;
@@ -16,6 +18,22 @@ $(document).ready(
 				'achievements-list',
 				{data: {search: {levels: levels, texts: texts}}}
 			);
+		};
+		var FormatAchievements = function(number) {
+			var unit = '';
+			var modulo = number % 10;
+			if (modulo == 1 && (number < 10 || number > 20)) {
+				unit = 'достижение';
+			} else if (
+				modulo > 1 && modulo < 5
+				&& (number < 10 || number > 20)
+			) {
+				unit = 'достижения';
+			} else {
+				unit = 'достижений';
+			}
+
+			return number + ' ' + unit;
 		};
 
 		var update_timer = null;
@@ -46,5 +64,13 @@ $(document).ready(
 				return false;
 			}
 		);
+
+		AchievementsSelects = {
+			afterUpdate: function() {
+				var total_counter = $('.achievement-list-total-counter').text();
+				var formatted_total_counter = FormatAchievements(total_counter);
+				$('.achievement-counter-view').text(formatted_total_counter);
+			}
+		};
 	}
 );
