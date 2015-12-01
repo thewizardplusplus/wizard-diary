@@ -84,7 +84,7 @@
 					)
 				)
 			),
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' =>
 				'Backup::getRowClassByCreateDuration('

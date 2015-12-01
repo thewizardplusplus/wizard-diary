@@ -134,7 +134,7 @@
 					)
 				)
 			),
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' =>
 				'$this->controller->getRowClass($data["date"])',
