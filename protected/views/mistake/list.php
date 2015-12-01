@@ -39,38 +39,29 @@
 				array(
 					'type' => 'raw',
 					'value' =>
-						'"<time '
-							. 'title = \""'
-								. ' . DateFormatter::formatDate('
+						'"<a '
+							. 'href = \""'
+								. '. $this->grid->controller->createUrl('
+									. '"day/view",'
+									. 'array("date" => $data["date"])'
+								. ') . "\">'
+							. '<time '
+								. 'title = \""'
+									. ' . DateFormatter::formatDate('
+										. '$data["date"]'
+									. ') . "\">"'
+								. ' . DateFormatter::formatMyDate('
 									. '$data["date"]'
-								. ') . "\">"'
-							. ' . DateFormatter::formatMyDate('
-								. '$data["date"]'
-							. ')'
-						. ' . "</time>"',
+								. ')'
+							. ' . "</time>'
+						. '</a>"',
 					'htmlOptions' => array('class' => 'date-column')
 				),
 				array('type' => 'raw', 'value' => '$data["text"]'),
 				array(
 					'class' => 'CButtonColumn',
-					'template' => '{look} {correct}',
+					'template' => '{correct}',
 					'buttons' => array(
-						'look' => array(
-							'label' =>
-								'<span '
-									. 'class = '
-										. '"glyphicon '
-										. 'glyphicon-eye-open">'
-									. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"day/view",'
-									. 'array("date" => $data["date"])'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Посмотреть ошибку'),
-							'visible' => '$data["daily"]'
-						),
 						'correct' => array(
 							'label' =>
 								'<span '
