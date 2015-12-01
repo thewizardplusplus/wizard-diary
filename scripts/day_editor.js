@@ -1,26 +1,40 @@
 $(document).ready(
 	function() {
-		var DICTIONARY_NAME = 'ru_RU';
+		// var DICTIONARY_NAME = 'ru_RU';
+		//
+		// var aff_data = Typo.prototype._readFile(
+		// 	DICTIONARY_BASE_PATH
+		// 		+ DICTIONARY_NAME
+		// 		+ '/'
+		// 		+ DICTIONARY_NAME
+		// 		+ '.utf_8.aff',
+		// 	'UTF-8'
+		// );
+		// var dic_data = Typo.prototype._readFile(
+		// 	DICTIONARY_BASE_PATH
+		// 		+ DICTIONARY_NAME
+		// 		+ '/'
+		// 		+ DICTIONARY_NAME
+		// 		+'.utf_8.dic',
+		// 	'UTF-8'
+		// );
+		// var typo = new Typo(DICTIONARY_NAME, aff_data, dic_data);
+		// console.log(typo.check('тестт'));
+		// console.log(typo.check('тест'));
 
-		var aff_data = Typo.prototype._readFile(
-			DICTIONARY_BASE_PATH
-				+ DICTIONARY_NAME
-				+ '/'
-				+ DICTIONARY_NAME
-				+ '.utf_8.aff',
-			'UTF-8'
-		);
-		var dic_data = Typo.prototype._readFile(
-			DICTIONARY_BASE_PATH
-				+ DICTIONARY_NAME
-				+ '/'
-				+ DICTIONARY_NAME
-				+'.utf_8.dic',
-			'UTF-8'
-		);
-		var typo = new Typo(DICTIONARY_NAME, aff_data, dic_data);
-		console.log(typo.check('тестт'));
-		console.log(typo.check('тест'));
+		// var worker = cw(
+		// 	function(a, b){
+		// 		return a + b;
+		// 	}
+		// );
+		// worker
+		// 	.sum(2, 5)
+		// 	.then(
+		// 		function(result) {
+		// 			console.log(result);
+		// 		}
+		// 	);
+		// worker.close();
 
 		var lang_tools = ace.require('ace/ext/language_tools');
 
