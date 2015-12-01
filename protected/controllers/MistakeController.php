@@ -2,7 +2,11 @@
 
 class MistakeController extends CController {
 	public function filters() {
-		return array('accessControl');
+		return array(
+			'accessControl',
+			'postOnly + addWord',
+			'ajaxOnly + addWord'
+		);
 	}
 
 	public function accessRules() {
@@ -36,11 +40,41 @@ class MistakeController extends CController {
 		);
 	}
 
-	private function collectPointList() {
-		$pspell = pspell_new('ru', '', '', 'utf-8', PSPELL_FAST);
-		if ($pspell === false) {
-			throw new CException('Не удалось инициализировать Pspell.');
+	public function actionAddWord() {
+		if (!isset($_POST['word'])) {
+			throw new CHttpException(400, 'Некорректный запрос.');
 		}
+
+		$pspell = $this->initPspell();
+		$result = pspell_add_to_personal($pspell, $_POST['word']);
+		if ($result === false) {
+			throw new CException(
+				'Не удалось добавить слово в пользовательский словарь Pspell.'
+			);
+		}
+
+		$result = pspell_save_wordlist($pspell);
+		if ($result === false) {
+			throw new CException(
+				'Не удалось сохранить пользовательский словарь Pspell.'
+			);
+		}
+	}
+
+	public function calculateLine($point, $daily_stats) {
+		$line = (intval($point['order']) - 1) / 2;
+		if (
+			array_key_exists($point['date'], $daily_stats)
+			and $daily_stats[$point['date']] > 0
+		) {
+			$line -= $daily_stats[$point['date']] + 1;
+		}
+
+		return $line;
+	}
+
+	private function collectPointList() {
+		$pspell = $this->initPspell();
 
 		$points = Yii::app()
 			->db
@@ -109,15 +143,19 @@ class MistakeController extends CController {
 		return $result;
 	}
 
-	public function calculateLine($point, $daily_stats) {
-		$line = (intval($point['order']) - 1) / 2;
-		if (
-			array_key_exists($point['date'], $daily_stats)
-			and $daily_stats[$point['date']] > 0
-		) {
-			$line -= $daily_stats[$point['date']] + 1;
+	private function initPspell() {
+		$pspell = pspell_new_personal(
+			__DIR__ . '/../../dictionaries/custom_spellings.pws',
+			'ru',
+			'',
+			'',
+			'utf-8',
+			PSPELL_FAST
+		);
+		if ($pspell === false) {
+			throw new CException('Не удалось инициализировать Pspell.');
 		}
 
-		return $line;
+		return $pspell;
 	}
 }
