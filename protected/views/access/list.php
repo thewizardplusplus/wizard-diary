@@ -95,7 +95,7 @@
 						. ')'
 					. ')'
 			. ')',
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
 			'afterAjaxUpdate' => 'function() { AccessData.load(); }',

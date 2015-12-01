@@ -279,7 +279,7 @@
 					)
 				)
 			),
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'afterAjaxUpdate' => 'function() { DailyPointList.initialize(); }',
 			'ajaxUpdateError' =>
