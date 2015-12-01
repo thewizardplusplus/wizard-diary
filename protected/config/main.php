@@ -134,7 +134,21 @@ return array(
 				'awesome-bootstrap-checkbox' => array(
 					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
 						. 'awesome-bootstrap-checkbox/0.3.5/',
-					'css' => array('awesome-bootstrap-checkbox.min.css')
+					'css' => array('awesome-bootstrap-checkbox.min.css'),
+					'depends' => array('bootstrap')
+				),
+				'bootstrap-select' => array(
+					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
+						. 'bootstrap-select/1.7.5/',
+					'js' => array('js/bootstrap-select.min.js'),
+					'css' => array('css/bootstrap-select.min.css'),
+					'depends' => array('jquery', 'bootstrap')
+				),
+				'bootstrap-select-i18n' => array(
+					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
+						. 'bootstrap-select/1.7.5/',
+					'js' => array('js/i18n/defaults-ru_RU.min.js'),
+					'depends' => array('bootstrap-select')
 				)
 			)
 		),

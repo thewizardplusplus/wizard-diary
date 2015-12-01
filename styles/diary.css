@@ -422,6 +422,45 @@ body.dragging * {
 	padding: 5px 10px;
 }
 
+/* Achievements styles. */
+.achievements-selects-container {
+	margin-bottom: 20px;
+}
+
+.achievements-selects-container p {
+	margin-bottom: 0;
+}
+
+.achievements-selects-form {
+	margin-left: 10px;
+}
+
+/* on collision with achievements counter paragraph */
+@media (max-width: 438px) {
+	.achievements-selects-form {
+		margin-bottom: 15px;
+	}
+}
+
+.achievement-list-reset-button,
+.achievement-list-reset-button:focus,
+.achievement-list-reset-button:hover,
+.achievement-list-reset-button:active,
+.achievement-list-reset-button:active:focus,
+.achievement-list-reset-button:active:hover {
+	color: #428bca;
+}
+
+.achievement-view {
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #f9f9f9;
+}
+
+.achievement-view p:last-child {
+	margin-bottom: 0;
+}
+
 /* Utils styles. */
 .small-text {
 	font-size: smaller;
@@ -465,14 +504,4 @@ body.dragging * {
 
 .point-text input {
 	font-weight: normal;
-}
-
-.achievement-view {
-	margin-bottom: 10px;
-	padding: 10px;
-	background-color: #f8f8f8;
-}
-
-.achievement-view p:last-child {
-	margin-bottom: 0;
 }
