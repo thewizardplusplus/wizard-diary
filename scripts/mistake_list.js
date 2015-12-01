@@ -42,6 +42,17 @@ $(document).ready(
 			return number + ' ' + unit;
 		};
 
+		$('.custom-spellings-clean-button').click(
+			function() {
+				MistakesDialog.show(
+					function() {
+						MistakesDialog.hide();
+						RequestToMistakeList({clean: true});
+					}
+				);
+			}
+		);
+
 		MistakeList = {
 			initialize: function() {
 				$('.add-word-button').click(

@@ -15,6 +15,14 @@ class MistakeController extends CController {
 		if (isset($_POST['word'])) {
 			$this->addWord($pspell, $_POST['word']);
 		}
+		if (isset($_POST['clean']) and $_POST['clean'] == 'true') {
+			$result = @unlink($this->custom_spellings_path);
+			if ($result === false) {
+				throw new CException(
+					'Не удалось удалить пользовательский словарь Pspell.'
+				);
+			}
+		}
 
 		$points = $this->collectPointList($pspell);
 		$data_provider = new CArrayDataProvider(
@@ -65,6 +73,9 @@ class MistakeController extends CController {
 
 		return sprintf("%d %s", $number, $unit);
 	}
+
+	private $custom_spellings_path =
+		__DIR__ . '/../../dictionaries/custom_spellings.pws';
 
 	private function collectPointList($pspell) {
 		$points = Yii::app()
@@ -152,7 +163,7 @@ class MistakeController extends CController {
 
 	private function initPspell() {
 		$pspell = pspell_new_personal(
-			__DIR__ . '/../../dictionaries/custom_spellings.pws',
+			$this->custom_spellings_path,
 			'ru',
 			'',
 			'',

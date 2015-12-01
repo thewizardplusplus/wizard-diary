@@ -13,6 +13,10 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/mistakes_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/mistake_list.js'),
 		CClientScript::POS_HEAD
 	);
@@ -25,6 +29,14 @@
 </header>
 
 <div class = "clearfix mistakes-controls-container">
+	<?= CHtml::htmlButton(
+		'<span class = "glyphicon glyphicon-remove"></span> Очистить словарь',
+		array(
+			'class' =>
+				'btn btn-danger pull-right custom-spellings-clean-button'
+		)
+	) ?>
+
 	<p class = "pull-left">
 		Ошибки найдены в <strong><span class = "mistakes-counter-view"><?=
 			$this->formatMistakes($data_provider->getTotalItemCount())
@@ -129,4 +141,42 @@
 			'pagerCssClass' => 'page-controller'
 		)
 	); ?>
+</div>
+
+<div class = "modal custom-spellings-clean-dialog">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<button
+					class = "close"
+					type = "button"
+					data-dismiss = "modal"
+					aria-hidden = "true">
+					&times;
+				</button>
+				<h4 class = "modal-title">
+					<span class = "glyphicon glyphicon-warning-sign"></span>
+					Внимание!
+				</h4>
+			</div>
+
+			<div class = "modal-body">
+				<p>
+					Ты точно хочешь очистить словарь?
+				</p>
+			</div>
+
+			<div class = "modal-footer">
+				<button type = "button" class = "btn btn-primary ok-button">
+					OK
+				</button>
+				<button
+					class = "btn btn-default"
+					type = "button"
+					data-dismiss = "modal">
+					Отмена
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
