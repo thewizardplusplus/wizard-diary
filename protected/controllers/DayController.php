@@ -138,7 +138,7 @@ class DayController extends CController {
 		echo json_encode($stats);
 	}
 
-	public function actionUpdate($date) {
+	public function actionUpdate($date, $line = 0) {
 		if (isset($_POST['points_description'])) {
 			$number_of_daily_points = Point::model()->count(
 				array(
@@ -179,7 +179,8 @@ class DayController extends CController {
 				'date' => DateFormatter::formatDate($encoded_date),
 				'raw_date' => CHtml::encode($encoded_date),
 				'stats' => $stats,
-				'point_hierarchy' => $point_hierarchy
+				'point_hierarchy' => $point_hierarchy,
+				'line' => $line
 			)
 		);
 	}

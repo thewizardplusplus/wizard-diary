@@ -2,6 +2,6 @@
 
 Yii::import('zii.widgets.grid.CGridView');
 
-class DayGridView extends CGridView {
+class ExtendedGridView extends CGridView {
 	public $dailyStats;
 }

@@ -382,10 +382,6 @@ body.dragging * {
 }
 
 /* Day list styles. */
-.day-date-column {
-	width: 50px;
-}
-
 .day-completed-flag-column {
 	width: 50px;
 	text-align: center;
@@ -504,4 +500,8 @@ body.dragging * {
 
 .point-text input {
 	font-weight: normal;
+}
+
+.date-column {
+	width: 50px;
 }

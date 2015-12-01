@@ -7,6 +7,7 @@
 	 * @var string $raw_date
 	 * @var array $stats
 	 * @var array $point_hierarchy
+	 * @var int $line
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
@@ -16,6 +17,11 @@
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var POINT_HIERARCHY = ' . json_encode($point_hierarchy) . ';',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var LINE = ' . $line . ';',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(

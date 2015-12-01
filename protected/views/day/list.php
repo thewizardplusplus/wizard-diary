@@ -24,7 +24,7 @@
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
-		'DayGridView',
+		'ExtendedGridView',
 		array(
 			'id' => 'day-list',
 			'dataProvider' => $data_provider,
@@ -79,7 +79,7 @@
 								. ')'
 							. ' . "</time>'
 						. '</a>"',
-					'htmlOptions' => array('class' => 'day-date-column')
+					'htmlOptions' => array('class' => 'date-column')
 				),
 				array(
 					'type' => 'raw',
