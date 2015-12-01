@@ -55,6 +55,10 @@
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
+<header class = "page-header visible-xs-block">
+	<h4>Ежедневно</h4>
+</header>
+
 <div class = "clearfix">
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
