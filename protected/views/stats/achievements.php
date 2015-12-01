@@ -11,6 +11,13 @@
 	Yii::app()->getClientScript()->registerPackage('bootstrap-select-i18n');
 	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DEFAULT_CURRENT_URL = \''
+				. CJavaScript::quote($this->createUrl('stats/achievements'))
+			. '\';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/achievements_selects.js'),
 		CClientScript::POS_HEAD

@@ -12,11 +12,12 @@ $(document).ready(
 			texts_picker.selectpicker('deselectAll');
 		};
 		var UpdateAchievementList = function() {
-			var levels = levels_picker.val();
-			var texts = texts_picker.val();
+			var data = {
+				search: {levels: levels_picker.val(), texts: texts_picker.val()}
+			};
 			$.fn.yiiListView.update(
 				'achievements-list',
-				{data: {search: {levels: levels, texts: texts}}}
+				{url: DEFAULT_CURRENT_URL, data: data}
 			);
 		};
 		var FormatAchievements = function(number) {
