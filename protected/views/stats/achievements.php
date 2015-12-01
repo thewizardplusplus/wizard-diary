@@ -73,13 +73,14 @@
 			'<span class = "glyphicon glyphicon-remove"></span> '
 				. '<span class = "visible-xs-inline">Очистить</span>',
 			array(
-				'class' => 'btn btn-default achievement-list-reset-button',
+				'class' =>
+					'btn btn-default blue-button achievement-list-reset-button',
 				'type' => 'submit'
 			)
 		) ?>
 	<?= CHtml::endForm() ?>
 
-	<p class = "pull-left achievement-counter">
+	<p class = "pull-left">
 		Получено <strong><span class = "achievement-counter-view"><?=
 			$this->formatAchievements(
 				$achievements_provider->getTotalItemCount()

@@ -166,6 +166,10 @@
 									array(
 										'items' => array(
 											array(
+												'label' => 'Ошибки',
+												'url' => array('mistake/list')
+											),
+											array(
 												'label' => 'Бекапы',
 												'url' => array('backup/list')
 											),

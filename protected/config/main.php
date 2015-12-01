@@ -23,6 +23,8 @@ return array(
 				'access-code' => 'site/accessCode',
 				'days' => 'day/list',
 				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
+				'day/<date:\d\d\d\d-\d\d-\d\d>/update/line:<line:\d+>' =>
+					'day/update',
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
 				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
@@ -30,6 +32,7 @@ return array(
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',
 				'stats/project_list' => 'stats/projectList',
+				'mistakes' => 'mistake/list',
 				'backups' => 'backup/list',
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
 					'backup/diff',

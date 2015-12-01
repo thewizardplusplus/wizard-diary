@@ -14,6 +14,11 @@ $(document).ready(
 				enableLiveAutocompletion: true
 			}
 		);
+		day_editor.focus();
+		day_editor.gotoLine(
+			LINE,
+			day_editor.getSession().getLine(LINE - 1).length
+		);
 
 		var ExtendImport = function(points_description) {
 			var last_line_blocks = [];

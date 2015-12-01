@@ -382,10 +382,6 @@ body.dragging * {
 }
 
 /* Day list styles. */
-.day-date-column {
-	width: 50px;
-}
-
 .day-completed-flag-column {
 	width: 50px;
 	text-align: center;
@@ -442,15 +438,6 @@ body.dragging * {
 	}
 }
 
-.achievement-list-reset-button,
-.achievement-list-reset-button:focus,
-.achievement-list-reset-button:hover,
-.achievement-list-reset-button:active,
-.achievement-list-reset-button:active:focus,
-.achievement-list-reset-button:active:hover {
-	color: #428bca;
-}
-
 .achievement-view {
 	margin-bottom: 10px;
 	padding: 10px;
@@ -459,6 +446,26 @@ body.dragging * {
 
 .achievement-view p:last-child {
 	margin-bottom: 0;
+}
+
+/* Mistakes styles. */
+.mistakes-controls-container {
+	margin-bottom: 20px;
+}
+
+.mistakes-controls-container p {
+	margin-bottom: 0;
+}
+
+.custom-spellings-clean-button {
+	margin-left: 10px;
+}
+
+/* on collision with mistakes counter paragraph */
+@media (max-width: 404px) {
+	.custom-spellings-clean-button {
+		margin-bottom: 15px;
+	}
 }
 
 /* Utils styles. */
@@ -504,4 +511,17 @@ body.dragging * {
 
 .point-text input {
 	font-weight: normal;
+}
+
+.date-column {
+	width: 50px;
+}
+
+.blue-button,
+.blue-button:focus,
+.blue-button:hover,
+.blue-button:active,
+.blue-button:active:focus,
+.blue-button:active:hover {
+	color: #428bca;
 }
