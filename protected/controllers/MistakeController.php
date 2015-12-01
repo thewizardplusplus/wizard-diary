@@ -37,20 +37,33 @@ class MistakeController extends CController {
 	}
 
 	private function collectPointList() {
+		$pspell = pspell_new('ru', '', '', 'utf-8', PSPELL_FAST);
+		if ($pspell === false) {
+			throw new CException('Не удалось инициализировать Pspell.');
+		}
+
 		$points = Yii::app()
 			->db
 			->createCommand()
 			->from('{{points}}')
 			->where('text != ""')
 			->queryAll();
+
 		$points = array_map(
-			function($point) {
+			function($point) use(&$pspell) {
 				$counter = 0;
 				$point['text'] = preg_replace_callback(
 					'/\b[а-яё]+\b/iu',
-					function($matches) use (&$counter) {
-						$counter++;
-						return '<mark>' . $matches[0] . '</mark>';
+					function($matches) use (&$pspell, &$counter) {
+						$result = '';
+						if (pspell_check($pspell, $matches[0])) {
+							$result = $matches[0];
+						} else {
+							$result = '<mark>' . $matches[0] . '</mark>';
+							$counter++;
+						}
+
+						return $result;
 					},
 					$point['text']
 				);
