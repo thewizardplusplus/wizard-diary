@@ -408,13 +408,23 @@ class StatsController extends CController {
 				function($achievement) use ($levels, $texts) {
 					$right_level =
 						count($levels) == 0
-						|| in_array($achievement['level'], $levels, true);
+						|| in_array(
+							$this->unformatLevel($achievement['level']),
+							$levels,
+							true
+						);
 					$right_text =
 						count($texts) == 0
 						|| in_array($achievement['point'], $texts, true);
 					return $right_level && $right_text;
 				}
 			);
+		}
+
+		$achievements_levels = array();
+		foreach ($this->achievements_names as $level => $name) {
+			$level = $this->unformatLevel($level);
+			$achievements_levels[$level] = $name;
 		}
 
 		$achievements_provider = new CArrayDataProvider(
@@ -440,7 +450,7 @@ class StatsController extends CController {
 			'achievements',
 			array(
 				'achievements_provider' => $achievements_provider,
-				'achievements_levels' => $this->achievements_names,
+				'achievements_levels' => $achievements_levels,
 				'achievements_texts' => $achievements_texts
 			)
 		);
@@ -642,6 +652,10 @@ class StatsController extends CController {
 
 	private function formatLevel($level) {
 		return sprintf('#%d', $level);
+	}
+
+	private function unformatLevel($level) {
+		return substr($level, 1);
 	}
 
 	private function hashAchievement($name, $point) {
