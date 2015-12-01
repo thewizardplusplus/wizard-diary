@@ -25,7 +25,7 @@
 </header>
 
 <div class = "clearfix mistakes-controls-container">
-	<p class = "pull-left mistakes-counter">
+	<p class = "pull-left">
 		Ошибки найдены в <strong><span class = "mistakes-counter-view"><?=
 			$this->formatMistakes($data_provider->getTotalItemCount())
 		?></span></strong>.

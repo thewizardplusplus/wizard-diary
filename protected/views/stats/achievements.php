@@ -80,7 +80,7 @@
 		) ?>
 	<?= CHtml::endForm() ?>
 
-	<p class = "pull-left achievement-counter">
+	<p class = "pull-left">
 		Получено <strong><span class = "achievement-counter-view"><?=
 			$this->formatAchievements(
 				$achievements_provider->getTotalItemCount()
