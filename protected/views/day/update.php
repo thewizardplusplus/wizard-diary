@@ -52,10 +52,6 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/catiline.min.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/day_editor.js'),
 		CClientScript::POS_HEAD
 	);

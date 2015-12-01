@@ -22,20 +22,6 @@ $(document).ready(
 		// console.log(typo.check('тестт'));
 		// console.log(typo.check('тест'));
 
-		// var worker = cw(
-		// 	function(a, b){
-		// 		return a + b;
-		// 	}
-		// );
-		// worker
-		// 	.sum(2, 5)
-		// 	.then(
-		// 		function(result) {
-		// 			console.log(result);
-		// 		}
-		// 	);
-		// worker.close();
-
 		var lang_tools = ace.require('ace/ext/language_tools');
 
 		var day_editor = ace.edit('day-editor');
