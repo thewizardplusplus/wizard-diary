@@ -43,6 +43,29 @@ class MistakeController extends CController {
 			->from('{{points}}')
 			->where('text != ""')
 			->queryAll();
+		$points = array_map(
+			function($point) {
+				$counter = 0;
+				$point['text'] = preg_replace_callback(
+					'/\b[а-яё]+\b/iu',
+					function($matches) use (&$counter) {
+						$counter++;
+						return '<mark>' . $matches[0] . '</mark>';
+					},
+					$point['text']
+				);
+				$point['counter'] = $counter;
+
+				return $point;
+			},
+			$points
+		);
+		$points = array_filter(
+			$points,
+			function($point) {
+				return $point['counter'] > 0;
+			}
+		);
 
 		return $points;
 	}
