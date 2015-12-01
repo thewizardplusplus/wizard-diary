@@ -24,6 +24,13 @@
 		'var LINE = ' . $line . ';',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DICTIONARY_BASE_PATH = \''
+				. Yii::app()->request->baseUrl
+			. '/dictionaries/\';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
@@ -38,6 +45,10 @@
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/ace_mode_wizard_diary.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/typo.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
