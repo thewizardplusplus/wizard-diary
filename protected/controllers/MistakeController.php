@@ -2,11 +2,7 @@
 
 class MistakeController extends CController {
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + addWord',
-			'ajaxOnly + addWord'
-		);
+		return array('accessControl');
 	}
 
 	public function accessRules() {
@@ -14,7 +10,13 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$points = $this->collectPointList();
+		$pspell = $this->initPspell();
+
+		if (isset($_POST['word'])) {
+			$this->addWord($pspell, $_POST['word']);
+		}
+
+		$points = $this->collectPointList($pspell);
 		$data_provider = new CArrayDataProvider(
 			$points,
 			array(
@@ -40,27 +42,6 @@ class MistakeController extends CController {
 		);
 	}
 
-	public function actionAddWord() {
-		if (!isset($_POST['word'])) {
-			throw new CHttpException(400, 'Некорректный запрос.');
-		}
-
-		$pspell = $this->initPspell();
-		$result = pspell_add_to_personal($pspell, $_POST['word']);
-		if ($result === false) {
-			throw new CException(
-				'Не удалось добавить слово в пользовательский словарь Pspell.'
-			);
-		}
-
-		$result = pspell_save_wordlist($pspell);
-		if ($result === false) {
-			throw new CException(
-				'Не удалось сохранить пользовательский словарь Pspell.'
-			);
-		}
-	}
-
 	public function calculateLine($point, $daily_stats) {
 		$line = (intval($point['order']) - 1) / 2;
 		if (
@@ -73,9 +54,7 @@ class MistakeController extends CController {
 		return $line;
 	}
 
-	private function collectPointList() {
-		$pspell = $this->initPspell();
-
+	private function collectPointList($pspell) {
 		$points = Yii::app()
 			->db
 			->createCommand()
@@ -84,16 +63,32 @@ class MistakeController extends CController {
 			->queryAll();
 
 		$points = array_map(
-			function($point) use(&$pspell) {
+			function($point) use($pspell) {
 				$counter = 0;
 				$point['text'] = preg_replace_callback(
 					'/\b[а-яё]+\b/iu',
-					function($matches) use (&$pspell, &$counter) {
+					function($matches) use ($pspell, &$counter) {
 						$result = '';
 						if (pspell_check($pspell, $matches[0])) {
 							$result = $matches[0];
 						} else {
-							$result = '<mark>' . $matches[0] . '</mark>';
+							$result =
+								'<mark>' . $matches[0] . '</mark>'
+								. '<button '
+									. 'class = "'
+										. 'btn '
+										. 'btn-default '
+										. 'btn-xs '
+										. 'blue-button '
+										. 'add-word-button'
+									.'"'
+									. 'data-word = "'
+										. CHtml::encode($matches[0])
+									. '">'
+									. '<span '
+										. 'class = "glyphicon glyphicon-plus">'
+									. '</span>'
+								. '</button>';
 							$counter++;
 						}
 
@@ -157,5 +152,21 @@ class MistakeController extends CController {
 		}
 
 		return $pspell;
+	}
+
+	public function addWord($pspell, $word) {
+		$result = pspell_add_to_personal($pspell, $word);
+		if ($result === false) {
+			throw new CException(
+				'Не удалось добавить слово в пользовательский словарь Pspell.'
+			);
+		}
+
+		$result = pspell_save_wordlist($pspell);
+		if ($result === false) {
+			throw new CException(
+				'Не удалось сохранить пользовательский словарь Pspell.'
+			);
+		}
 	}
 }

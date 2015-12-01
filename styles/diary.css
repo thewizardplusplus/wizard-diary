@@ -438,15 +438,6 @@ body.dragging * {
 	}
 }
 
-.achievement-list-reset-button,
-.achievement-list-reset-button:focus,
-.achievement-list-reset-button:hover,
-.achievement-list-reset-button:active,
-.achievement-list-reset-button:active:focus,
-.achievement-list-reset-button:active:hover {
-	color: #428bca;
-}
-
 .achievement-view {
 	margin-bottom: 10px;
 	padding: 10px;
@@ -504,4 +495,13 @@ body.dragging * {
 
 .date-column {
 	width: 50px;
+}
+
+.blue-button,
+.blue-button:focus,
+.blue-button:hover,
+.blue-button:active,
+.blue-button:active:focus,
+.blue-button:active:hover {
+	color: #428bca;
 }

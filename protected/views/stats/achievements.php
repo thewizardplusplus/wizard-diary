@@ -73,7 +73,8 @@
 			'<span class = "glyphicon glyphicon-remove"></span> '
 				. '<span class = "visible-xs-inline">Очистить</span>',
 			array(
-				'class' => 'btn btn-default achievement-list-reset-button',
+				'class' =>
+					'btn btn-default blue-button achievement-list-reset-button',
 				'type' => 'submit'
 			)
 		) ?>

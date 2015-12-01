@@ -5,6 +5,18 @@
 	 * @var array $daily_stats
 	 */
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DEFAULT_CURRENT_URL = \''
+				. CJavaScript::quote($this->createUrl('mistake/list'))
+			. '\';',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/mistake_list.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Ошибки';
 ?>
 
@@ -91,6 +103,10 @@
 			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
+			'afterAjaxUpdate' =>
+				'function() {'
+					. 'MistakeList.afterUpdate();'
+				. '}',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
