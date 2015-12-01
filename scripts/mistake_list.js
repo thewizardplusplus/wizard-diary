@@ -28,6 +28,19 @@ $(document).ready(
 				}
 			);
 		};
+		var FormatMistakes = function(number) {
+			number = number || 0;
+
+			var modulo = number % 10;
+			var unit =
+				modulo == 1 && (number < 10 || number > 20)
+					? 'пункте'
+					: (number != 0
+						? 'пунктах'
+						: 'пунктов');
+
+			return number + ' ' + unit;
+		};
 
 		MistakeList = {
 			initialize: function() {
@@ -40,6 +53,10 @@ $(document).ready(
 			},
 			afterUpdate: function() {
 				MistakeList.initialize();
+
+				var total_counter = $('.mistake-list-total-counter').text();
+				var formatted_total_counter = FormatMistakes(total_counter);
+				$('.mistakes-counter-view').text(formatted_total_counter);
 			}
 		};
 

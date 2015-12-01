@@ -54,6 +54,18 @@ class MistakeController extends CController {
 		return $line;
 	}
 
+	public function formatMistakes($number) {
+		$modulo = $number % 10;
+		$unit =
+			($modulo == 1 and ($number < 10 or $number > 20))
+				? 'пункте'
+				: ($number != 0
+					? 'пунктах'
+					: 'пунктов');
+
+		return sprintf("%d %s", $number, $unit);
+	}
+
 	private function collectPointList($pspell) {
 		$points = Yii::app()
 			->db
@@ -154,7 +166,7 @@ class MistakeController extends CController {
 		return $pspell;
 	}
 
-	public function addWord($pspell, $word) {
+	private function addWord($pspell, $word) {
 		$result = pspell_add_to_personal($pspell, $word);
 		if ($result === false) {
 			throw new CException(

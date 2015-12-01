@@ -21,6 +21,8 @@ $(document).ready(
 			);
 		};
 		var FormatAchievements = function(number) {
+			number = number || 0;
+
 			var unit = '';
 			var modulo = number % 10;
 			if (modulo == 1 && (number < 10 || number > 20)) {

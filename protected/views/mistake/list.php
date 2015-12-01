@@ -24,6 +24,14 @@
 	<h4>Ошибки</h4>
 </header>
 
+<div class = "clearfix mistakes-controls-container">
+	<p class = "pull-left mistakes-counter">
+		Ошибки найдены в <strong><span class = "mistakes-counter-view"><?=
+			$this->formatMistakes($data_provider->getTotalItemCount())
+		?></span></strong>.
+	</p>
+</div>
+
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
 		'ExtendedGridView',
@@ -103,7 +111,11 @@
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
 			'emptyText' => 'Нет ошибок.',
-			'summaryText' => 'Ошибки {start}-{end} из {count}.',
+			'summaryText' =>
+				'Ошибки {start}-{end} из '
+				. '<span class = "mistake-list-total-counter">'
+					. '{count}'
+				. '</span>.',
 			'pager' => array(
 				'header' => '',
 				'firstPageLabel' => '&lt;&lt;',
