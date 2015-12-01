@@ -57,7 +57,7 @@
 								. ')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Посмотреть ошибку'),
-							'visible' => '$data->daily'
+							'visible' => '$data["daily"]'
 						),
 						'correct' => array(
 							'label' =>
@@ -83,7 +83,7 @@
 								. ')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Исправить ошибку'),
-							'visible' => '!$data->daily'
+							'visible' => '!$data["daily"]'
 						)
 					)
 				)

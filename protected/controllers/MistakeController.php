@@ -10,15 +10,21 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$data_provider = new CActiveDataProvider(
-			'Point',
+		$points = $this->collectPointList();
+		$data_provider = new CArrayDataProvider(
+			$points,
 			array(
-				'criteria' => array(
-					'condition' => 'text != ""',
-					'order' => 'date DESC, `order`'
+				'keyField' => 'date',
+				'sort' => array(
+					'attributes' => array('date', '`order`'),
+					'defaultOrder' => array(
+						'date' => CSort::SORT_DESC,
+						'`order`' => CSort::SORT_ASC,
+					)
 				)
 			)
 		);
+
 		$daily_stats = $this->collectDailyStats();
 
 		$this->render(
@@ -30,16 +36,15 @@ class MistakeController extends CController {
 		);
 	}
 
-	public function calculateLine($point, $daily_stats) {
-		$line = (intval($point['order']) - 1) / 2;
-		if (
-			array_key_exists($point['date'], $daily_stats)
-			and $daily_stats[$point['date']] > 0
-		) {
-			$line -= $daily_stats[$point['date']] + 1;
-		}
+	private function collectPointList() {
+		$points = Yii::app()
+			->db
+			->createCommand()
+			->from('{{points}}')
+			->where('text != ""')
+			->queryAll();
 
-		return $line;
+		return $points;
 	}
 
 	private function collectDailyStats() {
@@ -66,5 +71,17 @@ class MistakeController extends CController {
 		}
 
 		return $result;
+	}
+
+	public function calculateLine($point, $daily_stats) {
+		$line = (intval($point['order']) - 1) / 2;
+		if (
+			array_key_exists($point['date'], $daily_stats)
+			and $daily_stats[$point['date']] > 0
+		) {
+			$line -= $daily_stats[$point['date']] + 1;
+		}
+
+		return $line;
 	}
 }
