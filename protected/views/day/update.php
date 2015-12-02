@@ -31,6 +31,13 @@
 			. '/dictionaries/\';',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var TASK_SCRIPT_PATH = \''
+				. Yii::app()->request->baseUrl
+			. '/scripts/checking_task.js\';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
