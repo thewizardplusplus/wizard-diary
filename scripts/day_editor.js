@@ -1,40 +1,5 @@
 $(document).ready(
 	function() {
-		var DICTIONARY_NAME = 'ru_RU';
-
-		var aff_data = Typo.prototype._readFile(
-			DICTIONARY_BASE_PATH
-				+ DICTIONARY_NAME
-				+ '/'
-				+ DICTIONARY_NAME
-				+ '.utf_8.aff',
-			'UTF-8'
-		);
-		var dic_data = Typo.prototype._readFile(
-			DICTIONARY_BASE_PATH
-				+ DICTIONARY_NAME
-				+ '/'
-				+ DICTIONARY_NAME
-				+'.utf_8.dic',
-			'UTF-8'
-		);
-		// var typo = new Typo(DICTIONARY_NAME, aff_data, dic_data);
-		// console.log(typo.check('тестт'));
-		// console.log(typo.check('тест'));
-
-		var worker = new Worker(TASK_SCRIPT_PATH);
-		worker.onmessage = function(event) {
-			if (event.data.type == 'message') {
-				console.log(event.data.data);
-			} else {
-				console.log(event.data.check('тестт'));
-				console.log(event.data.check('тест'));
-			}
-		};
-		worker.postMessage(
-			{typo: Typo, aff_data: aff_data, dic_data: dic_data}
-		);
-
 		var lang_tools = ace.require('ace/ext/language_tools');
 
 		var day_editor = ace.edit('day-editor');
