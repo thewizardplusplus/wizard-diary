@@ -104,10 +104,11 @@ class MistakeController extends CController {
 										. 'btn-xs '
 										. 'blue-button '
 										. 'add-word-button'
-									.'"'
+									.'" '
 									. 'data-word = "'
 										. CHtml::encode($matches[0])
-									. '">'
+									. '" '
+									. 'title = "Добавить в словарь">'
 									. '<span '
 										. 'class = "glyphicon glyphicon-plus">'
 									. '</span>'
