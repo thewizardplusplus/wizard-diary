@@ -16,11 +16,13 @@ class MistakeController extends CController {
 			$this->addWord($pspell, $_POST['word']);
 		}
 		if (isset($_POST['clean']) and $_POST['clean'] == 'true') {
-			$result = @unlink($this->custom_spellings_path);
-			if ($result === false) {
-				throw new CException(
-					'Не удалось удалить пользовательский словарь Pspell.'
-				);
+			if (file_exists($this->custom_spellings_path)) {
+				$result = @unlink($this->custom_spellings_path);
+				if ($result === false) {
+					throw new CException(
+						'Не удалось удалить пользовательский словарь Pspell.'
+					);
+				}
 			}
 		}
 
