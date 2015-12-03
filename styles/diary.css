@@ -402,10 +402,10 @@ body.dragging * {
 #day-mobile-editor {
 	height: 250px;
 	padding: 0 5px;
-	background-color: #141414;
+	background-color: #2c2828;
 	font-family: monospace;
 	font-size: 12px;
-	color: #f8f8f8;
+	color: #8f938f;
 }
 
 .saved-flag,
