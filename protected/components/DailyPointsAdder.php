@@ -2,6 +2,18 @@
 
 class DailyPointsAdder {
 	public static function addDailyPoints($date) {
+		$new_daily_points = self::getNewDailyPoints();
+		$existing_daily_points = self::getExistingDailyPoints($date);
+		$daily_points_queries = self::processDailyPoints(
+			$date,
+			$new_daily_points,
+			$existing_daily_points
+		);
+		$sql = self::generateSql($date, $daily_points_queries);
+		Yii::app()->db->createCommand($sql)->execute();
+	}
+
+	private static function getExistingDailyPoints($date) {
 		$existing_daily_points = Point::model()->findAll(
 			array(
 				'select' => array('state', 'text'),
@@ -13,20 +25,31 @@ class DailyPointsAdder {
 				'params' => array('date' => $date)
 			)
 		);
-		$new_existing_daily_points = array();
+
+		$transformed_existing_daily_points = array();
 		foreach ($existing_daily_points as $daily_point) {
-			$new_existing_daily_points[$daily_point->text] =
+			$transformed_existing_daily_points[$daily_point->text] =
 				$daily_point->state;
 		}
-		$existing_daily_points = $new_existing_daily_points;
 
-		$daily_points_queries = array();
-		$new_daily_points = DailyPoint::model()->findAll(
+		return $transformed_existing_daily_points;
+	}
+
+	private static function getNewDailyPoints() {
+		return DailyPoint::model()->findAll(
 			array(
 				'select' => array('text'),
 				'order' => '`order`'
 			)
 		);
+	}
+
+	private static function processDailyPoints(
+		$date,
+		$new_daily_points,
+		$existing_daily_points
+	) {
+		$daily_points_queries = array();
 		$escaped_date = Yii::app()->db->quoteValue($date);
 		foreach ($new_daily_points as $daily_point) {
 			$daily_point_data = array(
@@ -46,21 +69,31 @@ class DailyPointsAdder {
 			$daily_points_queries[] = $daily_points_query;
 		}
 
-		$sql = "START TRANSACTION;\n\n";
-		$sql .= sprintf(
+		return $daily_points_queries;
+	}
+
+	private static function generateSql($date, $daily_points_queries) {
+		$escaped_date = Yii::app()->db->quoteValue($date);
+		$delete_sql = sprintf(
 			"DELETE FROM {{points}}\n"
-				. "WHERE `date` = %s AND `daily` = TRUE;\n\n",
+				. "WHERE `date` = %s AND `daily` = TRUE;",
 			$escaped_date
 		);
-		$sql .= sprintf(
+
+		$general_daily_points_query = implode(",\n\t", $daily_points_queries);
+		$add_daily_points_sql = sprintf(
 			"INSERT INTO {{points}} (`date`, `text`, `state`, `daily`)\n"
 				. "VALUES\n"
-				. "\t%s;\n\n",
-			implode(",\n\t", $daily_points_queries)
+				. "\t%s;",
+			$general_daily_points_query
 		);
-		$sql .= Point::getRenumberOrderSql($date) . "\n\n";
-		$sql .= 'COMMIT;';
 
-		Yii::app()->db->createCommand($sql)->execute();
+		$renumber_order_sql = Point::getRenumberOrderSql($date);
+		return
+			"START TRANSACTION;\n\n"
+			. $delete_sql . "\n\n"
+			. $add_daily_points_sql . "\n\n"
+			. $renumber_order_sql . "\n\n"
+			. 'COMMIT;';
 	}
 }
