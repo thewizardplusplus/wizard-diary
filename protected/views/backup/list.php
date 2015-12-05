@@ -79,7 +79,7 @@
 								.')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Изменения'),
-							'visible' => '!is_null($data->previous_filename)'
+							'visible' => '$data->has_difference'
 						)
 					)
 				)
