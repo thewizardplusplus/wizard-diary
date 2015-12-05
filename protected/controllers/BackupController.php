@@ -45,10 +45,17 @@ class BackupController extends CController {
 			$filename = $filenames[$i];
 			$backup->filename = $this->getBackupDate($filename);
 			$backup->previous_filename = null;
+			$backup->has_difference = false;
 			if ($i < $number_of_filenames - 1) {
 				$backup->previous_filename = $this->getBackupDate(
 					$filenames[$i + 1]
 				);
+
+				$difference = $this->getBackupsDiff(
+					$backup->previous_filename,
+					$backup->filename
+				);
+				$backup->has_difference = strlen($difference) > 0;
 			}
 
 			$filename = $backups_path . '/' . $filename;
@@ -133,7 +140,18 @@ class BackupController extends CController {
 			)
 		);
 
-		$this->render('list', array('data_provider' => $data_provider));
+		$last_backup_date = null;
+		if ($number_of_filenames > 0) {
+			$last_backup_date = $this->getBackupDate($filenames[0]);
+		}
+
+		$this->render(
+			'list',
+			array(
+				'data_provider' => $data_provider,
+				'last_backup_date' => $last_backup_date
+			)
+		);
 	}
 
 	public function actionCreate() {
@@ -219,27 +237,31 @@ class BackupController extends CController {
 	}
 
 	public function actionDiff($file, $previous_file) {
-		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		$filename = $backups_path . '/' . $this->makeBackupFilename($file);
-		$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
-
-		$previous_filename =
-			$backups_path
-			. '/'
-			. $this->makeBackupFilename($previous_file);
-		$previous_filename_lines = file(
-			$previous_filename,
-			FILE_IGNORE_NEW_LINES
-		);
-
-		$diff = new Diff($previous_filename_lines, $filename_lines);
-
-		$diff_renderer = new Diff_Renderer_Text_Unified;
-		$diff_representation = $diff->Render($diff_renderer);
+		$diff_representation = $this->getBackupsDiff($previous_file, $file);
+		$previous_file_timestamp = $this->formatBackupTimestamp($previous_file);
+		$file_timestamp = $this->formatBackupTimestamp($file);
 
 		$this->render(
 			'diff',
-			array('diff_representation' => $diff_representation)
+			array(
+				'diff_representation' => $diff_representation,
+				'previous_file_timestamp' => $previous_file_timestamp,
+				'file_timestamp' => $file_timestamp
+			)
+		);
+	}
+
+	public function actionCurrentDiff($file) {
+		$diff_representation = $this->getBackupsDiff($file, null);
+		$previous_file_timestamp = $this->formatBackupTimestamp($file);
+
+		$this->render(
+			'diff',
+			array(
+				'diff_representation' => $diff_representation,
+				'previous_file_timestamp' => $previous_file_timestamp,
+				'file_timestamp' => null
+			)
 		);
 	}
 
@@ -269,10 +291,6 @@ class BackupController extends CController {
 		);
 		$backup_filename = preg_replace('/\.xml$/', '', $backup_filename);
 		return $backup_filename;
-	}
-
-	private function makeBackupFilename($backup_date) {
-		return sprintf('database_dump_%s.xml', $backup_date);
 	}
 
 	private function testBackupDirectory($path) {
@@ -402,5 +420,45 @@ class BackupController extends CController {
 			\Dropbox\WriteMode::add(),
 			$file
 		);
+	}
+
+	private function getBackupsDiff($previous_file, $file) {
+		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
+		$previous_filename =
+			$backups_path
+			. '/'
+			. $this->makeBackupFilename($previous_file);
+		$previous_filename_lines = file(
+			$previous_filename,
+			FILE_IGNORE_NEW_LINES
+		);
+
+		if (!is_null($file)) {
+			$filename = $backups_path . '/' . $this->makeBackupFilename($file);
+			$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
+		} else {
+			$current_dump = $this->dumpDatabase();
+			$filename_lines = explode("\n", $current_dump);
+		}
+
+		$diff = new Diff($previous_filename_lines, $filename_lines);
+
+		$diff_renderer = new Diff_Renderer_Text_Unified;
+		$diff_representation = $diff->Render($diff_renderer);
+
+		return $diff_representation;
+	}
+
+	private function makeBackupFilename($backup_date) {
+		return sprintf('database_dump_%s.xml', $backup_date);
+	}
+
+	private function formatBackupTimestamp($timestamp) {
+		$timestamp_parts = explode('-', $timestamp);
+		$date = DateFormatter::formatDate(
+			implode('-', array_slice($timestamp_parts, 0, 3))
+		);
+		$time = implode(':', array_slice($timestamp_parts, 3));
+		return sprintf('%s %s', $date, $time);
 	}
 }

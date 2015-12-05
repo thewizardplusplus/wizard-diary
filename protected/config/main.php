@@ -27,13 +27,13 @@ return array(
 					'day/update',
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
-				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
-				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
+				'daily_points/update' => 'dailyPoint/update',
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',
 				'stats/project_list' => 'stats/projectList',
 				'mistakes' => 'mistake/list',
 				'backups' => 'backup/list',
+				'backup/current_diff/<file:[\w-]+>' => 'backup/currentDiff',
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
 					'backup/diff',
 				'parameters' => 'parameters/update',
@@ -82,30 +82,11 @@ return array(
 						'bootstrap'
 					)
 				),
-				'purl' => array(
-					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/',
-					'js' => array('purl.min.js'),
-					'depends' => array('jquery')
-				),
-				'jeditable' => array(
-					'baseUrl' =>
-						'https://cdn.jsdelivr.net/jquery.jeditable/1.7.3/',
-					'js' => array('jquery.jeditable.js'),
-					'depends' => array('jquery')
-				),
 				'moment' => array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/'
 							. 'moment.js/2.10.6/',
 					'js' => array('moment-with-locales.min.js')
-				),
-				'sortable' => array(
-					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/'
-							. 'jquery-sortable/0.9.13/',
-					'js' => array('jquery-sortable-min.js'),
-					'depends' => array('jquery')
 				),
 				'jstree' => array(
 					'baseUrl' =>

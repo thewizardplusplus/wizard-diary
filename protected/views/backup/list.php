@@ -2,12 +2,23 @@
 	/**
 	 * @var BackupController $this
 	 * @var CArrayDataProvider $data_provider
+	 * @var string $last_backup_date
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
-<header class = "page-header">
+<header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?= $this->createUrl(
+			'backup/currentDiff',
+			array('file' => $last_backup_date)
+		) ?>"
+		<?= is_null($last_backup_date) ? 'disabled = "disabled"' : '' ?>>
+		<span class = "glyphicon glyphicon-random"></span> Текущие изменения
+	</a>
+
 	<h4>Бекапы</h4>
 </header>
 
@@ -79,7 +90,7 @@
 								.')',
 							'imageUrl' => false,
 							'options' => array('title' => 'Изменения'),
-							'visible' => '!is_null($data->previous_filename)'
+							'visible' => '$data->has_difference'
 						)
 					)
 				)

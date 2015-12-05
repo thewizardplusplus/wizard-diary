@@ -1,70 +1,41 @@
 <?php
 	/**
-	 * @var DayController $this
-	 * @var CArrayDataProvider $data_provider
-	 * @var string $my_date
-	 * @var string $date
-	 * @var string $raw_date
-	 * @var array $stats
-	 * @var array $point_hierarchy
-	 * @var int $line
+	 * @var DailyPointController $this
+	 * @var string $points_description
+	 * @var int $number_of_daily_points
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
 	Yii::app()->getClientScript()->registerPackage('ace-language-tools');
 	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
-	Yii::app()->getClientScript()->registerScript(
-		base64_encode(uniqid(rand(), true)),
-		'var POINT_HIERARCHY = ' . json_encode($point_hierarchy) . ';',
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScript(
-		base64_encode(uniqid(rand(), true)),
-		'var LINE = ' . $line . ';',
-		CClientScript::POS_HEAD
-	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/day_close_dialog.js'),
+		CHtml::asset('scripts/daily_point_close_dialog.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ace_wizard_diary_highlight_rules.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ace_mode_wizard_diary.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/day_editor.js'),
+		CHtml::asset('scripts/daily_point_editor.js'),
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
+	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
 <header class = "page-header clearfix header-with-button">
 	<button
 		class = "btn btn-default pull-right close-button"
 		title = "Закрыть"
-		data-date = "<?= $date ?>"
-		data-my-date = "<?= $my_date ?>"
-		data-view-url = "<?=
-			$this->createUrl('day/view', array('date' => $raw_date))
-		?>">
+		data-view-url = "<?= $this->createUrl('dailyPoint/list') ?>">
 		<span class = "glyphicon glyphicon-remove"></span>
 	</button>
 	<button
 		class = "btn btn-primary pull-right save-day-button"
 		title = "Сохранить"
-		data-save-url = "<?=
-			$this->createUrl('day/update', array('date' => $raw_date))
-		?>">
+		data-save-url = "<?= $this->createUrl('dailyPoint/update') ?>">
 		<img
 			src = "<?=
 				Yii::app()->request->baseUrl
@@ -73,24 +44,8 @@
 		<span class = "glyphicon glyphicon-floppy-disk"></span>
 	</button>
 
-	<h4 class = "clearfix day-editor-header">
-		<time title = "<?= $date ?>"><?= $my_date ?></time>
-
-		<span
-			class = "label label-<?=
-				$stats['completed']
-					? 'success'
-					: 'primary'
-			?> day-completed-flag"
-			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>">
-			<span
-				class = "glyphicon glyphicon-<?=
-					$stats['completed']
-						? 'check'
-						: 'unchecked'
-				?>">
-			</span>
-		</span>
+	<h4 class = "clearfix">
+		Ежедневно
 
 		<span
 			class = "label label-success saved-flag"
@@ -99,15 +54,16 @@
 		</span>
 	</h4>
 
-	<p class = "pull-left unimportant-text italic-text number-of-points-view">
-		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
+	<p
+		class = "pull-left unimportant-text italic-text number-of-daily-points-view">
+		<?= PointFormatter::formatNumberOfPoints($number_of_daily_points) ?>
 	</p>
 </header>
 
 <?= CHtml::beginForm(
-	$this->createUrl('day/update', array('date' => $raw_date)),
+	$this->createUrl('dailyPoint/update'),
 	'post',
-	array('class' => 'day-form')
+	array('class' => 'daily-point-editor-form')
 ) ?>
 	<div class = "form-group">
 		<?= CHtml::label('Описание пунктов', 'points_description') ?>
@@ -124,13 +80,13 @@
 
 			<div class = "tab-content">
 				<div id = "default" class = "tab-pane active">
-					<div id = "day-editor"><?=
+					<div id = "daily-point-editor"><?=
 						CHtml::encode($points_description)
 					?></div>
 				</div>
 				<div id = "mobile" class = "tab-pane">
 					<?= CHtml::textArea(
-						'day-mobile-editor',
+						'daily-point-mobile-editor',
 						$points_description,
 						array('class' => 'form-control')
 					) ?>
@@ -140,7 +96,7 @@
 	</div>
 <?= CHtml::endForm() ?>
 
-<div class = "modal day-close-dialog">
+<div class = "modal daily-point-close-dialog">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">
@@ -159,9 +115,9 @@
 
 			<div class = "modal-body">
 				<p>
-					День <time class = "day-date"></time> не сохранён.
-					Закрытие редактора может привести к потере последних
-					изменений. Так что ты хочешь сделать?
+					Ежедневные пункты не сохранены. Закрытие редактора может
+					привести к потере последних изменений. Так что ты хочешь
+					сделать?
 				</p>
 			</div>
 
