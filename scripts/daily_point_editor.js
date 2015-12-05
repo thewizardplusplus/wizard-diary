@@ -28,8 +28,9 @@ $(document).ready(
 		);
 		daily_point_editor.focus();
 
+		var previous_editor_content = daily_point_editor.getValue();
+
 		var daily_point_mobile_editor = $('#daily-point-mobile-editor');
-		var previous_mobile_editor_content = daily_point_mobile_editor.val();
 
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
@@ -129,6 +130,8 @@ $(document).ready(
 			);
 
 			this.setValue(result.points_description, -1);
+			previous_editor_content = result.points_description;
+
 			if (typeof result.cursor_position != 'undefined') {
 				this.moveCursorToPosition(result.cursor_position);
 			}
@@ -137,7 +140,7 @@ $(document).ready(
 			var points_description = this.val();
 			var result = FormatPointsDescription(points_description);
 			this.val(result.points_description);
-			previous_mobile_editor_content = result.points_description;
+			previous_editor_content = result.points_description;
 		};
 
 		var saved_flag_container = $('.saved-flag');
@@ -195,9 +198,8 @@ $(document).ready(
 		daily_point_editor.on(
 			'change',
 			function() {
-				SetSavedFlag(false);
-
 				var points_description = daily_point_editor.getValue();
+				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
 			}
 		);
@@ -218,14 +220,8 @@ $(document).ready(
 			'keyup',
 			function() {
 				var points_description = daily_point_mobile_editor.val();
-				if (points_description == previous_mobile_editor_content) {
-					return;
-				}
-
-				SetSavedFlag(false);
+				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
-
-				previous_mobile_editor_content = points_description;
 			}
 		);
 		$('a[data-toggle="tab"]').on(
@@ -239,12 +235,13 @@ $(document).ready(
 						var points_description =
 							daily_point_mobile_editor.val();
 						daily_point_editor.setValue(points_description, -1);
+						previous_editor_content = points_description;
 
 						break;
 					case 'mobile':
 						var points_description = daily_point_editor.getValue();
 						daily_point_mobile_editor.val(points_description);
-						previous_mobile_editor_content = points_description;
+						previous_editor_content = points_description;
 
 						break;
 				}
