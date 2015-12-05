@@ -52,6 +52,64 @@ class MistakeController extends CController {
 		);
 	}
 
+	public function actionCheck($text) {
+		$lines = explode("\n", $text);
+		$word_lines = array_map(
+			function($line) {
+				preg_match_all(
+					'/\b[а-яё]+\b/iu',
+					$line,
+					$matches,
+					PREG_OFFSET_CAPTURE
+				);
+
+				return $matches;
+			},
+			$lines
+		);
+
+		$pspell = $this->initPspell();
+		$mistake_lines = array_map(
+			function($words) use ($pspell) {
+				$words = array_filter(
+					$words[0],
+					function($word) use ($pspell) {
+						return !pspell_check($pspell, $word[0]);
+					}
+				);
+				return array_values($words);
+			},
+			$word_lines
+		);
+
+		$line_counter = 0;
+		$mistakes = array();
+		array_map(
+			function($words) use (&$mistakes, &$line_counter) {
+				$words = array_map(
+					function($word) use (&$mistakes, $line_counter) {
+						$mistakes[] = array(
+							'start' => array(
+								'line' => $line_counter,
+								'offset' => $word[1]
+							),
+							'end' => array(
+								'line' => $line_counter,
+								'offset' => $word[1] + mb_strlen($word[0])
+							)
+						);
+					},
+					$words
+				);
+
+				$line_counter++;
+			},
+			$mistake_lines
+		);
+
+		echo json_encode($mistakes);
+	}
+
 	public function calculateLine($point, $daily_stats) {
 		$line = (intval($point['order']) - 1) / 2;
 		if (
