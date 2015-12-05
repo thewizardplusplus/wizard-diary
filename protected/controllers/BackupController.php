@@ -52,8 +52,8 @@ class BackupController extends CController {
 				);
 
 				$difference = $this->getBackupsDiff(
-					$backup->filename,
-					$backup->previous_filename
+					$backup->previous_filename,
+					$backup->filename
 				);
 				$backup->has_difference = strlen($difference) > 0;
 			}
@@ -140,7 +140,18 @@ class BackupController extends CController {
 			)
 		);
 
-		$this->render('list', array('data_provider' => $data_provider));
+		$last_backup_date = null;
+		if ($number_of_filenames > 0) {
+			$last_backup_date = $this->getBackupDate($filenames[0]);
+		}
+
+		$this->render(
+			'list',
+			array(
+				'data_provider' => $data_provider,
+				'last_backup_date' => $last_backup_date
+			)
+		);
 	}
 
 	public function actionCreate() {
@@ -226,7 +237,15 @@ class BackupController extends CController {
 	}
 
 	public function actionDiff($file, $previous_file) {
-		$diff_representation = $this->getBackupsDiff($file, $previous_file);
+		$diff_representation = $this->getBackupsDiff($previous_file, $file);
+		$this->render(
+			'diff',
+			array('diff_representation' => $diff_representation)
+		);
+	}
+
+	public function actionCurrentDiff($file) {
+		$diff_representation = $this->getBackupsDiff($file, null);
 		$this->render(
 			'diff',
 			array('diff_representation' => $diff_representation)
@@ -390,11 +409,8 @@ class BackupController extends CController {
 		);
 	}
 
-	private function getBackupsDiff($file, $previous_file) {
+	private function getBackupsDiff($previous_file, $file) {
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		$filename = $backups_path . '/' . $this->makeBackupFilename($file);
-		$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
-
 		$previous_filename =
 			$backups_path
 			. '/'
@@ -403,6 +419,14 @@ class BackupController extends CController {
 			$previous_filename,
 			FILE_IGNORE_NEW_LINES
 		);
+
+		if (!is_null($file)) {
+			$filename = $backups_path . '/' . $this->makeBackupFilename($file);
+			$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
+		} else {
+			$current_dump = $this->dumpDatabase();
+			$filename_lines = explode("\n", $current_dump);
+		}
 
 		$diff = new Diff($previous_filename_lines, $filename_lines);
 
