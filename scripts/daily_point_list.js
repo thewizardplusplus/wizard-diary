@@ -33,36 +33,6 @@ $(document).ready(
 			);
 		};
 
-		var add_point_input = $('#DailyPoint_text');
-		var add_point_button = $('.add-daily-point-button');
-		var AddPoint = function() {
-			var text = add_point_input.val();
-			add_point_input.val('');
-			RequestToPointList(
-				add_point_button.attr('href'),
-				{ 'DailyPoint[text]': text },
-				function() {
-					$('html, body').animate(
-						{
-							scrollTop: $(document).height() - $(window).height()
-						}
-					);
-				}
-			);
-		};
-		add_point_button.click(
-			function() {
-				AddPoint();
-				return false;
-			}
-		);
-		$('#daily-point-addition-form').submit(
-			function() {
-				AddPoint();
-				return false;
-			}
-		);
-
 		$.editable.addInputType(
 			'bootstrapped-line-edit',
 			{

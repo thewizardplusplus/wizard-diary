@@ -295,21 +295,6 @@
 	); ?>
 </div>
 
-<?= CHtml::beginForm('#', 'post', array('id' => 'daily-point-addition-form')) ?>
-	<div class = "input-group">
-		<?= CHtml::textField(
-			'DailyPoint_text',
-			'',
-			array('class' => 'form-control')
-		) ?>
-			<a
-				class = "input-group-addon add-daily-point-button"
-				href = "<?= $this->createUrl('dailyPoint/create') ?>">
-				<span class = "glyphicon glyphicon-plus"></span>
-			</a>
-	</div>
-<?= CHtml::endForm() ?>
-
 <div class = "modal daily-points-dialog">
 	<div class = "modal-dialog">
 		<div class = "modal-content">

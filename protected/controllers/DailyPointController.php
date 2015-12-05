@@ -72,18 +72,6 @@ class DailyPointController extends CController {
 		);
 	}
 
-	public function actionCreate() {
-		if (isset($_POST['DailyPoint'])) {
-			$model = new DailyPoint();
-			$model->attributes = $_POST['DailyPoint'];
-			$result = $model->save();
-
-			if ($result) {
-				DailyPoint::renumberOrderFieldsForDate();
-			}
-		}
-	}
-
 	public function actionUpdate($id) {
 		if (!isset($_POST['DailyPoint'])) {
 			return;
