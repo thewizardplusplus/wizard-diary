@@ -75,7 +75,8 @@
 			array(
 				'class' =>
 					'btn btn-default blue-button achievement-list-reset-button',
-				'type' => 'submit'
+				'type' => 'submit',
+				'title' => 'Очистить'
 			)
 		) ?>
 	<?= CHtml::endForm() ?>

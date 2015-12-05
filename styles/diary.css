@@ -328,8 +328,8 @@ a.state-initial:focus {
 }
 
 /* Daily point form styles. */
-.daily-point-form {
-	padding: 10px;
+.daily-point-form-container {
+	margin-bottom: 20px;
 }
 
 .daily-point-form #daily-point-form_es_ {

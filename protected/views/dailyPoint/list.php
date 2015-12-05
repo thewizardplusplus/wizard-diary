@@ -48,7 +48,7 @@
 	</p>
 </header>
 
-<div class = "clearfix">
+<div class = "clearfix daily-point-form-container">
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
 		array(
@@ -63,8 +63,6 @@
 			'htmlOptions' => array(
 				'class' =>
 					'form-inline '
-					. 'panel '
-					. 'panel-default '
 					. 'pull-right '
 					. 'daily-point-form'
 			)
@@ -78,11 +76,6 @@
 		) ?>
 
 		<div class = "form-group<?= $day_container_class ?>">
-			<?= $form->labelEx(
-				$model,
-				'day',
-				array('class' => 'control-label')
-			) ?>
 			<?= $form->textField(
 				$model,
 				'day',
@@ -91,7 +84,8 @@
 					'autocomplete' => 'off',
 					'min' => 1,
 					'max' => $my_date->day,
-					'required' => 'required'
+					'required' => 'required',
+					'title' => $model->getAttributeLabel('day')
 				)
 			) ?>
 			<?= $form->error(
@@ -102,11 +96,6 @@
 		</div>
 
 		<div class = "form-group<?= $year_container_class ?>">
-			<?= $form->labelEx(
-				$model,
-				'year',
-				array('class' => 'control-label')
-			) ?>
 			<?= $form->textField(
 				$model,
 				'year',
@@ -115,7 +104,8 @@
 					'autocomplete' => 'off',
 					'min' => 1,
 					'max' => $my_date->year,
-					'required' => 'required'
+					'required' => 'required',
+					'title' => $model->getAttributeLabel('year')
 				)
 			) ?>
 			<?= $form->error(
@@ -126,10 +116,12 @@
 		</div>
 
 		<?= CHtml::htmlButton(
-			'<span class = "glyphicon glyphicon-share-alt"></span> Добавить',
+			'<span class = "glyphicon glyphicon-share-alt"></span> '
+				. '<span class = "visible-xs-inline">Добавить</span>',
 			array(
 				'class' => 'btn btn-primary add-daily-points-button',
-				'type' => 'submit'
+				'type' => 'submit',
+				'title' => 'Добавить'
 			)
 		) ?>
 	<?php $this->endWidget(); ?>
