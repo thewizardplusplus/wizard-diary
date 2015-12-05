@@ -367,12 +367,14 @@ a.state-initial:focus {
 
 /* Editors styles. */
 #day-editor,
+#daily-point-editor,
 #diff-viewer {
 	height: 500px;
 	border-radius: 4px;
 	font-size: 14px;
 }
 
+#daily-point-mobile-editor,
 #day-mobile-editor {
 	height: 250px;
 	padding: 0 5px;

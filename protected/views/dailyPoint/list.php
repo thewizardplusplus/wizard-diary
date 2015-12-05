@@ -38,6 +38,12 @@
 </header>
 
 <div class = "clearfix">
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?= $this->createUrl('dailyPoint/update') ?>">
+		<span class = "glyphicon glyphicon-pencil"></span> Изменить
+	</a>
+
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
 		array(
@@ -54,7 +60,7 @@
 					'form-inline '
 					. 'panel '
 					. 'panel-default '
-					. 'pull-right '
+					. 'pull-left '
 					. 'daily-point-form'
 			)
 		)

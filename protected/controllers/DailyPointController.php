@@ -2,7 +2,7 @@
 
 class DailyPointController extends CController {
 	public function filters() {
-		return array('accessControl', 'postOnly + update', 'ajaxOnly + update');
+		return array('accessControl');
 	}
 
 	public function accessRules() {
@@ -68,17 +68,12 @@ class DailyPointController extends CController {
 		);
 	}
 
-	public function actionUpdate($id) {
-		if (!isset($_POST['DailyPoint'])) {
-			return;
-		}
-
-		$model = $this->loadModel($id);
-		$model->attributes = $_POST['DailyPoint'];
-		$result = $model->save();
-		if (!$result) {
-			return;
-		}
+	public function actionUpdate() {
+		$points_description = '';
+		$this->render(
+			'update',
+			array('points_description' => $points_description)
+		);
 	}
 
 	private function loadModel($id) {
