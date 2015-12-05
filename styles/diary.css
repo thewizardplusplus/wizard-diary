@@ -501,3 +501,7 @@ a.state-initial:focus {
 .blue-button:active:hover {
 	color: #428bca;
 }
+
+a[disabled] {
+	pointer-events: none;
+}

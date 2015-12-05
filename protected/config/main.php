@@ -33,6 +33,7 @@ return array(
 				'stats/project_list' => 'stats/projectList',
 				'mistakes' => 'mistake/list',
 				'backups' => 'backup/list',
+				'backup/current_diff/<file:[\w-]+>' => 'backup/currentDiff',
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
 					'backup/diff',
 				'parameters' => 'parameters/update',
