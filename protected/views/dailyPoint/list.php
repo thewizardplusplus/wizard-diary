@@ -7,6 +7,7 @@
 	 * @var string $year_container_class
 	 * @var string $date
 	 * @var object $my_date
+	 * @var int $number_of_daily_points
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
@@ -33,17 +34,21 @@
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
-<header class = "page-header visible-xs-block">
-	<h4>Ежедневно</h4>
-</header>
-
-<div class = "clearfix">
+<header class = "page-header clearfix header-with-button">
 	<a
 		class = "btn btn-default pull-right"
 		href = "<?= $this->createUrl('dailyPoint/update') ?>">
 		<span class = "glyphicon glyphicon-pencil"></span> Изменить
 	</a>
 
+	<h4 class = "clearfix">Ежедневно</h4>
+
+	<p class = "pull-left unimportant-text italic-text">
+		<?= PointFormatter::formatNumberOfPoints($number_of_daily_points) ?>
+	</p>
+</header>
+
+<div class = "clearfix daily-point-form-container">
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
 		array(
@@ -58,9 +63,7 @@
 			'htmlOptions' => array(
 				'class' =>
 					'form-inline '
-					. 'panel '
-					. 'panel-default '
-					. 'pull-left '
+					. 'pull-right '
 					. 'daily-point-form'
 			)
 		)
@@ -73,11 +76,6 @@
 		) ?>
 
 		<div class = "form-group<?= $day_container_class ?>">
-			<?= $form->labelEx(
-				$model,
-				'day',
-				array('class' => 'control-label')
-			) ?>
 			<?= $form->textField(
 				$model,
 				'day',
@@ -86,7 +84,8 @@
 					'autocomplete' => 'off',
 					'min' => 1,
 					'max' => $my_date->day,
-					'required' => 'required'
+					'required' => 'required',
+					'title' => $model->getAttributeLabel('day')
 				)
 			) ?>
 			<?= $form->error(
@@ -97,11 +96,6 @@
 		</div>
 
 		<div class = "form-group<?= $year_container_class ?>">
-			<?= $form->labelEx(
-				$model,
-				'year',
-				array('class' => 'control-label')
-			) ?>
 			<?= $form->textField(
 				$model,
 				'year',
@@ -110,7 +104,8 @@
 					'autocomplete' => 'off',
 					'min' => 1,
 					'max' => $my_date->year,
-					'required' => 'required'
+					'required' => 'required',
+					'title' => $model->getAttributeLabel('year')
 				)
 			) ?>
 			<?= $form->error(
@@ -121,10 +116,12 @@
 		</div>
 
 		<?= CHtml::htmlButton(
-			'<span class = "glyphicon glyphicon-share-alt"></span> Добавить',
+			'<span class = "glyphicon glyphicon-share-alt"></span> '
+				. '<span class = "visible-xs-inline">Добавить</span>',
 			array(
 				'class' => 'btn btn-primary add-daily-points-button',
-				'type' => 'submit'
+				'type' => 'submit',
+				'title' => 'Добавить'
 			)
 		) ?>
 	<?php $this->endWidget(); ?>
