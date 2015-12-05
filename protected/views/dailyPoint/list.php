@@ -7,6 +7,7 @@
 	 * @var string $year_container_class
 	 * @var string $date
 	 * @var object $my_date
+	 * @var int $number_of_daily_points
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
@@ -33,17 +34,21 @@
 	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
 ?>
 
-<header class = "page-header visible-xs-block">
-	<h4>Ежедневно</h4>
-</header>
-
-<div class = "clearfix">
+<header class = "page-header clearfix header-with-button">
 	<a
 		class = "btn btn-default pull-right"
 		href = "<?= $this->createUrl('dailyPoint/update') ?>">
 		<span class = "glyphicon glyphicon-pencil"></span> Изменить
 	</a>
 
+	<h4>Ежедневно</h4>
+
+	<p class = "pull-left unimportant-text italic-text">
+		<?= PointFormatter::formatNumberOfPoints($number_of_daily_points) ?>
+	</p>
+</header>
+
+<div class = "clearfix">
 	<?php $form = $this->beginWidget(
 		'CActiveForm',
 		array(
@@ -60,7 +65,7 @@
 					'form-inline '
 					. 'panel '
 					. 'panel-default '
-					. 'pull-left '
+					. 'pull-right '
 					. 'daily-point-form'
 			)
 		)

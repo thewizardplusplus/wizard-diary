@@ -54,6 +54,9 @@ class DailyPointController extends CController {
 				'pagination' => false
 			)
 		);
+		$number_of_daily_points = DailyPoint::model()->count(
+			array('condition' => 'LENGTH(TRIM(`text`)) > 0')
+		);
 
 		$this->render(
 			'list',
@@ -63,7 +66,8 @@ class DailyPointController extends CController {
 				'day_container_class' => $day_container_class,
 				'year_container_class' => $year_container_class,
 				'date' => $current_date,
-				'my_date' => $my_current_date
+				'my_date' => $my_current_date,
+				'number_of_daily_points' => $number_of_daily_points
 			)
 		);
 	}
