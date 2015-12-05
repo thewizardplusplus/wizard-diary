@@ -45,10 +45,17 @@ class BackupController extends CController {
 			$filename = $filenames[$i];
 			$backup->filename = $this->getBackupDate($filename);
 			$backup->previous_filename = null;
+			$backup->has_difference = false;
 			if ($i < $number_of_filenames - 1) {
 				$backup->previous_filename = $this->getBackupDate(
 					$filenames[$i + 1]
 				);
+
+				$difference = $this->getBackupsDiff(
+					$backup->filename,
+					$backup->previous_filename
+				);
+				$backup->has_difference = strlen($difference) > 0;
 			}
 
 			$filename = $backups_path . '/' . $filename;
@@ -219,24 +226,7 @@ class BackupController extends CController {
 	}
 
 	public function actionDiff($file, $previous_file) {
-		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		$filename = $backups_path . '/' . $this->makeBackupFilename($file);
-		$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
-
-		$previous_filename =
-			$backups_path
-			. '/'
-			. $this->makeBackupFilename($previous_file);
-		$previous_filename_lines = file(
-			$previous_filename,
-			FILE_IGNORE_NEW_LINES
-		);
-
-		$diff = new Diff($previous_filename_lines, $filename_lines);
-
-		$diff_renderer = new Diff_Renderer_Text_Unified;
-		$diff_representation = $diff->Render($diff_renderer);
-
+		$diff_representation = $this->getBackupsDiff($file, $previous_file);
 		$this->render(
 			'diff',
 			array('diff_representation' => $diff_representation)
@@ -269,10 +259,6 @@ class BackupController extends CController {
 		);
 		$backup_filename = preg_replace('/\.xml$/', '', $backup_filename);
 		return $backup_filename;
-	}
-
-	private function makeBackupFilename($backup_date) {
-		return sprintf('database_dump_%s.xml', $backup_date);
 	}
 
 	private function testBackupDirectory($path) {
@@ -402,5 +388,31 @@ class BackupController extends CController {
 			\Dropbox\WriteMode::add(),
 			$file
 		);
+	}
+
+	private function getBackupsDiff($file, $previous_file) {
+		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
+		$filename = $backups_path . '/' . $this->makeBackupFilename($file);
+		$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
+
+		$previous_filename =
+			$backups_path
+			. '/'
+			. $this->makeBackupFilename($previous_file);
+		$previous_filename_lines = file(
+			$previous_filename,
+			FILE_IGNORE_NEW_LINES
+		);
+
+		$diff = new Diff($previous_filename_lines, $filename_lines);
+
+		$diff_renderer = new Diff_Renderer_Text_Unified;
+		$diff_representation = $diff->Render($diff_renderer);
+
+		return $diff_representation;
+	}
+
+	private function makeBackupFilename($backup_date) {
+		return sprintf('database_dump_%s.xml', $backup_date);
 	}
 }
