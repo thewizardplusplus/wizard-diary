@@ -394,6 +394,7 @@ $(document).ready(
 				var points_description = day_editor.getValue();
 				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
+				SetTabClosingHandler();
 
 				SpellCheckWithDelay();
 			}
@@ -417,6 +418,7 @@ $(document).ready(
 				var points_description = day_mobile_editor.val();
 				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
+				SetTabClosingHandler();
 			}
 		);
 		$('a[data-toggle="tab"]').on(
@@ -441,6 +443,7 @@ $(document).ready(
 				}
 
 				SetSavedFlag(backupped_saved_flag);
+				SetTabClosingHandler();
 			}
 		);
 
@@ -497,8 +500,10 @@ $(document).ready(
 				save_url,
 				data,
 				function() {
-					SetSavedFlag(true);
 					FinishAnimation();
+
+					SetSavedFlag(true);
+					SetTabClosingHandler();
 
 					if (typeof callback !== 'undefined') {
 						callback();
@@ -552,6 +557,22 @@ $(document).ready(
 				}
 			}
 		);
+
+		var TabClosingHandler = function(event) {
+			var message =
+				'День ' + day_my_date + ' не сохранён. Закрытие редактора '
+				+ 'может привести к потере последних изменений. Ты точно '
+				+ 'хочешь это сделать?';
+			event.returnValue = message;
+			return message;
+		};
+		var SetTabClosingHandler = function() {
+			if (!is_saved) {
+				window.addEventListener('beforeunload', TabClosingHandler);
+			} else {
+				window.removeEventListener('beforeunload', TabClosingHandler);
+			}
+		};
 
 		$('.day-form').submit(
 			function(event) {
