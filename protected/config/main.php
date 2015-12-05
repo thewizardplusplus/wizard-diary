@@ -100,13 +100,6 @@ return array(
 							. 'moment.js/2.10.6/',
 					'js' => array('moment-with-locales.min.js')
 				),
-				'sortable' => array(
-					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/'
-							. 'jquery-sortable/0.9.13/',
-					'js' => array('jquery-sortable-min.js'),
-					'depends' => array('jquery')
-				),
 				'jstree' => array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/',

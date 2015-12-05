@@ -175,32 +175,6 @@ a.state-initial:focus {
 	color: rgb(128, 128, 128) !important;
 }
 
-/* jQuery Sortable styles */
-body.dragging,
-body.dragging * {
-	cursor: move !important;
-}
-
-.dragged {
-	position: absolute;
-	opacity: 0.5;
-	z-index: 2000;
-}
-
-#daily-point-list table tr.placeholder {
-	position: relative;
-	border-top: 2px solid #f0ad4e;
-}
-
-#daily-point-list table tr.placeholder:before {
-	position: absolute;
-	top: -14px;
-	left: -10px;
-	content: '➤';
-	font-size: larger;
-	color: #f0ad4e;
-}
-
 /* Corrections styles for Awesome Bootstrap Checkbox. */
 .checkbox input[type=checkbox]:checked + label:after {
 	font-family: 'Glyphicons Halflings';

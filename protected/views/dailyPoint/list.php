@@ -12,15 +12,7 @@
 	Yii::app()->getClientScript()->registerPackage('purl');
 	Yii::app()->getClientScript()->registerPackage('jeditable');
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
-	Yii::app()->getClientScript()->registerPackage('sortable');
 
-	Yii::app()->getClientScript()->registerScript(
-		base64_encode(uniqid(rand(), true)),
-		'var DAILY_POINT_ORDER_URL = \''
-			. $this->createUrl('dailyPoint/order')
-		. '\';',
-		CClientScript::POS_HEAD
-	);
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var DAYS_IN_MY_YEAR = ' . Constants::DAYS_IN_MY_YEAR . ';',

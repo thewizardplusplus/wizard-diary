@@ -92,30 +92,6 @@ class DailyPointController extends CController {
 		}
 	}
 
-	public function actionOrder() {
-		if (!isset($_POST['ids']) || !is_array($_POST['ids'])) {
-			return;
-		}
-
-		$sql = '';
-		$order = 3;
-		foreach ($_POST['ids'] as $id) {
-			if (!is_numeric($id)) {
-				continue;
-			}
-
-			$sql .= sprintf(
-				"UPDATE `{{daily_points}}` SET `order` = %d WHERE `id` = %d;\n",
-				$order,
-				intval($id)
-			);
-			$order += 2;
-		}
-		$sql = "START TRANSACTION;\n\n${sql}\nCOMMIT;\n";
-
-		Yii::app()->db->createCommand($sql)->execute();
-	}
-
 	public function actionDelete($id) {
 		$this->loadModel($id)->delete();
 		DailyPoint::renumberOrderFieldsForDate();
