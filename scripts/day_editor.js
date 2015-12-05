@@ -20,6 +20,8 @@ $(document).ready(
 			day_editor.getSession().getLine(LINE - 1).length
 		);
 
+		var previous_editor_content = day_editor.getValue();
+
 		var ExtendImport = function(points_description) {
 			var last_line_blocks = [];
 			var extended_lines =
@@ -139,7 +141,6 @@ $(document).ready(
 		);
 
 		var day_mobile_editor = $('#day-mobile-editor');
-		var previous_mobile_editor_content = day_mobile_editor.val();
 
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
@@ -239,6 +240,8 @@ $(document).ready(
 			);
 
 			this.setValue(result.points_description, -1);
+			previous_editor_content = result.points_description;
+
 			if (typeof result.cursor_position != 'undefined') {
 				this.moveCursorToPosition(result.cursor_position);
 			}
@@ -247,7 +250,7 @@ $(document).ready(
 			var points_description = this.val();
 			var result = FormatPointsDescription(points_description);
 			this.val(result.points_description);
-			previous_mobile_editor_content = result.points_description;
+			previous_editor_content = result.points_description;
 		};
 
 		var saved_flag_container = $('.saved-flag');
@@ -305,9 +308,8 @@ $(document).ready(
 		day_editor.on(
 			'change',
 			function() {
-				SetSavedFlag(false);
-
 				var points_description = day_editor.getValue();
+				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
 			}
 		);
@@ -328,14 +330,8 @@ $(document).ready(
 			'keyup',
 			function() {
 				var points_description = day_mobile_editor.val();
-				if (points_description == previous_mobile_editor_content) {
-					return;
-				}
-
-				SetSavedFlag(false);
+				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
-
-				previous_mobile_editor_content = points_description;
 			}
 		);
 		$('a[data-toggle="tab"]').on(
@@ -348,12 +344,13 @@ $(document).ready(
 					case 'default':
 						var points_description = day_mobile_editor.val();
 						day_editor.setValue(points_description, -1);
+						previous_editor_content = points_description;
 
 						break;
 					case 'mobile':
 						var points_description = day_editor.getValue();
 						day_mobile_editor.val(points_description);
-						previous_mobile_editor_content = points_description;
+						previous_editor_content = points_description;
 
 						break;
 				}
