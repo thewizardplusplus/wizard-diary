@@ -150,7 +150,8 @@ $(document).ready(
 					) {
 						return point
 							.replace(/((?!\s).)\s{2,}(?=\S)/g, '$1 ')
-							.replace(/\s+$/, '');
+							.replace(/\s+$/, '')
+							.replace(/;$/, '');
 					} else {
 						return point;
 					}
