@@ -87,9 +87,6 @@ class DailyPointController extends CController {
 		if (isset($_POST['DailyPoint']['text'])) {
 			echo $model->text;
 		}
-		if (isset($_POST['DailyPoint']['order'])) {
-			DailyPoint::renumberOrderFieldsForDate();
-		}
 	}
 
 	public function actionDelete($id) {

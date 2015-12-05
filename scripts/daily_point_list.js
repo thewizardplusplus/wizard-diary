@@ -88,13 +88,6 @@ $(document).ready(
 		);
 
 		DailyPointList = {
-			move: function(url) {
-				RequestToPointList(
-					url,
-					{ 'DailyPoint[order]': $.url(url).param('order') }
-				);
-				return false;
-			},
 			editing: function(link) {
 				var element_id =
 					'daily-point-text-'

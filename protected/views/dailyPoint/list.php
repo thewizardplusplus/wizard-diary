@@ -172,60 +172,6 @@
 				),
 				array(
 					'class' => 'CButtonColumn',
-					'template' => '{up} {down}',
-					'buttons' => array(
-						'down' => array(
-							'label' =>
-								'<span '
-									. 'class = '
-										. '"glyphicon '
-										. 'glyphicon-arrow-down">'
-									. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array('
-										. '"id" => $data->id,'
-										. '"order" => $data->order + 3'
-									. ')'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Опустить'),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.move('
-										. '$(this).attr("href")'
-									. ');'
-								. '}'
-						),
-						'up' => array(
-							'label' =>
-								'<span '
-									. 'class = '
-										. '"glyphicon '
-										. 'glyphicon-arrow-up">'
-									. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array('
-										. '"id" => $data->id,'
-										. '"order" => $data->order - 3'
-									. ')'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Поднять'),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.move('
-										. '$(this).attr("href")'
-									. ');'
-								. '}'
-						)
-					)
-				),
-				array(
-					'class' => 'CButtonColumn',
 					'template' => '{update} {delete}',
 					'buttons' => array(
 						'update' => array(
