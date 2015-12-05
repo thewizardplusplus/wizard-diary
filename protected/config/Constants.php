@@ -35,5 +35,6 @@ class Constants extends AccessConstants {
 	// 1 minute
 	const LOGIN_LIMIT_TIME_WINDOW_IN_S = 60;
 	const LOGIN_LIMIT_MAXIMAL_COUNT = 12;
+	const MINIMAL_ORDER_VALUE = 3;
 	const MAXIMAL_ORDER_VALUE = 1000000;
 }
