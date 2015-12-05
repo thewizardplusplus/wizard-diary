@@ -238,17 +238,30 @@ class BackupController extends CController {
 
 	public function actionDiff($file, $previous_file) {
 		$diff_representation = $this->getBackupsDiff($previous_file, $file);
+		$previous_file_timestamp = $this->formatBackupTimestamp($previous_file);
+		$file_timestamp = $this->formatBackupTimestamp($file);
+
 		$this->render(
 			'diff',
-			array('diff_representation' => $diff_representation)
+			array(
+				'diff_representation' => $diff_representation,
+				'previous_file_timestamp' => $previous_file_timestamp,
+				'file_timestamp' => $file_timestamp
+			)
 		);
 	}
 
 	public function actionCurrentDiff($file) {
 		$diff_representation = $this->getBackupsDiff($file, null);
+		$previous_file_timestamp = $this->formatBackupTimestamp($file);
+
 		$this->render(
 			'diff',
-			array('diff_representation' => $diff_representation)
+			array(
+				'diff_representation' => $diff_representation,
+				'previous_file_timestamp' => $previous_file_timestamp,
+				'file_timestamp' => null
+			)
 		);
 	}
 
@@ -438,5 +451,14 @@ class BackupController extends CController {
 
 	private function makeBackupFilename($backup_date) {
 		return sprintf('database_dump_%s.xml', $backup_date);
+	}
+
+	private function formatBackupTimestamp($timestamp) {
+		$timestamp_parts = explode('-', $timestamp);
+		$date = DateFormatter::formatDate(
+			implode('-', array_slice($timestamp_parts, 0, 3))
+		);
+		$time = implode(':', array_slice($timestamp_parts, 3));
+		return sprintf('%s %s', $date, $time);
 	}
 }
