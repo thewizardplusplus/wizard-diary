@@ -2,11 +2,7 @@
 
 class DailyPointController extends CController {
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + create, update, delete',
-			'ajaxOnly + create, update, delete'
-		);
+		return array('accessControl', 'postOnly + update', 'ajaxOnly + update');
 	}
 
 	public function accessRules() {
@@ -82,10 +78,6 @@ class DailyPointController extends CController {
 		$result = $model->save();
 		if (!$result) {
 			return;
-		}
-
-		if (isset($_POST['DailyPoint']['text'])) {
-			echo $model->text;
 		}
 	}
 

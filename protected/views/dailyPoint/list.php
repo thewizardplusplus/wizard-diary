@@ -9,8 +9,6 @@
 	 * @var object $my_date
 	 */
 
-	Yii::app()->getClientScript()->registerPackage('purl');
-	Yii::app()->getClientScript()->registerPackage('jeditable');
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
 
 	Yii::app()->getClientScript()->registerScript(
@@ -21,14 +19,6 @@
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var MY_DATE = ' . json_encode($my_date) . ';',
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ajax_error_dialog.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/daily_point_list.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -138,7 +128,6 @@
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
 		array(
-			'id' => 'daily-point-list',
 			'dataProvider' => $data_provider,
 			'template' => '{items}',
 			'hideHeader' => true,
@@ -146,62 +135,10 @@
 			'columns' => array(
 				array(
 					'type' => 'raw',
-					'value' =>
-						'"<span '
-							. 'id = \"daily-point-text-" . $data->id . "\" '
-							. 'class = \"daily-point-text\" '
-							. 'data-id = \"" . $data->id . "\" '
-							. 'data-text = '
-								. '\"" . PointFormatter::encodePointText('
-									. '$data->text'
-								. ') . "\" '
-							. 'data-update-url = '
-								. '\"" . $this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array("id" => $data->id)'
-								. ') . "\" '
-							. 'data-saving-icon-url = '
-								. '\"" . Yii::app()->request->baseUrl'
-								. '. "/images/processing-icon.gif\">"'
-						. '. PointFormatter::formatPointText($data->text) .'
-						. '"</span>"'
-				),
-				array(
-					'class' => 'CButtonColumn',
-					'template' => '{update}',
-					'buttons' => array(
-						'update' => array(
-							'label' =>
-								'<span '
-									. 'class = '
-										. '"glyphicon '
-										. 'glyphicon-pencil">'
-									. '</span>',
-							'url' =>
-								'$this->grid->controller->createUrl('
-									. '"dailyPoint/update",'
-									. 'array('
-										. '"id" => $data->id,'
-										. '"_id" => $data->id'
-									. 	')'
-								. ')',
-							'imageUrl' => false,
-							'options' => array('title' => 'Изменить пункт'),
-							'click' =>
-								'function() {'
-									. 'return DailyPointList.editing(this);'
-								. '}'
-						)
-					)
+					'value' => 'PointFormatter::formatPointText($data->text)'
 				)
 			),
 			'itemsCssClass' => 'table table-striped',
-			'loadingCssClass' => 'wait',
-			'afterAjaxUpdate' => 'function() { DailyPointList.initialize(); }',
-			'ajaxUpdateError' =>
-				'function(xhr, text_status) {'
-					. 'AjaxErrorDialog.handler(xhr, text_status);'
-				. '}',
 			'emptyText' => 'Нет ежедневных пунктов.'
 		)
 	); ?>
