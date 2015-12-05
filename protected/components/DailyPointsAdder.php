@@ -80,13 +80,19 @@ class DailyPointsAdder {
 			$escaped_date
 		);
 
-		$general_daily_points_query = implode(",\n\t", $daily_points_queries);
-		$add_daily_points_sql = sprintf(
-			"INSERT INTO {{points}} (`date`, `text`, `state`, `daily`)\n"
-				. "VALUES\n"
-				. "\t%s;",
-			$general_daily_points_query
-		);
+		$add_daily_points_sql = '';
+		if (!empty($daily_points_queries)) {
+			$general_daily_points_query = implode(
+				",\n\t",
+				$daily_points_queries
+			);
+			$add_daily_points_sql = sprintf(
+				"INSERT INTO {{points}} (`date`, `text`, `state`, `daily`)\n"
+					. "VALUES\n"
+					. "\t%s;",
+				$general_daily_points_query
+			);
+		}
 
 		$renumber_order_sql = Point::getRenumberOrderSql($date);
 		return
