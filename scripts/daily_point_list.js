@@ -96,28 +96,6 @@ $(document).ready(
 
 				return false;
 			},
-			deleting: function(link) {
-				var url = $(link).attr('href');
-				var text = $('#daily-point-text-' + $.url(url).param('_id'))
-					.data('text');
-				if (text != '') {
-					text =
-						'пункт <strong>&laquo;'
-							+ text
-							+ '&raquo;</strong>';
-				} else {
-					text = 'пункт-разделитель';
-				}
-				DeletingDialog.show(
-					text,
-					function() {
-						DeletingDialog.hide();
-						RequestToPointList(url, {});
-					}
-				);
-
-				return false;
-			},
 			initialize: function() {
 				$('.daily-point-text').each(
 					function(id, item) {

@@ -89,11 +89,6 @@ class DailyPointController extends CController {
 		}
 	}
 
-	public function actionDelete($id) {
-		$this->loadModel($id)->delete();
-		DailyPoint::renumberOrderFieldsForDate();
-	}
-
 	private function loadModel($id) {
 		$model = DailyPoint::model()->findByPk($id);
 		if (is_null($model)) {
