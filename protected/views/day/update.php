@@ -24,6 +24,11 @@
 		'var LINE = ' . $line . ';',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var CHECKING_URL = \'' . $this->createUrl('mistake/check') . '\';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
@@ -91,11 +96,20 @@
 				?>">
 			</span>
 		</span>
-
 		<span
 			class = "label label-success saved-flag"
 			title = "Сохранено">
 			<span class = "glyphicon glyphicon-floppy-saved"></span>
+		</span>
+		<span
+			class = "label label-success spellcheck-flag"
+			title = "Нет ошибок">
+			<img
+				src = "<?=
+					Yii::app()->request->baseUrl
+				?>/images/processing-icon.gif"
+				alt = "..." />
+			<span class = "glyphicon glyphicon-education"></span>
 		</span>
 	</h4>
 

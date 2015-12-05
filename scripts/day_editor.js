@@ -1,5 +1,7 @@
 $(document).ready(
 	function() {
+		var CHECK_DELAY = 500;
+
 		var lang_tools = ace.require('ace/ext/language_tools');
 
 		var day_editor = ace.edit('day-editor');
@@ -253,6 +255,87 @@ $(document).ready(
 			previous_editor_content = result.points_description;
 		};
 
+		var check_timer = null;
+		var mistakes_marks = [];
+		var spellcheck_flag = $('.spellcheck-flag');
+		var spellcheck_processing_animation_image = $('img', spellcheck_flag);
+		var spellcheck_icon = $('span', spellcheck_flag);
+		var Range = ace.require('ace/range').Range;
+		var SpellcheckFinishAnimation = function(state) {
+			spellcheck_flag
+				.removeClass('label-primary')
+				.addClass(
+					state == 'no-mistakes'
+						? 'label-success'
+						: 'label-danger'
+				)
+				.attr(
+					'title',
+					state == 'no-mistakes'
+						? 'Нет ошибок'
+						: (state == 'has-mistakes'
+							? 'Есть ошибки'
+							: 'Ошибка AJAX-запроса')
+				);
+			spellcheck_processing_animation_image.hide();
+			spellcheck_icon.removeClass('correction');
+		};
+		var MarkMistakes = function(mistakes) {
+			var session = day_editor.getSession();
+			for (var i = 0; i < mistakes_marks.length; i++) {
+				session.removeMarker(mistakes_marks[i]);
+			}
+
+			for (var i = 0; i < mistakes.length; i++) {
+				var mistake = mistakes[i];
+				var range = new Range(
+					mistake.start.line,
+					mistake.start.offset,
+					mistake.end.line,
+					mistake.end.offset
+				);
+				var mark = session.addMarker(range, 'misspelled', 'text', true);
+				mistakes_marks.push(mark);
+			}
+		};
+		var SpellCheck = function() {
+			spellcheck_flag
+				.removeClass('label-success')
+				.removeClass('label-danger')
+				.addClass('label-primary')
+				.attr('title', 'Идёт AJAX-запрос...');
+			spellcheck_processing_animation_image.show();
+			spellcheck_icon.addClass('correction');
+
+			var points_description = day_editor.getValue();
+			$.get(
+				CHECKING_URL,
+				{text: points_description},
+				function(mistakes) {
+					SpellcheckFinishAnimation(
+						!mistakes.length ? 'no-mistakes' : 'has-mistakes'
+					);
+					MarkMistakes(mistakes);
+				},
+				'json'
+			).fail(
+				function(xhr, text_status) {
+					SpellcheckFinishAnimation('ajax-error');
+					AjaxErrorDialog.handler(xhr, text_status);
+				}
+			);
+		};
+		var SpellCheckWithDelay = function() {
+			clearTimeout(check_timer);
+			check_timer = setTimeout(
+				function() {
+					SpellCheck();
+				},
+				CHECK_DELAY
+			);
+		};
+		SpellCheckWithDelay();
+
 		var saved_flag_container = $('.saved-flag');
 		var saved_flag_icon = $('span', saved_flag_container);
 		var is_saved = true;
@@ -311,6 +394,8 @@ $(document).ready(
 				var points_description = day_editor.getValue();
 				SetSavedFlag(points_description == previous_editor_content);
 				SetNumberOfPoints(points_description);
+
+				SpellCheckWithDelay();
 			}
 		);
 		day_editor.on(

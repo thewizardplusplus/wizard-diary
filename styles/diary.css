@@ -444,6 +444,28 @@ a.state-initial:focus {
 	}
 }
 
+/* Spellcheck styles. */
+.spellcheck-flag {
+	height: 25px;
+}
+
+.spellcheck-flag img {
+	display: none;
+	height: 13px;
+}
+
+.spellcheck-flag .correction {
+	margin-left: -4px;
+	width: 0;
+	visibility: hidden;
+}
+
+.misspelled {
+	position: absolute;
+	border-bottom: 1px solid #d9534f;
+	border-radius: 0 !important;
+}
+
 /* Utils styles. */
 .small-text {
 	font-size: smaller;
