@@ -1,124 +1,6 @@
 $(document).ready(
 	function() {
 		var lang_tools = ace.require('ace/ext/language_tools');
-
-		var day_editor = ace.edit('day-editor');
-		day_editor.$blockScrolling = Infinity;
-		day_editor.setTheme('ace/theme/pastel_on_dark');
-		day_editor.getSession().setMode('ace/mode/wizard_diary');
-		day_editor.setShowInvisibles(true);
-		day_editor.setShowPrintMargin(false);
-		day_editor.setOptions(
-			{
-				enableBasicAutocompletion: true,
-				enableLiveAutocompletion: true
-			}
-		);
-		day_editor.focus();
-		day_editor.gotoLine(
-			LINE,
-			day_editor.getSession().getLine(LINE - 1).length
-		);
-
-		var ExtendImport = function(points_description) {
-			var last_line_blocks = [];
-			var extended_lines =
-				points_description
-				.split('\n')
-				.map(
-					function(line) {
-						var extended_line = '';
-						while (line.substr(0, 4) == '    ') {
-							if (last_line_blocks.length > 0) {
-								extended_line +=
-									last_line_blocks.shift()
-									+ ', ';
-							}
-
-							line = line.substr(4);
-						}
-						extended_line += line;
-
-						if (extended_line.length > 0) {
-							last_line_blocks =
-								extended_line
-								.split(',')
-								.map(
-									function(level) {
-										return level.trim();
-									}
-								);
-						}
-
-						return extended_line;
-					}
-				);
-
-			return extended_lines;
-		};
-		var GetLinePrefixParts = function(session, position) {
-			var points_description = day_editor.getValue();
-			var full_line = ExtendImport(points_description)[position.row];
-			var full_line_parts = full_line.split(', ');
-
-			var column = position.column;
-			var real_line = session.getLine(position.row);
-			while (real_line.substr(0, 4) == '    ' && full_line_parts.length) {
-				column +=
-					full_line_parts.shift().length
-					+ 2 /* comma and space */
-					- 4 /* indent */;
-				real_line = real_line.substr(4);
-			}
-
-			var line_prefix = full_line.substr(0, column);
-			var line_prefix_parts =
-				line_prefix
-				.split(',')
-				.map(
-					function(part) {
-						return part.trim();
-					}
-				);
-
-			return line_prefix_parts;
-		};
-		var GetProperty = function(object, property) {
-			return object.hasOwnProperty(property) ? object[property] : [];
-		};
-		var GetAlternatives = function(line_prefix_parts) {
-			var alternatives = [];
-			switch (line_prefix_parts.length) {
-				case 1:
-					alternatives = Object.keys(POINT_HIERARCHY.hierarchy);
-					break;
-				case 2:
-					alternatives = GetProperty(
-						POINT_HIERARCHY.hierarchy,
-						line_prefix_parts[0]
-					);
-
-					break;
-				default:
-					alternatives = $.map(
-						POINT_HIERARCHY.tails,
-						function(counter, tail) {
-							return {value: tail + ' ', score: counter};
-						}
-					);
-			}
-			alternatives = alternatives.map(
-				function(alternative) {
-					if (typeof alternative === 'string') {
-						alternative = {value: alternative + ', '};
-					}
-
-					return $.extend(alternative, {meta: 'global'});
-				}
-			);
-
-			return alternatives;
-		};
 		lang_tools.addCompleter(
 			{
 				getCompletions: function(
@@ -128,18 +10,26 @@ $(document).ready(
 					prefix,
 					callback
 				) {
-					var line_prefix_parts = GetLinePrefixParts(
-						session,
-						position
-					);
-					var alternatives = GetAlternatives(line_prefix_parts);
-					callback(null, alternatives);
+					callback(null, []);
 				}
 			}
 		);
 
-		var day_mobile_editor = $('#day-mobile-editor');
-		var previous_mobile_editor_content = day_mobile_editor.val();
+		var daily_point_editor = ace.edit('daily-point-editor');
+		daily_point_editor.$blockScrolling = Infinity;
+		daily_point_editor.setTheme('ace/theme/pastel_on_dark');
+		daily_point_editor.setShowInvisibles(true);
+		daily_point_editor.setShowPrintMargin(false);
+		daily_point_editor.setOptions(
+			{
+				enableBasicAutocompletion: true,
+				enableLiveAutocompletion: true
+			}
+		);
+		daily_point_editor.focus();
+
+		var daily_point_mobile_editor = $('#daily-point-mobile-editor');
+		var previous_mobile_editor_content = daily_point_mobile_editor.val();
 
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
@@ -229,7 +119,7 @@ $(document).ready(
 				cursor_position: result.cursor_position
 			};
 		};
-		day_editor.formatContent = function() {
+		daily_point_editor.formatContent = function() {
 			var points_description = this.getValue();
 			var cursor_position = this.getCursorPosition();
 			var result = FormatPointsDescription(
@@ -242,7 +132,7 @@ $(document).ready(
 				this.moveCursorToPosition(result.cursor_position);
 			}
 		};
-		day_mobile_editor.formatContent = function() {
+		daily_point_mobile_editor.formatContent = function() {
 			var points_description = this.val();
 			var result = FormatPointsDescription(points_description);
 			this.val(result.points_description);
@@ -282,35 +172,13 @@ $(document).ready(
 			}
 		};
 
-		var number_of_points_view = $('.number-of-points-view');
-		var SetNumberOfPoints = function(points_description) {
-			var points =
-				points_description
-				.split('\n')
-				.filter(
-					function(line) {
-						return line.trim().length != 0;
-					}
-				);
-
-			var number_of_points = points.length;
-			number_of_points_view.text(
-				number_of_points.toString()
-				+ ' '
-				+ GetPointUnit(number_of_points)
-			);
-		};
-
-		day_editor.on(
+		daily_point_editor.on(
 			'change',
 			function() {
 				SetSavedFlag(false);
-
-				var points_description = day_editor.getValue();
-				SetNumberOfPoints(points_description);
 			}
 		);
-		day_editor.on(
+		daily_point_editor.on(
 			'paste',
 			function(event) {
 				event.text =
@@ -323,18 +191,16 @@ $(document).ready(
 			}
 		);
 
-		day_mobile_editor.on(
+		daily_point_mobile_editor.on(
 			'keyup',
 			function() {
-				var points_description = day_mobile_editor.val();
+				var points_description = daily_point_mobile_editor.val();
 				if (points_description == previous_mobile_editor_content) {
 					return;
 				}
+				previous_mobile_editor_content = points_description;
 
 				SetSavedFlag(false);
-				SetNumberOfPoints(points_description);
-
-				previous_mobile_editor_content = points_description;
 			}
 		);
 		$('a[data-toggle="tab"]').on(
@@ -345,13 +211,14 @@ $(document).ready(
 				var target = $(event.target).attr('href').slice(1);
 				switch (target) {
 					case 'default':
-						var points_description = day_mobile_editor.val();
-						day_editor.setValue(points_description, -1);
+						var points_description =
+							daily_point_mobile_editor.val();
+						daily_point_editor.setValue(points_description, -1);
 
 						break;
 					case 'mobile':
-						var points_description = day_editor.getValue();
-						day_mobile_editor.val(points_description);
+						var points_description = daily_point_editor.getValue();
+						daily_point_mobile_editor.val(points_description);
 						previous_mobile_editor_content = points_description;
 
 						break;
@@ -365,7 +232,7 @@ $(document).ready(
 		var save_url = save_button.data('save-url');
 		var processing_animation_image = $('img', save_button);
 		var save_icon = $('span', save_button);
-		var day_editor_container = $(day_editor.container);
+		var daily_point_editor_container = $(daily_point_editor.container);
 		var GetActiveEditor = function() {
 			return $('.tab-pane.active').attr('id');
 		};
@@ -377,10 +244,10 @@ $(document).ready(
 			var active_editor = GetActiveEditor();
 			switch (active_editor) {
 				case 'default':
-					day_editor_container.removeClass('wait');
+					daily_point_editor_container.removeClass('wait');
 					break;
 				case 'mobile':
-					day_mobile_editor.removeClass('wait');
+					daily_point_mobile_editor.removeClass('wait');
 					break;
 			}
 		};
@@ -393,15 +260,15 @@ $(document).ready(
 			var active_editor = GetActiveEditor();
 			switch (active_editor) {
 				case 'default':
-					day_editor_container.addClass('wait');
-					day_editor.formatContent();
-					points_description = day_editor.getValue();
+					daily_point_editor_container.addClass('wait');
+					daily_point_editor.formatContent();
+					points_description = daily_point_editor.getValue();
 
 					break;
 				case 'mobile':
-					day_mobile_editor.addClass('wait');
-					day_mobile_editor.formatContent();
-					points_description = day_mobile_editor.val();
+					daily_point_mobile_editor.addClass('wait');
+					daily_point_mobile_editor.formatContent();
+					points_description = daily_point_mobile_editor.val();
 
 					break;
 			}
@@ -446,31 +313,27 @@ $(document).ready(
 		);
 
 		var close_button = $('.close-button');
-		var day_date = close_button.data('date');
-		var day_my_date = close_button.data('my-date');
 		var view_url = close_button.data('view-url');
-		var CloseDayEditor = function() {
+		var CloseDailyPointEditor = function() {
 			location.href = view_url;
 		};
 		close_button.click(
 			function() {
 				if (!is_saved) {
-					DayCloseDialog.show(
-						day_my_date,
-						day_date,
+					DailyPointCloseDialog.show(
 						function() {
-							DayCloseDialog.hide();
-							SaveViaAjax(CloseDayEditor);
+							DailyPointCloseDialog.hide();
+							SaveViaAjax(CloseDailyPointEditor);
 						},
-						CloseDayEditor
+						CloseDailyPointEditor
 					);
 				} else {
-					CloseDayEditor();
+					CloseDailyPointEditor();
 				}
 			}
 		);
 
-		$('.day-form').submit(
+		$('.daily-point-editor-form').submit(
 			function(event) {
 				event.preventDefault();
 				event.stopPropagation();
