@@ -173,10 +173,32 @@ $(document).ready(
 			}
 		};
 
+		var number_of_points_view = $('.number-of-daily-points-view');
+		var SetNumberOfPoints = function(points_description) {
+			var points =
+				points_description
+				.split('\n')
+				.filter(
+					function(line) {
+						return line.trim().length != 0;
+					}
+				);
+
+			var number_of_points = points.length;
+			number_of_points_view.text(
+				number_of_points.toString()
+				+ ' '
+				+ GetPointUnit(number_of_points)
+			);
+		};
+
 		daily_point_editor.on(
 			'change',
 			function() {
 				SetSavedFlag(false);
+
+				var points_description = daily_point_editor.getValue();
+				SetNumberOfPoints(points_description);
 			}
 		);
 		daily_point_editor.on(
@@ -199,9 +221,11 @@ $(document).ready(
 				if (points_description == previous_mobile_editor_content) {
 					return;
 				}
-				previous_mobile_editor_content = points_description;
 
 				SetSavedFlag(false);
+				SetNumberOfPoints(points_description);
+
+				previous_mobile_editor_content = points_description;
 			}
 		);
 		$('a[data-toggle="tab"]').on(

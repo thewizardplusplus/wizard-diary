@@ -54,9 +54,7 @@ class DailyPointController extends CController {
 				'pagination' => false
 			)
 		);
-		$number_of_daily_points = DailyPoint::model()->count(
-			array('condition' => 'LENGTH(TRIM(`text`)) > 0')
-		);
+		$number_of_daily_points = $this->getNumberOfDailyPoints();
 
 		$this->render(
 			'list',
@@ -81,9 +79,20 @@ class DailyPointController extends CController {
 		}
 
 		$points_description = $this->getDailyPoints();
+		$number_of_daily_points = $this->getNumberOfDailyPoints();
+
 		$this->render(
 			'update',
-			array('points_description' => $points_description)
+			array(
+				'points_description' => $points_description,
+				'number_of_daily_points' => $number_of_daily_points
+			)
+		);
+	}
+
+	private function getNumberOfDailyPoints() {
+		return DailyPoint::model()->count(
+			array('condition' => 'LENGTH(TRIM(`text`)) > 0')
 		);
 	}
 

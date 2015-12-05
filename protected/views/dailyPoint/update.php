@@ -2,12 +2,17 @@
 	/**
 	 * @var DailyPointController $this
 	 * @var string $points_description
+	 * @var int $number_of_daily_points
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
 	Yii::app()->getClientScript()->registerPackage('ace-language-tools');
 	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/point_unit.js'),
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/daily_point_close_dialog.js'),
 		CClientScript::POS_HEAD
@@ -39,7 +44,7 @@
 		<span class = "glyphicon glyphicon-floppy-disk"></span>
 	</button>
 
-	<h4>
+	<h4 class = "clearfix">
 		Ежедневно
 
 		<span
@@ -48,6 +53,11 @@
 			<span class = "glyphicon glyphicon-floppy-saved"></span>
 		</span>
 	</h4>
+
+	<p
+		class = "pull-left unimportant-text italic-text number-of-daily-points-view">
+		<?= PointFormatter::formatNumberOfPoints($number_of_daily_points) ?>
+	</p>
 </header>
 
 <?= CHtml::beginForm(

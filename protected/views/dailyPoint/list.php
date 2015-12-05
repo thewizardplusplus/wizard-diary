@@ -41,7 +41,7 @@
 		<span class = "glyphicon glyphicon-pencil"></span> Изменить
 	</a>
 
-	<h4>Ежедневно</h4>
+	<h4 class = "clearfix">Ежедневно</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
 		<?= PointFormatter::formatNumberOfPoints($number_of_daily_points) ?>
