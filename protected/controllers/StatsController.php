@@ -307,7 +307,6 @@ class StatsController extends CController {
 				$new_dates = array();
 				foreach ($dates as $date => $points) {
 					$points = array_unique($points);
-					sort($points, SORT_STRING);
 					$new_dates[$date] = $points;
 				}
 				ksort($new_dates, SORT_STRING);
