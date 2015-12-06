@@ -24,6 +24,14 @@ google.setOnLoadCallback(
 		var options = {
 			legend: {visible: false},
 			line: {color: '#5cb85c', style: 'dot-line'},
+			min: new Date(
+				STATS_DATA.length
+					? Date.parse(STATS_DATA[0].date)
+					: Date.now()
+			),
+			max: new Date(),
+			// 5 days
+			zoomMin: 5 * 24 * 60 * 60 * 1000,
 			tooltip: function(point) {
 				var date = moment(point.date).format('DD.MM.YYYY');
 				return '<div>Дата: ' + date + '.</div>'

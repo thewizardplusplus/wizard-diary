@@ -39,6 +39,10 @@ google.setOnLoadCallback(
 				{color: '#333333'},
 				{color: '#5cb85c', width: 4, radius: 4}
 			],
+			min: new Date(dates.length ? Date.parse(dates[0]) : Date.now()),
+			max: new Date(),
+			// 5 days
+			zoomMin: 5 * 24 * 60 * 60 * 1000,
 			tooltip: function(point) {
 				var date = moment(point.date).format('DD.MM.YYYY');
 				var real_value = point.value / 10;
