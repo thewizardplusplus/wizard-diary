@@ -22,7 +22,7 @@ $(document).ready(
 		};
 		var FormatIpData = function(ip, data) {
 			return '<p>' + ip + '</p>'
-				+ '<p class = "small-text additional-info">'
+				+ '<p class = "small-text unimportant-text italic-text">'
 					+ '<a href = "http://maps.google.com/maps?'
 						+ '&q=' + encodeURIComponent(
 							data.loc
@@ -58,7 +58,13 @@ $(document).ready(
 			}
 
 			return '<p>' + user_agent + '</p>'
-				+ '<p class = "small-text additional-info">'
+				+ '<p '
+					+ 'class = "'
+						+ 'small-text '
+						+ 'unimportant-text '
+						+ 'italic-text '
+						+ 'without-bottom-margin'
+					+ '">'
 					+ 'ОС:'
 					+ ' ' + HtmlEncode(os_type)
 					+ ', ' + HtmlEncode(os_name)
@@ -66,7 +72,7 @@ $(document).ready(
 					+ WrapIfExists(data, 'os_versionNumber', {prepend: ' '})
 					+ '.'
 				+ '</p>'
-				+ '<p class = "small-text additional-info">'
+				+ '<p class = "small-text unimportant-text italic-text">'
 					+ 'Агент:'
 					+ WrapIfExists(
 						data,
