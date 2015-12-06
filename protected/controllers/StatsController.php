@@ -159,6 +159,8 @@ class StatsController extends CController {
 		}
 
 		$new_data = array();
+		$global_start = null;
+		$global_end = null;
 		foreach ($data as $first_key => $second_keys) {
 			$first_first_start = null;
 			$first_last_end = null;
@@ -220,6 +222,16 @@ class StatsController extends CController {
 						)->invert === 1
 					) {
 						$first_first_start = $start_date;
+
+						if (
+							is_null($global_start)
+							|| date_diff(
+								$global_start,
+								$start_date
+							)->invert === 1
+						) {
+							$global_start = $start_date;
+						}
 					}
 					if (
 						is_null($first_last_end)
@@ -229,6 +241,16 @@ class StatsController extends CController {
 						)->invert === 0
 					) {
 						$first_last_end = $shifted_end_date;
+
+						if (
+							is_null($global_end)
+							|| date_diff(
+								$global_end,
+								$shifted_end_date
+							)->invert === 0
+						) {
+							$global_end = $shifted_end_date;
+						}
 					}
 
 					if (is_null($second_first_start)) {
@@ -268,7 +290,11 @@ class StatsController extends CController {
 				return strcmp($data_2['end'], $data_1['end']);
 			}
 		);
-		$data = $new_data;
+		$data = array(
+			'start' => date_format($global_start, 'c'),
+			'end' => date_format($global_end, 'c'),
+			'data' => $new_data
+		);
 
 		$this->render('projects', array('data' => $data));
 	}
