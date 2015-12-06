@@ -33,10 +33,11 @@ google.setOnLoadCallback(
 
 		var options = {
 			legend: {visible: false},
+			line: {style: 'dot-line'},
 			lines: [
 				{color: '#808080'},
 				{color: '#333333'},
-				{color: '#5cb85c', width: 4}
+				{color: '#5cb85c', width: 4, radius: 4}
 			],
 			tooltip: function(point) {
 				var date = moment(point.date).format('DD.MM.YYYY');
@@ -73,6 +74,11 @@ google.setOnLoadCallback(
 		var graph = new links.Graph(container);
 		var DrawFunction = function() {
 			graph.draw(data_table, options);
+			graph.setVisibleChartRange(
+				// 12 days ago
+				new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
+				new Date()
+			);
 
 			$('.graph-axis-button:nth-child(1)').attr(
 				'title',
