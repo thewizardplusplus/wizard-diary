@@ -104,9 +104,11 @@ class SiteController extends CController {
 						: 0
 				);
 				if ($result) {
-					Yii::log('login', 'info');
-
 					AccessCode::clean();
+
+					$user_info = new UserInfo;
+					$user_info->save();
+
 					$this->redirect(Yii::app()->user->returnUrl);
 				}
 			}
