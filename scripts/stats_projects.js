@@ -105,7 +105,7 @@ google.setOnLoadCallback(
 				var subsubdata = subdata.tasks[second_key];
 
 				var title = first_key + ', ' + second_key;
-				var group = '&#10551;' + second_key;
+				var group = '&#x21b3; ' + second_key;
 				for (var k = 0; k < subsubdata.intervals.length; k++) {
 					var interval = subsubdata.intervals[k];
 					data.push(
