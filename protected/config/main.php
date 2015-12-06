@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/../components/User.php');
+
 return array(
 	'name' => Constants::APP_NAME,
 	'basePath' => __DIR__ . '/..',
@@ -14,7 +16,11 @@ return array(
 		'application.models.*'
 	),
 	'components' => array(
-		'user' => array('allowAutoLogin' => true, 'autoRenewCookie' => true),
+		'user' => array(
+			'class' => 'User',
+			'allowAutoLogin' => true,
+			'autoRenewCookie' => true
+		),
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'showScriptName' => false,
