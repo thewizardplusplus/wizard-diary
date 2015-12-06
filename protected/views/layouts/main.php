@@ -184,8 +184,10 @@
 												'url' => array('access/list')
 											),
 											array(
-												'label' => 'Сессии',
-												'url' => array('site/logoutAll')
+												'label' => 'Белый список',
+												'url' => array(
+													'access/whitelist'
+												)
 											),
 											array(
 												'label' => '',

@@ -17,10 +17,6 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ajax_error_dialog.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/access_data_loader.js'),
 		CClientScript::POS_HEAD
 	);
@@ -89,7 +85,7 @@
 					'header' => 'Время последнего доступа',
 					'value' =>
 						'"<time>"'
-						. '. $data->getFormattedTimestamp()'
+							. '. $data->getFormattedTimestamp()'
 						. '. "</time>"',
 					'type' => 'raw'
 				),

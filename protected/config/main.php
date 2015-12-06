@@ -21,7 +21,6 @@ return array(
 			'rules' => array(
 				'login' => 'site/login',
 				'access_code' => 'site/accessCode',
-				'logout_all' => 'site/logoutAll',
 				'days' => 'day/list',
 				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update/line:<line:\d+>' =>
@@ -38,7 +37,8 @@ return array(
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
 					'backup/diff',
 				'parameters' => 'parameters/update',
-				'accesses' => 'access/list'
+				'accesses' => 'access/list',
+				'whitelist' => 'access/whitelist'
 			)
 		),
 		'db' => array(

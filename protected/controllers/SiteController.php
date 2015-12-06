@@ -133,18 +133,4 @@ class SiteController extends CController {
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
-
-	public function actionLogoutAll() {
-		if (Yii::app()->request->isPostRequest) {
-			Yii::log('test');
-			Yii::app()
-				->db
-				->createCommand('DELETE FROM {{sessions}};')
-				->execute();
-
-			$this->redirect(Yii::app()->homeUrl);
-		}
-
-		$this->render('logout_all');
-	}
 }

@@ -113,6 +113,19 @@ class AccessController extends CController {
 		$this->render('list', array('data_provider' => $data_provider));
 	}
 
+	public function actionWhitelist() {
+		$data_provider = new CActiveDataProvider(
+			'UserInfo',
+			array(
+				'criteria' => array('order' => 'timestamp DESC'),
+				'sort' => false,
+				'pagination' => false
+			)
+		);
+
+		$this->render('whitelist', array('data_provider' => $data_provider));
+	}
+
 	public function actionDecodeIp($ip) {
 		$answer = file_get_contents(
 			'http://ipinfo.io/'

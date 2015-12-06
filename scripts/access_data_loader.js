@@ -65,7 +65,7 @@ $(document).ready(
 						+ 'italic-text '
 						+ 'without-bottom-margin'
 					+ '">'
-					+ 'ОС:'
+					+ '<strong>ОС:</strong>'
 					+ ' ' + HtmlEncode(os_type)
 					+ ', ' + HtmlEncode(os_name)
 					+ WrapIfExists(data, 'os_versionName', {prepend: ' '})
@@ -73,7 +73,7 @@ $(document).ready(
 					+ '.'
 				+ '</p>'
 				+ '<p class = "small-text unimportant-text italic-text">'
-					+ 'Агент:'
+					+ '<strong>Агент:</strong>'
 					+ WrapIfExists(
 						data,
 						'agent_type',
