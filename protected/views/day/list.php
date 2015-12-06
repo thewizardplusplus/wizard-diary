@@ -3,14 +3,28 @@
 	 * @var DayController $this
 	 * @var CArrayDataProvider $data_provider
 	 * @var array $daily_stats
+	 * @var int $rest_days
+	 * @var int $rest_days_prefix
+	 * @var string $target_date
+	 * @var string $target_my_date
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Дни';
 ?>
 
+<p class = "unimportant-text italic-text without-bottom-margin">
+	От текущей дюжины <?= $rest_days_prefix ?>
+	<strong><?= $rest_days ?></strong>.
+</p>
+<p class = "unimportant-text italic-text">
+	Текущая дюжина закончится <strong><time title = "<?= $target_date ?>"><?=
+		$target_my_date
+	?></time></strong>.
+</p>
+
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
-		'DayGridView',
+		'ExtendedGridView',
 		array(
 			'id' => 'day-list',
 			'dataProvider' => $data_provider,
@@ -65,7 +79,7 @@
 								. ')'
 							. ' . "</time>'
 						. '</a>"',
-					'htmlOptions' => array('class' => 'day-date-column')
+					'htmlOptions' => array('class' => 'date-column')
 				),
 				array(
 					'type' => 'raw',
@@ -120,8 +134,10 @@
 					)
 				)
 			),
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
+			'rowCssClassExpression' =>
+				'$this->controller->getRowClass($data["date"])',
 			'summaryCssClass' => 'summary pull-right',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'

@@ -18,7 +18,7 @@
 	<h4>Статистика: будущие достижения</h4>
 </header>
 
-<div class = "table-responsive clearfix">
+<div class = "clearfix">
 	<?php $this->widget(
 		'zii.widgets.CListView',
 		array(

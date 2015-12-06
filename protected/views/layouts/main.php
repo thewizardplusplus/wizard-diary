@@ -118,15 +118,13 @@
 												)
 											),
 											array(
-												'label' => 'Достижения',
-												'url' => array(
-													'stats/achievements'
-												)
+												'label' => 'Прогресс проектов',
+												'url' => array('stats/projects')
 											),
 											array(
-												'label' => 'Будущие достижения',
+												'label' => 'Список проектов',
 												'url' => array(
-													'stats/futureAchievements'
+													'stats/projectList'
 												)
 											),
 											array(
@@ -136,13 +134,15 @@
 												)
 											),
 											array(
-												'label' => 'Прогресс проектов',
-												'url' => array('stats/projects')
+												'label' => 'Достижения',
+												'url' => array(
+													'stats/achievements'
+												)
 											),
 											array(
-												'label' => 'Список проектов',
+												'label' => 'Будущие достижения',
 												'url' => array(
-													'stats/projectList'
+													'stats/futureAchievements'
 												)
 											)
 										),
@@ -165,6 +165,10 @@
 									'zii.widgets.CMenu',
 									array(
 										'items' => array(
+											array(
+												'label' => 'Ошибки',
+												'url' => array('mistake/list')
+											),
 											array(
 												'label' => 'Бекапы',
 												'url' => array('backup/list')
@@ -245,14 +249,40 @@
 		<section class = "container">
 			<?= $content ?>
 
-			<footer class = "small-text">
+			<footer class = "clearfix small-text">
 				<hr />
-				<p>
-					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?><br />
-					<span class = "unimportant-text">
-						&copy; thewizardplusplus, <?= $copyright_years ?>
-					</span>
-				<p>
+				<div class = "pull-right">
+					<p
+						class = "unimportant-text italic-text without-bottom-margin">
+						Страница отрендерена за <strong><?=
+							round(Yii::getLogger()->executionTime, 2)
+						?> с</strong>.
+					</p>
+					<p
+						class = "unimportant-text italic-text without-bottom-margin">
+						Использовано <strong><?=
+							round(
+								Yii::getLogger()->memoryUsage
+									/ (1024.0 * 1024.0),
+								2
+							)
+						?> МиБ</strong> ОЗУ.
+					</p>
+					<p class = "unimportant-text italic-text">
+						Совершено <strong><?=
+							RequestFormatter::formatRequests(
+								Yii::app()->db->getStats()[0]
+							)
+						?></strong> к БД.
+					</p>
+				</div>
+
+				<p class = "without-bottom-margin">
+					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?>
+				</p>
+				<p class = "unimportant-text">
+					&copy; thewizardplusplus, <?= $copyright_years ?>
+				</p>
 			</footer>
 		</section>
 

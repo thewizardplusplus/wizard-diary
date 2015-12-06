@@ -175,32 +175,6 @@ a.state-initial:focus {
 	color: rgb(128, 128, 128) !important;
 }
 
-/* jQuery Sortable styles */
-body.dragging,
-body.dragging * {
-	cursor: move !important;
-}
-
-.dragged {
-	position: absolute;
-	opacity: 0.5;
-	z-index: 2000;
-}
-
-#daily-point-list table tr.placeholder {
-	position: relative;
-	border-top: 2px solid #f0ad4e;
-}
-
-#daily-point-list table tr.placeholder:before {
-	position: absolute;
-	top: -14px;
-	left: -10px;
-	content: '➤';
-	font-size: larger;
-	color: #f0ad4e;
-}
-
 /* Corrections styles for Awesome Bootstrap Checkbox. */
 .checkbox input[type=checkbox]:checked + label:after {
 	font-family: 'Glyphicons Halflings';
@@ -226,7 +200,7 @@ body.dragging * {
 	display: inline-block;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	.daily-point-form .ui-spinner {
 		display: block;
 	}
@@ -238,6 +212,11 @@ body.dragging * {
 
 .ui-spinner-input {
 	margin: 0;
+	padding: 6px 12px;
+	background: #fff;
+	border: 1px solid #ccc;
+	font-size: 14px !important;
+	color: #555;
 }
 
 .ui-corner-tr {
@@ -349,8 +328,8 @@ body.dragging * {
 }
 
 /* Daily point form styles. */
-.daily-point-form {
-	padding: 10px;
+.daily-point-form-container {
+	margin-bottom: 20px;
 }
 
 .daily-point-form #daily-point-form_es_ {
@@ -377,10 +356,6 @@ body.dragging * {
 }
 
 /* Day list styles. */
-.day-date-column {
-	width: 50px;
-}
-
 .day-completed-flag-column {
 	width: 50px;
 	text-align: center;
@@ -392,19 +367,21 @@ body.dragging * {
 
 /* Editors styles. */
 #day-editor,
+#daily-point-editor,
 #diff-viewer {
 	height: 500px;
 	border-radius: 4px;
 	font-size: 14px;
 }
 
+#daily-point-mobile-editor,
 #day-mobile-editor {
 	height: 250px;
 	padding: 0 5px;
-	background-color: #141414;
+	background-color: #2c2828;
 	font-family: monospace;
 	font-size: 12px;
-	color: #f8f8f8;
+	color: #8f938f;
 }
 
 .saved-flag,
@@ -415,6 +392,78 @@ body.dragging * {
 .label {
 	display: inline-block;
 	padding: 5px 10px;
+}
+
+/* Achievements styles. */
+.achievements-selects-container {
+	margin-bottom: 20px;
+}
+
+.achievements-selects-container p {
+	margin-bottom: 0;
+}
+
+.achievements-selects-form {
+	margin-left: 10px;
+}
+
+/* on collision with achievements counter paragraph */
+@media (max-width: 438px) {
+	.achievements-selects-form {
+		margin-bottom: 15px;
+	}
+}
+
+.achievement-view {
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #f9f9f9;
+}
+
+.achievement-view p:last-child {
+	margin-bottom: 0;
+}
+
+/* Mistakes styles. */
+.mistakes-controls-container {
+	margin-bottom: 20px;
+}
+
+.mistakes-controls-container p {
+	margin-bottom: 0;
+}
+
+.custom-spellings-clean-button {
+	margin-left: 10px;
+}
+
+/* on collision with mistakes counter paragraph */
+@media (max-width: 404px) {
+	.custom-spellings-clean-button {
+		margin-bottom: 15px;
+	}
+}
+
+/* Spellcheck styles. */
+.spellcheck-flag {
+	height: 25px;
+}
+
+.spellcheck-flag img {
+	display: none;
+	height: 13px;
+}
+
+.spellcheck-flag .correction {
+	margin-left: -4px;
+	width: 0;
+	visibility: hidden;
+}
+
+.misspelled {
+	position: absolute;
+	border-bottom: 1px solid #d9534f;
+	border-radius: 0 !important;
 }
 
 /* Utils styles. */
@@ -440,6 +489,10 @@ body.dragging * {
 	user-select: none;
 }
 
+.without-bottom-margin {
+	margin-bottom: 0;
+}
+
 /* Additional styles. */
 .input-group-addon {
 	color: #428bca;
@@ -450,16 +503,23 @@ body.dragging * {
 	margin-top: 10px;
 }
 
-.additional-info {
-	color: #888;
-}
-
 .point-text input {
 	font-weight: normal;
 }
 
-.achievement-view {
-	margin-bottom: 10px;
-	padding: 10px;
-	background-color: #f8f8f8;
+.date-column {
+	width: 50px;
+}
+
+.blue-button,
+.blue-button:focus,
+.blue-button:hover,
+.blue-button:active,
+.blue-button:active:focus,
+.blue-button:active:hover {
+	color: #428bca;
+}
+
+a[disabled] {
+	pointer-events: none;
 }

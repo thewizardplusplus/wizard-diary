@@ -1,7 +1,7 @@
 google.load('visualization', '1.0');
 google.setOnLoadCallback(
 	function() {
-		if (STATS_DATA.length == 0) {
+		if (STATS_DATA.data.length == 0) {
 			$('.empty-label').show();
 			return;
 		}
@@ -84,11 +84,11 @@ google.setOnLoadCallback(
 		};
 
 		var data = [];
-		var first_keys = Object.keys(STATS_DATA);
+		var first_keys = Object.keys(STATS_DATA.data);
 		var first_keys_length = first_keys.length;
 		for (var i = 0; i < first_keys_length; i++) {
 			var first_key = first_keys[i];
-			var subdata = STATS_DATA[first_key];
+			var subdata = STATS_DATA.data[first_key];
 			data.push(
 				MakeRow(
 					subdata.start,
@@ -105,7 +105,7 @@ google.setOnLoadCallback(
 				var subsubdata = subdata.tasks[second_key];
 
 				var title = first_key + ', ' + second_key;
-				var group = '&#10551;' + second_key;
+				var group = '&#x21b3; ' + second_key;
 				for (var k = 0; k < subsubdata.intervals.length; k++) {
 					var interval = subsubdata.intervals[k];
 					data.push(
@@ -130,9 +130,26 @@ google.setOnLoadCallback(
 		data_table.addRows(data);
 
 		var container = $('.stats-view.projects').get(0);
-		var timeline = new links.Timeline(container, {locale: 'ru'});
+		var end_date = new Date(Date.parse(STATS_DATA.end));
+		var timeline = new links.Timeline(
+			container,
+			{
+				min: new Date(Date.parse(STATS_DATA.start)),
+				max: end_date,
+				// 12 days
+				zoomMin: 12 * 24 * 60 * 60 * 1000,
+				// 69 days (the maximum scale at which the layout remains true)
+				zoomMax: 69 * 24 * 60 * 60 * 1000,
+				locale: 'ru'
+			}
+		);
 		var DrawFunction = function() {
 			timeline.draw(data_table);
+			timeline.setVisibleChartRange(
+				// 12 days from the end date
+				new Date(end_date.getTime() - 12 * 24 * 60 * 60 * 1000),
+				end_date
+			);
 		};
 
 		$(window).resize(

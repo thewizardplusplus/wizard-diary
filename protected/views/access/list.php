@@ -40,6 +40,31 @@
 	<h4>Лог доступа</h4>
 </header>
 
+<div
+	class = "access-totally-info-view"
+	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
+	<p>
+		Общее число записей:
+		<strong><span class = "access-counter-view">0</span></strong>.
+	</p>
+
+	<p>Скорость добавления записей:</p>
+	<ul>
+		<li>
+			<strong><span class = "access-speed-by-day-view">0</span>
+			в день</strong>;
+		</li>
+		<li>
+			<strong><span class = "access-speed-by-hour-view">0</span>
+			в час</strong>;
+		</li>
+		<li>
+			<strong><span class = "access-speed-by-minute-view">0</span>
+			в минуту</strong>.
+		</li>
+	</ul>
+</div>
+
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
@@ -95,7 +120,7 @@
 						. ')'
 					. ')'
 			. ')',
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
 			'afterAjaxUpdate' => 'function() { AccessData.load(); }',
@@ -123,18 +148,3 @@
 <p class = "small-text access-log-legend">
 	* Красным отмечены попытки доступа, IP которых были забанены.
 </p>
-
-<div
-	class = "access-totally-info-view"
-	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
-	<hr />
-
-	<p>Общее число записей: <span class = "access-counter-view">0</span>.</p>
-
-	<p>Скорость добавления записей:</p>
-	<ul>
-		<li><span class = "access-speed-by-day-view">0</span> в день;</li>
-		<li><span class = "access-speed-by-hour-view">0</span> в час;</li>
-		<li><span class = "access-speed-by-minute-view">0</span> в минуту.</li>
-	</ul>
-</div>

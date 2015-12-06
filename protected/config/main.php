@@ -14,7 +14,7 @@ return array(
 		'application.models.*'
 	),
 	'components' => array(
-		'user' => array('allowAutoLogin' => true),
+		'user' => array('allowAutoLogin' => true, 'autoRenewCookie' => true),
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'showScriptName' => false,
@@ -24,14 +24,17 @@ return array(
 				'logout_all' => 'site/logoutAll',
 				'days' => 'day/list',
 				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
+				'day/<date:\d\d\d\d-\d\d-\d\d>/update/line:<line:\d+>' =>
+					'day/update',
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
-				'daily_point/<id:\d+>/update' => 'dailyPoint/update',
-				'daily_point/<id:\d+>/delete' => 'dailyPoint/delete',
+				'daily_points/update' => 'dailyPoint/update',
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',
 				'stats/project_list' => 'stats/projectList',
+				'mistakes' => 'mistake/list',
 				'backups' => 'backup/list',
+				'backup/current_diff/<file:[\w-]+>' => 'backup/currentDiff',
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
 					'backup/diff',
 				'parameters' => 'parameters/update',
@@ -45,6 +48,7 @@ return array(
 				. ';dbname='
 				. Constants::DATABASE_NAME,
 			'emulatePrepare' => true,
+			'enableProfiling' => true,
 			'username' => Constants::DATABASE_USER,
 			'password' => Constants::DATABASE_PASSWORD,
 			'charset' => 'utf8',
@@ -54,19 +58,13 @@ return array(
 			'class' => 'CDbHttpSession',
 			'connectionID' => 'db',
 			'sessionTableName' => Constants::DATABASE_TABLE_PREFIX . 'sessions',
-			'timeout' => Constants::SESSION_GC_TIMEOUT_IN_S
+			'timeout' => Constants::SESSION_LIFETIME_IN_MIN_MINIMUM * 60
 		),
 		'clientScript' => array(
 			'packages' => array(
 				'jquery' => array(
 					'baseUrl' => 'https://code.jquery.com/',
 					'js' => array('jquery-2.1.4.min.js')
-				),
-				'jquery.ui' => array(
-					'baseUrl' => 'https://code.jquery.com/ui/1.11.4/',
-					'js' => array('jquery-ui.min.js'),
-					'css' => array('themes/start/jquery-ui.css'),
-					'depends' => array('jquery')
 				),
 				'bootstrap' => array(
 					'baseUrl' =>
@@ -75,30 +73,21 @@ return array(
 					'css' => array('css/bootstrap.min.css'),
 					'depends' => array('jquery')
 				),
-				'purl' => array(
-					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/',
-					'js' => array('purl.min.js'),
-					'depends' => array('jquery')
-				),
-				'jeditable' => array(
-					'baseUrl' =>
-						'https://cdn.jsdelivr.net/jquery.jeditable/1.7.3/',
-					'js' => array('jquery.jeditable.js'),
-					'depends' => array('jquery')
+				'jquery.ui' => array(
+					'baseUrl' => 'https://code.jquery.com/ui/1.11.4/',
+					'js' => array('jquery-ui.min.js'),
+					'css' => array('themes/start/jquery-ui.css'),
+					'depends' => array(
+						'jquery',
+						// doesn't depend, but should override
+						'bootstrap'
+					)
 				),
 				'moment' => array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/'
 							. 'moment.js/2.10.6/',
 					'js' => array('moment-with-locales.min.js')
-				),
-				'sortable' => array(
-					'baseUrl' =>
-						'https://cdnjs.cloudflare.com/ajax/libs/'
-							. 'jquery-sortable/0.9.13/',
-					'js' => array('jquery-sortable-min.js'),
-					'depends' => array('jquery')
 				),
 				'jstree' => array(
 					'baseUrl' =>
@@ -111,6 +100,11 @@ return array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
 					'js' => array('ace.js')
+				),
+				'ace-language-tools' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
+					'js' => array('ext-language_tools.js')
 				),
 				'mobile-detect' => array(
 					'baseUrl' =>
@@ -125,21 +119,21 @@ return array(
 				'awesome-bootstrap-checkbox' => array(
 					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
 						. 'awesome-bootstrap-checkbox/0.3.5/',
-					'css' => array('awesome-bootstrap-checkbox.min.css')
-				)
-			)
-		),
-		'widgetFactory' => array(
-			'widgets' => array(
-				'CJuiAutoComplete' => array(
-					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
-					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
-					'theme' => 'start'
+					'css' => array('awesome-bootstrap-checkbox.min.css'),
+					'depends' => array('bootstrap')
 				),
-				'CJuiTabs' => array(
-					'scriptUrl' => 'https://code.jquery.com/ui/1.10.4',
-					'themeUrl' => 'https://code.jquery.com/ui/1.10.4/themes',
-					'theme' => 'start'
+				'bootstrap-select' => array(
+					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
+						. 'bootstrap-select/1.7.5/',
+					'js' => array('js/bootstrap-select.min.js'),
+					'css' => array('css/bootstrap-select.min.css'),
+					'depends' => array('jquery', 'bootstrap')
+				),
+				'bootstrap-select-i18n' => array(
+					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
+						. 'bootstrap-select/1.7.5/',
+					'js' => array('js/i18n/defaults-ru_RU.min.js'),
+					'depends' => array('bootstrap-select')
 				)
 			)
 		),

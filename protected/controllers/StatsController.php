@@ -34,6 +34,24 @@ class StatsController extends CController {
 			}
 		}
 
+		$data = DateCompleter::complete(
+			$data,
+			function($key, $value) {
+				return $key;
+			},
+			function(&$dates, $key, $value, $date) {
+				if (!is_null($value)) {
+					$dates[$date] = $value;
+				} else {
+					$dates[$date] = array(
+						'initial' => false,
+						'satisfied' => 0,
+						'canceled' => 0,
+						'total' => 0
+					);
+				}
+			}
+		);
 		$data = array_filter(
 			$data,
 			function($item) {
@@ -56,24 +74,6 @@ class StatsController extends CController {
 				);
 			},
 			$data
-		);
-
-		$data = DateCompleter::complete(
-			$data,
-			function($key, $value) {
-				return $key;
-			},
-			function(&$dates, $key, $value, $date) {
-				if (!is_null($value)) {
-					$dates[$date] = $value;
-				} else {
-					$dates[$date] = array(
-						'satisfied' => 100,
-						'total' => 0,
-						'not_canceled' => 0
-					);
-				}
-			}
 		);
 
 		return $data;
@@ -145,128 +145,6 @@ class StatsController extends CController {
 		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
 
-	public function actionAchievements() {
-		$data = $this->getAchievementsData();
-
-		$achievements = array();
-		foreach ($data as $text => $subdata) {
-			foreach ($subdata['achievements'] as $level => $date) {
-				$name = $this->achievements_names[$level];
-				$achievements[] = array(
-					'point' => $text,
-					'level' => $level,
-					'days' => $this->formatDays($level),
-					'name' => $name,
-					'hash' => $this->hashAchievement($name, $text),
-					'date' => $date
-				);
-			}
-		}
-
-		$achievements_provider = new CArrayDataProvider(
-			$achievements,
-			array(
-				'keyField' => 'date',
-				'sort' => array(
-					'attributes' => array('date'),
-					'defaultOrder' => array('date' => CSort::SORT_DESC)
-				)
-			)
-		);
-
-		$this->render(
-			'achievements',
-			array('achievements_provider' => $achievements_provider)
-		);
-	}
-
-	public function actionFutureAchievements() {
-		$points = Yii::app()
-			->db
-			->createCommand()
-			->select(
-				array(
-					'date',
-					'NOT MAX('
-							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
-						. ') AS \'completed\'',
-					'SUM('
-							. 'CASE '
-								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
-									. 'THEN 1 '
-								. 'ELSE 0 '
-							. 'END'
-						. ') AS \'daily\''
-				)
-			)
-			->from('{{points}}')
-			->group('date')
-			->order('date DESC')
-			->queryAll();
-
-		$leading_uncompleted_days = 0;
-		$last_date = date_create();
-		foreach ($points as $point) {
-			if (intval($point['daily']) == 0) {
-				break;
-			}
-			if ($point['completed']) {
-				break;
-			}
-
-			$date = date_create($point['date']);
-			if ($date->diff($last_date)->days > 1) {
-				break;
-			}
-			$last_date = $date;
-
-			$leading_uncompleted_days++;
-		}
-
-		$data = $this->getAchievementsData();
-
-		$future_achievements = array();
-		$current_date = date_create();
-		foreach ($data as $text => $subdata) {
-			foreach ($subdata['achievements'] as $level => $date) {
-				if (
-					date_create($date)->diff($current_date)->days
-					<= $leading_uncompleted_days
-				) {
-					$next_level = $this->next_achievements_levels[$level];
-					if (!is_null($next_level)) {
-						$name = $this->achievements_names[$next_level];
-						$future_achievements[] = array(
-							'point' => $text,
-							'level' => $next_level,
-							'days' => $this->formatDays($level),
-							'name' => $name,
-							'hash' => $this->hashAchievement($name, $text)
-						);
-					}
-				}
-			}
-		}
-
-		$future_achievements_provider = new CArrayDataProvider(
-			$future_achievements,
-			array(
-				'keyField' => 'point',
-				'sort' => array(
-					'attributes' => array('point'),
-					'defaultOrder' => array('point' => CSort::SORT_ASC)
-				)
-			)
-		);
-
-		$this->render(
-			'future_achievements',
-			array(
-				'future_achievements_provider' => $future_achievements_provider
-			)
-		);
-	}
-
 	public function actionProjects() {
 		$points = Point::model()->findAll(
 			array('condition' => 'text != "" AND daily = FALSE')
@@ -281,6 +159,8 @@ class StatsController extends CController {
 		}
 
 		$new_data = array();
+		$global_start = null;
+		$global_end = null;
 		foreach ($data as $first_key => $second_keys) {
 			$first_first_start = null;
 			$first_last_end = null;
@@ -342,6 +222,16 @@ class StatsController extends CController {
 						)->invert === 1
 					) {
 						$first_first_start = $start_date;
+
+						if (
+							is_null($global_start)
+							|| date_diff(
+								$global_start,
+								$start_date
+							)->invert === 1
+						) {
+							$global_start = $start_date;
+						}
 					}
 					if (
 						is_null($first_last_end)
@@ -351,6 +241,16 @@ class StatsController extends CController {
 						)->invert === 0
 					) {
 						$first_last_end = $shifted_end_date;
+
+						if (
+							is_null($global_end)
+							|| date_diff(
+								$global_end,
+								$shifted_end_date
+							)->invert === 0
+						) {
+							$global_end = $shifted_end_date;
+						}
 					}
 
 					if (is_null($second_first_start)) {
@@ -390,7 +290,11 @@ class StatsController extends CController {
 				return strcmp($data_2['end'], $data_1['end']);
 			}
 		);
-		$data = $new_data;
+		$data = array(
+			'start' => date_format($global_start, 'c'),
+			'end' => date_format($global_end, 'c'),
+			'data' => $new_data
+		);
 
 		$this->render('projects', array('data' => $data));
 	}
@@ -429,7 +333,6 @@ class StatsController extends CController {
 				$new_dates = array();
 				foreach ($dates as $date => $points) {
 					$points = array_unique($points);
-					sort($points, SORT_STRING);
 					$new_dates[$date] = $points;
 				}
 				ksort($new_dates, SORT_STRING);
@@ -488,20 +391,185 @@ class StatsController extends CController {
 		$this->render('project_list', array('data' => $data));
 	}
 
-	private $achievements_levels = array(1, 6, 12, 24, 48);
-	private $next_achievements_levels = array(
-		'#1' => '#6',
-		'#6' => '#12',
-		'#12' => '#24',
-		'#24' => '#48',
-		'#48' => null
-	);
+	public function actionAchievements() {
+		$data = $this->getAchievementsData();
+
+		$achievements = array();
+		$achievements_texts = array();
+		foreach ($data as $text => $subdata) {
+			foreach ($subdata['achievements'] as $level => $date) {
+				$name = $this->achievements_names[$level];
+				$achievements[] = array(
+					'point' => $text,
+					'level' => $level,
+					'days' => DayFormatter::formatDays($level),
+					'name' => $name,
+					'hash' => $this->hashAchievement($name, $text),
+					'date' => $date
+				);
+				$achievements_texts[] = $text;
+			}
+		}
+
+		if (isset($_GET['search'])) {
+			$levels = array();
+			if (
+				isset($_GET['search']['levels'])
+				and is_array($_GET['search']['levels'])
+			) {
+				$levels = $_GET['search']['levels'];
+			}
+
+			$texts = array();
+			if (
+				isset($_GET['search']['texts'])
+				and is_array($_GET['search']['texts'])
+			) {
+				$texts = $_GET['search']['texts'];
+			}
+
+			$achievements = array_filter(
+				$achievements,
+				function($achievement) use ($levels, $texts) {
+					$right_level =
+						count($levels) == 0
+						|| in_array(
+							$this->unformatLevel($achievement['level']),
+							$levels,
+							true
+						);
+					$right_text =
+						count($texts) == 0
+						|| in_array($achievement['point'], $texts, true);
+					return $right_level && $right_text;
+				}
+			);
+		}
+
+		$achievements_levels = array();
+		foreach ($this->achievements_names as $level => $name) {
+			$level = $this->unformatLevel($level);
+			$achievements_levels[$level] = $name;
+		}
+
+		$achievements_provider = new CArrayDataProvider(
+			$achievements,
+			array(
+				'keyField' => 'date',
+				'sort' => array(
+					'attributes' => array('date'),
+					'defaultOrder' => array('date' => CSort::SORT_DESC)
+				)
+			)
+		);
+
+		$new_achievements_texts = array();
+		$achievements_texts = array_unique($achievements_texts);
+		foreach ($achievements_texts as $achievement_text) {
+			$new_achievements_texts[$achievement_text] = $achievement_text;
+		}
+		asort($new_achievements_texts);
+		$achievements_texts = $new_achievements_texts;
+
+		$this->render(
+			'achievements',
+			array(
+				'achievements_provider' => $achievements_provider,
+				'achievements_levels' => $achievements_levels,
+				'achievements_texts' => $achievements_texts
+			)
+		);
+	}
+
+	public function actionFutureAchievements() {
+		$data = $this->getAchievementsData();
+		$leading_uncompleted_days = $this->getLeadingUncompletedDays();
+
+		$future_achievements = array();
+		$current_date = date_create();
+		foreach ($data as $text => $subdata) {
+			$streak_length = count($subdata['dates']);
+			$last_streak_date = date_create(
+				$subdata['dates'][$streak_length - 1]
+			);
+			if (
+				$last_streak_date->diff($current_date)->days
+				> $leading_uncompleted_days
+			) {
+				continue;
+			}
+
+			$next_level = null;
+			foreach ($this->achievements_levels as $level) {
+				$formatted_level = $this->formatLevel($level);
+				if (
+					$level > $streak_length
+					and !array_key_exists(
+						$formatted_level,
+						$subdata['achievements']
+					)
+				) {
+					$next_level = $level;
+					break;
+				}
+			}
+			if (is_null($next_level)) {
+				continue;
+			}
+
+			$rest_days = $next_level - $streak_length;
+			$next_level = $this->formatLevel($next_level);
+
+			$last_streak_date->add(
+				DateInterval::createFromDateString(
+					sprintf('%d day', $rest_days)
+				)
+			);
+			$date = $last_streak_date->format('Y-m-d');
+
+			$name = $this->achievements_names[$next_level];
+			$future_achievements[] = array(
+				'point' => $text,
+				'level' => $next_level,
+				'days' => DayFormatter::formatDays($next_level),
+				'completed_days' => DayFormatter::formatCompletedDays(
+					$streak_length
+				),
+				'rest_days' => DayFormatter::formatCompletedDays($rest_days),
+				'name' => $name,
+				'hash' => $this->hashAchievement($name, $text),
+				'date' => DateFormatter::formatDate($date),
+				'my_date' => DateFormatter::formatMyDate($date)
+			);
+		}
+
+		$future_achievements_provider = new CArrayDataProvider(
+			$future_achievements,
+			array(
+				'keyField' => 'point',
+				'sort' => array(
+					'attributes' => array('point'),
+					'defaultOrder' => array('point' => CSort::SORT_ASC)
+				)
+			)
+		);
+
+		$this->render(
+			'future_achievements',
+			array(
+				'future_achievements_provider' => $future_achievements_provider
+			)
+		);
+	}
+
+	private $achievements_levels = array(1, 6, 12, 24, 48, 96);
 	private $achievements_names = array(
 		'#1' => 'Первая попытка',
 		'#6' => 'Выдержка',
 		'#12' => 'Работа над собой',
 		'#24' => 'Сила воли',
-		'#48' => 'Привычка'
+		'#48' => 'Привычка',
+		'#96' => 'Новое лицо'
 	);
 
 	private function getAchievementsData() {
@@ -509,7 +577,9 @@ class StatsController extends CController {
 			array(
 				'select' => array('text', 'date'),
 				'condition' =>
-					'daily = TRUE AND text != "" AND state = "SATISFIED"',
+					'daily = TRUE '
+					. 'AND text != "" '
+					. 'AND (state = "SATISFIED" OR state = "CANCELED")',
 				'order' => 'date'
 			)
 		);
@@ -536,7 +606,7 @@ class StatsController extends CController {
 						break;
 					}
 
-					$level_key = sprintf('#%d', $level);
+					$level_key = $this->formatLevel($level);
 					if (
 						array_key_exists(
 							$level_key,
@@ -559,18 +629,78 @@ class StatsController extends CController {
 		return $data;
 	}
 
-	private function formatDays($level) {
-		$days = intval(substr($level, 1));
-		$modulo = $days % 10;
-		$unit =
-			($modulo == 1 and ($days < 10 or $days > 20))
-				? 'дня'
-				: 'дней';
+	private function getLeadingUncompletedDays() {
+		$points = Yii::app()
+			->db
+			->createCommand()
+			->select(
+				array(
+					'date',
+					'NOT MAX('
+							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
+						. ') AS \'completed\'',
+					'SUM('
+							. 'CASE '
+								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'daily\''
+				)
+			)
+			->from('{{points}}')
+			->group('date')
+			->order('date DESC')
+			->queryAll();
 
-		return sprintf("%d %s", $days, $unit);
+		$leading_uncompleted_days = 0;
+		$last_date = date_create();
+		foreach ($points as $point) {
+			if (intval($point['daily']) == 0) {
+				break;
+			}
+			if ($point['completed']) {
+				break;
+			}
+
+			$date = date_create($point['date']);
+			if ($date->diff($last_date)->days > 1) {
+				break;
+			}
+			$last_date = $date;
+
+			$leading_uncompleted_days++;
+		}
+
+		return $leading_uncompleted_days;
+	}
+
+	private function formatLevel($level) {
+		return sprintf('#%d', $level);
+	}
+
+	private function unformatLevel($level) {
+		return substr($level, 1);
 	}
 
 	private function hashAchievement($name, $point) {
 		return md5(sprintf('%s:%s', $name, $point));
+	}
+
+	public function formatAchievements($number) {
+		$unit = '';
+		$modulo = $number % 10;
+		if ($modulo == 1 and ($number < 10 or $number > 20)) {
+			$unit = 'достижение';
+		} else if (
+			$modulo > 1 and $modulo < 5
+			and ($number < 10 or $number > 20)
+		) {
+			$unit = 'достижения';
+		} else {
+			$unit = 'достижений';
+		}
+
+		return sprintf("%d %s", $number, $unit);
 	}
 }
