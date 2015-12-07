@@ -26,8 +26,9 @@
 		array(
 			'id' => 'whitelist',
 			'dataProvider' => $data_provider,
-			'template' => '{items}',
+			'template' => '{items} {summary} {pager}',
 			'selectableRows' => 0,
+			'enableHistory' => true,
 			'columns' => array(
 				array(
 					'header' => 'IP',
@@ -68,7 +69,26 @@
 					. ')'
 			. ')',
 			'itemsCssClass' => 'table table-striped',
-			'emptyText' => 'Нет записей.'
+			'loadingCssClass' => 'wait',
+			'summaryCssClass' => 'summary pull-right',
+			'afterAjaxUpdate' => 'function() { AccessData.load(); }',
+			'ajaxUpdateError' =>
+				'function(xhr, text_status) {'
+					. 'AjaxErrorDialog.handler(xhr, text_status);'
+				. '}',
+			'emptyText' => 'Нет записей.',
+			'summaryText' => 'Записи {start}-{end} из {count}.',
+			'pager' => array(
+				'header' => '',
+				'firstPageLabel' => '&lt;&lt;',
+				'prevPageLabel' => '&lt;',
+				'nextPageLabel' => '&gt;',
+				'lastPageLabel' => '&gt;&gt;',
+				'selectedPageCssClass' => 'active',
+				'hiddenPageCssClass' => 'disabled',
+				'htmlOptions' => array('class' => 'pagination')
+			),
+			'pagerCssClass' => 'page-controller'
 		)
 	); ?>
 </div>
