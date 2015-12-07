@@ -22,7 +22,13 @@ $(document).ready(
 		};
 		var FormatIpData = function(ip, data) {
 			return '<p>' + ip + '</p>'
-				+ '<p class = "small-text unimportant-text italic-text">'
+				+ '<p '
+					+ 'class = "'
+						+ 'small-text '
+						+ 'unimportant-text '
+						+ 'italic-text '
+						+ 'without-bottom-margin'
+					+ '">'
 					+ '<a href = "http://maps.google.com/maps?'
 						+ '&q=' + encodeURIComponent(
 							data.loc
@@ -72,7 +78,13 @@ $(document).ready(
 					+ WrapIfExists(data, 'os_versionNumber', {prepend: ' '})
 					+ '.'
 				+ '</p>'
-				+ '<p class = "small-text unimportant-text italic-text">'
+				+ '<p '
+					+ 'class = "'
+						+ 'small-text '
+						+ 'unimportant-text '
+						+ 'italic-text '
+						+ 'without-bottom-margin'
+					+ '">'
 					+ '<strong>Агент:</strong>'
 					+ WrapIfExists(
 						data,
@@ -96,7 +108,7 @@ $(document).ready(
 		};
 
 		AccessData.load = function() {
-			$('#access-list .access-data').each(
+			$('.access-data').each(
 				function() {
 					var access_data = $(this);
 

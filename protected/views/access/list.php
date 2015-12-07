@@ -98,7 +98,6 @@
 				'"access-data"'
 				. '. ($data->banned ? " danger" : "")',
 			'rowHtmlOptionsExpression' => 'array('
-				. '"class" => "access-data",'
 				. '"data-ip" => CHtml::encode($data->ip),'
 				. '"data-decode-ip-url" =>'
 					. '$this->controller->createUrl('

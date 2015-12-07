@@ -4,6 +4,15 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/countries_codes.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_data_loader.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Белый список';
 ?>
 
@@ -39,6 +48,25 @@
 					'type' => 'raw'
 				)
 			),
+			'rowCssClass' => array('access-data'),
+			'rowHtmlOptionsExpression' => 'array('
+				. '"data-ip" => CHtml::encode($data->ip),'
+				. '"data-decode-ip-url" =>'
+					. '$this->controller->createUrl('
+						. '"access/decodeIp",'
+						. 'array('
+							. '"ip" => rawurlencode($data->ip)'
+						. ')'
+					. '),'
+				. '"data-user-agent" => CHtml::encode($data->user_agent),'
+				. '"data-decode-user-agent-url" =>'
+					. '$this->controller->createUrl('
+						. '"access/decodeUserAgent",'
+						. 'array('
+							. '"user_agent" => rawurlencode($data->user_agent)'
+						. ')'
+					. ')'
+			. ')',
 			'itemsCssClass' => 'table table-striped',
 			'emptyText' => 'Нет записей.'
 		)
