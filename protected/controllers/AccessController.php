@@ -117,7 +117,14 @@ class AccessController extends CController {
 		$data_provider = new CActiveDataProvider(
 			'UserInfo',
 			array(
-				'criteria' => array('order' => 'timestamp DESC'),
+				'criteria' => array(
+					'select' =>
+						'ip,'
+						. 'user_agent,'
+						. 'MAX(timestamp) AS timestamp',
+					'group' => 'ip, user_agent',
+					'order' => 'timestamp DESC'
+				),
 				'sort' => false,
 				'pagination' => false
 			)
