@@ -2,16 +2,8 @@
 	/**
 	 * @var AccessController $this
 	 * @var CActiveDataProvider $data_provider
-	 * @var array $counts
 	 */
 
-	Yii::app()->getClientScript()->registerScript(
-		base64_encode(uniqid(rand(), true)),
-		'var ACCESS_LOG_UPDATE_PAUSE_IN_S = '
-			. Constants::ACCESS_LOG_UPDATE_PAUSE_IN_S
-			. ';',
-		CClientScript::POS_HEAD
-	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/countries_codes.js'),
 		CClientScript::POS_HEAD
@@ -20,59 +12,42 @@
 		CHtml::asset('scripts/access_data_loader.js'),
 		CClientScript::POS_HEAD
 	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/access_log_updater.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/access_info_loader.js'),
-		CClientScript::POS_HEAD
-	);
 
-	$this->pageTitle = Yii::app()->name . ' - Лог доступа';
+	$this->pageTitle = Yii::app()->name . ' - Белый список';
 ?>
 
-<header class = "page-header">
-	<h4>Лог доступа</h4>
+<header class = "page-header clearfix">
+	<div class = "pull-right whitelist-controls-container">
+		<?= CHtml::beginForm(
+			$this->createUrl('access/whitelist'),
+			'post',
+			array('class' => 'form-inline')
+		) ?>
+			<?= CHtml::htmlButton(
+				'<span class = "glyphicon glyphicon-remove"></span> Очистить',
+				array(
+					'class' => 'btn btn-danger',
+					'type' => 'submit'
+				)
+			) ?>
+		<?= CHtml::endForm() ?>
+	</div>
+
+	<h4>Белый список</h4>
 </header>
-
-<div
-	class = "access-totally-info-view"
-	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
-	<p>
-		Общее число записей:
-		<strong><span class = "access-counter-view">0</span></strong>.
-	</p>
-
-	<p>Скорость добавления записей:</p>
-	<ul>
-		<li>
-			<strong><span class = "access-speed-by-day-view">0</span>
-			в день</strong>;
-		</li>
-		<li>
-			<strong><span class = "access-speed-by-hour-view">0</span>
-			в час</strong>;
-		</li>
-		<li>
-			<strong><span class = "access-speed-by-minute-view">0</span>
-			в минуту</strong>.
-		</li>
-	</ul>
-</div>
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
 		array(
-			'id' => 'access-list',
+			'id' => 'whitelist',
 			'dataProvider' => $data_provider,
 			'template' => '{items} {summary} {pager}',
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
 				array(
-					'header' => 'IP*',
+					'header' => 'IP',
 					'name' => 'ip',
 					'htmlOptions' => array('class' => 'access-ip')
 				),
@@ -82,21 +57,15 @@
 					'htmlOptions' => array('class' => 'access-user-agent')
 				),
 				array(
-					'header' => 'Время последнего доступа',
+					'header' => 'Время последней авторизации',
 					'value' =>
 						'"<time>"'
 							. '. $data->getFormattedTimestamp()'
 						. '. "</time>"',
 					'type' => 'raw'
-				),
-				array(
-					'header' => 'Количество запросов',
-					'name' => 'number'
 				)
 			),
-			'rowCssClassExpression' =>
-				'"access-data"'
-				. '. ($data->banned ? " danger" : "")',
+			'rowCssClass' => array('access-data'),
 			'rowHtmlOptionsExpression' => 'array('
 				. '"data-ip" => CHtml::encode($data->ip),'
 				. '"data-decode-ip-url" =>'
@@ -123,8 +92,8 @@
 				'function(xhr, text_status) {'
 					. 'AjaxErrorDialog.handler(xhr, text_status);'
 				. '}',
-			'emptyText' => 'Нет записей о доступе.',
-			'summaryText' => 'Записи о доступе {start}-{end} из {count}.',
+			'emptyText' => 'Нет записей.',
+			'summaryText' => 'Записи {start}-{end} из {count}.',
 			'pager' => array(
 				'header' => '',
 				'firstPageLabel' => '&lt;&lt;',
@@ -139,7 +108,3 @@
 		)
 	); ?>
 </div>
-
-<p class = "small-text access-log-legend">
-	* Красным отмечены попытки доступа, IP которых были забанены.
-</p>

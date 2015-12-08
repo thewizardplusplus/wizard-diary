@@ -174,8 +174,20 @@
 												'url' => array('backup/list')
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Лог доступа',
 												'url' => array('access/list')
+											),
+											array(
+												'label' => 'Белый список',
+												'url' => array(
+													'access/whitelist'
+												)
 											),
 											array(
 												'label' => '',

@@ -466,6 +466,15 @@ a.state-initial:focus {
 	border-radius: 0 !important;
 }
 
+/* Whitelist styles. */
+.whitelist-controls-container {
+	margin-bottom: 10px;
+}
+
+.whitelist-controls-container form {
+	margin-left: 10px;
+}
+
 /* Utils styles. */
 .small-text {
 	font-size: smaller;

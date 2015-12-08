@@ -159,6 +159,30 @@ class AccessController extends CController {
 		echo $json;
 	}
 
+	public function actionWhitelist() {
+		if (Yii::app()->request->isPostRequest) {
+			UserInfo::model()->deleteAll();
+			$this->redirect($this->createUrl('access/whitelist'));
+		}
+
+		$data_provider = new CActiveDataProvider(
+			'UserInfo',
+			array(
+				'criteria' => array(
+					'select' =>
+						'ip,'
+						. 'user_agent,'
+						. 'MAX(timestamp) AS timestamp',
+					'group' => 'ip, user_agent',
+					'order' => 'timestamp DESC'
+				),
+				'sort' => false
+			)
+		);
+
+		$this->render('whitelist', array('data_provider' => $data_provider));
+	}
+
 	private static function escapeForLike($value) {
 		return preg_replace('/(_|%)/', '\\\\$1', $value);
 	}

@@ -105,6 +105,10 @@ class SiteController extends CController {
 				);
 				if ($result) {
 					AccessCode::clean();
+
+					$user_info = new UserInfo;
+					$user_info->save();
+
 					$this->redirect(Yii::app()->user->returnUrl);
 				}
 			}
