@@ -16,7 +16,23 @@
 	$this->pageTitle = Yii::app()->name . ' - Белый список';
 ?>
 
-<header class = "page-header">
+<header class = "page-header clearfix">
+	<div class = "pull-right whitelist-controls-container">
+		<?= CHtml::beginForm(
+			$this->createUrl('access/whitelist'),
+			'post',
+			array('class' => 'form-inline')
+		) ?>
+			<?= CHtml::htmlButton(
+				'<span class = "glyphicon glyphicon-remove"></span> Очистить',
+				array(
+					'class' => 'btn btn-danger',
+					'type' => 'submit'
+				)
+			) ?>
+		<?= CHtml::endForm() ?>
+	</div>
+
 	<h4>Белый список</h4>
 </header>
 

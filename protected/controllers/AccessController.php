@@ -113,25 +113,6 @@ class AccessController extends CController {
 		$this->render('list', array('data_provider' => $data_provider));
 	}
 
-	public function actionWhitelist() {
-		$data_provider = new CActiveDataProvider(
-			'UserInfo',
-			array(
-				'criteria' => array(
-					'select' =>
-						'ip,'
-						. 'user_agent,'
-						. 'MAX(timestamp) AS timestamp',
-					'group' => 'ip, user_agent',
-					'order' => 'timestamp DESC'
-				),
-				'sort' => false
-			)
-		);
-
-		$this->render('whitelist', array('data_provider' => $data_provider));
-	}
-
 	public function actionDecodeIp($ip) {
 		$answer = file_get_contents(
 			'http://ipinfo.io/'
@@ -176,6 +157,30 @@ class AccessController extends CController {
 		$json = json_encode($info, JSON_NUMERIC_CHECK);
 
 		echo $json;
+	}
+
+	public function actionWhitelist() {
+		if (Yii::app()->request->isPostRequest) {
+			UserInfo::model()->deleteAll();
+			$this->redirect($this->createUrl('access/whitelist'));
+		}
+
+		$data_provider = new CActiveDataProvider(
+			'UserInfo',
+			array(
+				'criteria' => array(
+					'select' =>
+						'ip,'
+						. 'user_agent,'
+						. 'MAX(timestamp) AS timestamp',
+					'group' => 'ip, user_agent',
+					'order' => 'timestamp DESC'
+				),
+				'sort' => false
+			)
+		);
+
+		$this->render('whitelist', array('data_provider' => $data_provider));
 	}
 
 	private static function escapeForLike($value) {
