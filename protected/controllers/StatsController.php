@@ -275,7 +275,7 @@ class StatsController extends CController {
 			uasort(
 				$new_second_keys,
 				function($second_key_1, $second_key_2) {
-					return strcmp($second_key_2['end'], $second_key_1['end']);
+					return strcmp($second_key_1['end'], $second_key_2['end']);
 				}
 			);
 			$new_data[$first_key] = array(
@@ -287,7 +287,7 @@ class StatsController extends CController {
 		uasort(
 			$new_data,
 			function($data_1, $data_2) {
-				return strcmp($data_2['end'], $data_1['end']);
+				return strcmp($data_1['end'], $data_2['end']);
 			}
 		);
 		$data = array(
