@@ -13,7 +13,11 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/mistakes_dialog.js'),
+		CHtml::asset('scripts/mistakes_adding_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/mistakes_cleaning_dialog.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -143,7 +147,48 @@
 	); ?>
 </div>
 
-<div class = "modal custom-spellings-clean-dialog">
+<div class = "modal custom-spellings-adding-dialog">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<button
+					class = "close"
+					type = "button"
+					data-dismiss = "modal"
+					aria-hidden = "true">
+					&times;
+				</button>
+				<h4 class = "modal-title">
+					<span class = "glyphicon glyphicon-warning-sign"></span>
+					Внимание!
+				</h4>
+			</div>
+
+			<div class = "modal-body">
+				<p>
+					Ты точно хочешь добавить слово
+					<strong>&laquo;<span class = "wrong-word">
+					</span>&raquo;</strong>
+					в словарь?
+				</p>
+			</div>
+
+			<div class = "modal-footer">
+				<button type = "button" class = "btn btn-primary ok-button">
+					OK
+				</button>
+				<button
+					class = "btn btn-default"
+					type = "button"
+					data-dismiss = "modal">
+					Отмена
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class = "modal custom-spellings-cleaning-dialog">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">

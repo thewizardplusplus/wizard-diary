@@ -44,9 +44,9 @@ $(document).ready(
 
 		$('.custom-spellings-clean-button').click(
 			function() {
-				MistakesDialog.show(
+				MistakesCleaningDialog.show(
 					function() {
-						MistakesDialog.hide();
+						MistakesCleaningDialog.hide();
 						RequestToMistakeList({clean: true});
 					}
 				);
@@ -58,7 +58,13 @@ $(document).ready(
 				$('.add-word-button').click(
 					function() {
 						var word = $(this).data('word');
-						RequestToMistakeList({word: word});
+						MistakesAddingDialog.show(
+							word,
+							function() {
+								MistakesAddingDialog.hide();
+								RequestToMistakeList({word: word});
+							}
+						);
 					}
 				);
 			},
