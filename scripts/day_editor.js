@@ -256,6 +256,7 @@ $(document).ready(
 		};
 
 		var check_timer = null;
+		var mistakes = [];
 		var mistakes_marks = [];
 		var spellcheck_flag = $('.spellcheck-flag');
 		var spellcheck_processing_animation_image = $('img', spellcheck_flag);
@@ -282,8 +283,9 @@ $(document).ready(
 		};
 		var MarkMistakes = function(mistakes) {
 			var session = day_editor.getSession();
-			for (var i = 0; i < mistakes_marks.length; i++) {
-				session.removeMarker(mistakes_marks[i]);
+			while (mistakes_marks.length > 0) {
+				var mistakes_mark = mistakes_marks.pop();
+				session.removeMarker(mistakes_mark);
 			}
 
 			for (var i = 0; i < mistakes.length; i++) {
@@ -311,7 +313,9 @@ $(document).ready(
 			$.get(
 				CHECKING_URL,
 				{text: points_description},
-				function(mistakes) {
+				function(data) {
+					mistakes = data;
+
 					SpellcheckFinishAnimation(
 						!mistakes.length ? 'no-mistakes' : 'has-mistakes'
 					);
@@ -335,6 +339,94 @@ $(document).ready(
 			);
 		};
 		SpellCheckWithDelay();
+
+		var day_editor_container = $(day_editor.container);
+		var GetActiveEditor = function() {
+			return $('.tab-pane.active').attr('id');
+		};
+		var FinishWordAddingAnimation = function() {
+			var active_editor = GetActiveEditor();
+			switch (active_editor) {
+				case 'default':
+					day_editor_container.removeClass('wait');
+					break;
+				case 'mobile':
+					day_mobile_editor.removeClass('wait');
+					break;
+			}
+		};
+		day_editor.commands.addCommand(
+			{
+				name: 'add-word-to-dictionary',
+				bindKey: {win: 'Ctrl-Shift-A'},
+				exec: function() {
+					var cursor_position = day_editor.getCursorPosition();
+					var current_word =
+						day_editor
+						.getSession()
+						.getWordRange(
+							cursor_position.row,
+							cursor_position.column
+						);
+
+					var wrong_word = '';
+					for (var i = 0; i < mistakes.length; i++) {
+						var mistake = mistakes[i];
+						if (
+							current_word.start.row == mistake.start.line
+							&& current_word.start.column == mistake.start.offset
+							&& current_word.end.row == mistake.end.line
+							&& current_word.end.column == mistake.end.offset
+						) {
+							wrong_word =
+								day_editor
+								.getSession()
+								.getTextRange(current_word);
+
+							break;
+						}
+					}
+					if (!wrong_word) {
+						return;
+					}
+
+					MistakesAddingDialog.show(
+						wrong_word,
+						function() {
+							MistakesAddingDialog.hide();
+
+							var active_editor = GetActiveEditor();
+							switch (active_editor) {
+								case 'default':
+									day_editor_container.addClass('wait');
+									break;
+								case 'mobile':
+									day_mobile_editor.addClass('wait');
+									break;
+							}
+
+							var data = $.extend(
+								{'word': wrong_word},
+								CSRF_TOKEN
+							);
+							$.post(
+								ADD_WORD_URL,
+								data,
+								function() {
+									FinishWordAddingAnimation();
+									SpellCheck();
+								}
+							).fail(
+								function(xhr, text_status) {
+									FinishWordAddingAnimation();
+									AjaxErrorDialog.handler(xhr, text_status);
+								}
+							);
+						}
+					);
+				}
+			}
+		);
 
 		var saved_flag_container = $('.saved-flag');
 		var saved_flag_icon = $('span', saved_flag_container);
@@ -451,10 +543,6 @@ $(document).ready(
 		var save_url = save_button.data('save-url');
 		var processing_animation_image = $('img', save_button);
 		var save_icon = $('span', save_button);
-		var day_editor_container = $(day_editor.container);
-		var GetActiveEditor = function() {
-			return $('.tab-pane.active').attr('id');
-		};
 		var FinishAnimation = function() {
 			save_button.prop('disabled', false);
 			processing_animation_image.hide();

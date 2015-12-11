@@ -2,7 +2,11 @@
 
 class MistakeController extends CController {
 	public function filters() {
-		return array('accessControl');
+		return array(
+			'accessControl',
+			'postOnly + addWord',
+			'ajaxOnly + check, addWord'
+		);
 	}
 
 	public function accessRules() {
@@ -71,13 +75,12 @@ class MistakeController extends CController {
 		$pspell = $this->initPspell();
 		$mistake_lines = array_map(
 			function($words) use ($pspell) {
-				$words = array_filter(
+				return array_filter(
 					$words[0],
 					function($word) use ($pspell) {
 						return !pspell_check($pspell, $word[0]);
 					}
 				);
-				return array_values($words);
 			},
 			$word_lines
 		);
@@ -85,17 +88,20 @@ class MistakeController extends CController {
 		$line_counter = 0;
 		$mistakes = array();
 		array_map(
-			function($words) use (&$mistakes, &$line_counter) {
-				$words = array_map(
-					function($word) use (&$mistakes, $line_counter) {
+			function($words) use (&$mistakes, $lines, &$line_counter) {
+				array_map(
+					function($word) use (&$mistakes, $lines, $line_counter) {
+						$offset = mb_strlen(
+							substr($lines[$line_counter], 0, $word[1])
+						);
 						$mistakes[] = array(
 							'start' => array(
 								'line' => $line_counter,
-								'offset' => $word[1]
+								'offset' => $offset
 							),
 							'end' => array(
 								'line' => $line_counter,
-								'offset' => $word[1] + mb_strlen($word[0])
+								'offset' => $offset + mb_strlen($word[0])
 							)
 						);
 					},
@@ -108,6 +114,15 @@ class MistakeController extends CController {
 		);
 
 		echo json_encode($mistakes);
+	}
+
+	public function actionAddWord() {
+		if (!isset($_POST['word'])) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+
+		$pspell = $this->initPspell();
+		$this->addWord($pspell, $_POST['word']);
 	}
 
 	public function calculateLine($point, $daily_stats) {
