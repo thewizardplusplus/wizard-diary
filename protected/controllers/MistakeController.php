@@ -2,7 +2,11 @@
 
 class MistakeController extends CController {
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + check');
+		return array(
+			'accessControl',
+			'postOnly + addWord',
+			'ajaxOnly + check, addWord'
+		);
 	}
 
 	public function accessRules() {
@@ -110,6 +114,15 @@ class MistakeController extends CController {
 		);
 
 		echo json_encode($mistakes);
+	}
+
+	public function actionAddWord() {
+		if (!isset($_POST['word'])) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+
+		$pspell = $this->initPspell();
+		$this->addWord($pspell, $_POST['word']);
 	}
 
 	public function calculateLine($point, $daily_stats) {
