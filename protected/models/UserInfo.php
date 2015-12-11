@@ -17,6 +17,10 @@ class UserInfo extends CActiveRecord {
 			. $parts[1];
 	}
 
+	public function isActual() {
+		return date_create($this->timestamp)->diff(date_create())->days == 0;
+	}
+
 	protected function beforeSave() {
 		$result = parent::beforeSave();
 		if ($result) {

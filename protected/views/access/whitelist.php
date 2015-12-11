@@ -47,7 +47,7 @@
 			'enableHistory' => true,
 			'columns' => array(
 				array(
-					'header' => 'IP',
+					'header' => 'IP*',
 					'name' => 'ip',
 					'htmlOptions' => array('class' => 'access-ip')
 				),
@@ -65,7 +65,9 @@
 					'type' => 'raw'
 				)
 			),
-			'rowCssClass' => array('access-data'),
+			'rowCssClassExpression' =>
+				'"access-data"'
+				. '. ($data->isActual() ? " success" : "")',
 			'rowHtmlOptionsExpression' => 'array('
 				. '"data-ip" => CHtml::encode($data->ip),'
 				. '"data-decode-ip-url" =>'
@@ -108,3 +110,8 @@
 		)
 	); ?>
 </div>
+
+<p class = "small-text access-log-legend">
+	* Зелёным отмечены доступы, которые произошли не позднее суток назад (т. е.
+	для которых куки автологина ещё живы).
+</p>
