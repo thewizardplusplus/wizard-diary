@@ -31,6 +31,7 @@ return array(
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',
 				'stats/project_list' => 'stats/projectList',
+				'stats/project_actions' => 'stats/projectActions',
 				'mistakes' => 'mistake/list',
 				'backups' => 'backup/list',
 				'backup/current_diff/<file:[\w-]+>' => 'backup/currentDiff',

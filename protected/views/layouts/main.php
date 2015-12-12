@@ -128,6 +128,12 @@
 												)
 											),
 											array(
+												'label' => 'Список действий',
+												'url' => array(
+													'stats/projectActions'
+												)
+											),
+											array(
 												'label' => '',
 												'itemOptions' => array(
 													'class' => 'divider'

@@ -13,7 +13,7 @@
 	);
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
-		'var NODE_TEXT_SEPATOR = \', \';',
+		'var NODE_TEXT_SEPATOR = \' \';',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -21,11 +21,11 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Статистика: список проектов';
+	$this->pageTitle = Yii::app()->name . ' - Статистика: список действий';
 ?>
 
 <header class = "page-header">
-	<h4>Статистика: список проектов</h4>
+	<h4>Статистика: список действий</h4>
 </header>
 
 <form class = "search-form" action = "#">
@@ -58,5 +58,5 @@
 <div class = "stats-view project-list"></div>
 
 <p class = "stats-view empty-label">
-	Нет пунктов.
+	Нет действий.
 </p>

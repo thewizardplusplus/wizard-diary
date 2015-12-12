@@ -391,6 +391,11 @@ class StatsController extends CController {
 		$this->render('project_list', array('data' => $data));
 	}
 
+	public function actionProjectActions() {
+		$tails = $this->getPointTails();
+		$this->render('project_actions', array('data' => $tails));
+	}
+
 	public function actionAchievements() {
 		$data = $this->getAchievementsData();
 
@@ -702,5 +707,32 @@ class StatsController extends CController {
 		}
 
 		return sprintf("%d %s", $number, $unit);
+	}
+
+	private function getPointTails() {
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text'),
+				'condition' => '`daily` = FALSE AND LENGTH(TRIM(`text`)) > 0'
+			)
+		);
+
+		$tails = array();
+		foreach ($points as $point) {
+			$parts = array_map('trim', explode(',', $point->text));
+			if (count($parts) > 2) {
+				$tails[] = implode(', ', array_slice($parts, 2));
+			}
+		}
+
+		$prefix_forest = new PrefixForest();
+		foreach ($tails as $tail) {
+			$prefix_forest->add($tail);
+		}
+
+		$collector = new PrefixForestMapper();
+		$tails = $collector->process($prefix_forest->root);
+
+		return $tails['children'];
 	}
 }
