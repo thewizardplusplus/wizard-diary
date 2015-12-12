@@ -19,7 +19,8 @@ google.setOnLoadCallback(
 				date,
 				value.not_canceled,
 				value.total,
-				value.satisfied
+				value.satisfied,
+				value.quality
 			];
 			data.push(row);
 		}
@@ -29,6 +30,7 @@ google.setOnLoadCallback(
 		data_table.addColumn('number', 'not canceled');
 		data_table.addColumn('number', 'total');
 		data_table.addColumn('number', 'satisfied');
+		data_table.addColumn('number', 'quality');
 		data_table.addRows(data);
 
 		var options = {
@@ -37,7 +39,8 @@ google.setOnLoadCallback(
 			lines: [
 				{color: '#808080'},
 				{color: '#333333'},
-				{color: '#5cb85c', width: 4, radius: 4}
+				{color: '#5cb85c', width: 4, radius: 4},
+				{color: '#da70d6', width: 4, radius: 4}
 			],
 			min: new Date(dates.length ? Date.parse(dates[0]) : Date.now()),
 			max: new Date(),
@@ -71,7 +74,9 @@ google.setOnLoadCallback(
 				}
 
 				return '<div>Дата: ' + date + '.</div>'
-					+ '<div>' + value_title + '</div>';
+					+ (value_title.length
+						? '<div>' + value_title + '</div>'
+						: '');
 			}
 		};
 		var container = $('.stats-view.daily-points').get(0);
