@@ -18,7 +18,15 @@ class UserInfo extends CActiveRecord {
 	}
 
 	public function isActual() {
-		return date_create($this->timestamp)->diff(date_create())->days == 0;
+		$difference_in_min =
+			(
+				date_create()->getTimestamp()
+				- date_create($this->timestamp)->getTimestamp()
+			)
+			/ 60;
+		return
+			$difference_in_min
+			< Parameters::getModel()->session_lifetime_in_min;
 	}
 
 	protected function beforeSave() {
