@@ -14,7 +14,15 @@ class PrefixForestMapper {
 			usort(
 				$result['children'],
 				function($a, $b) {
-					return strcmp($a['text'], $b['text']);
+					$a_size =
+						array_key_exists('children', $a)
+							? count($a['children'])
+							: 0;
+					$b_size =
+						array_key_exists('children', $b)
+							? count($b['children'])
+							: 0;
+					return $b_size - $a_size;
 				}
 			);
 		} else {
