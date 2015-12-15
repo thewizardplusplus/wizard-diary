@@ -437,7 +437,7 @@ class BackupController extends CController {
 			$filename = $backups_path . '/' . $this->makeBackupFilename($file);
 			$filename_lines = file($filename, FILE_IGNORE_NEW_LINES);
 		} else {
-			$current_dump = $this->dumpDatabase();
+			$current_dump = trim($this->dumpDatabase());
 			$filename_lines = explode("\n", $current_dump);
 		}
 
