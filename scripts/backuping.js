@@ -21,8 +21,7 @@ $(document).ready(
 				+ '&client_id=' + app_key
 				+ '&redirect_uri=' + encodeURIComponent(
 					location.protocol + '//' + location.host + redirect_url
-				)
-				+ '&force_reapprove=true';
+				);
 			open(url, '_blank', 'width=640, height=480');
 		};
 		BackupUtils.error = function(xhr, text_status) {
