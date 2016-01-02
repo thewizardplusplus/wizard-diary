@@ -10,6 +10,9 @@
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
+	Yii::app()->getClientScript()->registerPackage(
+		'awesome-bootstrap-checkbox'
+	);
 
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/parameters_form.js'),
@@ -119,6 +122,11 @@
 			)
 		) ?>
 		<?= $form->error($model, 'access_log_lifetime_in_s') ?>
+	</div>
+
+	<div class = "checkbox checkbox-primary">
+		<?= $form->checkBox($model, 'use_whitelist') ?>
+		<?= $form->labelEx($model, 'use_whitelist') ?>
 	</div>
 
 	<?= CHtml::htmlButton(

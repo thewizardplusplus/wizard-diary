@@ -8,7 +8,8 @@ class LoginForm extends CFormModel {
 		return array(
 			array('password', 'required'),
 			array('password', 'validatePassword', 'skipOnError' => true),
-			array('need_remember', 'boolean')
+			array('need_remember', 'boolean'),
+			array('need_remember', 'default', 'value' => 1)
 		);
 	}
 

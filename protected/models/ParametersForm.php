@@ -5,6 +5,7 @@ class ParametersForm extends CFormModel {
 	public $password_copy;
 	public $session_lifetime_in_min;
 	public $access_log_lifetime_in_s;
+	public $use_whitelist = true;
 
 	public function __construct() {
 		parent::__construct();
@@ -13,6 +14,7 @@ class ParametersForm extends CFormModel {
 			Parameters::getModel()->session_lifetime_in_min;
 		$this->access_log_lifetime_in_s =
 			Parameters::getModel()->access_log_lifetime_in_s;
+		$this->use_whitelist = Parameters::getModel()->use_whitelist;
 	}
 
 	public function rules() {
@@ -63,7 +65,9 @@ class ParametersForm extends CFormModel {
 				'tooBig' =>
 					'Поле &laquo;{attribute}&raquo; должно быть '
 						. 'не больше {max}.'
-			)
+			),
+			array('use_whitelist', 'boolean'),
+			array('use_whitelist', 'default', 'value' => 1)
 		);
 	}
 
@@ -72,7 +76,8 @@ class ParametersForm extends CFormModel {
 			'password' => 'Пароль',
 			'password_copy' => 'Пароль (копия)',
 			'session_lifetime_in_min' => 'Время жизни сессии, мин',
-			'access_log_lifetime_in_s' => 'Время жизни лога доступа, с'
+			'access_log_lifetime_in_s' => 'Время жизни лога доступа, с',
+			'use_whitelist' => 'Использовать белый список'
 		);
 	}
 
@@ -85,6 +90,7 @@ class ParametersForm extends CFormModel {
 		}
 		$model->session_lifetime_in_min = $this->session_lifetime_in_min;
 		$model->access_log_lifetime_in_s = $this->access_log_lifetime_in_s;
+		$model->use_whitelist = $this->use_whitelist;
 		$model->save();
 	}
 }
