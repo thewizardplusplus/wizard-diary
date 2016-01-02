@@ -71,12 +71,13 @@ google.setOnLoadCallback(
 					case 2:
 						value_title = 'Выполнено: ' + point.value + '%.';
 						break;
+					case 3:
+						value_title = 'Уровень: ' + point.value + '.';
+						break;
 				}
 
 				return '<div>Дата: ' + date + '.</div>'
-					+ (value_title.length
-						? '<div>' + value_title + '</div>'
-						: '');
+					+ '<div>' + value_title + '</div>';
 			}
 		};
 		var container = $('.stats-view.daily-points').get(0);
