@@ -6,6 +6,7 @@ define(
 		'module',
 		'ace/lib/oop',
 		'ace/mode/text',
+		'ace/mode/behaviour/cstyle',
 		'ace/mode/wizard_diary_highlight_rules'
 	],
 	function(require, exports, module) {
@@ -14,9 +15,11 @@ define(
 		var highlight_rules =
 			require('./wizard_diary_highlight_rules')
 			.WizardDiaryHighlightRules;
+		var c_style_behaviour = require('./behaviour/cstyle').CstyleBehaviour;
 
 		var mode = function() {
 			this.HighlightRules = highlight_rules;
+			this.$behaviour = new c_style_behaviour();
 		};
 		oop.inherits(mode, text_mode);
 		(function() {

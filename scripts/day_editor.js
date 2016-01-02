@@ -10,12 +10,14 @@ $(document).ready(
 		day_editor.getSession().setMode('ace/mode/wizard_diary');
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
+		day_editor.setBehavioursEnabled(true);
 		day_editor.setOptions(
 			{
 				enableBasicAutocompletion: true,
 				enableLiveAutocompletion: true
 			}
 		);
+
 		day_editor.focus();
 		day_editor.gotoLine(
 			LINE,
