@@ -208,6 +208,13 @@ class BackupController extends CController {
 	}
 
 	public function actionRedirect() {
+		if (!isset($_GET['state'])) {
+			throw new CException("Не передан CSRF токен.");
+		}
+		if ($_GET['state'] != Yii::app()->request->csrfToken) {
+			throw new CException("Неверный CSRF токен.");
+		}
+
 		echo '<!DOCTYPE html>';
 		echo '<meta charset = "utf-8" />';
 		echo '<title>Backup redirect page</title>';

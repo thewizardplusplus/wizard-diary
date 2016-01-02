@@ -16,6 +16,11 @@
 			. '};',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var RAW_CSRF_TOKEN = \'' . Yii::app()->request->csrfToken . '\';',
+		CClientScript::POS_HEAD
+	);
 	if (!Yii::app()->user->isGuest) {
 		Yii::app()->getClientScript()->registerScriptFile(
 			CHtml::asset('scripts/ajax_error_dialog.js'),
