@@ -12,6 +12,14 @@
 		CHtml::asset('scripts/access_data_loader.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/whitelist_cleaning_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/whitelist_cleaning.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - Белый список';
 ?>
@@ -21,12 +29,12 @@
 		<?= CHtml::beginForm(
 			$this->createUrl('access/whitelist'),
 			'post',
-			array('class' => 'form-inline')
+			array('class' => 'form-inline whitelist-clean-form')
 		) ?>
 			<?= CHtml::htmlButton(
 				'<span class = "glyphicon glyphicon-remove"></span> Очистить',
 				array(
-					'class' => 'btn btn-danger',
+					'class' => 'btn btn-danger whitelist-clean-button',
 					'type' => 'submit'
 				)
 			) ?>
@@ -115,3 +123,41 @@
 	* Зелёным отмечены доступы, которые произошли не позднее суток назад (т. е.
 	для которых куки автологина ещё живы).
 </p>
+
+<div class = "modal whitelist-cleaning-dialog">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<button
+					class = "close"
+					type = "button"
+					data-dismiss = "modal"
+					aria-hidden = "true">
+					&times;
+				</button>
+				<h4 class = "modal-title">
+					<span class = "glyphicon glyphicon-warning-sign"></span>
+					Внимание!
+				</h4>
+			</div>
+
+			<div class = "modal-body">
+				<p>
+					Ты точно хочешь очистить белый список?
+				</p>
+			</div>
+
+			<div class = "modal-footer">
+				<button type = "button" class = "btn btn-primary ok-button">
+					OK
+				</button>
+				<button
+					class = "btn btn-default"
+					type = "button"
+					data-dismiss = "modal">
+					Отмена
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
