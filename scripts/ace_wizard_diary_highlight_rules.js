@@ -32,7 +32,7 @@ define(
 					{
 						// identifiers
 						token: 'comment.line.wizard-diary',
-						regex: '[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*(?:\\(\\))?'
+						regex: '\\.?\\w+(?:(?:\\.|::)\\w+)*(?:\\(\\)|\\+\\+|#)?'
 					},
 					{
 						// double-quoted string
