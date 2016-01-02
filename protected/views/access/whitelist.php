@@ -4,12 +4,23 @@
 	 * @var CActiveDataProvider $data_provider
 	 */
 
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var ACCESS_LOG_UPDATE_PAUSE_IN_S = '
+			. Constants::ACCESS_LOG_UPDATE_PAUSE_IN_S
+			. ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/countries_codes.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/access_data_loader.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/access_log_updater.js'),
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -48,7 +59,7 @@
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
 		array(
-			'id' => 'whitelist',
+			'id' => 'access-list',
 			'dataProvider' => $data_provider,
 			'template' => '{items} {summary} {pager}',
 			'selectableRows' => 0,
