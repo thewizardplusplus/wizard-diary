@@ -107,6 +107,12 @@ return array(
 						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
 					'js' => array('ext-language_tools.js')
 				),
+				// need only for 'ace/mode/behaviour/cstyle' module
+				'ace-mode-javascript' => array(
+					'baseUrl' =>
+						'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/',
+					'js' => array('mode-javascript.js')
+				),
 				'mobile-detect' => array(
 					'baseUrl' =>
 						'https://cdnjs.cloudflare.com/ajax/libs/'

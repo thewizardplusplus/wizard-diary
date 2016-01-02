@@ -28,6 +28,7 @@ $(document).ready(
 				enableLiveAutocompletion: true
 			}
 		);
+
 		daily_point_editor.focus();
 
 		var previous_editor_content = daily_point_editor.getValue();

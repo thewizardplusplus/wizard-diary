@@ -12,6 +12,8 @@
 
 	Yii::app()->getClientScript()->registerPackage('ace');
 	Yii::app()->getClientScript()->registerPackage('ace-language-tools');
+	// need only for 'ace/mode/behaviour/cstyle' module
+	Yii::app()->getClientScript()->registerPackage('ace-mode-javascript');
 	Yii::app()->getClientScript()->registerPackage('mobile-detect');
 
 	Yii::app()->getClientScript()->registerScript(
