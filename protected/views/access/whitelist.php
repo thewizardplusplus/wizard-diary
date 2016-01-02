@@ -71,6 +71,10 @@
 							. '. $data->getFormattedTimestamp()'
 						. '. "</time>"',
 					'type' => 'raw'
+				),
+				array(
+					'header' => 'Количество авторизаций',
+					'name' => 'number'
 				)
 			),
 			'rowCssClassExpression' =>
@@ -120,8 +124,8 @@
 </div>
 
 <p class = "small-text access-log-legend">
-	* Зелёным отмечены доступы, которые произошли не позднее суток назад (т. е.
-	для которых куки автологина ещё живы).
+	* Зелёным отмечены авторизации, которые произошли не позднее суток назад
+	(т. е. для которых куки автологина ещё живы).
 </p>
 
 <div class = "modal whitelist-cleaning-dialog">
