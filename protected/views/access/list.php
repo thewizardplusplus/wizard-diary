@@ -40,11 +40,11 @@
 	class = "access-totally-info-view"
 	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
 	<p>
-		Общее число записей:
+		Общее число запросов:
 		<strong><span class = "access-counter-view">0</span></strong>.
 	</p>
 
-	<p>Скорость добавления записей:</p>
+	<p>Скорость запросов:</p>
 	<ul>
 		<li>
 			<strong><span class = "access-speed-by-day-view">0</span>
@@ -82,7 +82,7 @@
 					'htmlOptions' => array('class' => 'access-user-agent')
 				),
 				array(
-					'header' => 'Время последнего доступа',
+					'header' => 'Время последнего запроса',
 					'value' =>
 						'"<time>"'
 							. '. $data->getFormattedTimestamp()'
@@ -141,5 +141,5 @@
 </div>
 
 <p class = "small-text access-log-legend">
-	* Красным отмечены попытки доступа, IP которых были забанены.
+	* Красным отмечены запросы, IP которых были забанены.
 </p>
