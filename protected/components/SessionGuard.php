@@ -2,7 +2,10 @@
 
 class SessionGuard {
 	public static function check() {
-		if (Yii::app()->user->isGuest) {
+		if (
+			Yii::app()->user->isGuest
+			or !Parameters::getModel()->use_whitelist
+		) {
 			return;
 		}
 
