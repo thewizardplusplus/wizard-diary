@@ -11,9 +11,12 @@ google.setOnLoadCallback(
 		var dates = Object.keys(STATS_DATA);
 
 		var data = [];
+		var ParseDate = function(date_string) {
+			return new Date(Date.parse(date_string));
+		};
 		for (var i = 0; i < dates.length; i++) {
 			var date_string = dates[i];
-			var date = new Date(Date.parse(date_string));
+			var date = ParseDate(date_string);
 			var value = STATS_DATA[date_string];
 			var row = [
 				date,
@@ -33,6 +36,15 @@ google.setOnLoadCallback(
 		data_table.addColumn('number', 'quality');
 		data_table.addRows(data);
 
+		var minimal_date = Date.now();
+		var maximal_date = Date.now();
+		if (dates.length) {
+			minimal_date = ParseDate(dates[0]);
+
+			maximal_date = ParseDate(dates[dates.length - 1]);
+			maximal_date.setDate(maximal_date.getDate() + 1);
+		}
+
 		var options = {
 			legend: {visible: false},
 			line: {style: 'dot-line'},
@@ -42,8 +54,8 @@ google.setOnLoadCallback(
 				{color: '#5cb85c', width: 4, radius: 4},
 				{color: '#da70d6', width: 4, radius: 4}
 			],
-			min: new Date(dates.length ? Date.parse(dates[0]) : Date.now()),
-			max: new Date(),
+			min: minimal_date,
+			max: maximal_date,
 			// 5 days
 			zoomMin: 5 * 24 * 60 * 60 * 1000,
 			tooltip: function(point) {
@@ -85,9 +97,9 @@ google.setOnLoadCallback(
 		var DrawFunction = function() {
 			graph.draw(data_table, options);
 			graph.setVisibleChartRange(
-				// 12 days ago
-				new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
-				new Date()
+				// 12 + 1 days ago
+				new Date(maximal_date.getTime() - 13 * 24 * 60 * 60 * 1000),
+				maximal_date
 			);
 
 			$('.graph-axis-button:nth-child(1)').attr(
