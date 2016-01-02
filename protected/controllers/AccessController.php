@@ -172,7 +172,8 @@ class AccessController extends CController {
 					'select' =>
 						'ip,'
 						. 'user_agent,'
-						. 'MAX(timestamp) AS timestamp',
+						. 'MAX(timestamp) AS timestamp,'
+						. 'COUNT(*) AS number',
 					'group' => 'ip, user_agent',
 					'order' => 'timestamp DESC'
 				),
