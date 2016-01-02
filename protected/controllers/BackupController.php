@@ -141,15 +141,20 @@ class BackupController extends CController {
 		);
 
 		$last_backup_date = null;
+		$has_current_difference = false;
 		if ($number_of_filenames > 0) {
 			$last_backup_date = $this->getBackupDate($filenames[0]);
+
+			$difference = $this->getBackupsDiff($last_backup_date, null);
+			$has_current_difference = strlen($difference) > 0;
 		}
 
 		$this->render(
 			'list',
 			array(
 				'data_provider' => $data_provider,
-				'last_backup_date' => $last_backup_date
+				'last_backup_date' => $last_backup_date,
+				'has_current_difference' => $has_current_difference
 			)
 		);
 	}
