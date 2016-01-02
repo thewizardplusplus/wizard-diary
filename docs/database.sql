@@ -24,7 +24,8 @@ CREATE TABLE `diary_backups` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`create_time` DATETIME NOT NULL UNIQUE,
 	`create_duration` FLOAT NOT NULL DEFAULT 0.0,
-	`save_duration` FLOAT NOT NULL DEFAULT 0.0
+	`save_duration` FLOAT NOT NULL DEFAULT 0.0,
+	`has_difference` BOOLEAN NOT NULL DEFAULT FALSE
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_parameters`;
