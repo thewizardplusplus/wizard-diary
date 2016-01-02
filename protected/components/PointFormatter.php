@@ -56,6 +56,17 @@ class PointFormatter {
 			$text
 		);
 
+		if (substr_count($text, ',') >= 2) {
+			$levels = array_map('trim', explode(',', $text));
+			$point_tail = implode(', ', array_slice($levels, 2));
+			$point_tail = preg_replace(
+				'/(\\.?\\w+(?:(?:\\.|::)\\w+)*(?:\\(\\)|\\+\\+|#)?)/',
+				'<code>$1</code>',
+				$point_tail
+			);
+			$text = sprintf('%s, %s, %s', $levels[0], $levels[1], $point_tail);
+		}
+
 		if (!empty($text)) {
 			$text .= ';';
 		} else {
