@@ -97,8 +97,8 @@ google.setOnLoadCallback(
 		var DrawFunction = function() {
 			graph.draw(data_table, options);
 			graph.setVisibleChartRange(
-				// 12 days ago
-				new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
+				// 12 + 1 days ago
+				new Date(maximal_date.getTime() - 13 * 24 * 60 * 60 * 1000),
 				maximal_date
 			);
 
