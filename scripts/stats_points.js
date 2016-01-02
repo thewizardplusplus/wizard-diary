@@ -55,8 +55,8 @@ google.setOnLoadCallback(
 		var DrawFunction = function() {
 			graph.draw(data_table, options);
 			graph.setVisibleChartRange(
-				// 12 + 1 days ago
-				new Date(maximal_date.getTime() - 13 * 24 * 60 * 60 * 1000),
+				// 24 + 1 days ago
+				new Date(maximal_date.getTime() - 25 * 24 * 60 * 60 * 1000),
 				maximal_date
 			);
 
