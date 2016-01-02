@@ -27,12 +27,13 @@ class BackupController extends CController {
 		$backups_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
 		$this->testBackupDirectory($backups_path);
 
-		$backups_create_durations = array();
+		$backups_db_data = array();
 		$backups_from_db = Backup::model()->findAll();
 		foreach ($backups_from_db as $backup) {
-			$backups_create_durations[$backup->create_time] = array(
+			$backups_db_data[$backup->create_time] = array(
 				'create_duration' => $backup->create_duration,
 				'save_duration' => $backup->save_duration,
+				'has_difference' => $backup->has_difference
 			);
 		}
 
@@ -45,17 +46,10 @@ class BackupController extends CController {
 			$filename = $filenames[$i];
 			$backup->filename = $this->getBackupDate($filename);
 			$backup->previous_filename = null;
-			$backup->has_difference = false;
 			if ($i < $number_of_filenames - 1) {
 				$backup->previous_filename = $this->getBackupDate(
 					$filenames[$i + 1]
 				);
-
-				$difference = $this->getBackupsDiff(
-					$backup->previous_filename,
-					$backup->filename
-				);
-				$backup->has_difference = strlen($difference) > 0;
 			}
 
 			$filename = $backups_path . '/' . $filename;
@@ -97,28 +91,28 @@ class BackupController extends CController {
 
 			$backup->create_duration = '&mdash;';
 			$backup->save_duration = '&mdash;';
+			$backup->has_difference = false;
 			$create_duration_index = date('Y-m-d H:i:s', $timestamp);
 			if (
 				array_key_exists(
 					$create_duration_index,
-					$backups_create_durations
+					$backups_db_data
 				)
 			) {
-				$durations = $backups_create_durations[
-					$create_duration_index
-				];
-				if ($durations['create_duration'] != 0) {
+				$backup_data = $backups_db_data[$create_duration_index];
+				if ($backup_data['create_duration'] != 0) {
 					$backup->create_duration = round(
-						$durations['create_duration'],
+						$backup_data['create_duration'],
 						Constants::BACKUPS_CREATE_DURATION_ACCURACY
 					);
 				}
-				if ($durations['save_duration'] != 0) {
+				if ($backup_data['save_duration'] != 0) {
 					$backup->save_duration = round(
-						$durations['save_duration'],
+						$backup_data['save_duration'],
 						Constants::BACKUPS_CREATE_DURATION_ACCURACY
 					);
 				}
+				$backup->has_difference = $backup_data['has_difference'];
 			}
 
 			$backup->link = substr(
@@ -162,29 +156,38 @@ class BackupController extends CController {
 	public function actionCreate() {
 		$start_time = microtime(true);
 
-		$backup_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
-		$this->testBackupDirectory($backup_path);
+		$base_backup_path = __DIR__ . Constants::BACKUPS_RELATIVE_PATH;
+		$this->testBackupDirectory($base_backup_path);
 
 		$backup_name = 'database_dump_' . date('Y-m-d-H-i-s');
-		$backup_path .= '/' . $backup_name . '.xml';
+		$backup_path = $base_backup_path . '/' . $backup_name . '.xml';
 		$dump = $this->dumpDatabase();
 		$result = file_put_contents($backup_path, $dump);
 		if (!$result) {
 			throw new CException('Не удалось записать бекап на диск.');
 		}
 
+		$backup = new Backup();
 		$create_time = date('Y-m-d H:i:s', filemtime($backup_path));
-		$data = array(
-			'backup_path' => $backup_path,
-			'create_time' => $create_time
-		);
-		echo json_encode($data);
+		$backup->create_time = $create_time;
 
 		$elapsed_time = microtime(true) - $start_time;
-		$backup = new Backup();
-		$backup->create_time = $create_time;
 		$backup->create_duration = $elapsed_time;
+
+		$backups = $this->getBackupList($base_backup_path);
+		$file = $this->getBackupDate($backups[0]);
+		$previous_file = $this->getBackupDate($backups[1]);
+		$difference = $this->getBackupsDiff($previous_file, $file);
+		$backup->has_difference = strlen($difference) > 0;
+
 		$backup->save();
+
+		echo json_encode(
+			array(
+				'backup_path' => $backup_path,
+				'create_time' => $create_time
+			)
+		);
 	}
 
 	public function actionSave() {
