@@ -3,6 +3,7 @@
 	 * @var BackupController $this
 	 * @var CArrayDataProvider $data_provider
 	 * @var string $last_backup_date
+	 * @var bool $has_current_difference
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
@@ -15,7 +16,9 @@
 			'backup/currentDiff',
 			array('file' => $last_backup_date)
 		) ?>"
-		<?= is_null($last_backup_date) ? 'disabled = "disabled"' : '' ?>>
+		<?= is_null($last_backup_date) || !$has_current_difference
+			? 'disabled = "disabled"'
+			: '' ?>>
 		<span class = "glyphicon glyphicon-random"></span> Текущие изменения
 	</a>
 
