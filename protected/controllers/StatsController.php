@@ -405,7 +405,7 @@ class StatsController extends CController {
 		$achievements = array();
 		$achievements_texts = array();
 		foreach ($data as $text => $subdata) {
-			foreach ($subdata['achievements'] as $level => $date) {
+			foreach ($subdata->achievements as $level => $date) {
 				$name = $this->achievements_names[$level];
 				$achievements[] = array(
 					'point' => $text,
@@ -496,9 +496,9 @@ class StatsController extends CController {
 		$future_achievements = array();
 		$current_date = date_create();
 		foreach ($data as $text => $subdata) {
-			$streak_length = count($subdata['dates']);
+			$streak_length = count($subdata->last_streak);
 			$last_streak_date = date_create(
-				$subdata['dates'][$streak_length - 1]
+				$subdata->last_streak[$streak_length - 1]
 			);
 			if (
 				$last_streak_date->diff($current_date)->days
@@ -514,7 +514,7 @@ class StatsController extends CController {
 					$level > $streak_length
 					and !array_key_exists(
 						$formatted_level,
-						$subdata['achievements']
+						$subdata->achievements
 					)
 				) {
 					$next_level = $level;
@@ -583,7 +583,7 @@ class StatsController extends CController {
 	private function getAchievementsData() {
 		$points = Point::model()->findAll(
 			array(
-				'select' => array('text', 'date'),
+				'select' => array('state', 'text', 'date'),
 				'condition' =>
 					'daily = TRUE '
 					. 'AND text != "" '
@@ -596,19 +596,27 @@ class StatsController extends CController {
 		foreach ($points as $point) {
 			$date = date_create($point->date);
 			if (!array_key_exists($point->text, $data)) {
-				$data[$point->text] = array(
-					'dates' => array($point->date),
-					'last_date' => $date,
-					'achievements' => array('#1' => $point->date)
-				);
+				if ($point->state == 'SATISFIED') {
+					$data_item = new stdClass;
+					$data_item->dates = array($point->date);
+					$data_item->last_streak = array();
+					$data_item->last_date = $date;
+					$data_item->achievements = array('#1' => $point->date);
+
+					$data[$point->text] = $data_item;
+				}
 
 				continue;
 			}
 
-			if ($data[$point->text]['last_date']->diff($date)->days <= 1) {
-				$data[$point->text]['dates'][] = $point->date;
+			if (
+				!is_null($data[$point->text]->last_date)
+				and $data[$point->text]->last_date->diff($date)->days <= 1
+			) {
+				$data[$point->text]->dates[] = $point->date;
+				$data[$point->text]->last_date = $date;
 
-				$number_of_dates = count($data[$point->text]['dates']);
+				$number_of_dates = count($data[$point->text]->dates);
 				foreach ($this->achievements_levels as $level) {
 					if ($level > $number_of_dates) {
 						break;
@@ -618,20 +626,35 @@ class StatsController extends CController {
 					if (
 						array_key_exists(
 							$level_key,
-							$data[$point->text]['achievements']
+							$data[$point->text]->achievements
 						)
 					) {
 						continue;
 					}
 
-					$data[$point->text]['achievements'][$level_key] =
+					$data[$point->text]->achievements[$level_key] =
 						$point->date;
 				}
 			} else {
-				$data[$point->text]['dates'] = array($point->date);
-			}
+				if (!empty($data[$point->text]->dates)) {
+					$data[$point->text]->last_streak =
+						$data[$point->text]->dates;
+				}
 
-			$data[$point->text]['last_date'] = $date;
+				if ($point->state == 'SATISFIED') {
+					$data[$point->text]->dates = array($point->date);
+					$data[$point->text]->last_date = $date;
+				} else {
+					$data[$point->text]->dates = array();
+					$data[$point->text]->last_date = null;
+				}
+			}
+		}
+
+		foreach ($data as $data_item) {
+			if (!empty($data_item->dates)) {
+				$data_item->last_streak = $data_item->dates;
+			}
 		}
 
 		return $data;
