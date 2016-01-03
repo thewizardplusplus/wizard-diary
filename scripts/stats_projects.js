@@ -68,10 +68,13 @@ google.setOnLoadCallback(
 
 			return result;
 		};
+		var ParseDate = function(date_string) {
+			return new Date(Date.parse(date_string));
+		};
 		var MakeRow = function(start, end, title, group) {
 			var row = [];
-			row.push(new Date(Date.parse(start)));
-			row.push(new Date(Date.parse(end)));
+			row.push(ParseDate(start));
+			row.push(ParseDate(end));
 			row.push(
 				'<div '
 					+ 'class = "content" '
@@ -131,14 +134,14 @@ google.setOnLoadCallback(
 		data_table.addRows(data);
 
 		var container = $('.stats-view.projects').get(0);
-		var end_date = new Date(Date.parse(STATS_DATA.end));
+		var end_date = ParseDate(STATS_DATA.end);
 		var timeline = new links.Timeline(
 			container,
 			{
-				min: new Date(Date.parse(STATS_DATA.start)),
+				min: ParseDate(STATS_DATA.start),
 				max: end_date,
-				// 12 days
-				zoomMin: 12 * 24 * 60 * 60 * 1000,
+				// 69 days (the maximum scale at which the layout remains true)
+				zoomMin: 69 * 24 * 60 * 60 * 1000,
 				// 69 days (the maximum scale at which the layout remains true)
 				zoomMax: 69 * 24 * 60 * 60 * 1000,
 				groupsOrder: false,
