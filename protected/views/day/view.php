@@ -49,10 +49,11 @@
 	</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
-		<?=
-			$stats['daily']
-			. '+'
-			. PointFormatter::formatNumberOfPoints($stats['projects'])
+		<span class = "day-satisfied-view">
+			<?= $this->formatSatisfiedCounter($stats['satisfied']) ?>
+		</span>
+		<?= $stats['daily'] ?>+<?=
+			PointFormatter::formatNumberOfPoints($stats['projects'])
 		?>
 	</p>
 </header>

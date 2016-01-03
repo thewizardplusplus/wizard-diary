@@ -240,6 +240,28 @@ class DayController extends CController {
 								. 'ELSE 0 '
 							. 'END'
 						. ') AS \'daily\'',
+					'(100'
+						. '* SUM('
+							. 'CASE '
+								. 'WHEN '
+									. '`daily` = TRUE '
+									. 'AND `state` = \'SATISFIED\''
+									. 'AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ')'
+						. '/ SUM('
+							. 'CASE '
+								. 'WHEN '
+									. '`daily` = TRUE '
+									. 'AND (`state` = \'SATISFIED\''
+									. 'OR `state` = \'NOT_SATISFIED\')'
+									. 'AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ')) AS \'satisfied\'',
 					'SUM('
 							. 'CASE '
 								. 'WHEN `daily` = FALSE AND LENGTH(`text`) > 0 '
@@ -258,8 +280,13 @@ class DayController extends CController {
 				'date' => $date,
 				'completed' => true,
 				'daily' => 0,
+				'satisfied' => 100,
 				'projects' => 0
 			);
+		} else if (!$row['completed']) {
+			$row['satisfied'] = -1;
+		} else {
+			$row['satisfied'] = round($row['satisfied'], 2);
 		}
 
 		return $row;
