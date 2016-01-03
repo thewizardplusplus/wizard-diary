@@ -5,11 +5,14 @@ require_once(__DIR__ . '/../../php-diff/Diff.php');
 require_once(__DIR__ . '/../../php-diff/Diff/Renderer/Text/Unified.php');
 
 class BackupController extends CController {
-	/* v5:
+	/* v6:
+	 *     - add spellings;
+	 *
+	 * v5:
 	 *     - remove checks from points and daily points;
 	 *     - remove imports;
 	 */
-	const BACKUP_VERSION = 5;
+	const BACKUP_VERSION = 6;
 
 	public function filters() {
 		return array(
@@ -367,6 +370,13 @@ class BackupController extends CController {
 			$daily_points_dump .= "\t\t<daily-point>$text</daily-point>\n";
 		}
 
+		$spellings_dump = '';
+		$spellings = Spelling::model()->findAll(array('order' => 'word'));
+		foreach ($spellings as $spelling) {
+			$word = $spelling->word;
+			$spellings_dump .= "\t\t<spelling>$word</spelling>\n";
+		}
+
 		return
 			"<?xml version = \"1.0\" encoding = \"utf-8\"?>\n"
 			. "<diary version = \"" . self::BACKUP_VERSION . "\">\n"
@@ -376,6 +386,9 @@ class BackupController extends CController {
 				. "\t<daily-points>\n"
 					. "$daily_points_dump"
 				. "\t</daily-points>\n"
+				. "\t<spellings>\n"
+					. "$spellings_dump"
+				. "\t</spellings>\n"
 			. "</diary>\n";
 	}
 

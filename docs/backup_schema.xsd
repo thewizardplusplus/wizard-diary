@@ -6,6 +6,7 @@
 		<xs:sequence>
 			<xs:element name = "days" type = "DayGroup" />
 			<xs:element name = "daily-points" type = "DailyPointGroup" />
+			<xs:element name = "spellings" type = "SpellingGroup" />
 		</xs:sequence>
 		<xs:attribute name = "version" type = "xs:unsignedLong" default = "1" />
 	</xs:complexType>
@@ -56,4 +57,19 @@
 				maxOccurs = "unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:complexType name = "SpellingGroup">
+		<xs:sequence>
+			<xs:element
+				name = "spelling"
+				type = "Spelling"
+				maxOccurs = "unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name = "Spelling">
+		<xs:restriction base = "xs:string">
+			<xs:pattern value = "[\u0410-\u044F\u0401\u0451]+" />
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>
