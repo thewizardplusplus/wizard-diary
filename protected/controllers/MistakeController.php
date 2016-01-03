@@ -125,8 +125,6 @@ class MistakeController extends CController {
 		return sprintf("%d %s", $number, $unit);
 	}
 
-	private $custom_spellings_path = '/../../dictionaries/custom_spellings.pws';
-
 	private function collectPointList($pspell) {
 		$points = Yii::app()
 			->db
@@ -134,19 +132,24 @@ class MistakeController extends CController {
 			->from('{{points}}')
 			->where('text != ""')
 			->queryAll();
+		$spellings = $this->getSpellings();
 
 		$points = array_map(
-			function($point) use($pspell) {
+			function($point) use($pspell, $spellings) {
 				$counter = 0;
 				$point['text'] = preg_replace_callback(
 					'/\b[а-яё]+\b/iu',
-					function($matches) use ($pspell, &$counter) {
+					function($matches) use ($pspell, $spellings, &$counter) {
 						$result = '';
-						if (pspell_check($pspell, $matches[0])) {
-							$result = $matches[0];
+						$word = $matches[0];
+						if (
+							in_array($word, $spellings)
+							or pspell_check($pspell, $word)
+						) {
+							$result = $word;
 						} else {
 							$result =
-								'<mark>' . $matches[0] . '</mark>'
+								'<mark>' . $word . '</mark>'
 								. '<button '
 									. 'class = "'
 										. 'btn '
@@ -156,13 +159,14 @@ class MistakeController extends CController {
 										. 'add-word-button'
 									.'" '
 									. 'data-word = "'
-										. CHtml::encode($matches[0])
+										. CHtml::encode($word)
 									. '" '
 									. 'title = "Добавить в словарь">'
 									. '<span '
 										. 'class = "glyphicon glyphicon-plus">'
 									. '</span>'
 								. '</button>';
+
 							$counter++;
 						}
 
@@ -213,18 +217,23 @@ class MistakeController extends CController {
 	}
 
 	private function initPspell() {
-		$pspell = pspell_new_personal(
-			__DIR__ . $this->custom_spellings_path,
-			'ru',
-			'',
-			'',
-			'utf-8',
-			PSPELL_FAST
-		);
+		$pspell = pspell_new('ru', '', '', 'utf-8', PSPELL_FAST);
 		if ($pspell === false) {
 			throw new CException('Не удалось инициализировать Pspell.');
 		}
 
 		return $pspell;
+	}
+
+	private function getSpellings() {
+		$spellings = array();
+		$spellings_objects =
+			Spelling::model()
+			->findAll(array('select' => array('word')));
+		foreach ($spellings_objects as $spelling_object) {
+			$spellings[] = $spelling_object->word;
+		}
+
+		return $spellings;
 	}
 }
