@@ -5,27 +5,39 @@ $(document).ready(
 		var day_completed_flag = $('.day-completed-flag');
 		var day_completed_inner_flag = $('span.glyphicon', day_completed_flag);
 		var stats_url = day_completed_flag.data('stats-url');
-		var UpdateDayCompletedFlag = function() {
+		var UpdateDayCompletedFlag = function(data) {
+			if (data.completed == '1') {
+				day_completed_flag
+					.attr('title', 'Завершён')
+					.removeClass('label-primary')
+					.addClass('label-success');
+				day_completed_inner_flag
+					.removeClass('glyphicon-unchecked')
+					.addClass('glyphicon-check');
+			} else {
+				day_completed_flag
+					.attr('title', 'Не завершён')
+					.removeClass('label-success')
+					.addClass('label-primary');
+				day_completed_inner_flag
+					.removeClass('glyphicon-check')
+					.addClass('glyphicon-unchecked');
+			}
+		};
+		var UpdateDaySatisfiedView = function(data) {
+			var text = '&mdash;';
+			if (data.satisfied != -1) {
+				text = data.satisfied + '%';
+			}
+
+			$('.day-satisfied-view').html(text);
+		};
+		var UpdateDayStats = function() {
 			$.get(
 				stats_url,
 				function(data) {
-					if (data.completed == "1") {
-						day_completed_flag
-							.attr('title', 'Завершён')
-							.removeClass('label-primary')
-							.addClass('label-success');
-						day_completed_inner_flag
-							.removeClass('glyphicon-unchecked')
-							.addClass('glyphicon-check');
-					} else {
-						day_completed_flag
-							.attr('title', 'Не завершён')
-							.removeClass('label-success')
-							.addClass('label-primary');
-						day_completed_inner_flag
-							.removeClass('glyphicon-check')
-							.addClass('glyphicon-unchecked');
-					}
+					UpdateDayCompletedFlag(data);
+					UpdateDaySatisfiedView(data);
 				},
 				'json'
 			).fail(
@@ -57,7 +69,7 @@ $(document).ready(
 					data: data,
 					success: function() {
 						UpdatePointList();
-						UpdateDayCompletedFlag();
+						UpdateDayStats();
 					}
 				}
 			);

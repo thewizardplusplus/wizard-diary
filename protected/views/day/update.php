@@ -124,8 +124,11 @@
 		</span>
 	</h4>
 
-	<p class = "pull-left unimportant-text italic-text number-of-points-view">
-		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
+	<p class = "pull-left unimportant-text italic-text">
+		<?= $this->formatSatisfiedCounter($stats['satisfied']) ?>
+		<?= $stats['daily'] ?>+<span class = "number-of-points-view"><?=
+			PointFormatter::formatNumberOfPoints($stats['projects'])
+		?></span>
 	</p>
 </header>
 
