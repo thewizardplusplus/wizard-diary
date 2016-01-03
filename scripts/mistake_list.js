@@ -3,6 +3,7 @@ var MistakeList = {};
 $(document).ready(
 	function() {
 		var mistake_list = $('#mistake-list');
+		var mistakes_counter_view = $('.mistakes-counter-view');
 		var UpdateMistakeList = function() {
 			mistake_list.yiiGridView(
 				'update',
@@ -41,17 +42,13 @@ $(document).ready(
 
 			return number + ' ' + unit;
 		};
-
-		$('.custom-spellings-clean-button').click(
-			function() {
-				MistakesCleaningDialog.show(
-					function() {
-						MistakesCleaningDialog.hide();
-						RequestToMistakeList({clean: true});
-					}
-				);
-			}
-		);
+		var UpdateMistakeCounter = function() {
+			var number_of_mistakes = $('.mistake-list-total-counter').text();
+			var formatted_number_of_mistakes = FormatMistakes(
+				number_of_mistakes
+			);
+			mistakes_counter_view.text(formatted_number_of_mistakes);
+		};
 
 		MistakeList = {
 			initialize: function() {
@@ -70,10 +67,7 @@ $(document).ready(
 			},
 			afterUpdate: function() {
 				MistakeList.initialize();
-
-				var total_counter = $('.mistake-list-total-counter').text();
-				var formatted_total_counter = FormatMistakes(total_counter);
-				$('.mistakes-counter-view').text(formatted_total_counter);
+				UpdateMistakeCounter();
 			}
 		};
 

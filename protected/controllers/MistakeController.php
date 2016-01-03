@@ -19,16 +19,6 @@ class MistakeController extends CController {
 		if (isset($_POST['word'])) {
 			$this->addWord($pspell, $_POST['word']);
 		}
-		if (isset($_POST['clean']) and $_POST['clean'] == 'true') {
-			if (file_exists(__DIR__ . $this->custom_spellings_path)) {
-				$result = @unlink(__DIR__ . $this->custom_spellings_path);
-				if ($result === false) {
-					throw new CException(
-						'Не удалось удалить пользовательский словарь Pspell.'
-					);
-				}
-			}
-		}
 
 		$points = $this->collectPointList($pspell);
 		$data_provider = new CArrayDataProvider(

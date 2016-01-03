@@ -17,10 +17,6 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/mistakes_cleaning_dialog.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/mistake_list.js'),
 		CClientScript::POS_HEAD
 	);
@@ -33,14 +29,6 @@
 </header>
 
 <div class = "clearfix mistakes-controls-container">
-	<?= CHtml::htmlButton(
-		'<span class = "glyphicon glyphicon-remove"></span> Очистить словарь',
-		array(
-			'class' =>
-				'btn btn-danger pull-right custom-spellings-clean-button'
-		)
-	) ?>
-
 	<p class = "pull-left">
 		Ошибки найдены в <strong><span class = "mistakes-counter-view"><?=
 			$this->formatMistakes($data_provider->getTotalItemCount())

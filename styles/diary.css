@@ -433,17 +433,6 @@ a.state-initial:focus {
 	margin-bottom: 0;
 }
 
-.custom-spellings-clean-button {
-	margin-left: 10px;
-}
-
-/* on collision with mistakes counter paragraph */
-@media (max-width: 404px) {
-	.custom-spellings-clean-button {
-		margin-bottom: 15px;
-	}
-}
-
 /* Spellcheck styles. */
 .spellcheck-flag {
 	height: 25px;
