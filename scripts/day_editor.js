@@ -412,7 +412,7 @@ $(document).ready(
 								CSRF_TOKEN
 							);
 							$.post(
-								ADD_WORD_URL,
+								SPELLING_ADDING_URL,
 								data,
 								function() {
 									FinishWordAddingAnimation();

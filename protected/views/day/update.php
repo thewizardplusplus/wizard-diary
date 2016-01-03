@@ -33,7 +33,9 @@
 	);
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
-		'var ADD_WORD_URL = \'' . $this->createUrl('mistake/addWord') . '\';',
+		'var SPELLING_ADDING_URL = \''
+				. $this->createUrl('spelling/add')
+			. '\';',
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(

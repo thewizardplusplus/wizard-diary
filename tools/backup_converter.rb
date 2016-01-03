@@ -97,6 +97,35 @@ class DailyPointGroup
 	end
 end
 
+class Spelling
+	include Initializable
+
+	attr_accessor :word
+
+	def to_s
+		escaped_word = escapeForSql word
+		"('#{escaped_word}')"
+	end
+end
+
+class SpellingGroup
+	def initialize xml, table_prefix = DEFAULT_TABLE_PREFIX
+		@spellings = []
+		xml.elements.each 'diary/spellings/spelling' do |element|
+			@spellings << Spelling.new(word: element.text)
+		end
+
+		@table_prefix = table_prefix
+	end
+
+	def to_s
+		spellings_description = @spellings.join ",\n\t"
+		"DELETE FROM `#{@table_prefix}spellings`;\n" +
+			"INSERT INTO `#{@table_prefix}spellings` (`word`)\n" +
+			"VALUES\n\t#{spellings_description};\n"
+	end
+end
+
 def escapeForSql text
 	Mysql2::Client.escape text
 end
@@ -178,7 +207,11 @@ begin
 	xml = loadXml options[:filename]
 	points = PointGroup.new xml, options[:prefix]
 	daily_points = DailyPointGroup.new xml, options[:prefix]
-	sql = generateSql [points, daily_points], options[:no_transaction]
+	spellings = SpellingGroup.new xml, options[:prefix]
+	sql = generateSql(
+		[points, daily_points, spellings],
+		options[:no_transaction]
+	)
 	outputSql sql, options
 rescue Exception => exception
 	if exception.message != 'exit'
