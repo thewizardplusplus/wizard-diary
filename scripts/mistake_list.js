@@ -15,13 +15,13 @@ $(document).ready(
 				}
 			);
 		};
-		var RequestToMistakeList = function(data) {
+		var RequestToMistakeList = function(url, data) {
 			$.extend(data, CSRF_TOKEN);
 			mistake_list.yiiGridView(
 				'update',
 				{
 					type: 'POST',
-					url: DEFAULT_CURRENT_URL,
+					url: url,
 					data: data,
 					success: function() {
 						UpdateMistakeList();
@@ -59,7 +59,11 @@ $(document).ready(
 							word,
 							function() {
 								MistakesAddingDialog.hide();
-								RequestToMistakeList({word: word});
+
+								RequestToMistakeList(
+									SPELLING_ADDING_URL,
+									{word: word}
+								);
 							}
 						);
 					}

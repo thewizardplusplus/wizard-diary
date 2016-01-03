@@ -15,11 +15,6 @@ class MistakeController extends CController {
 
 	public function actionList() {
 		$pspell = $this->initPspell();
-
-		if (isset($_POST['word'])) {
-			$this->addWord($pspell, $_POST['word']);
-		}
-
 		$points = $this->collectPointList($pspell);
 		$data_provider = new CArrayDataProvider(
 			$points,
@@ -104,15 +99,6 @@ class MistakeController extends CController {
 		);
 
 		echo json_encode($mistakes);
-	}
-
-	public function actionAddWord() {
-		if (!isset($_POST['word'])) {
-			throw new CHttpException(400, 'Некорректный запрос.');
-		}
-
-		$pspell = $this->initPspell();
-		$this->addWord($pspell, $_POST['word']);
 	}
 
 	public function calculateLine($point, $daily_stats) {
@@ -240,21 +226,5 @@ class MistakeController extends CController {
 		}
 
 		return $pspell;
-	}
-
-	private function addWord($pspell, $word) {
-		$result = pspell_add_to_personal($pspell, $word);
-		if ($result === false) {
-			throw new CException(
-				'Не удалось добавить слово в пользовательский словарь Pspell.'
-			);
-		}
-
-		$result = pspell_save_wordlist($pspell);
-		if ($result === false) {
-			throw new CException(
-				'Не удалось сохранить пользовательский словарь Pspell.'
-			);
-		}
 	}
 }
