@@ -181,8 +181,8 @@
 												'url' => array('mistake/list')
 											),
 											array(
-												'label' => 'Бекапы',
-												'url' => array('backup/list')
+												'label' => 'Словарь',
+												'url' => array('spelling/list')
 											),
 											array(
 												'label' => '',
@@ -205,6 +205,10 @@
 												'itemOptions' => array(
 													'class' => 'divider'
 												)
+											),
+											array(
+												'label' => 'Бекапы',
+												'url' => array('backup/list')
 											),
 											array(
 												'label' => 'Параметры',

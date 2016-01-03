@@ -33,6 +33,8 @@ return array(
 				'stats/project_list' => 'stats/projectList',
 				'stats/project_actions' => 'stats/projectActions',
 				'mistakes' => 'mistake/list',
+				'spellings' => 'spelling/list',
+				'spelling/delete' => 'spelling/delete',
 				'backups' => 'backup/list',
 				'backup/current_diff/<file:[\w-]+>' => 'backup/currentDiff',
 				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
@@ -141,6 +143,11 @@ return array(
 						. 'bootstrap-select/1.7.5/',
 					'js' => array('js/i18n/defaults-ru_RU.min.js'),
 					'depends' => array('bootstrap-select')
+				),
+				'URI' => array(
+					'baseUrl' => 'https://cdnjs.cloudflare.com/ajax/libs/'
+						. 'URI.js/1.17.0/',
+					'js' => array('URI.min.js')
 				)
 			)
 		),
