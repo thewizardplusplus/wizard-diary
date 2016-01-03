@@ -49,7 +49,11 @@
 	</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
-		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
+		<?=
+			$stats['daily']
+			. '+'
+			. PointFormatter::formatNumberOfPoints($stats['projects'])
+		?>
 	</p>
 </header>
 

@@ -36,6 +36,11 @@
 		'var ADD_WORD_URL = \'' . $this->createUrl('mistake/addWord') . '\';',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var DAILY_POINTS_NUMBER = ' . $stats['daily'] . ';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_unit.js'),
 		CClientScript::POS_HEAD
@@ -125,7 +130,11 @@
 	</h4>
 
 	<p class = "pull-left unimportant-text italic-text number-of-points-view">
-		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
+		<?=
+			$stats['daily']
+			. '+'
+			. PointFormatter::formatNumberOfPoints($stats['projects'])
+		?>
 	</p>
 </header>
 

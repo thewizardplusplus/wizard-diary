@@ -235,6 +235,13 @@ class DayController extends CController {
 						. ') AS \'completed\'',
 					'SUM('
 							. 'CASE '
+								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'daily\'',
+					'SUM('
+							. 'CASE '
 								. 'WHEN `daily` = FALSE AND LENGTH(`text`) > 0 '
 									. 'THEN 1 '
 								. 'ELSE 0 '
@@ -247,7 +254,12 @@ class DayController extends CController {
 			->group('date')
 			->queryRow();
 		if ($row === false) {
-			return array('date' => $date, 'completed' => true, 'projects' => 0);
+			$row = array(
+				'date' => $date,
+				'completed' => true,
+				'daily' => 0,
+				'projects' => 0
+			);
 		}
 
 		return $row;

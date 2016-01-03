@@ -476,7 +476,9 @@ $(document).ready(
 
 			var number_of_points = points.length;
 			number_of_points_view.text(
-				number_of_points.toString()
+				DAILY_POINTS_NUMBER
+				+ '+'
+				+ number_of_points.toString()
 				+ ' '
 				+ GetPointUnit(number_of_points)
 			);
