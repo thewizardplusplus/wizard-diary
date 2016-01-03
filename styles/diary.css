@@ -462,7 +462,10 @@ a.state-initial:focus {
 
 .misspelled {
 	position: absolute;
-	border-bottom: 1px solid #d9534f;
+	background-image: linear-gradient(to right, #d9534f 67%, transparent 33%);
+	background-position: bottom;
+	background-size: 5px 1px;
+	background-repeat: repeat-x;
 	border-radius: 0 !important;
 }
 
