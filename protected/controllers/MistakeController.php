@@ -2,11 +2,7 @@
 
 class MistakeController extends CController {
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + addWord',
-			'ajaxOnly + check, addWord'
-		);
+		return array('accessControl', 'postOnly + check', 'ajaxOnly + check');
 	}
 
 	public function accessRules() {
@@ -41,8 +37,12 @@ class MistakeController extends CController {
 		);
 	}
 
-	public function actionCheck($text) {
-		$lines = explode("\n", $text);
+	public function actionCheck() {
+		if (!isset($_POST['text'])) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+
+		$lines = explode("\n", $_POST['text']);
 		$word_lines = array_map(
 			function($line) {
 				preg_match_all(

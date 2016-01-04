@@ -312,9 +312,13 @@ $(document).ready(
 			spellcheck_icon.addClass('correction');
 
 			var points_description = day_editor.getValue();
-			$.get(
-				CHECKING_URL,
+			var data = $.extend(
 				{text: points_description},
+				CSRF_TOKEN
+			);
+			$.post(
+				CHECKING_URL,
+				data,
 				function(data) {
 					mistakes = data;
 
