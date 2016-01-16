@@ -60,7 +60,7 @@ class PointFormatter {
 			$levels = array_map('trim', explode(',', $text));
 			$point_tail = implode(', ', array_slice($levels, 2));
 			$point_tail = preg_replace(
-				'/(\\.?\\w+(?:(?:\\.|::)\\w+)*(?:\\(\\)|\\+\\+|#)?)/',
+				'/(\.?[a-z]+(?:(?:\.|::)[a-z]+)*(?:\(\)|\+\+|#)?)/i',
 				'<code>$1</code>',
 				$point_tail
 			);
