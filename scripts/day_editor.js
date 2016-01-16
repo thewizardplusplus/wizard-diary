@@ -644,7 +644,12 @@ $(document).ready(
 							DayCloseDialog.hide();
 							SaveViaAjax(CloseDayEditor);
 						},
-						CloseDayEditor
+						function() {
+							is_saved = true;
+							SetTabClosingHandler();
+
+							CloseDayEditor();
+						}
 					);
 				} else {
 					CloseDayEditor();
