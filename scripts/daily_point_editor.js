@@ -535,7 +535,12 @@ $(document).ready(
 							DailyPointCloseDialog.hide();
 							SaveViaAjax(CloseDailyPointEditor);
 						},
-						CloseDailyPointEditor
+						function() {
+							is_saved = true;
+							SetTabClosingHandler();
+
+							CloseDailyPointEditor();
+						}
 					);
 				} else {
 					CloseDailyPointEditor();
