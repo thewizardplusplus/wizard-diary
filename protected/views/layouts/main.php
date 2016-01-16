@@ -177,6 +177,16 @@
 									array(
 										'items' => array(
 											array(
+												'label' => 'Бекапы',
+												'url' => array('backup/list')
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Ошибки',
 												'url' => array('mistake/list')
 											),
@@ -205,10 +215,6 @@
 												'itemOptions' => array(
 													'class' => 'divider'
 												)
-											),
-											array(
-												'label' => 'Бекапы',
-												'url' => array('backup/list')
 											),
 											array(
 												'label' => 'Параметры',
