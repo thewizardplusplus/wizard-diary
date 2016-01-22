@@ -304,7 +304,7 @@
 					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?>
 				</p>
 				<p class = "unimportant-text">
-					&copy; thewizardplusplus, <?= $copyright_years ?>
+					Copyright &copy; <?= $copyright_years ?> thewizardplusplus
 				</p>
 			</footer>
 		</section>
