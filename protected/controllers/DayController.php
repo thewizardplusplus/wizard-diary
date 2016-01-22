@@ -240,8 +240,7 @@ class DayController extends CController {
 								. 'ELSE 0 '
 							. 'END'
 						. ') AS \'daily\'',
-					'(100'
-						. '* SUM('
+					'SUM('
 							. 'CASE '
 								. 'WHEN '
 									. '`daily` = TRUE '
@@ -250,8 +249,8 @@ class DayController extends CController {
 									. 'THEN 1 '
 								. 'ELSE 0 '
 							. 'END'
-						. ')'
-						. '/ SUM('
+						. ') AS \'satisfied\'',
+					'SUM('
 							. 'CASE '
 								. 'WHEN '
 									. '`daily` = TRUE '
@@ -261,7 +260,7 @@ class DayController extends CController {
 									. 'THEN 1 '
 								. 'ELSE 0 '
 							. 'END'
-						. ')) AS \'satisfied\'',
+						. ') AS \'not_canceled\'',
 					'SUM('
 							. 'CASE '
 								. 'WHEN `daily` = FALSE AND LENGTH(`text`) > 0 '
@@ -281,12 +280,18 @@ class DayController extends CController {
 				'completed' => true,
 				'daily' => 0,
 				'satisfied' => 100,
+				'not_canceled' => 0,
 				'projects' => 0
 			);
 		} else if (!$row['completed']) {
 			$row['satisfied'] = -1;
+		} else if ($row['not_canceled'] == 0) {
+			$row['satisfied'] = 100;
 		} else {
-			$row['satisfied'] = round($row['satisfied'], 2);
+			$row['satisfied'] = round(
+				100 * $row['satisfied'] / $row['not_canceled'],
+				2
+			);
 		}
 
 		return $row;
