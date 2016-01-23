@@ -81,7 +81,8 @@ class MistakeController extends CController {
 				array_map(
 					function($word) use (&$mistakes, $lines, $line_counter) {
 						$offset = mb_strlen(
-							substr($lines[$line_counter], 0, $word[1])
+							substr($lines[$line_counter], 0, $word[1]),
+							'utf-8'
 						);
 						$mistakes[] = array(
 							'start' => array(
@@ -90,7 +91,8 @@ class MistakeController extends CController {
 							),
 							'end' => array(
 								'line' => $line_counter,
-								'offset' => $offset + mb_strlen($word[0])
+								'offset' => $offset
+									+ mb_strlen($word[0], 'utf-8')
 							)
 						);
 					},
