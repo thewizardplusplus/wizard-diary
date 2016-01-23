@@ -135,7 +135,7 @@
 	); ?>
 </div>
 
-<div class = "modal custom-spellings-adding-dialog">
+<div class = "modal custom-spellings-adding-dialog" tabindex = "-1">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">

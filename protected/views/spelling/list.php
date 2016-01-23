@@ -102,7 +102,7 @@
 	); ?>
 </div>
 
-<div class = "modal spelling-deleting-dialog">
+<div class = "modal spelling-deleting-dialog" tabindex = "-1">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">
@@ -142,7 +142,7 @@
 	</div>
 </div>
 
-<div class = "modal spellings-cleaning-dialog">
+<div class = "modal spellings-cleaning-dialog" tabindex = "-1">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">
