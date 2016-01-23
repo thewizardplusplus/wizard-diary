@@ -309,7 +309,7 @@
 			</footer>
 		</section>
 
-		<div class = "modal ajax-error-dialog">
+		<div class = "modal ajax-error-dialog" tabindex = "-1">
 			<div class = "modal-dialog">
 				<div class = "modal-content">
 					<div class = "modal-header">
@@ -346,7 +346,7 @@
 			</div>
 		</div>
 
-		<div class = "modal backup-dialog">
+		<div class = "modal backup-dialog" tabindex = "-1">
 			<div class = "modal-dialog">
 				<div class = "modal-content">
 					<div class = "modal-header">

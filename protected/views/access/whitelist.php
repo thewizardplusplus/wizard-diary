@@ -138,7 +138,7 @@
 	* Зелёным отмечены авторизации, для которых куки автологина ещё живы.
 </p>
 
-<div class = "modal whitelist-cleaning-dialog">
+<div class = "modal whitelist-cleaning-dialog" tabindex = "-1">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">

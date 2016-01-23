@@ -170,7 +170,7 @@
 	</div>
 <?= CHtml::endForm() ?>
 
-<div class = "modal day-close-dialog">
+<div class = "modal day-close-dialog" tabindex = "-1">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">
@@ -215,7 +215,7 @@
 	</div>
 </div>
 
-<div class = "modal custom-spellings-adding-dialog">
+<div class = "modal custom-spellings-adding-dialog" tabindex = "-1">
 	<div class = "modal-dialog">
 		<div class = "modal-content">
 			<div class = "modal-header">
