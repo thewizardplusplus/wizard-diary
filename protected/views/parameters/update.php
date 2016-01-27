@@ -90,7 +90,15 @@
 		<?= $form->labelEx(
 			$model,
 			'session_lifetime_in_min',
-			array('class' => 'control-label')
+			array(
+				'class' => 'control-label',
+				'label' => sprintf(
+					'%s (от %d до %d)',
+					$model->getAttributeLabel('session_lifetime_in_min'),
+					Constants::SESSION_LIFETIME_IN_MIN_MINIMUM,
+					Constants::SESSION_LIFETIME_IN_MIN_MAXIMUM
+				)
+			)
 		) ?>
 		<?= $form->textField(
 			$model,
@@ -109,7 +117,15 @@
 		<?= $form->labelEx(
 			$model,
 			'access_log_lifetime_in_s',
-			array('class' => 'control-label')
+			array(
+				'class' => 'control-label',
+				'label' => sprintf(
+					'%s (от %d до %d, 0 &mdash; вечность)',
+					$model->getAttributeLabel('access_log_lifetime_in_s'),
+					Constants::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
+					Constants::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM
+				)
+			)
 		) ?>
 		<?= $form->textField(
 			$model,
