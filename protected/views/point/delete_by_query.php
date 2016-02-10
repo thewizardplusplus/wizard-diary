@@ -5,6 +5,15 @@
 	 * @var string $query_container_class
 	 */
 
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/delete_by_query_dialog.js'),
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/delete_by_query.js'),
+		CClientScript::POS_HEAD
+	);
+
 	$this->pageTitle = Yii::app()->name . ' - Удаление по запросу';
 ?>
 
@@ -59,3 +68,43 @@
 		)
 	) ?>
 <?php $this->endWidget(); ?>
+
+<div class = "modal delete-by-query-dialog" tabindex = "-1">
+	<div class = "modal-dialog">
+		<div class = "modal-content">
+			<div class = "modal-header">
+				<button
+					class = "close"
+					type = "button"
+					data-dismiss = "modal"
+					aria-hidden = "true">
+					&times;
+				</button>
+				<h4 class = "modal-title">
+					<span class = "glyphicon glyphicon-warning-sign"></span>
+					Внимание!
+				</h4>
+			</div>
+
+			<div class = "modal-body">
+				<p>
+					Ты точно хочешь удалить пункты, начинающиеся на
+					<strong>&laquo;<span
+						class = "query-view"></span>&raquo;</strong>?
+				</p>
+			</div>
+
+			<div class = "modal-footer">
+				<button type = "button" class = "btn btn-primary ok-button">
+					OK
+				</button>
+				<button
+					class = "btn btn-default"
+					type = "button"
+					data-dismiss = "modal">
+					Отмена
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
