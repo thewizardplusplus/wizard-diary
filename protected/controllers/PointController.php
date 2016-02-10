@@ -20,7 +20,35 @@ class PointController extends CController {
 	}
 
 	public function actionDeleteByQuery() {
-		$this->render('delete_by_query');
+		$model = new DeleteByQueryForm();
+
+		if (
+			isset($_POST['ajax'])
+			and $_POST['ajax'] == 'delete-by-query-form'
+		) {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		if (isset($_POST['DeleteByQueryForm'])) {
+			$model->attributes = $_POST['DeleteByQueryForm'];
+			$result = $model->validate();
+			if ($result) {
+				Yii::log($model->query, 'info');
+			}
+		}
+
+		$query_container_class =
+			count($model->getErrors('query'))
+				? ' has-error'
+				: '';
+		$this->render(
+			'delete_by_query',
+			array(
+				'model' => $model,
+				'query_container_class' => $query_container_class
+			)
+		);
 	}
 
 	private function loadModel($id) {
