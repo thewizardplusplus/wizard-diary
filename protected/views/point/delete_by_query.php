@@ -3,6 +3,8 @@
 	 * @var PointController $this
 	 * @var DeleteByQueryForm $model
 	 * @var string $query_container_class
+	 * @var int $number_of_deleted_points
+	 * @var CActiveDataProvider $data_provider
 	 */
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -20,6 +22,92 @@
 <header class = "page-header">
 	<h4>Удаление по запросу</h4>
 </header>
+
+<?php if (!is_null($number_of_deleted_points)) { ?>
+	<?php if ($number_of_deleted_points > 0) { ?>
+		<p>
+			<?= DeleteByQueryFormatter::formatLabelStart(
+				$number_of_deleted_points
+			) ?> <strong><?= PointFormatter::formatNumberOfPoints(
+				$number_of_deleted_points
+			) ?></strong> из <?= DeleteByQueryFormatter::formatLabelEnd(
+				$data_provider->getTotalItemCount()
+			) ?>:
+		</p>
+
+		<div class = "table-responsive">
+			<?php $this->widget(
+				'zii.widgets.grid.CGridView',
+				array(
+					'id' => 'point-list',
+					'dataProvider' => $data_provider,
+					'template' => '{items}',
+					'hideHeader' => true,
+					'selectableRows' => 0,
+					'columns' => array(
+						array(
+							'type' => 'raw',
+							'value' =>
+								'"<a '
+									. 'href = \""'
+										. '. $this'
+											. '->grid'
+											. '->controller'
+											. '->createUrl('
+												. '"day/view",'
+												. 'array('
+													. '"date" => $data["date"]'
+												. ')'
+											. ') . "\">'
+									. '<time '
+										. 'title = \""'
+											. ' . DateFormatter::formatDate('
+												. '$data["date"]'
+											. ') . "\">"'
+										. ' . DateFormatter::formatMyDate('
+											. '$data["date"]'
+										. ')'
+									. ' . "</time>'
+								. '</a>"'
+						),
+						array(
+							'class' => 'CButtonColumn',
+							'template' => '{update}',
+							'buttons' => array(
+								'update' => array(
+									'label' =>
+										'<span '
+											. 'class = '
+												. '"glyphicon '
+												. 'glyphicon-pencil">'
+											. '</span>',
+									'url' =>
+										'$this->grid->controller->createUrl('
+											. '"day/update",'
+											. 'array("date" => $data["date"])'
+										. ')',
+									'imageUrl' => false,
+									'options' => array(
+										'title' => 'Изменить день'
+									)
+								)
+							)
+						)
+					),
+					'itemsCssClass' => 'table table-striped',
+					'loadingCssClass' => 'wait',
+					'ajaxUpdateError' =>
+						'function(xhr, text_status) {'
+							. 'AjaxErrorDialog.handler(xhr, text_status);'
+						. '}',
+					'emptyText' => 'Нет пунктов.'
+				)
+			); ?>
+		</div>
+	<?php } else { ?>
+		<p>Нет пунктов для удаления.</p>
+	<?php } ?>
+<?php } ?>
 
 <?php $form = $this->beginWidget(
 	'CActiveForm',
