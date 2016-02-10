@@ -48,15 +48,20 @@
 			'query',
 			array('class' => 'control-label')
 		) ?>
-		<?= $form->textField(
-			$model,
-			'query',
-			array(
-				'class' => 'form-control query-editor',
-				'autocomplete' => 'off',
-				'required' => 'required'
-			)
-		) ?>
+		<div class = "input-group">
+			<?= $form->textField(
+				$model,
+				'query',
+				array(
+					'class' => 'form-control query-editor',
+					'autocomplete' => 'off',
+					'required' => 'required'
+				)
+			) ?>
+			<div class = "input-group-addon clean-button">
+				<span class = "glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
 		<?= $form->error($model, 'query') ?>
 	</div>
 
