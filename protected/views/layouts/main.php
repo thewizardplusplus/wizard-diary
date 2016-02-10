@@ -181,6 +181,13 @@
 												'url' => array('backup/list')
 											),
 											array(
+												'label' =>
+													'Удаление по запросу',
+												'url' => array(
+													'point/deleteByQuery'
+												)
+											),
+											array(
 												'label' => '',
 												'itemOptions' => array(
 													'class' => 'divider'

@@ -19,6 +19,10 @@ class PointController extends CController {
 		$model->save();
 	}
 
+	public function actionDeleteByQuery() {
+		$this->render('delete_by_query');
+	}
+
 	private function loadModel($id) {
 		$model = Point::model()->findByPk($id);
 		if (is_null($model)) {

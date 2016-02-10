@@ -41,7 +41,8 @@ return array(
 					'backup/diff',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list',
-				'whitelist' => 'access/whitelist'
+				'whitelist' => 'access/whitelist',
+				'delete_by_query' => 'point/deleteByQuery'
 			)
 		),
 		'db' => array(
