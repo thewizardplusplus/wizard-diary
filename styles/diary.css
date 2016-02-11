@@ -307,10 +307,6 @@ a.state-initial:focus {
 	background-color: #5cb85c;
 }
 
-.search-form .clean-button {
-	cursor: pointer;
-}
-
 .stats-view.project-list {
 	background-color: #fcf8e3;
 	border: 1px solid #dddddd;
@@ -492,6 +488,10 @@ a.state-initial:focus {
 
 .without-bottom-margin {
 	margin-bottom: 0;
+}
+
+.clean-button {
+	cursor: pointer;
 }
 
 /* Additional styles. */
