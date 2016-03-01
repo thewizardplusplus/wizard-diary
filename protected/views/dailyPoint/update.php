@@ -38,7 +38,7 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
+	$this->pageTitle = Yii::app()->name . ' - Ежедневные пункты';
 ?>
 
 <header class = "page-header clearfix header-with-button">
@@ -61,7 +61,7 @@
 	</button>
 
 	<h4 class = "clearfix">
-		Ежедневно
+		Ежедневные пункты
 
 		<span
 			class = "label label-success saved-flag"

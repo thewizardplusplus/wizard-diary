@@ -80,20 +80,36 @@
 					<div
 						id = "navbar-collapse"
 						class = "collapse navbar-collapse">
-						<?php $this->widget(
-							'zii.widgets.CMenu',
-							array(
-								'items' => array(
+						<ul class = "nav navbar-nav">
+							<li class = "dropdown">
+								<a
+									href = "#"
+									class = "dropdown-toggle"
+									data-toggle = "dropdown">
+									Пункты <span class = "caret"></span>
+								</a>
+								<?php $this->widget(
+									'zii.widgets.CMenu',
 									array(
-										'label' => 'Ежедневно',
-										'url' => array('dailyPoint/list')
+										'items' => array(
+											array(
+												'label' => 'Ежедневные',
+												'url' => array(
+													'dailyPoint/list'
+												)
+											),
+											array(
+												'label' => 'Удаление',
+												'url' => array('point/delete')
+											)
+										),
+										'htmlOptions' => array(
+											'class' => 'dropdown-menu'
+										)
 									)
-								),
-								'htmlOptions' => array(
-									'class' => 'nav navbar-nav'
-								)
-							)
-						); ?>
+								); ?>
+							</li>
+						</ul>
 						<ul class = "nav navbar-nav">
 							<li class = "dropdown">
 								<a
@@ -192,13 +208,6 @@
 											array(
 												'label' => 'Бекапы',
 												'url' => array('backup/list')
-											),
-											array(
-												'label' =>
-													'Удаление по запросу',
-												'url' => array(
-													'point/deleteByQuery'
-												)
 											),
 											array(
 												'label' => '',

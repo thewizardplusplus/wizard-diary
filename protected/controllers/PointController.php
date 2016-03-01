@@ -19,7 +19,7 @@ class PointController extends CController {
 		$model->save();
 	}
 
-	public function actionDeleteByQuery() {
+	public function actionDelete() {
 		$model = new DeleteByQueryForm();
 
 		if (
@@ -55,7 +55,7 @@ class PointController extends CController {
 				? ' has-error'
 				: '';
 		$this->render(
-			'delete_by_query',
+			'delete',
 			array(
 				'model' => $model,
 				'query_container_class' => $query_container_class,

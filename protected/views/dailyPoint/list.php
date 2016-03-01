@@ -31,7 +31,7 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Ежедневно';
+	$this->pageTitle = Yii::app()->name . ' - Ежедневные пункты';
 ?>
 
 <header class = "page-header clearfix header-with-button">
@@ -41,7 +41,7 @@
 		<span class = "glyphicon glyphicon-pencil"></span> Изменить
 	</a>
 
-	<h4 class = "clearfix">Ежедневно</h4>
+	<h4 class = "clearfix">Ежедневные пункты</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
 		<?= PointFormatter::formatNumberOfPoints($number_of_daily_points) ?>

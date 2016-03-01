@@ -28,6 +28,7 @@ return array(
 				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
 				'daily_points/update' => 'dailyPoint/update',
+				'delete_points' => 'point/delete',
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',
 				'stats/daily_point_list' => 'stats/dailyPointList',
@@ -42,8 +43,7 @@ return array(
 					'backup/diff',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list',
-				'whitelist' => 'access/whitelist',
-				'delete_by_query' => 'point/deleteByQuery'
+				'whitelist' => 'access/whitelist'
 			)
 		),
 		'db' => array(

@@ -16,11 +16,11 @@
 		CClientScript::POS_HEAD
 	);
 
-	$this->pageTitle = Yii::app()->name . ' - Удаление по запросу';
+	$this->pageTitle = Yii::app()->name . ' - Удаление пунктов';
 ?>
 
 <header class = "page-header">
-	<h4>Удаление по запросу</h4>
+	<h4>Удаление пунктов</h4>
 </header>
 
 <?php if (!is_null($number_of_deleted_points)) { ?>
