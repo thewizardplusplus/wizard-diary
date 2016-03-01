@@ -149,7 +149,21 @@ class StatsController extends CController {
 	}
 
 	public function actionDailyPointList() {
-		$this->renderText('<p>Test.</p>');
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text'),
+				'condition' => 'text != "" AND daily = TRUE',
+				'group' => 'text'
+			)
+		);
+
+		$new_points = array();
+		foreach ($points as $point) {
+			$new_points[] = array('text' => $point->text);
+		}
+		$points = $new_points;
+
+		$this->renderText('<pre>' . print_r($points, true) . '</pre>');
 	}
 
 	public function actionProjects() {
