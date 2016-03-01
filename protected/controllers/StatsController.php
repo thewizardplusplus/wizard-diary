@@ -163,7 +163,21 @@ class StatsController extends CController {
 		}
 		$points = $new_points;
 
-		$this->renderText('<pre>' . print_r($points, true) . '</pre>');
+		$data_provider = new CArrayDataProvider(
+			$points,
+			array(
+				'keyField' => 'text',
+				'sort' => array(
+					'attributes' => array('text'),
+					'defaultOrder' => array('text' => CSort::SORT_ASC)
+				)
+			)
+		);
+
+		$this->render(
+			'daily_point_list',
+			array('data_provider' => $data_provider)
+		);
 	}
 
 	public function actionProjects() {
