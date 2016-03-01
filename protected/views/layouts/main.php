@@ -127,6 +127,19 @@
 												'url' => array('stats/projects')
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
+												'label' =>
+													'Список ежедневных пунктов',
+												'url' => array(
+													'stats/dailyPointList'
+												)
+											),
+											array(
 												'label' => 'Список проектов',
 												'url' => array(
 													'stats/projectList'

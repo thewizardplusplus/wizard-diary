@@ -30,6 +30,7 @@ return array(
 				'daily_points/update' => 'dailyPoint/update',
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',
+				'stats/daily_point_list' => 'stats/dailyPointList',
 				'stats/project_list' => 'stats/projectList',
 				'stats/project_actions' => 'stats/projectActions',
 				'mistakes' => 'mistake/list',

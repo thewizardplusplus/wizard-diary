@@ -148,6 +148,38 @@ class StatsController extends CController {
 		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
 
+	public function actionDailyPointList() {
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text'),
+				'condition' => 'text != "" AND daily = TRUE',
+				'group' => 'text'
+			)
+		);
+
+		$new_points = array();
+		foreach ($points as $point) {
+			$new_points[] = array('text' => $point->text);
+		}
+		$points = $new_points;
+
+		$data_provider = new CArrayDataProvider(
+			$points,
+			array(
+				'keyField' => 'text',
+				'sort' => array(
+					'attributes' => array('text'),
+					'defaultOrder' => array('text' => CSort::SORT_ASC)
+				)
+			)
+		);
+
+		$this->render(
+			'daily_point_list',
+			array('data_provider' => $data_provider)
+		);
+	}
+
 	public function actionProjects() {
 		$points = Point::model()->findAll(
 			array('condition' => 'text != "" AND daily = FALSE')
