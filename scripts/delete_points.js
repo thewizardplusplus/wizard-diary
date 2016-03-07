@@ -3,6 +3,7 @@ $(document).ready(
 		var SEARCH_DELAY = 500;
 
 		var points_ids = [];
+		var points_dates = [];
 
 		var search_points_form = $('.search-points-form');
 		search_points_form.on(
@@ -19,13 +20,21 @@ $(document).ready(
 		var points_quantity_view = $('.points-quantity-view');
 		var days_quantity_view = $('.days-quantity-view');
 		var points_found_view = $('.points-found-view');
-		var CountDays = function(points) {
-			var days = [];
+		var GetPointsIds = function(points) {
+			var points_ids = [];
 			for (var i = 0; i < points.length; i++) {
-				days.push(points[i].date);
+				points_ids.push(points[i].id);
 			}
 
-			return $.unique(days).length;
+			return points_ids;
+		};
+		var GetPointsDates = function(points) {
+			var points_dates = [];
+			for (var i = 0; i < points.length; i++) {
+				points_dates.push(points[i].date);
+			}
+
+			return $.unique(points_dates);
 		};
 		var GetDayUnit = function(number) {
 			var unit = '';
@@ -43,7 +52,7 @@ $(document).ready(
 				var point = points[i];
 				if (!points_data.hasOwnProperty(point.date)) {
 					points_data[point.date] = {
-						text: point.date,
+						text: point.my_date,
 						icon: 'glyphicon glyphicon-folder-open',
 						state: {opened: true},
 						children: []
@@ -67,32 +76,27 @@ $(document).ready(
 				}
 			);
 		};
-		var GetPointsIds = function(points) {
-			var points_ids = [];
-			for (var i = 0; i < points.length; i++) {
-				points_ids.push(points[i].id);
-			}
-
-			return points_ids;
-		};
 		var ProcessPoints = function(points) {
 			var points_quantity = points.length;
 			if (points_quantity == 0) {
+				points_ids = [];
+				points_dates = [];
+
 				points_found_empty_view.show();
 
 				points_found_controls_view.hide();
 				points_found_view.hide();
-
-				points_ids = [];
 			} else {
+				points_ids = GetPointsIds(points);
+				points_dates = GetPointsDates(points);
+
 				points_found_empty_view.hide();
 
 				points_found_controls_view.show();
 				var points_unit = GetPointUnit(points_quantity);
 				points_quantity_view.text(points_quantity + ' ' + points_unit);
-				var days_quantity = CountDays(points);
-				var days_unit = GetDayUnit(days_quantity);
-				days_quantity_view.text(days_quantity + ' ' + days_unit);
+				var days_unit = GetDayUnit(points_dates.length);
+				days_quantity_view.text(points_dates.length + ' ' + days_unit);
 
 				points_found_view.show();
 				points_found_view.jstree('destroy');
@@ -111,8 +115,6 @@ $(document).ready(
 						data.instance.deselect_node(data.selected, true);
 					}
 				);
-
-				points_ids = GetPointsIds(points);
 			}
 		};
 
@@ -167,18 +169,30 @@ $(document).ready(
 		);
 
 		var delete_points_form = $('.delete-points-form');
+		var AddDataToForm = function(form, data_name, data) {
+			for (var i = 0; i < data.length; i++) {
+				form.append(
+					'<input '
+						+ 'type = "hidden" '
+						+ 'name = "' + data_name + '[]" '
+						+ 'value = "' + data[i] + '" />'
+				);
+			}
+		};
 		$('.delete-button', delete_points_form).click(
 			function() {
 				DeletePointsDialog.show(
 					function() {
-						for (var i = 0; i < points_ids.length; i++) {
-							delete_points_form.append(
-								'<input '
-									+ 'type = "hidden" '
-									+ 'name = "points_ids[]" '
-									+ 'value = "' + points_ids[i] + '" />'
-							);
-						}
+						AddDataToForm(
+							delete_points_form,
+							'points_ids',
+							points_ids
+						);
+						AddDataToForm(
+							delete_points_form,
+							'points_dates',
+							points_dates
+						);
 
 						delete_points_form.submit();
 					}

@@ -28,7 +28,8 @@ class PointController extends CController {
 		foreach ($points as $point) {
 			$new_points[] = array(
 				'id' => $point->id,
-				'date' => DateFormatter::formatMyDate(
+				'date' => $point->date,
+				'my_date' => DateFormatter::formatMyDate(
 					$point->date,
 					$start_date
 				),
@@ -52,18 +53,13 @@ class PointController extends CController {
 	}
 
 	public function actionDelete() {
-		if (isset($_POST['points_ids'])) {
-			$points_ids = $_POST['points_ids'];
-			if (!is_array($points_ids)) {
-				throw new CHttpException(400, 'Некорректный запрос.');
-			}
-			foreach ($points_ids as $point_id) {
-				if (!is_numeric($point_id)) {
-					throw new CHttpException(400, 'Некорректный запрос.');
-				}
-			}
+		if (isset($_POST['points_ids']) and isset($_POST['points_dates'])) {
+			$this->testPointsIds($_POST['points_ids']);
+			$this->testPointsDates($_POST['points_dates']);
 
-			$this->deletePosts($points_ids);
+			$this->deletePosts($_POST['points_ids']);
+			$this->deleteSeparatorsDuplicates($_POST['points_dates']);
+
 			$this->redirect($this->createUrl('day/list'));
 		}
 
@@ -79,7 +75,85 @@ class PointController extends CController {
 		return $model;
 	}
 
+	private function testPointsIds($points_ids) {
+		if (!is_array($points_ids)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+		foreach ($points_ids as $point_id) {
+			if (!is_numeric($point_id)) {
+				throw new CHttpException(400, 'Некорректный запрос.');
+			}
+		}
+	}
+
+	private function testPointsDates($points_dates) {
+		if (!is_array($points_dates)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+		foreach ($points_dates as $point_date) {
+			if (!preg_match('/\d{4}-\d{2}-\d{2}/', $point_date)) {
+				throw new CHttpException(400, 'Некорректный запрос.');
+			}
+		}
+	}
+
 	private function deletePosts($points_ids) {
 		Point::model()->deleteAllByAttributes(array('id' => $points_ids));
+	}
+
+	private function deleteSeparatorsDuplicates($points_dates) {
+		$points = Point::model()->findAllByAttributes(
+			array('date' => $points_dates),
+			array(
+				'select' => array('id', 'date', 'text'),
+				'order' => 'date, `order`'
+			)
+		);
+
+		$new_points = [];
+		foreach ($points as $point) {
+			if (!array_key_exists($point->date, $new_points)) {
+				$new_points[$point->date] = array();
+			}
+
+			$new_points[$point->date][] = array(
+				'id' => $point->id,
+				'text' => $point->text
+			);
+		}
+		$points = $new_points;
+
+		$points_for_deletion = [];
+		foreach ($points as $days_points) {
+			$i = 0;
+			while (
+				$i < count($days_points)
+				and empty($days_points[$i]['text'])
+			) {
+				$points_for_deletion[] = $days_points[$i]['id'];
+				$i++;
+			}
+
+			for ($i = 0; $i < count($days_points); $i++) {
+				if (
+					$i > 0
+					and empty($days_points[$i - 1]['text'])
+					and empty($days_points[$i]['text'])
+				) {
+					$points_for_deletion[] = $days_points[$i]['id'];
+				}
+			}
+
+			$i = count($days_points) - 1;
+			while ($i >= 0 and empty($days_points[$i]['text'])) {
+				$points_for_deletion[] = $days_points[$i]['id'];
+				$i--;
+			}
+		}
+		$points_for_deletion = array_unique($points_for_deletion, SORT_NUMERIC);
+
+		Point::model()->deleteAllByAttributes(
+			array('id' => $points_for_deletion)
+		);
 	}
 }
