@@ -71,13 +71,15 @@ google.setOnLoadCallback(
 		var ParseDate = function(date_string) {
 			return new Date(Date.parse(date_string));
 		};
-		var MakeRow = function(start, end, title, group) {
+		var MakeRow = function(start, end, group, is_separator) {
 			var row = [];
 			row.push(ParseDate(start));
 			row.push(ParseDate(end));
 			row.push(
 				'<div '
-					+ 'class = "content" '
+					+ 'class = "' + (
+						!is_separator ? 'content' : 'separator'
+					) + '" '
 					+ 'title = "' + FormatInterval(start, end) + '">'
 				+ '</div>'
 			);
@@ -87,6 +89,12 @@ google.setOnLoadCallback(
 		};
 
 		var data = [];
+		var AddSeparator = function(group) {
+			data.push(
+				MakeRow(STATS_DATA.start, STATS_DATA.end, group, true)
+			);
+		};
+
 		var groups = {};
 		var first_keys = Object.keys(STATS_DATA.data);
 		var first_keys_length = first_keys.length;
@@ -100,7 +108,6 @@ google.setOnLoadCallback(
 				var second_key = second_keys[j];
 				var subsubdata = subdata.tasks[second_key];
 
-				var title = first_key + ', ' + second_key;
 				var group = '&#x21b3; ' + second_key;
 				if (!groups.hasOwnProperty(group)) {
 					groups[group] = 0;
@@ -115,15 +122,14 @@ google.setOnLoadCallback(
 
 				for (var k = 0; k < subsubdata.intervals.length; k++) {
 					var interval = subsubdata.intervals[k];
-					data.push(
-						MakeRow(interval.start, interval.end, title, group)
-					);
+					data.push(MakeRow(interval.start, interval.end, group));
 				}
+
+				AddSeparator(group);
 			}
 
-			data.push(
-				MakeRow(subdata.start, subdata.end, first_key, first_key)
-			);
+			data.push(MakeRow(subdata.start, subdata.end, first_key));
+			AddSeparator(first_key);
 		}
 
 		var data_table = new google.visualization.DataTable();
