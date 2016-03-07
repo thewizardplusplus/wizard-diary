@@ -307,6 +307,10 @@ a.state-initial:focus {
 	background-color: #5cb85c;
 }
 
+.stats-view.projects .timeline-event-content .separator {
+	height: 0;
+}
+
 .stats-view.project-list {
 	background-color: #fcf8e3;
 	border: 1px solid #dddddd;
