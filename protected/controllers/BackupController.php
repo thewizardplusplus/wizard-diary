@@ -226,32 +226,20 @@ class BackupController extends CController {
 			throw new CException("Неверный CSRF токен.");
 		}
 
-		echo '<!DOCTYPE html>';
-		echo '<meta charset = "utf-8" />';
-		echo '<title>Backup redirect page</title>';
-		echo '<script>';
+		$code = isset($_GET['code']) ? $_GET['code'] : null;
+		$error = isset($_GET['error']) ? $_GET['error'] : null;
+		$error_description = isset($_GET['error_description'])
+			? $_GET['error_description']
+			: null;
 
-		echo 'if (window.opener) {';
-		if (isset($_GET['code'])) {
-			echo
-				'window.opener.Backup.create('
-					. "'" . CHtml::encode($_GET['code']) . "'"
-				. ');';
-		} else if (
-			isset($_GET['error'])
-			and $_GET['error'] != 'access_denied'
-		) {
-			echo
-				'window.opener.Backup.error('
-					. "'" . (isset($_GET['error_description'])
-						? CHtml::encode($_GET['error_description'])
-						: '') . "'"
-				. ');';
-		}
-		echo '}';
-		echo 'close();';
-
-		echo '</script>';
+		$this->renderPartial(
+			'redirect',
+			array(
+				'code' => $code,
+				'error' => $error,
+				'error_description' => $error_description
+			)
+		);
 	}
 
 	public function actionDiff($file, $previous_file) {
