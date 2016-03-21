@@ -22,10 +22,10 @@ return array(
 				'login' => 'site/login',
 				'access_code' => 'site/accessCode',
 				'days' => 'day/list',
-				'day/<date:\d\d\d\d-\d\d-\d\d>' => 'day/view',
-				'day/<date:\d\d\d\d-\d\d-\d\d>/update/line:<line:\d+>' =>
+				'day/<date:\d{4}(?:-\d{2}){2}>' => 'day/view',
+				'day/<date:\d{4}(?:-\d{2}){2}>/update/line:<line:\d+>' =>
 					'day/update',
-				'day/<date:\d\d\d\d-\d\d-\d\d>/update' => 'day/update',
+				'day/<date:\d{4}(?:-\d{2}){2}>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
 				'daily_points/update' => 'dailyPoint/update',
 				'delete_points' => 'point/delete',
