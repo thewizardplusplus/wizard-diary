@@ -38,8 +38,11 @@ return array(
 				'spellings' => 'spelling/list',
 				'spelling/delete' => 'spelling/delete',
 				'backups' => 'backup/list',
-				'backup/current_diff/<file:[\w-]+>' => 'backup/currentDiff',
-				'backup/diff/<file:[\w-]+>/<previous_file:[\w-]+>' =>
+				'backup/current_diff/<file:\d{4}(?:-\d{2}){5}>' =>
+					'backup/currentDiff',
+				'backup/diff'
+					. '/<file:\d{4}(?:-\d{2}){5}>'
+					. '/<previous_file:\d{4}(?:-\d{2}){5}>' =>
 					'backup/diff',
 				'parameters' => 'parameters/update',
 				'accesses' => 'access/list',

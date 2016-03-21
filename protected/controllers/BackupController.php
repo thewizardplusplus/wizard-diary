@@ -255,6 +255,9 @@ class BackupController extends CController {
 	}
 
 	public function actionDiff($file, $previous_file) {
+		$this->testFileTimestamp($file);
+		$this->testFileTimestamp($previous_file);
+
 		$diff_representation = $this->getBackupsDiff($previous_file, $file);
 		$previous_file_timestamp = $this->formatBackupTimestamp($previous_file);
 		$file_timestamp = $this->formatBackupTimestamp($file);
@@ -270,6 +273,8 @@ class BackupController extends CController {
 	}
 
 	public function actionCurrentDiff($file) {
+		$this->testFileTimestamp($file);
+
 		$diff_representation = $this->getBackupsDiff($file, null);
 		$previous_file_timestamp = $this->formatBackupTimestamp($file);
 
@@ -448,6 +453,12 @@ class BackupController extends CController {
 			\Dropbox\WriteMode::add(),
 			$file
 		);
+	}
+
+	private function testFileTimestamp($timestamp) {
+		if (!preg_match('/\d{4}(?:-\d{2}){5}/', $timestamp)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
 	}
 
 	private function getBackupsDiff($previous_file, $file) {
