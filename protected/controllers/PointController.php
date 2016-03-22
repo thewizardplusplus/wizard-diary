@@ -49,6 +49,11 @@ class PointController extends CController {
 
 		$model = $this->loadModel($id);
 		$model->attributes = $_POST['Point'];
+		$result = $model->validate();
+		if (!$result) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+
 		$model->save();
 	}
 
@@ -91,7 +96,7 @@ class PointController extends CController {
 			throw new CHttpException(400, 'Некорректный запрос.');
 		}
 		foreach ($points_dates as $point_date) {
-			if (!preg_match('/\d{4}-\d{2}-\d{2}/', $point_date)) {
+			if (!preg_match('/\d{4}(?:-\d{2}){2}/', $point_date)) {
 				throw new CHttpException(400, 'Некорректный запрос.');
 			}
 		}
