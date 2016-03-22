@@ -166,7 +166,7 @@ class BackupController extends CController {
 		$backup_path = $base_backup_path . '/' . $backup_name . '.xml';
 		$dump = $this->dumpDatabase();
 		$result = file_put_contents($backup_path, $dump);
-		if (!$result) {
+		if ($result === false) {
 			throw new CException('Не удалось записать бекап на диск.');
 		}
 
@@ -203,17 +203,27 @@ class BackupController extends CController {
 			throw new CException('Не передан путь к бекапу.');
 		}
 
-		$this->saveFileToDropbox(
-			$_POST['authorization_code'],
-			$_POST['backup_path']
-		);
+		$backup_path = $_POST['backup_path'];
+		if (!is_readable($backup_path) or !is_file($backup_path)) {
+			throw new CException('Передан невалидный путь к бекапу.');
+		}
 
-		if (isset($_POST['create_time'])) {
-			$elapsed_time = microtime(true) - $start_time;
+		$this->saveFileToDropbox($_POST['authorization_code'], $backup_path);
+
+		if (
+			isset($_POST['create_time'])
+			and preg_match(
+				'/\d{4}(?:-\d{2}){2} \d{2}(?::\d{2}){2}/',
+				$_POST['create_time']
+			)
+		) {
 			$backup = Backup::model()->findByAttributes(
 				array('create_time' => $_POST['create_time'])
 			);
+
+			$elapsed_time = microtime(true) - $start_time;
 			$backup->save_duration = $elapsed_time;
+
 			$backup->save();
 		}
 	}
@@ -402,6 +412,7 @@ class BackupController extends CController {
 			. Constants::DROPBOX_REDIRECT_URL;
 
 		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
 		curl_setopt(
 			$curl,
 			CURLOPT_POSTFIELDS,
@@ -432,6 +443,10 @@ class BackupController extends CController {
 		}
 
 		$file = fopen($filename, 'rb');
+		if ($file === false) {
+			throw new CException('Не удалось прочитать бекап с диска.');
+		}
+
 		$dropbox_client = new \Dropbox\Client(
 			$access_data['access_token'],
 			Constants::DROPBOX_APP_NAME
