@@ -62,7 +62,10 @@ $(document).ready(
 					}
 				).fail(BackupUtils.error);
 			},
-			error: AjaxErrorDialog.show
+			error: function(message) {
+				FinishAnimation();
+				AjaxErrorDialog.show(message);
+			}
 		};
 
 		create_backup_button.click(
