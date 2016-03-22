@@ -15,16 +15,14 @@
 		<script>
 			if (window.opener) {
 				<?php if (!empty($error)) { ?>
-					<?php if ($error != 'access_denied') { ?>
-						opener.Backup.error(
-							<?php if (!empty($error_description)) { ?>
-								'<?= CJavaScript::quote($error_description) ?>'
-							<?php } else { ?>
-								'неизвестная ошибка'
-							<?php } ?>
-							+ ' (<?= CJavaScript::quote($error) ?>)'
-						);
-					<?php } ?>
+					opener.Backup.error(
+						<?php if (!empty($error_description)) { ?>
+							'<?= CJavaScript::quote($error_description) ?>'
+						<?php } else { ?>
+							'неизвестная ошибка'
+						<?php } ?>
+						+ ' (<?= CJavaScript::quote($error) ?>)'
+					);
 				<?php } else if (!empty($code)) { ?>
 					opener.Backup.create('<?= CJavaScript::quote($code) ?>');
 				<?php } ?>
