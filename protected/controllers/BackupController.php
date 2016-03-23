@@ -456,6 +456,8 @@ class BackupController extends CController {
 			\Dropbox\WriteMode::add(),
 			$file
 		);
+
+		fclose($file);
 	}
 
 	private function testFileTimestamp($timestamp) {
