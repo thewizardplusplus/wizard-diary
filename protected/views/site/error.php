@@ -5,10 +5,10 @@
 	 * @var string $message the error message
 	 */
 
-	$this->pageTitle = Yii::app()->name . ' - Ошибка ' . $code;
+	$this->pageTitle = Yii::app()->name . ' - Ошибка ' . CHtml::encode($code);
 ?>
 
 <div class = "alert alert-danger">
-	<h4>Ошибка <?= $code ?></h4>
-	<p><?= $message ?></p>
+	<h4>Ошибка <?= CHtml::encode($code) ?></h4>
+	<p><?= CHtml::encode($message) ?></p>
 </div>

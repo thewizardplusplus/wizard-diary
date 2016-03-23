@@ -52,22 +52,22 @@
 	)
 ); ?>
 	<?= $form->errorSummary(
-			 $model,
-			 NULL,
-			 NULL,
-			 array('class' => 'alert alert-danger')
+		$model,
+		NULL,
+		NULL,
+		array('class' => 'alert alert-danger')
 	) ?>
 
 	<div class = "form-group <?= $access_code_container_class ?>">
 		<?= $form->labelEx(
-				 $model,
-				 'access_code',
-				 array('class' => 'control-label')
+			$model,
+			'access_code',
+			array('class' => 'control-label')
 		) ?>
 		<?= $form->textField(
-				 $model,
-				 'access_code',
-				 array('class' => 'form-control')
+			$model,
+			'access_code',
+			array('class' => 'form-control')
 		) ?>
 		<?= $form->error($model, 'access_code') ?>
 	</div>
