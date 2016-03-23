@@ -100,20 +100,10 @@
 			'rowHtmlOptionsExpression' => 'array('
 				. '"data-ip" => CHtml::encode($data->ip),'
 				. '"data-decode-ip-url" =>'
-					. '$this->controller->createUrl('
-						. '"access/decodeIp",'
-						. 'array('
-							. '"ip" => rawurlencode($data->ip)'
-						. ')'
-					. '),'
+					. '$this->controller->createUrl("access/decodeIp"),'
 				. '"data-user-agent" => CHtml::encode($data->user_agent),'
 				. '"data-decode-user-agent-url" =>'
-					. '$this->controller->createUrl('
-						. '"access/decodeUserAgent",'
-						. 'array('
-							. '"user_agent" => rawurlencode($data->user_agent)'
-						. ')'
-					. ')'
+					. '$this->controller->createUrl("access/decodeUserAgent")'
 			. ')',
 			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',

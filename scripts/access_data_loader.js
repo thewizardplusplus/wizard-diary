@@ -116,6 +116,7 @@ $(document).ready(
 					var decode_ip_url = access_data.data('decode-ip-url');
 					$.get(
 						decode_ip_url,
+						{ip: ip},
 						function(data) {
 							$('.access-ip', access_data).html(
 								FormatIpData(ip, data)
@@ -132,6 +133,7 @@ $(document).ready(
 					);
 					$.get(
 						decode_user_agent_url,
+						{user_agent: user_agent},
 						function(data) {
 							$('.access-user-agent', access_data).html(
 								FormatUserAgentData(user_agent, data)

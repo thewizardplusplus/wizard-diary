@@ -107,6 +107,8 @@ class DayController extends CController {
 	}
 
 	public function actionView($date) {
+		$this->testDate($date);
+
 		$data_provider = new CActiveDataProvider(
 			'Point',
 			array(
@@ -134,11 +136,16 @@ class DayController extends CController {
 	}
 
 	public function actionStats($date) {
+		$this->testDate($date);
+
 		$stats = $this->getStats($date);
 		echo json_encode($stats);
 	}
 
 	public function actionUpdate($date, $line = 0) {
+		$this->testDate($date);
+		$this->testLineNumber($line);
+
 		if (isset($_POST['points_description'])) {
 			$number_of_daily_points = Point::model()->count(
 				array(
@@ -221,6 +228,18 @@ class DayController extends CController {
 	private function getMyDay($date) {
 		$my_date = DateFormatter::formatMyDate($date);
 		return intval(explode('.', $my_date)[0]);
+	}
+
+	private function testDate($date) {
+		if (!preg_match('/\d{4}(?:-\d{2}){2}/', $date)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+	}
+
+	private function testLineNumber($number) {
+		if (!preg_match('/\d+/', $number)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
 	}
 
 	private function getStats($date) {

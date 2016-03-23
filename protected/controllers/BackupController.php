@@ -166,7 +166,7 @@ class BackupController extends CController {
 		$backup_path = $base_backup_path . '/' . $backup_name . '.xml';
 		$dump = $this->dumpDatabase();
 		$result = file_put_contents($backup_path, $dump);
-		if (!$result) {
+		if ($result === false) {
 			throw new CException('Не удалось записать бекап на диск.');
 		}
 
@@ -203,17 +203,27 @@ class BackupController extends CController {
 			throw new CException('Не передан путь к бекапу.');
 		}
 
-		$this->saveFileToDropbox(
-			$_POST['authorization_code'],
-			$_POST['backup_path']
-		);
+		$backup_path = $_POST['backup_path'];
+		if (!is_readable($backup_path) or !is_file($backup_path)) {
+			throw new CException('Передан невалидный путь к бекапу.');
+		}
 
-		if (isset($_POST['create_time'])) {
-			$elapsed_time = microtime(true) - $start_time;
+		$this->saveFileToDropbox($_POST['authorization_code'], $backup_path);
+
+		if (
+			isset($_POST['create_time'])
+			and preg_match(
+				'/\d{4}(?:-\d{2}){2} \d{2}(?::\d{2}){2}/',
+				$_POST['create_time']
+			)
+		) {
 			$backup = Backup::model()->findByAttributes(
 				array('create_time' => $_POST['create_time'])
 			);
+
+			$elapsed_time = microtime(true) - $start_time;
 			$backup->save_duration = $elapsed_time;
+
 			$backup->save();
 		}
 	}
@@ -226,35 +236,26 @@ class BackupController extends CController {
 			throw new CException("Неверный CSRF токен.");
 		}
 
-		echo '<!DOCTYPE html>';
-		echo '<meta charset = "utf-8" />';
-		echo '<title>Backup redirect page</title>';
-		echo '<script>';
+		$code = isset($_GET['code']) ? $_GET['code'] : null;
+		$error = isset($_GET['error']) ? $_GET['error'] : null;
+		$error_description = isset($_GET['error_description'])
+			? $_GET['error_description']
+			: null;
 
-		echo 'if (window.opener) {';
-		if (isset($_GET['code'])) {
-			echo
-				'window.opener.Backup.create('
-					. "'" . CHtml::encode($_GET['code']) . "'"
-				. ');';
-		} else if (
-			isset($_GET['error'])
-			and $_GET['error'] != 'access_denied'
-		) {
-			echo
-				'window.opener.Backup.error('
-					. "'" . (isset($_GET['error_description'])
-						? CHtml::encode($_GET['error_description'])
-						: '') . "'"
-				. ');';
-		}
-		echo '}';
-		echo 'close();';
-
-		echo '</script>';
+		$this->renderPartial(
+			'redirect',
+			array(
+				'code' => $code,
+				'error' => $error,
+				'error_description' => $error_description
+			)
+		);
 	}
 
 	public function actionDiff($file, $previous_file) {
+		$this->testFileTimestamp($file);
+		$this->testFileTimestamp($previous_file);
+
 		$diff_representation = $this->getBackupsDiff($previous_file, $file);
 		$previous_file_timestamp = $this->formatBackupTimestamp($previous_file);
 		$file_timestamp = $this->formatBackupTimestamp($file);
@@ -270,6 +271,8 @@ class BackupController extends CController {
 	}
 
 	public function actionCurrentDiff($file) {
+		$this->testFileTimestamp($file);
+
 		$diff_representation = $this->getBackupsDiff($file, null);
 		$previous_file_timestamp = $this->formatBackupTimestamp($file);
 
@@ -409,6 +412,7 @@ class BackupController extends CController {
 			. Constants::DROPBOX_REDIRECT_URL;
 
 		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
 		curl_setopt(
 			$curl,
 			CURLOPT_POSTFIELDS,
@@ -439,6 +443,10 @@ class BackupController extends CController {
 		}
 
 		$file = fopen($filename, 'rb');
+		if ($file === false) {
+			throw new CException('Не удалось прочитать бекап с диска.');
+		}
+
 		$dropbox_client = new \Dropbox\Client(
 			$access_data['access_token'],
 			Constants::DROPBOX_APP_NAME
@@ -448,6 +456,14 @@ class BackupController extends CController {
 			\Dropbox\WriteMode::add(),
 			$file
 		);
+
+		fclose($file);
+	}
+
+	private function testFileTimestamp($timestamp) {
+		if (!preg_match('/\d{4}(?:-\d{2}){5}/', $timestamp)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
 	}
 
 	private function getBackupsDiff($previous_file, $file) {
