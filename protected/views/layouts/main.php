@@ -11,9 +11,14 @@
 	Yii::app()->getClientScript()->registerScript(
 		base64_encode(uniqid(rand(), true)),
 		'var CSRF_TOKEN = {'
-			. '\'' . Yii::app()->request->csrfTokenName . '\':'
-				. '\'' . Yii::app()->request->csrfToken . '\''
-		. '};',
+				. '\'' . Yii::app()->request->csrfTokenName . '\':'
+					. '\'' . Yii::app()->request->csrfToken . '\''
+			. '};',
+		CClientScript::POS_HEAD
+	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var RAW_CSRF_TOKEN = \'' . Yii::app()->request->csrfToken . '\';',
 		CClientScript::POS_HEAD
 	);
 	if (!Yii::app()->user->isGuest) {
@@ -75,20 +80,36 @@
 					<div
 						id = "navbar-collapse"
 						class = "collapse navbar-collapse">
-						<?php $this->widget(
-							'zii.widgets.CMenu',
-							array(
-								'items' => array(
+						<ul class = "nav navbar-nav">
+							<li class = "dropdown">
+								<a
+									href = "#"
+									class = "dropdown-toggle"
+									data-toggle = "dropdown">
+									Пункты <span class = "caret"></span>
+								</a>
+								<?php $this->widget(
+									'zii.widgets.CMenu',
 									array(
-										'label' => 'Ежедневно',
-										'url' => array('dailyPoint/list')
+										'items' => array(
+											array(
+												'label' => 'Ежедневные',
+												'url' => array(
+													'dailyPoint/list'
+												)
+											),
+											array(
+												'label' => 'Удаление',
+												'url' => array('point/delete')
+											)
+										),
+										'htmlOptions' => array(
+											'class' => 'dropdown-menu'
+										)
 									)
-								),
-								'htmlOptions' => array(
-									'class' => 'nav navbar-nav'
-								)
-							)
-						); ?>
+								); ?>
+							</li>
+						</ul>
 						<ul class = "nav navbar-nav">
 							<li class = "dropdown">
 								<a
@@ -122,9 +143,46 @@
 												'url' => array('stats/projects')
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
+												'label' =>
+													'Список ежедневных пунктов',
+												'url' => array(
+													'stats/dailyPointList'
+												)
+											),
+											array(
 												'label' => 'Список проектов',
 												'url' => array(
 													'stats/projectList'
+												)
+											),
+											array(
+												'label' => 'Список действий',
+												'url' => array(
+													'stats/projectActions'
+												)
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
+												'label' => 'Достижения',
+												'url' => array(
+													'stats/achievements'
+												)
+											),
+											array(
+												'label' => 'Будущие достижения',
+												'url' => array(
+													'stats/futureAchievements'
 												)
 											)
 										),
@@ -152,8 +210,34 @@
 												'url' => array('backup/list')
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
+												'label' => 'Ошибки',
+												'url' => array('mistake/list')
+											),
+											array(
+												'label' => 'Словарь',
+												'url' => array('spelling/list')
+											),
+											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Лог доступа',
 												'url' => array('access/list')
+											),
+											array(
+												'label' => 'Белый список',
+												'url' => array(
+													'access/whitelist'
+												)
 											),
 											array(
 												'label' => '',
@@ -217,18 +301,44 @@
 		<section class = "container">
 			<?= $content ?>
 
-			<footer class = "small-text">
+			<footer class = "clearfix small-text">
 				<hr />
-				<p>
-					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?><br />
-					<span class = "unimportant-text">
-						&copy; thewizardplusplus, <?= $copyright_years ?>
-					</span>
-				<p>
+				<div class = "pull-right">
+					<p
+						class = "unimportant-text italic-text without-bottom-margin">
+						Страница отрендерена за <strong><?=
+							round(Yii::getLogger()->executionTime, 2)
+						?> с</strong>.
+					</p>
+					<p
+						class = "unimportant-text italic-text without-bottom-margin">
+						Использовано <strong><?=
+							round(
+								Yii::getLogger()->memoryUsage
+									/ (1024.0 * 1024.0),
+								2
+							)
+						?> МиБ</strong> ОЗУ.
+					</p>
+					<p class = "unimportant-text italic-text">
+						Совершено <strong><?=
+							RequestFormatter::formatRequests(
+								Yii::app()->db->getStats()[0]
+							)
+						?></strong> к БД.
+					</p>
+				</div>
+
+				<p class = "without-bottom-margin">
+					<?= Yii::app()->name ?>, <?= Constants::APP_VERSION ?>
+				</p>
+				<p class = "unimportant-text">
+					Copyright &copy; <?= $copyright_years ?> thewizardplusplus
+				</p>
 			</footer>
 		</section>
 
-		<div class = "modal ajax-error-dialog">
+		<div class = "modal ajax-error-dialog" tabindex = "-1">
 			<div class = "modal-dialog">
 				<div class = "modal-content">
 					<div class = "modal-header">
@@ -265,7 +375,7 @@
 			</div>
 		</div>
 
-		<div class = "modal backup-dialog">
+		<div class = "modal backup-dialog" tabindex = "-1">
 			<div class = "modal-dialog">
 				<div class = "modal-content">
 					<div class = "modal-header">

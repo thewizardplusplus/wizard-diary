@@ -2,11 +2,7 @@
 
 class DailyPointController extends CController {
 	public function filters() {
-		return array(
-			'accessControl',
-			'postOnly + create, update, delete',
-			'ajaxOnly + create, update, delete'
-		);
+		return array('accessControl');
 	}
 
 	public function accessRules() {
@@ -14,6 +10,43 @@ class DailyPointController extends CController {
 	}
 
 	public function actionList() {
+		$current_date = date('Y-m-d');
+		$my_current_date = DateFormatter::getDatePartsInMyFormat($current_date);
+		$model = new DailyPointForm(
+			$my_current_date->day,
+			$my_current_date->year
+		);
+
+		if (isset($_POST['ajax']) and $_POST['ajax'] == 'daily-point-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		if (isset($_POST['DailyPointForm'])) {
+			$model->attributes = $_POST['DailyPointForm'];
+			$result = $model->validate();
+			if ($result) {
+				$target_date = DateFormatter::getDateFromMyDateParts(
+					$model->day,
+					$model->year
+				);
+
+				DailyPointsAdder::addDailyPoints($target_date);
+				$this->redirect(
+					$this->createUrl('day/view', array('date' => $target_date))
+				);
+			}
+		}
+
+		$day_container_class =
+			count($model->getErrors('day'))
+				? ' has-error'
+				: '';
+		$year_container_class =
+			count($model->getErrors('year'))
+				? ' has-error'
+				: '';
+
 		$data_provider = new CActiveDataProvider(
 			'DailyPoint',
 			array(
@@ -21,76 +54,120 @@ class DailyPointController extends CController {
 				'pagination' => false
 			)
 		);
-		$this->render('list', array('data_provider' => $data_provider));
+		$number_of_daily_points = $this->getNumberOfDailyPoints();
+
+		$this->render(
+			'list',
+			array(
+				'data_provider' => $data_provider,
+				'model' => $model,
+				'day_container_class' => $day_container_class,
+				'year_container_class' => $year_container_class,
+				'date' => $current_date,
+				'my_date' => $my_current_date,
+				'number_of_daily_points' => $number_of_daily_points
+			)
+		);
 	}
 
-	public function actionCreate() {
-		if (isset($_POST['DailyPoint'])) {
-			$model = new DailyPoint();
-			$model->attributes = $_POST['DailyPoint'];
-			$result = $model->save();
+	public function actionUpdate() {
+		if (isset($_POST['points_description'])) {
+			$sql = $this->dailyPointsToSql($_POST['points_description']);
+			Yii::app()->db->createCommand($sql)->execute();
 
-			if ($result) {
-				DailyPoint::renumberOrderFieldsForDate();
+			return;
+		}
+
+		$points_description = $this->getDailyPoints();
+		$number_of_daily_points = $this->getNumberOfDailyPoints();
+
+		$this->render(
+			'update',
+			array(
+				'points_description' => $points_description,
+				'number_of_daily_points' => $number_of_daily_points
+			)
+		);
+	}
+
+	private function getNumberOfDailyPoints() {
+		return DailyPoint::model()->count(
+			array('condition' => 'LENGTH(TRIM(`text`)) > 0')
+		);
+	}
+
+	private function getDailyPoints() {
+		$daily_points = DailyPoint::model()->findAll(
+			array(
+				'select' => array('text'),
+				'order' => '`order`'
+			)
+		);
+
+		$points_description = '';
+		foreach ($daily_points as $daily_point) {
+			$text = trim($daily_point->text);
+			if (!empty($text) and substr($text, -1) == ';') {
+				$text = substr($text, 0, -1);
 			}
+
+			$points_description .= $text . "\n";
 		}
+
+		return $points_description;
 	}
 
-	public function actionUpdate($id) {
-		if (!isset($_POST['DailyPoint'])) {
-			return;
-		}
+	private function dailyPointsToSql($points_description) {
+		$points = explode("\n", $points_description);
+		$points = array_map(
+			function($point) {
+				if (!empty($point) and substr($point, -1) == ';') {
+					$point = substr($point, 0, -1);
+				}
 
-		$model = $this->loadModel($id);
-		$model->attributes = $_POST['DailyPoint'];
-		$result = $model->save();
-		if (!$result) {
-			return;
-		}
-
-		if (isset($_POST['DailyPoint']['text'])) {
-			echo $model->text;
-		}
-		if (isset($_POST['DailyPoint']['order'])) {
-			DailyPoint::renumberOrderFieldsForDate();
-		}
-	}
-
-	public function actionOrder() {
-		if (!isset($_POST['ids']) || !is_array($_POST['ids'])) {
-			return;
-		}
-
-		$sql = '';
-		$order = 3;
-		foreach ($_POST['ids'] as $id) {
-			if (!is_numeric($id)) {
-				continue;
-			}
-
-			$sql .= sprintf(
-				"UPDATE `{{daily_points}}` SET `order` = %d WHERE `id` = %d;\n",
-				$order,
-				intval($id)
+				return $point;
+			},
+			$points
+		);
+		if (
+			!empty($points)
+			&& empty($points[count($points) - 1])
+		) {
+			$points = array_slice(
+				$points,
+				0,
+				count($points) - 1
 			);
-			$order += 2;
-		}
-		$sql = "START TRANSACTION;\n\n${sql}\nCOMMIT;\n";
-
-		Yii::app()->db->createCommand($sql)->execute();
-	}
-
-	public function actionDelete($id) {
-		$this->loadModel($id)->delete();
-		DailyPoint::renumberOrderFieldsForDate();
-	}
-
-	private function loadModel($id) {
-		$model = DailyPoint::model()->findByPk($id);
-		if (is_null($model)) {
-			throw new CHttpException(404, 'Запрашиваемая страница не найдена.');
 		}
 
-		return $model;
+		$order = Constants::MINIMAL_ORDER_VALUE;
+		$points_sql_lines = array_map(
+			function($point) use (&$order) {
+				$sql_line = sprintf(
+					'(%s, %d)',
+					Yii::app()->db->quoteValue($point),
+					$order
+				);
+				$order += 2;
+
+				return $sql_line;
+			},
+			$points
+		);
+
+		$points_sql = '';
+		if (!empty($points_sql_lines)) {
+			$points_sql = sprintf(
+				"INSERT INTO `{{daily_points}}` (`text`, `order`)\n"
+					. "VALUES\n\t%s;",
+				implode(",\n\t", $points_sql_lines)
+			);
+		}
+
+		return
+			"START TRANSACTION;\n\n"
+			. "DELETE FROM `{{daily_points}}`;\n\n"
+			. "$points_sql\n\n"
+			. "COMMIT;";
 	}
 }

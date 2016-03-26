@@ -11,6 +11,11 @@
 		'var STATS_DATA = ' . json_encode($data) . ';',
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScript(
+		base64_encode(uniqid(rand(), true)),
+		'var NODE_TEXT_SEPATOR = \', \';',
+		CClientScript::POS_HEAD
+	);
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/stats_project_list.js'),
 		CClientScript::POS_HEAD

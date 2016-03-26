@@ -114,17 +114,15 @@ class AccessController extends CController {
 	}
 
 	public function actionDecodeIp($ip) {
-		$answer = file_get_contents(
-			'http://ipinfo.io/'
-			. ($ip != '127.0.0.1' ? $ip . '/' : '' )
-			. 'geo'
-		);
-		echo !empty($answer) ? $answer : 'null';
+		$decoding_url = 'http://ipinfo.io/'
+			. ($ip != '127.0.0.1' ? urlencode($ip) . '/' : '' )
+			. 'geo';
+		self::decodeData($decoding_url);
 	}
 
 	public function actionDecodeUserAgent($user_agent) {
-		$answer = file_get_contents(
-			'http://useragentstring.com/?uas=' . $user_agent
+		$decoding_url = 'http://useragentstring.com/'
+			. '?uas=' . urlencode($user_agent)
 			. '&getJSON='
 				. 'agent_type'
 				. '-agent_name'
@@ -133,9 +131,8 @@ class AccessController extends CController {
 				. '-os_name'
 				. '-os_versionName'
 				. '-os_versionNumber'
-				. '-linux_distibution'
-		);
-		echo !empty($answer) ? $answer : 'null';
+				. '-linux_distibution';
+		self::decodeData($decoding_url);
 	}
 
 	public function actionInfo() {
@@ -159,7 +156,37 @@ class AccessController extends CController {
 		echo $json;
 	}
 
+	public function actionWhitelist() {
+		if (Yii::app()->request->isPostRequest) {
+			UserInfo::model()->deleteAll();
+			$this->redirect($this->createUrl('access/whitelist'));
+		}
+
+		$data_provider = new CActiveDataProvider(
+			'UserInfo',
+			array(
+				'criteria' => array(
+					'select' =>
+						'ip,'
+						. 'user_agent,'
+						. 'MAX(timestamp) AS timestamp,'
+						. 'COUNT(*) AS number',
+					'group' => 'ip, user_agent',
+					'order' => 'timestamp DESC'
+				),
+				'sort' => false
+			)
+		);
+
+		$this->render('whitelist', array('data_provider' => $data_provider));
+	}
+
 	private static function escapeForLike($value) {
 		return preg_replace('/(_|%)/', '\\\\$1', $value);
+	}
+
+	private static function decodeData($decoding_url) {
+		$answer = file_get_contents($decoding_url);
+		echo !empty($answer) ? $answer : 'null';
 	}
 }

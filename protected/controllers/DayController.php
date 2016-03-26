@@ -42,7 +42,23 @@ class DayController extends CController {
 			->from('{{points}}')
 			->group('date')
 			->queryAll();
-		$daily_stats = StatsController::collectDailyStats();
+		$days = DateCompleter::complete(
+			$days,
+			function($key, $value) {
+				return $value['date'];
+			},
+			function(&$dates, $key, $value, $date) {
+				$dates[] =
+					!is_null($value)
+						? $value
+						: array(
+							'date' => $date,
+							'completed' => true,
+							'daily' => 0,
+							'projects' => 0
+						);
+			}
+		);
 
 		$data_provider = new CArrayDataProvider(
 			$days,
@@ -55,16 +71,44 @@ class DayController extends CController {
 			)
 		);
 
+		$daily_stats = StatsController::collectDailyStats();
+
+		$current_date = date('Y-m-d');
+		$day = $this->getMyDay($current_date);
+
+		$rest_days = $day % Constants::DAYS_IN_MY_STREAK;
+		$rest_days =
+			$rest_days != 0
+				? $rest_days
+				: Constants::DAYS_IN_MY_STREAK;
+		$rest_days = Constants::DAYS_IN_MY_STREAK - $rest_days + 1;
+
+		$target_date = date_add(
+			date_create($current_date),
+			DateInterval::createFromDateString(
+				sprintf('%d day', $rest_days - 1)
+			)
+		);
+		$target_date = $target_date->format('Y-m-d');
+
 		$this->render(
 			'list',
 			array(
 				'data_provider' => $data_provider,
-				'daily_stats' => $daily_stats
+				'daily_stats' => $daily_stats,
+				'rest_days_prefix' => DayFormatter::formatRestDaysPrefix(
+					$rest_days
+				),
+				'rest_days' => DayFormatter::formatCompletedDays($rest_days),
+				'target_date' => DateFormatter::formatDate($target_date),
+				'target_my_date' => DateFormatter::formatMyDate($target_date)
 			)
 		);
 	}
 
 	public function actionView($date) {
+		$this->testDate($date);
+
 		$data_provider = new CActiveDataProvider(
 			'Point',
 			array(
@@ -92,14 +136,27 @@ class DayController extends CController {
 	}
 
 	public function actionStats($date) {
+		$this->testDate($date);
+
 		$stats = $this->getStats($date);
 		echo json_encode($stats);
 	}
 
-	public function actionUpdate($date) {
+	public function actionUpdate($date, $line = 0) {
+		$this->testDate($date);
+		$this->testLineNumber($line);
+
 		if (isset($_POST['points_description'])) {
+			$number_of_daily_points = Point::model()->count(
+				array(
+					'condition' => 'date = :date AND `daily` = TRUE',
+					'params' => array('date' => $date)
+				)
+			);
+
 			$points_description = $this->extendImport(
-				$_POST['points_description']
+				$_POST['points_description'],
+				$number_of_daily_points
 			);
 			$sql = $this->importToSql($date, $points_description);
 			Yii::app()->db->createCommand($sql)->execute();
@@ -119,6 +176,7 @@ class DayController extends CController {
 		$points_description = $this->prepareImport($points);
 		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
+		$point_hierarchy = $this->getPointHierarchy();
 
 		$this->render(
 			'update',
@@ -127,14 +185,33 @@ class DayController extends CController {
 				'my_date' => DateFormatter::formatMyDate($date),
 				'date' => DateFormatter::formatDate($encoded_date),
 				'raw_date' => CHtml::encode($encoded_date),
-				'stats' => $stats
+				'stats' => $stats,
+				'point_hierarchy' => $point_hierarchy,
+				'line' => $line
 			)
 		);
 	}
 
-	public function findSatisfiedCounter($daily_stats, $date) {
+	public function getRowClass($date) {
+		$row_class = '';
+		$day = $this->getMyDay($date);
+		if (($day % Constants::DAYS_IN_MY_STREAK) == 0) {
+			$row_class = 'danger';
+		} else if (($day % (Constants::DAYS_IN_MY_STREAK / 2)) == 0) {
+			$row_class = 'warning';
+		} else if ((($day - 1) % Constants::DAYS_IN_MY_STREAK) == 0) {
+			$row_class = 'success';
+		}
+
+		return $row_class;
+	}
+
+	public function findSatisfiedCounter($daily_stats, $data) {
+		$date = $data['date'];
 		if (array_key_exists($date, $daily_stats)) {
 			return $daily_stats[$date]['satisfied'];
+		} else if ($data['daily'] == 0) {
+			return 100;
 		} else {
 			return -1;
 		}
@@ -148,8 +225,25 @@ class DayController extends CController {
 		}
 	}
 
+	private function getMyDay($date) {
+		$my_date = DateFormatter::formatMyDate($date);
+		return intval(explode('.', $my_date)[0]);
+	}
+
+	private function testDate($date) {
+		if (!preg_match('/\d{4}(?:-\d{2}){2}/', $date)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+	}
+
+	private function testLineNumber($number) {
+		if (!preg_match('/\d+/', $number)) {
+			throw new CHttpException(400, 'Некорректный запрос.');
+		}
+	}
+
 	private function getStats($date) {
-		return Yii::app()
+		$row = Yii::app()
 			->db
 			->createCommand()
 			->select(
@@ -158,6 +252,34 @@ class DayController extends CController {
 					'NOT MAX('
 							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
 						. ') AS \'completed\'',
+					'SUM('
+							. 'CASE '
+								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'daily\'',
+					'SUM('
+							. 'CASE '
+								. 'WHEN '
+									. '`daily` = TRUE '
+									. 'AND `state` = \'SATISFIED\''
+									. 'AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'satisfied\'',
+					'SUM('
+							. 'CASE '
+								. 'WHEN '
+									. '`daily` = TRUE '
+									. 'AND (`state` = \'SATISFIED\''
+									. 'OR `state` = \'NOT_SATISFIED\')'
+									. 'AND LENGTH(`text`) > 0 '
+									. 'THEN 1 '
+								. 'ELSE 0 '
+							. 'END'
+						. ') AS \'not_canceled\'',
 					'SUM('
 							. 'CASE '
 								. 'WHEN `daily` = FALSE AND LENGTH(`text`) > 0 '
@@ -171,6 +293,76 @@ class DayController extends CController {
 			->where('date = :date', array('date' => $date))
 			->group('date')
 			->queryRow();
+		if ($row === false) {
+			$row = array(
+				'date' => $date,
+				'completed' => true,
+				'daily' => 0,
+				'satisfied' => 100,
+				'not_canceled' => 0,
+				'projects' => 0
+			);
+		} else if (!$row['completed']) {
+			$row['satisfied'] = -1;
+		} else if ($row['not_canceled'] == 0) {
+			$row['satisfied'] = 100;
+		} else {
+			$row['satisfied'] = round(
+				100 * $row['satisfied'] / $row['not_canceled'],
+				2
+			);
+		}
+
+		return $row;
+	}
+
+	private function getPointHierarchy() {
+		$points = Point::model()->findAll(
+			array(
+				'select' => array('text'),
+				'condition' => '`daily` = FALSE AND LENGTH(TRIM(`text`)) > 0'
+			)
+		);
+
+		$hierarchy = array();
+		$tails = array();
+		foreach ($points as $point) {
+			$parts = array_map('trim', explode(',', $point->text));
+			$number_of_parts = count($parts);
+			if ($number_of_parts > 0) {
+				if (!array_key_exists($parts[0], $hierarchy)) {
+					$hierarchy[$parts[0]] = array();
+				}
+			}
+			if ($number_of_parts > 1) {
+				if (!in_array($parts[1], $hierarchy[$parts[0]])) {
+					$hierarchy[$parts[0]][] = $parts[1];
+				}
+			}
+			if ($number_of_parts > 2) {
+				$tails[] = implode(', ', array_slice($parts, 2));
+			}
+		}
+
+		$new_hierarchy = array();
+		foreach ($hierarchy as $level_1 => $level_2_list) {
+			sort($level_2_list, SORT_STRING);
+			$new_hierarchy[$level_1] = $level_2_list;
+		}
+		ksort($new_hierarchy, SORT_STRING);
+		$hierarchy = $new_hierarchy;
+
+		$prefix_forest = new PrefixForest();
+		foreach ($tails as $tail) {
+			$prefix_forest->add($tail);
+		}
+		$prefix_forest->clean();
+
+		$collector = new PrefixForestCollector();
+		$collector->collect($prefix_forest->root);
+		$tails = $collector->getLines();
+
+		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
 
 	private function prepareImport($points) {
@@ -224,7 +416,10 @@ class DayController extends CController {
 		return $points_description;
 	}
 
-	private function extendImport($points_description) {
+	private function extendImport(
+		$points_description,
+		$number_of_daily_points
+	) {
 		$lines = explode("\n", $points_description);
 
 		$last_line_blocks = array();
@@ -277,7 +472,7 @@ class DayController extends CController {
 				count($extended_lines) - 1
 			);
 		}
-		if (!empty($extended_lines)) {
+		if (!empty($extended_lines) and $number_of_daily_points > 0) {
 			array_unshift($extended_lines, '');
 		}
 

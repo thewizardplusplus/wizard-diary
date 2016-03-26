@@ -55,7 +55,9 @@ $(document).ready(
 				return '';
 			}
 
-			var text = node_text + (!instance.is_leaf(node_id) ? ', ' : '');
+			var text =
+				node_text
+				+ (!instance.is_leaf(node_id) ? NODE_TEXT_SEPATOR : '');
 			while (true) {
 				var parent_id = instance.get_parent(node_id);
 				if (parent_id == '#') {
@@ -64,7 +66,7 @@ $(document).ready(
 
 				var node_text = instance.get_node(parent_id).text;
 				if (!DATE_PATTERN.test(node_text)) {
-					text = node_text + ', ' + text;
+					text = node_text + NODE_TEXT_SEPATOR + text;
 				}
 
 				node_id = parent_id;

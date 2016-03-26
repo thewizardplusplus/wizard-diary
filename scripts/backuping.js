@@ -22,7 +22,7 @@ $(document).ready(
 				+ '&redirect_uri=' + encodeURIComponent(
 					location.protocol + '//' + location.host + redirect_url
 				)
-				+ '&force_reapprove=true';
+				+ '&state=' + RAW_CSRF_TOKEN;
 			open(url, '_blank', 'width=640, height=480');
 		};
 		BackupUtils.error = function(xhr, text_status) {
@@ -62,7 +62,10 @@ $(document).ready(
 					}
 				).fail(BackupUtils.error);
 			},
-			error: AjaxErrorDialog.show
+			error: function(message) {
+				FinishAnimation();
+				AjaxErrorDialog.show(message);
+			}
 		};
 
 		create_backup_button.click(

@@ -49,7 +49,12 @@
 	</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
-		<?= PointFormatter::formatNumberOfPoints($stats['projects']) ?>
+		<span class = "day-satisfied-view">
+			<?= $this->formatSatisfiedCounter($stats['satisfied']) ?>
+		</span>
+		<?= $stats['daily'] ?>+<?=
+			PointFormatter::formatNumberOfPoints($stats['projects'])
+		?>
 	</p>
 </header>
 
@@ -62,7 +67,6 @@
 			'template' => '{items}',
 			'hideHeader' => true,
 			'selectableRows' => 0,
-			'enableHistory' => true,
 			'columns' => array(
 				array('class' => 'PointStateColumn'),
 				array(

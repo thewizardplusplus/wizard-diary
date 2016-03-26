@@ -22,7 +22,13 @@ $(document).ready(
 		};
 		var FormatIpData = function(ip, data) {
 			return '<p>' + ip + '</p>'
-				+ '<p class = "small-text additional-info">'
+				+ '<p '
+					+ 'class = "'
+						+ 'small-text '
+						+ 'unimportant-text '
+						+ 'italic-text '
+						+ 'without-bottom-margin'
+					+ '">'
 					+ '<a href = "http://maps.google.com/maps?'
 						+ '&q=' + encodeURIComponent(
 							data.loc
@@ -58,16 +64,28 @@ $(document).ready(
 			}
 
 			return '<p>' + user_agent + '</p>'
-				+ '<p class = "small-text additional-info">'
-					+ 'ОС:'
+				+ '<p '
+					+ 'class = "'
+						+ 'small-text '
+						+ 'unimportant-text '
+						+ 'italic-text '
+						+ 'without-bottom-margin'
+					+ '">'
+					+ '<strong>ОС:</strong>'
 					+ ' ' + HtmlEncode(os_type)
 					+ ', ' + HtmlEncode(os_name)
 					+ WrapIfExists(data, 'os_versionName', {prepend: ' '})
 					+ WrapIfExists(data, 'os_versionNumber', {prepend: ' '})
 					+ '.'
 				+ '</p>'
-				+ '<p class = "small-text additional-info">'
-					+ 'Агент:'
+				+ '<p '
+					+ 'class = "'
+						+ 'small-text '
+						+ 'unimportant-text '
+						+ 'italic-text '
+						+ 'without-bottom-margin'
+					+ '">'
+					+ '<strong>Агент:</strong>'
 					+ WrapIfExists(
 						data,
 						'agent_type',
@@ -90,7 +108,7 @@ $(document).ready(
 		};
 
 		AccessData.load = function() {
-			$('#access-list .access-data').each(
+			$('.access-data').each(
 				function() {
 					var access_data = $(this);
 
@@ -98,6 +116,7 @@ $(document).ready(
 					var decode_ip_url = access_data.data('decode-ip-url');
 					$.get(
 						decode_ip_url,
+						{ip: ip},
 						function(data) {
 							$('.access-ip', access_data).html(
 								FormatIpData(ip, data)
@@ -114,6 +133,7 @@ $(document).ready(
 					);
 					$.get(
 						decode_user_agent_url,
+						{user_agent: user_agent},
 						function(data) {
 							$('.access-user-agent', access_data).html(
 								FormatUserAgentData(user_agent, data)

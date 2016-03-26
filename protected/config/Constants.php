@@ -6,11 +6,12 @@ class Constants extends AccessConstants {
 	const DEBUG = false;
 	const TRACE_LEVEL = 5;
 	const APP_NAME = 'Wizard Diary';
-	const APP_VERSION = 'v6.1';
+	const APP_VERSION = 'v7.0';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const DEFAULT_PASSWORD = 'admin';
 	const COPYRIGHT_START_YEAR = 2014;
 	const DAYS_IN_MY_YEAR = 300;
+	const DAYS_IN_MY_STREAK = 12;
 	// relatively at /protected/controllers
 	const BACKUPS_RELATIVE_PATH = '/../../dumps';
 	const BACKUPS_CREATE_DURATION_ACCURACY = 2;
@@ -18,6 +19,10 @@ class Constants extends AccessConstants {
 	const BACKUPS_CREATE_HARD_LIMIT = 0.9;
 	const BACKUPS_SIZE_ACCURACY = 2;
 	const DROPBOX_REDIRECT_URL = '/backup/redirect';
+	const SESSION_LIFETIME_IN_MIN_DEFAULT = 12;
+	const SESSION_LIFETIME_IN_MIN_MINIMUM = 1;
+	// 12 days
+	const SESSION_LIFETIME_IN_MIN_MAXIMUM = 17280;
 	const ACCESS_CODE_LENGTH = 5;
 	const ACCESS_CODE_LIFETIME_IN_S = 60;
 	// support 'sms', 'email', 'log' and unions by '|'
@@ -30,5 +35,6 @@ class Constants extends AccessConstants {
 	// 1 minute
 	const LOGIN_LIMIT_TIME_WINDOW_IN_S = 60;
 	const LOGIN_LIMIT_MAXIMAL_COUNT = 12;
+	const MINIMAL_ORDER_VALUE = 3;
 	const MAXIMAL_ORDER_VALUE = 1000000;
 }

@@ -4,22 +4,18 @@
 	 * @var ParametersForm $model
 	 * @var string $password_container_class
 	 * @var string $password_copy_container_class
+	 * @var string $session_lifetime_container_class
 	 * @var string $access_log_lifetime_container_class
 	 * @var CActiveForm $form
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('jquery.ui');
-
-	Yii::app()->getClientScript()->registerCssFile(
-		CHtml::asset('styles/custom_spinner.css')
+	Yii::app()->getClientScript()->registerPackage(
+		'awesome-bootstrap-checkbox'
 	);
 
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/custom_spinner.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/password_cleaning.js'),
+		CHtml::asset('scripts/parameters_form.js'),
 		CClientScript::POS_HEAD
 	);
 
@@ -90,11 +86,46 @@
 		</fieldset>
 	</div>
 
+	<div class = "form-group<?= $session_lifetime_container_class ?>">
+		<?= $form->labelEx(
+			$model,
+			'session_lifetime_in_min',
+			array(
+				'class' => 'control-label',
+				'label' => sprintf(
+					'%s (от %d до %d)',
+					$model->getAttributeLabel('session_lifetime_in_min'),
+					Constants::SESSION_LIFETIME_IN_MIN_MINIMUM,
+					Constants::SESSION_LIFETIME_IN_MIN_MAXIMUM
+				)
+			)
+		) ?>
+		<?= $form->textField(
+			$model,
+			'session_lifetime_in_min',
+			array(
+				'class' => 'form-control',
+				'autocomplete' => 'off',
+				'min' => Constants::SESSION_LIFETIME_IN_MIN_MINIMUM,
+				'max' => Constants::SESSION_LIFETIME_IN_MIN_MAXIMUM
+			)
+		) ?>
+		<?= $form->error($model, 'session_lifetime_in_min') ?>
+	</div>
+
 	<div class = "form-group<?= $access_log_lifetime_container_class ?>">
 		<?= $form->labelEx(
 			$model,
 			'access_log_lifetime_in_s',
-			array('class' => 'control-label')
+			array(
+				'class' => 'control-label',
+				'label' => sprintf(
+					'%s (от %d до %d, 0 &mdash; вечность)',
+					$model->getAttributeLabel('access_log_lifetime_in_s'),
+					Constants::ACCESS_LOG_LIFETIME_IN_S_MINIMUM,
+					Constants::ACCESS_LOG_LIFETIME_IN_S_MAXIMUM
+				)
+			)
 		) ?>
 		<?= $form->textField(
 			$model,
@@ -107,6 +138,11 @@
 			)
 		) ?>
 		<?= $form->error($model, 'access_log_lifetime_in_s') ?>
+	</div>
+
+	<div class = "checkbox checkbox-primary">
+		<?= $form->checkBox($model, 'use_whitelist') ?>
+		<?= $form->labelEx($model, 'use_whitelist') ?>
 	</div>
 
 	<?= CHtml::htmlButton(

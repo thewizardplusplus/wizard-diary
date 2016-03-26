@@ -1,7 +1,7 @@
 google.load('visualization', '1.0');
 google.setOnLoadCallback(
 	function() {
-		if (STATS_DATA.length == 0) {
+		if (STATS_DATA.data.length == 0) {
 			$('.empty-label').show();
 			return;
 		}
@@ -68,13 +68,18 @@ google.setOnLoadCallback(
 
 			return result;
 		};
-		var MakeRow = function(start, end, title, group) {
+		var ParseDate = function(date_string) {
+			return new Date(Date.parse(date_string));
+		};
+		var MakeRow = function(start, end, group, is_separator) {
 			var row = [];
-			row.push(new Date(Date.parse(start)));
-			row.push(new Date(Date.parse(end)));
+			row.push(ParseDate(start));
+			row.push(ParseDate(end));
 			row.push(
 				'<div '
-					+ 'class = "content" '
+					+ 'class = "' + (
+						!is_separator ? 'content' : 'separator'
+					) + '" '
 					+ 'title = "' + FormatInterval(start, end) + '">'
 				+ '</div>'
 			);
@@ -84,19 +89,18 @@ google.setOnLoadCallback(
 		};
 
 		var data = [];
-		var first_keys = Object.keys(STATS_DATA);
+		var AddSeparator = function(group) {
+			data.push(
+				MakeRow(STATS_DATA.start, STATS_DATA.end, group, true)
+			);
+		};
+
+		var groups = {};
+		var first_keys = Object.keys(STATS_DATA.data);
 		var first_keys_length = first_keys.length;
 		for (var i = 0; i < first_keys_length; i++) {
 			var first_key = first_keys[i];
-			var subdata = STATS_DATA[first_key];
-			data.push(
-				MakeRow(
-					subdata.start,
-					subdata.end,
-					first_key,
-					FormatNumber(i, first_keys_length) + '._ | ' + first_key
-				)
-			);
+			var subdata = STATS_DATA.data[first_key];
 
 			var second_keys = Object.keys(subdata.tasks);
 			var second_keys_length = second_keys.length;
@@ -104,22 +108,28 @@ google.setOnLoadCallback(
 				var second_key = second_keys[j];
 				var subsubdata = subdata.tasks[second_key];
 
-				var title = first_key + ', ' + second_key;
-				var group = '&#10551;' + second_key;
+				var group = '&#x21b3; ' + second_key;
+				if (!groups.hasOwnProperty(group)) {
+					groups[group] = 0;
+				} else {
+					groups[group] += 1;
+
+					var number_of_group_duplicates = groups[group];
+					for (var n = 0; n < number_of_group_duplicates; n++) {
+						group += '\u200b';
+					}
+				}
+
 				for (var k = 0; k < subsubdata.intervals.length; k++) {
 					var interval = subsubdata.intervals[k];
-					data.push(
-						MakeRow(
-							interval.start,
-							interval.end,
-							title,
-							FormatNumber(i, first_keys_length) + '.'
-								+ FormatNumber(j, second_keys_length) + ' | '
-								+ group
-						)
-					);
+					data.push(MakeRow(interval.start, interval.end, group));
 				}
+
+				AddSeparator(group);
 			}
+
+			data.push(MakeRow(subdata.start, subdata.end, first_key));
+			AddSeparator(first_key);
 		}
 
 		var data_table = new google.visualization.DataTable();
@@ -130,9 +140,27 @@ google.setOnLoadCallback(
 		data_table.addRows(data);
 
 		var container = $('.stats-view.projects').get(0);
-		var timeline = new links.Timeline(container, {locale: 'ru'});
+		var end_date = ParseDate(STATS_DATA.end);
+		var timeline = new links.Timeline(
+			container,
+			{
+				min: ParseDate(STATS_DATA.start),
+				max: end_date,
+				// 69 days (the maximum scale at which the layout remains true)
+				zoomMin: 69 * 24 * 60 * 60 * 1000,
+				// 69 days (the maximum scale at which the layout remains true)
+				zoomMax: 69 * 24 * 60 * 60 * 1000,
+				groupsOrder: false,
+				locale: 'ru'
+			}
+		);
 		var DrawFunction = function() {
 			timeline.draw(data_table);
+			timeline.setVisibleChartRange(
+				// 24 days from the end date
+				new Date(end_date.getTime() - 24 * 24 * 60 * 60 * 1000),
+				end_date
+			);
 		};
 
 		$(window).resize(

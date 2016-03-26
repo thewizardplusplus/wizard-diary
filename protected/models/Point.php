@@ -22,7 +22,6 @@ class Point extends CActiveRecord {
 
 	public function rules() {
 		return array(
-			array('text', 'safe'),
 			array(
 				'state',
 				'in',
@@ -32,8 +31,7 @@ class Point extends CActiveRecord {
 					'NOT_SATISFIED',
 					'CANCELED'
 				)
-			),
-			array('order', 'numerical')
+			)
 		);
 	}
 

@@ -7,10 +7,6 @@ $(document).ready(
 
 		AjaxErrorDialog = {
 			show: function(message) {
-				if (typeof DeletingDialog != 'undefined') {
-					DeletingDialog.hide();
-				}
-
 				error_description.html('&laquo;' + message + '&raquo;');
 				ajax_error_dialog.modal('show');
 			},

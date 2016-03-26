@@ -17,10 +17,6 @@
 		CClientScript::POS_HEAD
 	);
 	Yii::app()->getClientScript()->registerScriptFile(
-		CHtml::asset('scripts/ajax_error_dialog.js'),
-		CClientScript::POS_HEAD
-	);
-	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/access_data_loader.js'),
 		CClientScript::POS_HEAD
 	);
@@ -39,6 +35,31 @@
 <header class = "page-header">
 	<h4>Лог доступа</h4>
 </header>
+
+<div
+	class = "access-totally-info-view"
+	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
+	<p>
+		Общее число запросов:
+		<strong><span class = "access-counter-view">0</span></strong>.
+	</p>
+
+	<p>Скорость запросов:</p>
+	<ul>
+		<li>
+			<strong><span class = "access-speed-by-day-view">0</span>
+			в день</strong>;
+		</li>
+		<li>
+			<strong><span class = "access-speed-by-hour-view">0</span>
+			в час</strong>;
+		</li>
+		<li>
+			<strong><span class = "access-speed-by-minute-view">0</span>
+			в минуту</strong>.
+		</li>
+	</ul>
+</div>
 
 <div class = "table-responsive clearfix">
 	<?php $this->widget(
@@ -61,10 +82,10 @@
 					'htmlOptions' => array('class' => 'access-user-agent')
 				),
 				array(
-					'header' => 'Время последнего доступа',
+					'header' => 'Время последнего запроса',
 					'value' =>
 						'"<time>"'
-						. '. $data->getFormattedTimestamp()'
+							. '. $data->getFormattedTimestamp()'
 						. '. "</time>"',
 					'type' => 'raw'
 				),
@@ -77,25 +98,14 @@
 				'"access-data"'
 				. '. ($data->banned ? " danger" : "")',
 			'rowHtmlOptionsExpression' => 'array('
-				. '"class" => "access-data",'
 				. '"data-ip" => CHtml::encode($data->ip),'
 				. '"data-decode-ip-url" =>'
-					. '$this->controller->createUrl('
-						. '"access/decodeIp",'
-						. 'array('
-							. '"ip" => rawurlencode($data->ip)'
-						. ')'
-					. '),'
+					. '$this->controller->createUrl("access/decodeIp"),'
 				. '"data-user-agent" => CHtml::encode($data->user_agent),'
 				. '"data-decode-user-agent-url" =>'
-					. '$this->controller->createUrl('
-						. '"access/decodeUserAgent",'
-						. 'array('
-							. '"user_agent" => rawurlencode($data->user_agent)'
-						. ')'
-					. ')'
+					. '$this->controller->createUrl("access/decodeUserAgent")'
 			. ')',
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'summaryCssClass' => 'summary pull-right',
 			'afterAjaxUpdate' => 'function() { AccessData.load(); }',
@@ -121,20 +131,5 @@
 </div>
 
 <p class = "small-text access-log-legend">
-	* Красным отмечены попытки доступа, IP которых были забанены.
+	* Красным отмечены запросы, IP которых были забанены.
 </p>
-
-<div
-	class = "access-totally-info-view"
-	data-get-info-url = "<?= $this->createUrl('access/info') ?>">
-	<hr />
-
-	<p>Общее число записей: <span class = "access-counter-view">0</span>.</p>
-
-	<p>Скорость добавления записей:</p>
-	<ul>
-		<li><span class = "access-speed-by-day-view">0</span> в день;</li>
-		<li><span class = "access-speed-by-hour-view">0</span> в час;</li>
-		<li><span class = "access-speed-by-minute-view">0</span> в минуту.</li>
-	</ul>
-</div>

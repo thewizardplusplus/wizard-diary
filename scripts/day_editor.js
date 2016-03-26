@@ -1,10 +1,150 @@
 $(document).ready(
 	function() {
+		var CHECK_DELAY = 500;
+
+		var lang_tools = ace.require('ace/ext/language_tools');
+
 		var day_editor = ace.edit('day-editor');
 		day_editor.$blockScrolling = Infinity;
-		day_editor.setTheme('ace/theme/twilight');
+		day_editor.setTheme('ace/theme/pastel_on_dark');
+		day_editor.getSession().setMode('ace/mode/wizard_diary');
 		day_editor.setShowInvisibles(true);
 		day_editor.setShowPrintMargin(false);
+		day_editor.setBehavioursEnabled(true);
+		day_editor.setOptions(
+			{
+				enableBasicAutocompletion: true,
+				enableLiveAutocompletion: true
+			}
+		);
+
+		day_editor.focus();
+		day_editor.gotoLine(
+			LINE,
+			day_editor.getSession().getLine(LINE - 1).length
+		);
+
+		var previous_editor_content = day_editor.getValue();
+
+		var ExtendImport = function(points_description) {
+			var last_line_blocks = [];
+			var extended_lines =
+				points_description
+				.split('\n')
+				.map(
+					function(line) {
+						var extended_line = '';
+						while (line.substr(0, 4) == '    ') {
+							if (last_line_blocks.length > 0) {
+								extended_line +=
+									last_line_blocks.shift()
+									+ ', ';
+							}
+
+							line = line.substr(4);
+						}
+						extended_line += line;
+
+						if (extended_line.length > 0) {
+							last_line_blocks =
+								extended_line
+								.split(',')
+								.map(
+									function(level) {
+										return level.trim();
+									}
+								);
+						}
+
+						return extended_line;
+					}
+				);
+
+			return extended_lines;
+		};
+		var GetLinePrefixParts = function(session, position) {
+			var points_description = day_editor.getValue();
+			var full_line = ExtendImport(points_description)[position.row];
+			var full_line_parts = full_line.split(', ');
+
+			var column = position.column;
+			var real_line = session.getLine(position.row);
+			while (real_line.substr(0, 4) == '    ' && full_line_parts.length) {
+				column +=
+					full_line_parts.shift().length
+					+ 2 /* comma and space */
+					- 4 /* indent */;
+				real_line = real_line.substr(4);
+			}
+
+			var line_prefix = full_line.substr(0, column);
+			var line_prefix_parts =
+				line_prefix
+				.split(',')
+				.map(
+					function(part) {
+						return part.trim();
+					}
+				);
+
+			return line_prefix_parts;
+		};
+		var GetProperty = function(object, property) {
+			return object.hasOwnProperty(property) ? object[property] : [];
+		};
+		var GetAlternatives = function(line_prefix_parts) {
+			var alternatives = [];
+			switch (line_prefix_parts.length) {
+				case 1:
+					alternatives = Object.keys(POINT_HIERARCHY.hierarchy);
+					break;
+				case 2:
+					alternatives = GetProperty(
+						POINT_HIERARCHY.hierarchy,
+						line_prefix_parts[0]
+					);
+
+					break;
+				default:
+					alternatives = $.map(
+						POINT_HIERARCHY.tails,
+						function(counter, tail) {
+							return {value: tail + ' ', score: counter};
+						}
+					);
+			}
+			alternatives = alternatives.map(
+				function(alternative) {
+					if (typeof alternative === 'string') {
+						alternative = {value: alternative + ', '};
+					}
+
+					return $.extend(alternative, {meta: 'global'});
+				}
+			);
+
+			return alternatives;
+		};
+		lang_tools.addCompleter(
+			{
+				getCompletions: function(
+					editor,
+					session,
+					position,
+					prefix,
+					callback
+				) {
+					var line_prefix_parts = GetLinePrefixParts(
+						session,
+						position
+					);
+					var alternatives = GetAlternatives(line_prefix_parts);
+					callback(null, alternatives);
+				}
+			}
+		);
+
+		var day_mobile_editor = $('#day-mobile-editor');
 
 		var FormatPoints = function(points, cursor_position) {
 			points = points.map(
@@ -15,7 +155,8 @@ $(document).ready(
 					) {
 						return point
 							.replace(/((?!\s).)\s{2,}(?=\S)/g, '$1 ')
-							.replace(/\s+$/, '');
+							.replace(/\s+$/, '')
+							.replace(/;$/, '');
 					} else {
 						return point;
 					}
@@ -33,6 +174,29 @@ $(document).ready(
 					cursor_position.row--;
 				}
 			}
+
+			var new_points = [];
+			var previous_point_length = 0;
+			for (var i = 0; i < points.length; i++) {
+				var point = points[i];
+				var point_length = point.trim().length;
+				if (
+					point_length > 0
+					|| previous_point_length > 0
+					|| (typeof cursor_position != 'undefined'
+					&& cursor_position.row == i)
+				) {
+					new_points.push(point);
+				} else if (typeof cursor_position != 'undefined') {
+					if (cursor_position.row > i) {
+						cursor_position.row--;
+					}
+				}
+
+				previous_point_length = point_length;
+			}
+			points = new_points;
+
 			while (
 				points.length
 				&& points.slice(-1)[0].trim().length == 0
@@ -60,7 +224,11 @@ $(document).ready(
 		) {
 			var points = points_description.split('\n');
 			var result = FormatPoints(points, cursor_position);
-			points_description = result.points.join('\n');
+			if (typeof cursor_position != 'undefined') {
+				points_description = result.points.join('\n');
+			} else {
+				points_description = result.join('\n');
+			}
 
 			return {
 				points_description: points_description,
@@ -76,10 +244,195 @@ $(document).ready(
 			);
 
 			this.setValue(result.points_description, -1);
+			previous_editor_content = result.points_description;
+
 			if (typeof result.cursor_position != 'undefined') {
 				this.moveCursorToPosition(result.cursor_position);
 			}
 		};
+		day_mobile_editor.formatContent = function() {
+			var points_description = this.val();
+			var result = FormatPointsDescription(points_description);
+			this.val(result.points_description);
+			previous_editor_content = result.points_description;
+		};
+
+		var check_timer = null;
+		var mistakes = [];
+		var mistakes_marks = [];
+		var spellcheck_flag = $('.spellcheck-flag');
+		var spellcheck_processing_animation_image = $('img', spellcheck_flag);
+		var spellcheck_icon = $('span', spellcheck_flag);
+		var Range = ace.require('ace/range').Range;
+		var SpellcheckFinishAnimation = function(state) {
+			spellcheck_flag
+				.removeClass('label-primary')
+				.addClass(
+					state == 'no-mistakes'
+						? 'label-success'
+						: 'label-danger'
+				)
+				.attr(
+					'title',
+					state == 'no-mistakes'
+						? 'Нет ошибок'
+						: (state == 'has-mistakes'
+							? 'Есть ошибки'
+							: 'Ошибка AJAX-запроса')
+				);
+			spellcheck_processing_animation_image.hide();
+			spellcheck_icon.removeClass('correction');
+		};
+		var MarkMistakes = function(mistakes) {
+			var session = day_editor.getSession();
+			while (mistakes_marks.length > 0) {
+				var mistakes_mark = mistakes_marks.pop();
+				session.removeMarker(mistakes_mark);
+			}
+
+			for (var i = 0; i < mistakes.length; i++) {
+				var mistake = mistakes[i];
+				var range = new Range(
+					mistake.start.line,
+					mistake.start.offset,
+					mistake.end.line,
+					mistake.end.offset
+				);
+				var mark = session.addMarker(range, 'misspelled', 'text', true);
+				mistakes_marks.push(mark);
+			}
+		};
+		var SpellCheck = function() {
+			spellcheck_flag
+				.removeClass('label-success')
+				.removeClass('label-danger')
+				.addClass('label-primary')
+				.attr('title', 'Идёт AJAX-запрос...');
+			spellcheck_processing_animation_image.show();
+			spellcheck_icon.addClass('correction');
+
+			var points_description = day_editor.getValue();
+			var data = $.extend(
+				{text: points_description},
+				CSRF_TOKEN
+			);
+			$.post(
+				CHECKING_URL,
+				data,
+				function(data) {
+					mistakes = data;
+
+					SpellcheckFinishAnimation(
+						!mistakes.length ? 'no-mistakes' : 'has-mistakes'
+					);
+					MarkMistakes(mistakes);
+				},
+				'json'
+			).fail(
+				function(xhr, text_status) {
+					SpellcheckFinishAnimation('ajax-error');
+					AjaxErrorDialog.handler(xhr, text_status);
+				}
+			);
+		};
+		var SpellCheckWithDelay = function() {
+			clearTimeout(check_timer);
+			check_timer = setTimeout(
+				function() {
+					SpellCheck();
+				},
+				CHECK_DELAY
+			);
+		};
+		SpellCheckWithDelay();
+
+		var day_editor_container = $(day_editor.container);
+		var GetActiveEditor = function() {
+			return $('.tab-pane.active').attr('id');
+		};
+		var FinishWordAddingAnimation = function() {
+			var active_editor = GetActiveEditor();
+			switch (active_editor) {
+				case 'default':
+					day_editor_container.removeClass('wait');
+					break;
+				case 'mobile':
+					day_mobile_editor.removeClass('wait');
+					break;
+			}
+		};
+		day_editor.commands.addCommand(
+			{
+				name: 'add-word-to-dictionary',
+				bindKey: {win: 'Ctrl-Shift-A'},
+				exec: function() {
+					var cursor_position = day_editor.getCursorPosition();
+					var current_word =
+						day_editor
+						.getSession()
+						.getWordRange(
+							cursor_position.row,
+							cursor_position.column
+						);
+
+					var wrong_word = '';
+					for (var i = 0; i < mistakes.length; i++) {
+						var mistake = mistakes[i];
+						if (
+							current_word.start.row == mistake.start.line
+							&& current_word.start.column == mistake.start.offset
+							&& current_word.end.row == mistake.end.line
+							&& current_word.end.column == mistake.end.offset
+						) {
+							wrong_word =
+								day_editor
+								.getSession()
+								.getTextRange(current_word);
+
+							break;
+						}
+					}
+					if (!wrong_word) {
+						return;
+					}
+
+					MistakesAddingDialog.show(
+						wrong_word,
+						function() {
+							MistakesAddingDialog.hide();
+
+							var active_editor = GetActiveEditor();
+							switch (active_editor) {
+								case 'default':
+									day_editor_container.addClass('wait');
+									break;
+								case 'mobile':
+									day_mobile_editor.addClass('wait');
+									break;
+							}
+
+							var data = $.extend(
+								{'word': wrong_word},
+								CSRF_TOKEN
+							);
+							$.post(
+								SPELLING_ADDING_URL,
+								data,
+								function() {
+									FinishWordAddingAnimation();
+									SpellCheck();
+								}
+							).fail(
+								function(xhr, text_status) {
+									FinishWordAddingAnimation();
+									AjaxErrorDialog.handler(xhr, text_status);
+								}
+							);
+						}
+					);
+				}
+			}
+		);
 
 		var saved_flag_container = $('.saved-flag');
 		var saved_flag_icon = $('span', saved_flag_container);
@@ -115,8 +468,7 @@ $(document).ready(
 		};
 
 		var number_of_points_view = $('.number-of-points-view');
-		var SetNumberOfPoints = function() {
-			var points_description = day_editor.getValue();
+		var SetNumberOfPoints = function(points_description) {
 			var points =
 				points_description
 				.split('\n')
@@ -133,11 +485,63 @@ $(document).ready(
 				+ GetPointUnit(number_of_points)
 			);
 		};
+
 		day_editor.on(
 			'change',
 			function() {
-				SetSavedFlag(false);
-				SetNumberOfPoints();
+				var points_description = day_editor.getValue();
+				SetSavedFlag(points_description == previous_editor_content);
+				SetNumberOfPoints(points_description);
+				SetTabClosingHandler();
+
+				SpellCheckWithDelay();
+			}
+		);
+		day_editor.on(
+			'paste',
+			function(event) {
+				event.text =
+					event.text
+					.trim()
+					.replace(/;$/, '')
+					.replace(/\u00ab([^\u00bb]*)\u00bb/, '"$1"')
+					.replace(/\s\u2014\s/, ' - ')
+					.replace(/\s\u27a4\s/, ' -> ');
+			}
+		);
+
+		day_mobile_editor.on(
+			'keyup',
+			function() {
+				var points_description = day_mobile_editor.val();
+				SetSavedFlag(points_description == previous_editor_content);
+				SetNumberOfPoints(points_description);
+				SetTabClosingHandler();
+			}
+		);
+		$('a[data-toggle="tab"]').on(
+			'show.bs.tab',
+			function(event) {
+				var backupped_saved_flag = is_saved;
+
+				var target = $(event.target).attr('href').slice(1);
+				switch (target) {
+					case 'default':
+						var points_description = day_mobile_editor.val();
+						day_editor.setValue(points_description, -1);
+						previous_editor_content = points_description;
+
+						break;
+					case 'mobile':
+						var points_description = day_editor.getValue();
+						day_mobile_editor.val(points_description);
+						previous_editor_content = points_description;
+
+						break;
+				}
+
+				SetSavedFlag(backupped_saved_flag);
+				SetTabClosingHandler();
 			}
 		);
 
@@ -145,30 +549,55 @@ $(document).ready(
 		var save_url = save_button.data('save-url');
 		var processing_animation_image = $('img', save_button);
 		var save_icon = $('span', save_button);
-		var day_editor_container = $(day_editor.container);
 		var FinishAnimation = function() {
 			save_button.prop('disabled', false);
 			processing_animation_image.hide();
 			save_icon.show();
-			day_editor_container.removeClass('wait');
+
+			var active_editor = GetActiveEditor();
+			switch (active_editor) {
+				case 'default':
+					day_editor_container.removeClass('wait');
+					break;
+				case 'mobile':
+					day_mobile_editor.removeClass('wait');
+					break;
+			}
 		};
 		var SaveViaAjax = function(callback) {
 			save_button.prop('disabled', true);
 			processing_animation_image.show();
 			save_icon.hide();
-			day_editor_container.addClass('wait');
 
-			day_editor.formatContent();
+			var points_description = '';
+			var active_editor = GetActiveEditor();
+			switch (active_editor) {
+				case 'default':
+					day_editor_container.addClass('wait');
+					day_editor.formatContent();
+					points_description = day_editor.getValue();
+
+					break;
+				case 'mobile':
+					day_mobile_editor.addClass('wait');
+					day_mobile_editor.formatContent();
+					points_description = day_mobile_editor.val();
+
+					break;
+			}
+
 			var data = $.extend(
-				{'points_description': day_editor.getValue()},
+				{'points_description': points_description},
 				CSRF_TOKEN
 			);
 			$.post(
 				save_url,
 				data,
 				function() {
-					SetSavedFlag(true);
 					FinishAnimation();
+
+					SetSavedFlag(true);
+					SetTabClosingHandler();
 
 					if (typeof callback !== 'undefined') {
 						callback();
@@ -208,14 +637,19 @@ $(document).ready(
 		close_button.click(
 			function() {
 				if (!is_saved) {
-					CloseDialog.show(
+					DayCloseDialog.show(
 						day_my_date,
 						day_date,
 						function() {
-							CloseDialog.hide();
+							DayCloseDialog.hide();
 							SaveViaAjax(CloseDayEditor);
 						},
-						CloseDayEditor
+						function() {
+							is_saved = true;
+							SetTabClosingHandler();
+
+							CloseDayEditor();
+						}
 					);
 				} else {
 					CloseDayEditor();
@@ -223,13 +657,33 @@ $(document).ready(
 			}
 		);
 
-		var form = $('.day-form');
-		form.submit(
-			function() {
+		var TabClosingHandler = function(event) {
+			var message =
+				'День ' + day_my_date + ' не сохранён. Закрытие редактора '
+				+ 'может привести к потере последних изменений. Ты точно '
+				+ 'хочешь это сделать?';
+			event.returnValue = message;
+			return message;
+		};
+		var SetTabClosingHandler = function() {
+			if (!is_saved) {
+				window.addEventListener('beforeunload', TabClosingHandler);
+			} else {
+				window.removeEventListener('beforeunload', TabClosingHandler);
+			}
+		};
+
+		$('.day-form').submit(
+			function(event) {
 				event.preventDefault();
 				event.stopPropagation();
 				return false;
 			}
 		);
+
+		var detector = new MobileDetect(navigator.userAgent);
+		if (detector.mobile()) {
+			$('a[href="#mobile"]').tab('show');
+		}
 	}
 );

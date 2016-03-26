@@ -1,13 +1,13 @@
-var CloseDialog = {};
+var DayCloseDialog = {};
 
 $(document).ready(
 	function() {
-		var close_dialog = $('.close-dialog');
-		var day_date = $('.day-date', close_dialog);
-		var save_button = $('.save-button', close_dialog);
-		var close_button = $('.close-button', close_dialog);
+		var day_close_dialog = $('.day-close-dialog');
+		var day_date = $('.day-date', day_close_dialog);
+		var save_button = $('.save-button', day_close_dialog);
+		var close_button = $('.close-button', day_close_dialog);
 
-		CloseDialog = {
+		DayCloseDialog = {
 			show: function(
 				my_date,
 				date,
@@ -23,10 +23,10 @@ $(document).ready(
 				close_button.off('click');
 				close_button.click(close_button_handler);
 
-				close_dialog.modal('show');
+				day_close_dialog.modal('show');
 			},
 			hide: function() {
-				close_dialog.modal('hide');
+				day_close_dialog.modal('hide');
 			}
 		};
 	}

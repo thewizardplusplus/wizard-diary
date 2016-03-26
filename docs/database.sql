@@ -19,20 +19,29 @@ CREATE TABLE `diary_daily_points` (
 	`order` BIGINT UNSIGNED NOT NULL DEFAULT 18446744073709551615
 ) ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `diary_spellings`;
+CREATE TABLE `diary_spellings` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`word` VARCHAR(255) NOT NULL UNIQUE
+) ENGINE = InnoDB;
+
 DROP TABLE IF EXISTS `diary_backups`;
 CREATE TABLE `diary_backups` (
 	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`create_time` DATETIME NOT NULL UNIQUE,
 	`create_duration` FLOAT NOT NULL DEFAULT 0.0,
-	`save_duration` FLOAT NOT NULL DEFAULT 0.0
+	`save_duration` FLOAT NOT NULL DEFAULT 0.0,
+	`has_difference` BOOLEAN NOT NULL DEFAULT FALSE
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_parameters`;
 CREATE TABLE `diary_parameters` (
 	`id` BIGINT UNSIGNED NOT NULL DEFAULT 1 PRIMARY KEY,
-	`password_hash` TEXT NOT NULL,
+	`password_hash` VARCHAR(255) NOT NULL,
+	`session_lifetime_in_min` INT UNSIGNED NOT NULL DEFAULT 12,
 	-- default value - 1 month
-	`access_log_lifetime_in_s` INT UNSIGNED NOT NULL DEFAULT 2592000
+	`access_log_lifetime_in_s` INT UNSIGNED NOT NULL DEFAULT 2592000,
+	`use_whitelist` BOOLEAN NOT NULL DEFAULT TRUE
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_accesses`;
@@ -42,6 +51,14 @@ CREATE TABLE `diary_accesses` (
 	`user_agent` TEXT NOT NULL,
 	`method` ENUM('GET', 'POST', 'HEAD', 'PUT', 'DELETE') NOT NULL DEFAULT 'GET',
 	`url` TEXT NOT NULL,
+	`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `diary_whitelist`;
+CREATE TABLE `diary_whitelist` (
+	`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`ip` VARCHAR(15) NOT NULL DEFAULT '0.0.0.0',
+	`user_agent` TEXT NOT NULL,
 	`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = InnoDB;
 

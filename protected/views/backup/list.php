@@ -2,12 +2,26 @@
 	/**
 	 * @var BackupController $this
 	 * @var CArrayDataProvider $data_provider
+	 * @var string $last_backup_date
+	 * @var bool $has_current_difference
 	 */
 
 	$this->pageTitle = Yii::app()->name . ' - Бекапы';
 ?>
 
-<header class = "page-header clearfix">
+<header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?= $this->createUrl(
+			'backup/currentDiff',
+			array('file' => $last_backup_date)
+		) ?>"
+		<?= is_null($last_backup_date) || !$has_current_difference
+			? 'disabled = "disabled"'
+			: '' ?>>
+		<span class = "glyphicon glyphicon-random"></span> Текущие изменения
+	</a>
+
 	<h4>Бекапы</h4>
 </header>
 
@@ -56,9 +70,35 @@
 							'options' => array('title' => 'Скачать')
 						)
 					)
+				),
+				array(
+					'class' => 'CButtonColumn',
+					'header' => 'Изменения',
+					'template' => '{diff}',
+					'buttons' => array(
+						'diff' => array(
+							'label' =>
+								'<span '
+									. 'class = '
+										. '"glyphicon '
+										. 'glyphicon-random">'
+								. '</span>',
+							'url' => '$this->grid->controller->createUrl('
+									. '"backup/diff",'
+									. 'array('
+										. '"file" => $data->filename,'
+										. '"previous_file" =>'
+											. '$data->previous_filename'
+									. ')'
+								.')',
+							'imageUrl' => false,
+							'options' => array('title' => 'Изменения'),
+							'visible' => '$data->has_difference'
+						)
+					)
 				)
 			),
-			'itemsCssClass' => 'table',
+			'itemsCssClass' => 'table table-striped',
 			'loadingCssClass' => 'wait',
 			'rowCssClassExpression' =>
 				'Backup::getRowClassByCreateDuration('
@@ -94,11 +134,11 @@
 		echo $maximal_execution_time !== false
 			? $maximal_execution_time
 			: '(не доступно)';
-	?> с</strong>. Жёлтым отмечены бекапы, время создания которых составило
-	более <strong><?=
+	?> с</strong>. Жёлтым отмечены бекапы, время создания или сохранения которых
+	составило более <strong><?=
 		round(Constants::BACKUPS_CREATE_SOFT_LIMIT * 100)
-	?>%</strong> от максимального. Красным отмечены бекапы, время создания
-	которых составило более <strong><?=
+	?>%</strong> от максимального. Красным отмечены бекапы, время создания или
+	сохранения которых составило более <strong><?=
 		round(Constants::BACKUPS_CREATE_HARD_LIMIT * 100)
 	?>%</strong> от максимального.
 </p>
