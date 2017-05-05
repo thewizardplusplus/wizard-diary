@@ -31,6 +31,12 @@ def parse_options():
         help='path to the repository',
     )
     parser.add_argument(
+        '-R',
+        '--revs',
+        default='HEAD',
+        help='revisions specifier in the git-rev-parse command format',
+    )
+    parser.add_argument(
         '-s',
         '--start',
         type=parse_timestamp,
