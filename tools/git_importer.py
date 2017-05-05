@@ -5,6 +5,17 @@ import datetime
 
 import parsedatetime
 import tzlocal
+import git
+
+class Commit:
+    def __init__(self, timestamp, message):
+        self.timestamp = timestamp
+        self.message = message
+
+    def __repr__(self):
+        return str(self.__dict__)
+
+LOCAL_TIME_ZONE = tzlocal.get_localzone()
 
 def parse_timestamp(value):
     try:
@@ -16,7 +27,7 @@ def parse_timestamp(value):
                 'timestamp {} is incorrect'.format(value),
             )
 
-        timestamp = tzlocal.get_localzone().localize(timestamp, is_dst=None)
+        timestamp = LOCAL_TIME_ZONE.localize(timestamp, is_dst=None)
 
     return timestamp
 
@@ -47,6 +58,22 @@ def parse_options():
 
     return parser.parse_args()
 
+def read_git_history(repository_path, revisions_specifier, start_timestamp):
+    return [
+        Commit(
+            LOCAL_TIME_ZONE.localize(
+                datetime.datetime.fromtimestamp(commit.authored_date),
+                is_dst=None,
+            ),
+            commit.message,
+        )
+        for commit in git.Repo(repository_path).iter_commits(
+            revisions_specifier,
+            after=start_timestamp,
+        )
+    ]
+
 if __name__ == '__main__':
     options = parse_options()
-    print(options)
+    history = read_git_history(options.repo, options.revs, options.start)
+    print(history)
