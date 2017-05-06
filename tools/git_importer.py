@@ -98,7 +98,18 @@ def process_commit_message(message):
 
     return data
 
+def process_git_history(commits):
+    data = collections.defaultdict(lambda: collections.defaultdict(list))
+    for commit in commits:
+        for issue_mark, messages in process_commit_message(
+            commit.message,
+        ).items():
+            data[commit.timestamp][issue_mark].extend(messages)
+
+    return data
+
 if __name__ == '__main__':
     options = parse_options()
     history = read_git_history(options.repo, options.revs, options.start)
-    print(history)
+    data = process_git_history(history)
+    print(data)
