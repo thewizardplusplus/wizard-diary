@@ -2,6 +2,9 @@
 
 import argparse
 import datetime
+import itertools
+import collections
+import re
 
 import parsedatetime
 import tzlocal
@@ -16,6 +19,7 @@ class Commit:
         return str(self.__dict__)
 
 LOCAL_TIME_ZONE = tzlocal.get_localzone()
+ISSUE_MARK_PATTERN = re.compile(r'issue #\d+(?:, issue #\d+)*:', re.IGNORECASE)
 
 def parse_timestamp(value):
     try:
@@ -72,6 +76,27 @@ def read_git_history(repository_path, revisions_specifier, start_timestamp):
             after=start_timestamp,
         )
     ]
+
+def process_commit_message(message):
+    message = message.strip()
+    if len(message) == 0 \
+        or message.startswith('Merge branch') \
+        or message.startswith('Merge the branch'):
+        return {}
+
+    issue_mark_match = ISSUE_MARK_PATTERN.match(message)
+    if issue_mark_match is None:
+        return {'прочее': [message[0].lower() + message[1:]]}
+
+    data = collections.defaultdict(list)
+    message = message[len(issue_mark_match.group()):].strip()
+    for issue_mark in (
+        issue_mark.strip()
+        for issue_mark in issue_mark_match.group()[:-1].lower().split(',')
+    ):
+        data[issue_mark].append(message)
+
+    return data
 
 if __name__ == '__main__':
     options = parse_options()
