@@ -83,13 +83,14 @@ class TestProcessGitHistory(unittest.TestCase):
                 'Issue #12: add the LinkedList class',
             ),
         ]), {
-            timestamp_1: {'issue #5': ['add the FizzBuzz class']},
-            timestamp_2: {'issue #12': ['add the LinkedList class']},
+            timestamp_1.date(): {'issue #5': ['add the FizzBuzz class']},
+            timestamp_2.date(): {'issue #12': ['add the LinkedList class']},
         })
 
     def test_commits_with_same_timestamps(self):
         timestamp_1 = datetime.datetime(2017, 5, 5)
-        timestamp_2 = datetime.datetime(2017, 5, 12)
+        timestamp_2 = datetime.datetime(2017, 5, 12, 2, 4, 6)
+        timestamp_3 = datetime.datetime(2017, 5, 12, 12, 34, 56)
         self.assertEqual(git_importer.process_git_history([
             git_importer.Commit(
                 timestamp_1,
@@ -104,15 +105,15 @@ class TestProcessGitHistory(unittest.TestCase):
                 'Issue #5: add the FizzBuzz class',
             ),
             git_importer.Commit(
-                timestamp_2,
+                timestamp_3,
                 'Issue #12: add the LinkedList class',
             ),
         ]), {
-            timestamp_1: {
+            timestamp_1.date(): {
                 'issue #5': ['add the FizzBuzz class'],
                 'issue #12': ['add the LinkedList class'],
             },
-            timestamp_2: {
+            timestamp_2.date(): {
                 'issue #5': ['add the FizzBuzz class'],
                 'issue #12': ['add the LinkedList class'],
             },
@@ -126,7 +127,7 @@ class TestProcessGitHistory(unittest.TestCase):
                 timestamp,
                 'Issue #5: add the LinkedList class',
             ),
-        ]), {timestamp: {'issue #5': [
+        ]), {timestamp.date(): {'issue #5': [
             'add the FizzBuzz class',
             'add the LinkedList class',
         ]}})
@@ -142,7 +143,7 @@ class TestProcessGitHistory(unittest.TestCase):
                 timestamp,
                 'Issue #5, issue #12: add the LinkedList class',
             ),
-        ]), {timestamp: {
+        ]), {timestamp.date(): {
             'issue #5': [
                 'add the FizzBuzz class',
                 'add the LinkedList class',

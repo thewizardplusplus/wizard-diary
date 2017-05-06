@@ -103,10 +103,11 @@ def process_commit_message(message):
 def process_git_history(commits):
     data = collections.defaultdict(lambda: collections.defaultdict(list))
     for commit in commits:
+        date = commit.timestamp.date()
         for issue_mark, messages in process_commit_message(
             commit.message,
         ).items():
-            data[commit.timestamp][issue_mark].extend(messages)
+            data[date][issue_mark].extend(messages)
 
     return data
 
