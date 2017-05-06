@@ -23,17 +23,18 @@ ISSUE_MARK_PATTERN = re.compile(r'issue #\d+(?:, issue #\d+)*:', re.IGNORECASE)
 
 def parse_timestamp(value):
     try:
-        timestamp = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S%z')
+        timestamp = datetime.datetime.strptime(value, '%Y-%m-%d')
     except Exception:
-        timestamp, status = parsedatetime.Calendar().parseDT(value)
-        if status == 0:
-            raise argparse.ArgumentTypeError(
-                'timestamp {} is incorrect'.format(value),
-            )
+        try:
+            timestamp = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
+        except Exception:
+            timestamp, status = parsedatetime.Calendar().parseDT(value)
+            if status == 0:
+                raise argparse.ArgumentTypeError(
+                    'timestamp {} is incorrect'.format(value),
+                )
 
-        timestamp = LOCAL_TIME_ZONE.localize(timestamp, is_dst=None)
-
-    return timestamp
+    return LOCAL_TIME_ZONE.localize(timestamp, is_dst=None)
 
 def parse_options():
     parser = argparse.ArgumentParser(
