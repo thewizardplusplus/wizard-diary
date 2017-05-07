@@ -220,7 +220,9 @@ class TestFormatGitHistory(unittest.TestCase):
                     'add the LinkedList class',
                 ],
             },
-        }), '''## 2017-05-05
+        }), '''# Test Project
+
+## 2017-05-05
 
 ```
 Test Project, issue #12, add the FizzBuzz class
@@ -241,7 +243,9 @@ Test Project, issue #12, add the FizzBuzz class
                     'add the LinkedList class',
                 ],
             },
-        }), '''## 2017-05-05
+        }), '''# Test Project
+
+## 2017-05-05
 
 ```
 Test Project, issue #5, add the FizzBuzz class

@@ -147,7 +147,7 @@ def format_issues_marks(project, issues_marks):
     )
 
 def format_git_history(project, data):
-    return '\n\n'.join(
+    return '# {}\n\n'.format(project) + '\n\n'.join(
         '## {}\n\n```\n{}\n```'.format(
             timestamp.strftime('%Y-%m-%d'),
             format_issues_marks(project, issues_marks),
