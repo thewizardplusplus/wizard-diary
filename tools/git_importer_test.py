@@ -2,6 +2,7 @@
 
 import unittest
 import datetime
+import sys
 
 import git_importer
 
@@ -37,7 +38,9 @@ class TestProcessCommitMessage(unittest.TestCase):
         ), expected_result)
 
     def test_message_without_issue_mark(self):
-        expected_result = {'прочее': ['update the change log']}
+        expected_result = {
+            git_importer.SPECIAL_ISSUE: ['update the change log'],
+        }
         self.assertEqual(git_importer.process_commit_message(
             'Update the change log\n',
         ), expected_result)
@@ -172,6 +175,15 @@ class TestFormatMessages(unittest.TestCase):
             ],
         ), '''Test Project, issue #12, add the FizzBuzz class
         add the LinkedList class''')
+
+class TestGetIssueMarkKey(unittest.TestCase):
+    def test_common_issue(self):
+        self.assertEqual(git_importer.get_issue_mark_key(('issue #12',)), 12)
+
+    def test_special_issue(self):
+        self.assertEqual(git_importer.get_issue_mark_key(
+            (git_importer.SPECIAL_ISSUE,),
+        ), sys.maxsize)
 
 if __name__ == '__main__':
     unittest.main()
