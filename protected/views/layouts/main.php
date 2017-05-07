@@ -99,6 +99,10 @@
 												)
 											),
 											array(
+												'label' => 'Импорт',
+												'url' => array('point/import')
+											),
+											array(
 												'label' => 'Удаление',
 												'url' => array('point/delete')
 											)

@@ -28,6 +28,7 @@ return array(
 				'day/<date:\d{4}(?:-\d{2}){2}>/update' => 'day/update',
 				'daily_points' => 'dailyPoint/list',
 				'daily_points/update' => 'dailyPoint/update',
+				'import_points' => 'point/import',
 				'delete_points' => 'point/delete',
 				'stats/daily_points' => 'stats/dailyPoints',
 				'stats/future_achievements' => 'stats/futureAchievements',

@@ -57,6 +57,10 @@ class PointController extends CController {
 		$model->save();
 	}
 
+	public function actionImport() {
+		$this->render('import');
+	}
+
 	public function actionDelete() {
 		if (isset($_POST['points_ids']) and isset($_POST['points_dates'])) {
 			$this->testPointsIds($_POST['points_ids']);
