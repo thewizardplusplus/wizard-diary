@@ -154,5 +154,24 @@ class TestProcessGitHistory(unittest.TestCase):
             ],
         }})
 
+class TestFormatMessages(unittest.TestCase):
+    def test_one_messages(self):
+        self.assertEqual(git_importer.format_messages(
+            'Test Project, ',
+            'issue #12',
+            ['add the FizzBuzz class'],
+        ), 'Test Project, issue #12, add the FizzBuzz class')
+
+    def test_some_messages(self):
+        self.assertEqual(git_importer.format_messages(
+            'Test Project, ',
+            'issue #12',
+            [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ],
+        ), '''Test Project, issue #12, add the FizzBuzz class
+        add the LinkedList class''')
+
 if __name__ == '__main__':
     unittest.main()
