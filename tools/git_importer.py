@@ -115,6 +115,21 @@ def process_git_history(commits):
 
     return data
 
+# https://docs.python.org/3/library/itertools.html#itertools-recipes
+def unique_everseen(iterable):
+    seen = set()
+    for element in itertools.filterfalse(seen.__contains__, iterable):
+        seen.add(element)
+        yield element
+
+def unique_git_history(data):
+    unique_data = collections.defaultdict(dict)
+    for date, issues_marks in data.items():
+        for issue_mark, messages in issues_marks.items():
+            unique_data[date][issue_mark] = list(unique_everseen(messages))
+
+    return unique_data
+
 def get_dummy_generator(collection):
     return itertools.repeat(' ' * 4, len(collection) - 1)
 
@@ -149,10 +164,10 @@ def format_issues_marks(project, issues_marks):
 def format_git_history(project, data):
     return '# {}\n\n'.format(project) + '\n\n'.join(
         '## {}\n\n```\n{}\n```'.format(
-            timestamp.strftime('%Y-%m-%d'),
+            date.strftime('%Y-%m-%d'),
             format_issues_marks(project, issues_marks),
         )
-        for timestamp, issues_marks in sorted(
+        for date, issues_marks in sorted(
             data.items(),
             key=operator.itemgetter(0),
         )
@@ -170,7 +185,8 @@ if __name__ == '__main__':
         options = parse_options()
         history = read_git_history(options.repo, options.revs, options.start)
         data = process_git_history(history)
-        representation = format_git_history(options.project, data)
+        unique_data = unique_git_history(data)
+        representation = format_git_history(options.project, unique_data)
         output_git_history(options.output, representation)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
