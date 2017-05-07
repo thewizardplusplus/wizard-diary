@@ -211,5 +211,49 @@ class TestFormatIssuesMarks(unittest.TestCase):
     issue #12, add the FizzBuzz class
         add the LinkedList class''')
 
+class TestFormatGitHistory(unittest.TestCase):
+    def test_one_timestamp(self):
+        self.assertEqual(git_importer.format_git_history('Test Project', {
+            datetime.datetime(2017, 5, 5): {
+                'issue #12': [
+                    'add the FizzBuzz class',
+                    'add the LinkedList class',
+                ],
+            },
+        }), '''## 2017-05-05
+
+```
+Test Project, issue #12, add the FizzBuzz class
+        add the LinkedList class
+```''')
+
+    def test_some_timestamps(self):
+        self.assertEqual(git_importer.format_git_history('Test Project', {
+            datetime.datetime(2017, 5, 5): {
+                'issue #5': [
+                    'add the FizzBuzz class',
+                    'add the LinkedList class',
+                ],
+            },
+            datetime.datetime(2017, 5, 12): {
+                'issue #12': [
+                    'add the FizzBuzz class',
+                    'add the LinkedList class',
+                ],
+            },
+        }), '''## 2017-05-05
+
+```
+Test Project, issue #5, add the FizzBuzz class
+        add the LinkedList class
+```
+
+## 2017-05-12
+
+```
+Test Project, issue #12, add the FizzBuzz class
+        add the LinkedList class
+```''')
+
 if __name__ == '__main__':
     unittest.main()
