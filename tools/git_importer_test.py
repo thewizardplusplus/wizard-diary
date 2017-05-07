@@ -157,6 +157,45 @@ class TestProcessGitHistory(unittest.TestCase):
             ],
         }})
 
+class TestUniqueGitHistory(unittest.TestCase):
+    def test_without_duplicates(self):
+        data = {
+            datetime.datetime(2017, 5, 5): {'issue #5': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
+            datetime.datetime(2017, 5, 12): {'issue #12': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
+        }
+        self.assertEqual(git_importer.unique_git_history(data), data)
+
+    def test_with_duplicates(self):
+        timestamp_1 = datetime.datetime(2017, 5, 5)
+        timestamp_2 = datetime.datetime(2017, 5, 12)
+        self.assertEqual(git_importer.unique_git_history({
+            timestamp_1: {'issue #5': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+                'add the FizzBuzz class',
+            ]},
+            timestamp_2: {'issue #12': [
+                'add the LinkedList class',
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
+        }), {
+            timestamp_1: {'issue #5': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
+            timestamp_2: {'issue #12': [
+                'add the LinkedList class',
+                'add the FizzBuzz class',
+            ]},
+        })
+
 class TestFormatMessages(unittest.TestCase):
     def test_one_messages(self):
         self.assertEqual(git_importer.format_messages(
@@ -214,12 +253,10 @@ class TestFormatIssuesMarks(unittest.TestCase):
 class TestFormatGitHistory(unittest.TestCase):
     def test_one_timestamp(self):
         self.assertEqual(git_importer.format_git_history('Test Project', {
-            datetime.datetime(2017, 5, 5): {
-                'issue #12': [
-                    'add the FizzBuzz class',
-                    'add the LinkedList class',
-                ],
-            },
+            datetime.datetime(2017, 5, 5): {'issue #12': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
         }), '''# Test Project
 
 ## 2017-05-05
@@ -231,18 +268,14 @@ Test Project, issue #12, add the FizzBuzz class
 
     def test_some_timestamps(self):
         self.assertEqual(git_importer.format_git_history('Test Project', {
-            datetime.datetime(2017, 5, 5): {
-                'issue #5': [
-                    'add the FizzBuzz class',
-                    'add the LinkedList class',
-                ],
-            },
-            datetime.datetime(2017, 5, 12): {
-                'issue #12': [
-                    'add the FizzBuzz class',
-                    'add the LinkedList class',
-                ],
-            },
+            datetime.datetime(2017, 5, 5): {'issue #5': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
+            datetime.datetime(2017, 5, 12): {'issue #12': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ]},
         }), '''# Test Project
 
 ## 2017-05-05
