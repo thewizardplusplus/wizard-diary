@@ -162,7 +162,7 @@ def output_git_history(output_path, representation):
     if output_path is None:
         print(representation)
     else:
-        with open(output_path, 'w') as output_file:
+        with open(output_path + '.md', 'w') as output_file:
             output_file.write(representation + '\n')
 
 if __name__ == '__main__':
