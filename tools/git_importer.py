@@ -5,6 +5,7 @@ import datetime
 import itertools
 import collections
 import re
+import sys
 
 import parsedatetime
 import tzlocal
@@ -20,6 +21,7 @@ class Commit:
 
 LOCAL_TIME_ZONE = tzlocal.get_localzone()
 ISSUE_MARK_PATTERN = re.compile(r'issue #\d+(?:, issue #\d+)*:', re.IGNORECASE)
+SPECIAL_ISSUE = 'прочее'
 
 def parse_timestamp(value):
     try:
@@ -88,7 +90,7 @@ def process_commit_message(message):
 
     issue_mark_match = ISSUE_MARK_PATTERN.match(message)
     if issue_mark_match is None:
-        return {'прочее': [message[0].lower() + message[1:]]}
+        return {SPECIAL_ISSUE: [message[0].lower() + message[1:]]}
 
     data = collections.defaultdict(list)
     message = message[len(issue_mark_match.group()):].strip()
@@ -127,6 +129,9 @@ def format_messages(project_indent, issue_mark, messages):
             messages,
         )
     )
+
+def get_issue_mark_key(pair):
+    return int(pair[0][7:]) if pair[0] != SPECIAL_ISSUE else sys.maxsize
 
 if __name__ == '__main__':
     options = parse_options()
