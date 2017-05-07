@@ -403,14 +403,16 @@ a.state-initial:focus {
 /* Editors styles. */
 #day-editor,
 #daily-point-editor,
+#import-editor,
 #diff-viewer {
 	height: 500px;
 	border-radius: 4px;
 	font-size: 14px;
 }
 
+#day-mobile-editor,
 #daily-point-mobile-editor,
-#day-mobile-editor {
+#import-mobile-editor {
 	height: 250px;
 	padding: 0 5px;
 	background-color: #2c2828;
