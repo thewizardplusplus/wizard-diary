@@ -6,6 +6,7 @@ import itertools
 import collections
 import re
 import sys
+import operator
 
 import parsedatetime
 import tzlocal
@@ -144,8 +145,21 @@ def format_issues_marks(project, issues_marks):
         )
     )
 
+def format_git_history(project, data):
+    return '\n\n'.join(
+        '## {}\n\n```\n{}\n```'.format(
+            timestamp.strftime('%Y-%m-%d'),
+            format_issues_marks(project, issues_marks),
+        )
+        for timestamp, issues_marks in sorted(
+            data.items(),
+            key=operator.itemgetter(0),
+        )
+    )
+
 if __name__ == '__main__':
     options = parse_options()
     history = read_git_history(options.repo, options.revs, options.start)
     data = process_git_history(history)
-    print(data)
+    representation = format_git_history(options.project, data)
+    print(representation)
