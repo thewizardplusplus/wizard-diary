@@ -133,6 +133,17 @@ def format_messages(project_indent, issue_mark, messages):
 def get_issue_mark_key(pair):
     return int(pair[0][7:]) if pair[0] != SPECIAL_ISSUE else sys.maxsize
 
+def format_issues_marks(project, issues_marks):
+    return '\n\n'.join(
+        format_messages(project_indent, issue_mark, messages)
+        for project_indent, (issue_mark, messages) in zip(
+            itertools.chain(['{}, '.format(project)], get_dummy_generator(
+                issues_marks,
+            )),
+            sorted(issues_marks.items(), key=get_issue_mark_key),
+        )
+    )
+
 if __name__ == '__main__':
     options = parse_options()
     history = read_git_history(options.repo, options.revs, options.start)
