@@ -64,6 +64,7 @@ def parse_options():
             + 'in ISO 8601 or human-readable formats',
     )
     parser.add_argument('-p', '--project', required=True, help='project name')
+    parser.add_argument('-o', '--output', help='output path')
 
     return parser.parse_args()
 
