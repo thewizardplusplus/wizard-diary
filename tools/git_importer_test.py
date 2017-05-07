@@ -185,5 +185,31 @@ class TestGetIssueMarkKey(unittest.TestCase):
             (git_importer.SPECIAL_ISSUE,),
         ), sys.maxsize)
 
+class TestFormatIssuesMarks(unittest.TestCase):
+    def test_one_issue_mark(self):
+        self.assertEqual(git_importer.format_issues_marks('Test Project', {
+            'issue #12': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ],
+        }), '''Test Project, issue #12, add the FizzBuzz class
+        add the LinkedList class''')
+
+    def test_some_issues_marks(self):
+        self.assertEqual(git_importer.format_issues_marks('Test Project', {
+            'issue #5': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ],
+            'issue #12': [
+                'add the FizzBuzz class',
+                'add the LinkedList class',
+            ],
+        }), '''Test Project, issue #5, add the FizzBuzz class
+        add the LinkedList class
+
+    issue #12, add the FizzBuzz class
+        add the LinkedList class''')
+
 if __name__ == '__main__':
     unittest.main()
