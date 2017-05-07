@@ -1,5 +1,3 @@
-#!/usr/bin/env python3.5
-
 import argparse
 import datetime
 import itertools
@@ -180,7 +178,7 @@ def output_git_history(output_path, representation):
         with open(output_path + '.md', 'w') as output_file:
             output_file.write(representation + '\n')
 
-if __name__ == '__main__':
+def main():
     try:
         options = parse_options()
         history = read_git_history(options.repo, options.revs, options.start)
