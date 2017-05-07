@@ -158,9 +158,16 @@ def format_git_history(project, data):
         )
     )
 
+def output_git_history(output_path, representation):
+    if output_path is None:
+        print(representation)
+    else:
+        with open(output_path, 'w') as output_file:
+            output_file.write(representation + '\n')
+
 if __name__ == '__main__':
     options = parse_options()
     history = read_git_history(options.repo, options.revs, options.start)
     data = process_git_history(history)
     representation = format_git_history(options.project, data)
-    print(representation)
+    output_git_history(options.output, representation)
