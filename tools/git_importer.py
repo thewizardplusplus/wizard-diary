@@ -111,6 +111,23 @@ def process_git_history(commits):
 
     return data
 
+def get_dummy_generator(collection):
+    return itertools.repeat(' ' * 4, len(collection) - 1)
+
+def format_messages(project_indent, issue_mark, messages):
+    return '\n'.join(
+        project_indent + issue_indent + message
+        for project_indent, issue_indent, message in zip(
+            itertools.chain([project_indent], get_dummy_generator(
+                messages,
+            )),
+            itertools.chain(['{}, '.format(issue_mark)], get_dummy_generator(
+                messages,
+            )),
+            messages,
+        )
+    )
+
 if __name__ == '__main__':
     options = parse_options()
     history = read_git_history(options.repo, options.revs, options.start)
