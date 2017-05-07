@@ -82,7 +82,7 @@ def read_git_history(repository_path, revisions_specifier, start_timestamp):
     ]
 
 def process_commit_message(message):
-    message = message.strip()
+    message = message.lstrip().split('\n')[0].rstrip()
     if len(message) == 0 \
         or message.startswith('Merge branch') \
         or message.startswith('Merge the branch'):

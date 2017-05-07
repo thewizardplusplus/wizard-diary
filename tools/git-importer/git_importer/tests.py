@@ -46,6 +46,31 @@ class TestProcessCommitMessage(unittest.TestCase):
             '  Update the change log\n',
         ), expected_result)
 
+    def test_multiline_message(self):
+        expected_result = {git_importer.SPECIAL_ISSUE: [
+            'revert "Issue #12: add the FizzBuzz class"',
+        ]}
+        self.assertEqual(git_importer.process_commit_message(
+            '''Revert "Issue #12: add the FizzBuzz class"
+
+This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
+''',
+        ), expected_result)
+        self.assertEqual(git_importer.process_commit_message('''
+
+Revert "Issue #12: add the FizzBuzz class"
+
+This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
+''',
+        ), expected_result)
+        self.assertEqual(git_importer.process_commit_message('''
+
+{0}Revert "Issue #12: add the FizzBuzz class"{0}
+
+This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
+'''.format('  '),
+        ), expected_result)
+
     def test_message_with_one_issue_mark(self):
         expected_result = {'issue #12': ['add the FizzBuzz class']}
         self.assertEqual(git_importer.process_commit_message(
