@@ -166,8 +166,11 @@ def output_git_history(output_path, representation):
             output_file.write(representation + '\n')
 
 if __name__ == '__main__':
-    options = parse_options()
-    history = read_git_history(options.repo, options.revs, options.start)
-    data = process_git_history(history)
-    representation = format_git_history(options.project, data)
-    output_git_history(options.output, representation)
+    try:
+        options = parse_options()
+        history = read_git_history(options.repo, options.revs, options.start)
+        data = process_git_history(history)
+        representation = format_git_history(options.project, data)
+        output_git_history(options.output, representation)
+    except Exception as exception:
+        sys.exit('error: {}'.format(exception))
