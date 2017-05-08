@@ -28,6 +28,7 @@ ANSI_CODES = {
     'bold': '1',
     'black': '30',
     'green': '32',
+    'yellow': '33',
 }
 
 def parse_timestamp(value):
@@ -79,18 +80,30 @@ def parse_options():
 
     return parser.parse_args()
 
-def read_git_history(repository_path, revisions_specifier, start_timestamp):
+def read_commit(commit, verbose):
+    commit_hash = str(commit)[:7]
+    if verbose:
+        logging.info('read {} commit'.format(ansi('yellow', commit_hash)))
+
+    return Commit(
+        commit_hash,
+        LOCAL_TIME_ZONE.localize(
+            datetime.datetime.fromtimestamp(commit.authored_date),
+            is_dst=None,
+        ),
+        commit.message,
+    )
+
+def read_git_history(
+    repository_path,
+    revisions_specifier,
+    start_timestamp,
+    verbose,
+):
     logging.info('read git history')
 
     return [
-        Commit(
-            str(commit)[:7],
-            LOCAL_TIME_ZONE.localize(
-                datetime.datetime.fromtimestamp(commit.authored_date),
-                is_dst=None,
-            ),
-            commit.message,
-        )
+        read_commit(commit, verbose)
         for commit in git.Repo(repository_path).iter_commits(
             revisions_specifier,
             **({} if start_timestamp is None else {'after': start_timestamp}),
@@ -219,7 +232,12 @@ def main():
         )
 
         options = parse_options()
-        history = read_git_history(options.repo, options.revs, options.start)
+        history = read_git_history(
+            options.repo,
+            options.revs,
+            options.start,
+            options.verbose,
+        )
         data = process_git_history(history)
         unique_data = unique_git_history(data)
         representation = format_git_history(options.project, unique_data)
