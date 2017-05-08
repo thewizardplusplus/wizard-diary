@@ -69,6 +69,12 @@ def parse_options():
     )
     parser.add_argument('-p', '--project', required=True, help='project name')
     parser.add_argument('-o', '--output', help='output path')
+    parser.add_argument(
+        '-V',
+        '--verbose',
+        action='store_true',
+        help='verbose logging',
+    )
 
     return parser.parse_args()
 
