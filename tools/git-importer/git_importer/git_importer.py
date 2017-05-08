@@ -58,7 +58,6 @@ def parse_options():
         '-s',
         '--start',
         type=parse_timestamp,
-        required=True,
         help='a start timestamp of the repository log ' \
             + 'in ISO 8601 or human-readable formats',
     )
@@ -78,7 +77,7 @@ def read_git_history(repository_path, revisions_specifier, start_timestamp):
         )
         for commit in git.Repo(repository_path).iter_commits(
             revisions_specifier,
-            after=start_timestamp,
+            **({} if start_timestamp is None else {'after': start_timestamp}),
         )
     ]
 
