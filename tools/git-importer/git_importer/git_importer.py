@@ -13,7 +13,8 @@ import git
 import xerox
 
 class Commit:
-    def __init__(self, timestamp, message):
+    def __init__(self, hash_, timestamp, message):
+        self.hash = hash_
         self.timestamp = timestamp
         self.message = message
 
@@ -83,6 +84,7 @@ def read_git_history(repository_path, revisions_specifier, start_timestamp):
 
     return [
         Commit(
+            str(commit)[:7],
             LOCAL_TIME_ZONE.localize(
                 datetime.datetime.fromtimestamp(commit.authored_date),
                 is_dst=None,
