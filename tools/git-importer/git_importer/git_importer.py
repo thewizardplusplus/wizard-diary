@@ -9,6 +9,7 @@ import operator
 import parsedatetime
 import tzlocal
 import git
+import xerox
 
 class Commit:
     def __init__(self, timestamp, message):
@@ -185,6 +186,7 @@ def main():
         data = process_git_history(history)
         unique_data = unique_git_history(data)
         representation = format_git_history(options.project, unique_data)
+        xerox.copy(representation)
         output_git_history(options.output, representation)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
