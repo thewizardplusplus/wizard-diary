@@ -172,11 +172,8 @@ def format_git_history(project, data):
     )
 
 def output_git_history(output_path, representation):
-    if output_path is None:
-        print(representation)
-    else:
-        with open(output_path + '.md', 'w') as output_file:
-            output_file.write(representation + '\n')
+    with open(output_path + '.md', 'w') as output_file:
+        output_file.write(representation + '\n')
 
 def main():
     try:
@@ -186,6 +183,7 @@ def main():
         unique_data = unique_git_history(data)
         representation = format_git_history(options.project, unique_data)
         xerox.copy(representation)
-        output_git_history(options.output, representation)
+        if options.output is not None:
+            output_git_history(options.output, representation)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
