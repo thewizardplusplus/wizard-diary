@@ -5,6 +5,7 @@ import collections
 import re
 import sys
 import operator
+import logging
 
 import parsedatetime
 import tzlocal
@@ -22,6 +23,11 @@ class Commit:
 LOCAL_TIME_ZONE = tzlocal.get_localzone()
 ISSUE_MARK_PATTERN = re.compile(r'issue #\d+(?:, issue #\d+)*:', re.IGNORECASE)
 SPECIAL_ISSUE = 'прочее'
+ANSI_CODES = {
+    'bold': '1',
+    'black': '30',
+    'green': '32',
+}
 
 def parse_timestamp(value):
     try:
@@ -67,6 +73,8 @@ def parse_options():
     return parser.parse_args()
 
 def read_git_history(repository_path, revisions_specifier, start_timestamp):
+    logging.info('read git history')
+
     return [
         Commit(
             LOCAL_TIME_ZONE.localize(
@@ -103,6 +111,8 @@ def process_commit_message(message):
     return data
 
 def process_git_history(commits):
+    logging.info('process git history')
+
     data = collections.defaultdict(lambda: collections.defaultdict(list))
     for commit in commits:
         date = commit.timestamp.date()
@@ -121,6 +131,8 @@ def unique_everseen(iterable):
         yield element
 
 def unique_git_history(data):
+    logging.info('unique git history')
+
     unique_data = collections.defaultdict(dict)
     for date, issues_marks in data.items():
         for issue_mark, messages in issues_marks.items():
@@ -160,6 +172,8 @@ def format_issues_marks(project, issues_marks):
     )
 
 def format_git_history(project, data):
+    logging.info('format git history')
+
     return '# {}\n\n'.format(project) + '\n\n'.join(
         '## {}\n\n```\n{}\n```'.format(
             date.strftime('%Y-%m-%d'),
@@ -171,18 +185,37 @@ def format_git_history(project, data):
         )
     )
 
+def copy_git_history(representation):
+    logging.info('copy git history')
+
+    xerox.copy(representation)
+
 def output_git_history(output_path, representation):
+    logging.info('output git history')
+
     with open(output_path + '.md', 'w') as output_file:
         output_file.write(representation + '\n')
 
+def ansi(code, text):
+    return '\x1b[{}m{}\x1b[m'.format(ANSI_CODES.get(code, code), text)
+
 def main():
     try:
+        logging.basicConfig(
+            format=' '.join([
+                ansi('black', '%(asctime)s'),
+                ansi('green', '[%(levelname)s]'),
+                ansi('bold', '%(message)s'),
+            ]),
+            level=logging.INFO,
+        )
+
         options = parse_options()
         history = read_git_history(options.repo, options.revs, options.start)
         data = process_git_history(history)
         unique_data = unique_git_history(data)
         representation = format_git_history(options.project, unique_data)
-        xerox.copy(representation)
+        copy_git_history(representation)
         if options.output is not None:
             output_git_history(options.output, representation)
     except Exception as exception:
