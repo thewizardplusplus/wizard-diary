@@ -1,24 +1,11 @@
 import sys
-import logging
-
-import xerox
 
 from . import cli
 from . import log
 from . import input_
 from . import process
 from . import format_
-
-def copy_git_history(representation):
-    log.log(logging.INFO, 'copy the git history')
-
-    xerox.copy(representation)
-
-def output_git_history(output_path, representation):
-    log.log(logging.INFO, 'output the git history')
-
-    with open(output_path + '.md', 'w') as output_file:
-        output_file.write(representation)
+from . import output
 
 def main():
     try:
@@ -38,8 +25,8 @@ def main():
             unique_data,
             options.verbose,
         )
-        copy_git_history(representation)
+        output.copy_git_history(representation)
         if options.output is not None:
-            output_git_history(options.output, representation)
+            output.output_git_history(options.output, representation)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
