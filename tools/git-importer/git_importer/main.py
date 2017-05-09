@@ -29,4 +29,4 @@ def main():
         if options.output is not None:
             output.output_git_history(options.output, representation)
     except Exception as exception:
-        sys.exit('error: {}'.format(exception))
+        sys.exit('error: ' + str(exception))

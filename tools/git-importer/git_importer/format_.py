@@ -29,7 +29,7 @@ def _format_issues_marks(project, date, issues_marks, verbose):
     return '## {}\n\n```\n{}\n```'.format(formatted_date, '\n\n'.join(
         _format_messages(project_indent, issue_mark, messages, verbose)
         for project_indent, (issue_mark, messages) in zip(
-            itertools.chain(['{}, '.format(project)], _get_dummy_generator(
+            itertools.chain([project + ', '], _get_dummy_generator(
                 issues_marks,
             )),
             sorted(issues_marks.items(), key=_get_issue_mark_key),
@@ -48,7 +48,7 @@ def _format_messages(project_indent, issue_mark, messages, verbose):
             itertools.chain([project_indent], _get_dummy_generator(
                 messages,
             )),
-            itertools.chain(['{}, '.format(issue_mark)], _get_dummy_generator(
+            itertools.chain([issue_mark + ', '], _get_dummy_generator(
                 messages,
             )),
             messages,
