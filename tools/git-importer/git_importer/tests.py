@@ -4,16 +4,17 @@ import sys
 
 from . import git_importer
 from . import input_
+from . import process
 
 class TestProcessCommitMessage(unittest.TestCase):
     def test_empty_message(self):
         expected_result = {}
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '',
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '  \n',
             False,
@@ -21,57 +22,55 @@ class TestProcessCommitMessage(unittest.TestCase):
 
     def test_merge_message(self):
         expected_result = {}
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             "Merge branch 'development'\n",
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             "Merge branch 'issue-23' into development\n",
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             "Merge the branch 'issue-23' into the branch 'development'\n",
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             "  Merge branch 'development'\n",
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             "  Merge branch 'issue-23' into development\n",
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             "  Merge the branch 'issue-23' into the branch 'development'\n",
             False,
         ), expected_result)
 
     def test_message_without_issue_mark(self):
-        expected_result = {
-            git_importer.SPECIAL_ISSUE: ['update the change log'],
-        }
-        self.assertEqual(git_importer.process_commit_message(
+        expected_result = {process.SPECIAL_ISSUE: ['update the change log']}
+        self.assertEqual(process._process_commit_message(
             '4306595',
             'Update the change log\n',
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '  Update the change log\n',
             False,
         ), expected_result)
 
     def test_multiline_message(self):
-        expected_result = {git_importer.SPECIAL_ISSUE: [
+        expected_result = {process.SPECIAL_ISSUE: [
             'revert "Issue #12: add the FizzBuzz class"',
         ]}
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '''Revert "Issue #12: add the FizzBuzz class"
 
@@ -79,7 +78,7 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 ''',
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '''
 
@@ -89,7 +88,7 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 ''',
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '''
 
@@ -102,12 +101,12 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 
     def test_message_with_one_issue_mark(self):
         expected_result = {'issue #12': ['add the FizzBuzz class']}
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             'Issue #12: add the FizzBuzz class\n',
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '  Issue #12: add the FizzBuzz class\n',
             False,
@@ -118,12 +117,12 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
             'issue #5': ['add the FizzBuzz class'],
             'issue #12': ['add the FizzBuzz class'],
         }
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             'Issue #5, issue #12: add the FizzBuzz class\n',
             False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message(
+        self.assertEqual(process._process_commit_message(
             '4306595',
             '  Issue #5, issue #12: add the FizzBuzz class\n',
             False,
@@ -131,12 +130,12 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 
 class TestProcessGitHistory(unittest.TestCase):
     def test_empty_commit_list(self):
-        self.assertEqual(git_importer.process_git_history([], False), {})
+        self.assertEqual(process.process_git_history([], False), {})
 
     def test_unique_commits(self):
         timestamp_1 = datetime.datetime(2017, 5, 5)
         timestamp_2 = datetime.datetime(2017, 5, 12)
-        self.assertEqual(git_importer.process_git_history([
+        self.assertEqual(process.process_git_history([
             input_.Commit(
                 '4306595',
                 timestamp_1,
@@ -156,7 +155,7 @@ class TestProcessGitHistory(unittest.TestCase):
         timestamp_1 = datetime.datetime(2017, 5, 5)
         timestamp_2 = datetime.datetime(2017, 5, 12, 2, 4, 6)
         timestamp_3 = datetime.datetime(2017, 5, 12, 12, 34, 56)
-        self.assertEqual(git_importer.process_git_history([
+        self.assertEqual(process.process_git_history([
             input_.Commit(
                 '4306595',
                 timestamp_1,
@@ -190,7 +189,7 @@ class TestProcessGitHistory(unittest.TestCase):
 
     def test_commits_with_same_issues_marks(self):
         timestamp = datetime.datetime(2017, 5, 5)
-        self.assertEqual(git_importer.process_git_history([
+        self.assertEqual(process.process_git_history([
             input_.Commit(
                 '4306595',
                 timestamp,
@@ -208,7 +207,7 @@ class TestProcessGitHistory(unittest.TestCase):
 
     def test_commits_with_some_issues_marks(self):
         timestamp = datetime.datetime(2017, 5, 5)
-        self.assertEqual(git_importer.process_git_history([
+        self.assertEqual(process.process_git_history([
             input_.Commit(
                 '4306595',
                 timestamp,
@@ -242,12 +241,12 @@ class TestUniqueGitHistory(unittest.TestCase):
                 'add the LinkedList class',
             ]},
         }
-        self.assertEqual(git_importer.unique_git_history(data, False), data)
+        self.assertEqual(process.unique_git_history(data, False), data)
 
     def test_with_duplicates(self):
         timestamp_1 = datetime.datetime(2017, 5, 5)
         timestamp_2 = datetime.datetime(2017, 5, 12)
-        self.assertEqual(git_importer.unique_git_history({
+        self.assertEqual(process.unique_git_history({
             timestamp_1: {'issue #5': [
                 'add the FizzBuzz class',
                 'add the LinkedList class',
@@ -296,7 +295,7 @@ class TestGetIssueMarkKey(unittest.TestCase):
 
     def test_special_issue(self):
         self.assertEqual(git_importer.get_issue_mark_key(
-            (git_importer.SPECIAL_ISSUE,),
+            (process.SPECIAL_ISSUE,),
         ), sys.maxsize)
 
 class TestFormatIssuesMarks(unittest.TestCase):
