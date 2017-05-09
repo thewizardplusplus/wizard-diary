@@ -1,4 +1,3 @@
-import datetime
 import itertools
 import collections
 import re
@@ -6,57 +5,14 @@ import sys
 import operator
 import logging
 
-import tzlocal
-import git
 import xerox
 
 from . import cli
 from . import log
+from . import input_
 
-class Commit:
-    def __init__(self, hash_, timestamp, message):
-        self.hash = hash_
-        self.timestamp = timestamp
-        self.message = message
-
-    def __repr__(self):
-        return str(self.__dict__)
-
-LOCAL_TIME_ZONE = tzlocal.get_localzone()
 ISSUE_MARK_PATTERN = re.compile(r'issue #\d+(?:, issue #\d+)*:', re.IGNORECASE)
 SPECIAL_ISSUE = 'прочее'
-
-def read_commit(commit, verbose):
-    commit_hash = str(commit)[:7]
-    if verbose:
-        log.log(logging.DEBUG, 'read the {} commit'.format(
-            log.ansi('yellow', commit_hash),
-        ))
-
-    return Commit(
-        commit_hash,
-        LOCAL_TIME_ZONE.localize(
-            datetime.datetime.fromtimestamp(commit.authored_date),
-            is_dst=None,
-        ),
-        commit.message,
-    )
-
-def read_git_history(
-    repository_path,
-    revisions_specifier,
-    start_timestamp,
-    verbose,
-):
-    log.log(logging.INFO, 'read the git history')
-
-    return [
-        read_commit(commit, verbose)
-        for commit in git.Repo(repository_path).iter_commits(
-            revisions_specifier,
-            **({} if start_timestamp is None else {'after': start_timestamp}),
-        )
-    ]
 
 def process_commit_message(commit_hash, message, verbose):
     if verbose:
@@ -199,7 +155,7 @@ def main():
         log.init_log()
 
         options = cli.parse_options()
-        history = read_git_history(
+        history = input_.input_git_history(
             options.repo,
             options.revs,
             options.start,

@@ -3,6 +3,7 @@ import datetime
 import sys
 
 from . import git_importer
+from . import input_
 
 class TestProcessCommitMessage(unittest.TestCase):
     def test_empty_message(self):
@@ -136,12 +137,12 @@ class TestProcessGitHistory(unittest.TestCase):
         timestamp_1 = datetime.datetime(2017, 5, 5)
         timestamp_2 = datetime.datetime(2017, 5, 12)
         self.assertEqual(git_importer.process_git_history([
-            git_importer.Commit(
+            input_.Commit(
                 '4306595',
                 timestamp_1,
                 'Issue #5: add the FizzBuzz class',
             ),
-            git_importer.Commit(
+            input_.Commit(
                 '7299cd3',
                 timestamp_2,
                 'Issue #12: add the LinkedList class',
@@ -156,22 +157,22 @@ class TestProcessGitHistory(unittest.TestCase):
         timestamp_2 = datetime.datetime(2017, 5, 12, 2, 4, 6)
         timestamp_3 = datetime.datetime(2017, 5, 12, 12, 34, 56)
         self.assertEqual(git_importer.process_git_history([
-            git_importer.Commit(
+            input_.Commit(
                 '4306595',
                 timestamp_1,
                 'Issue #5: add the FizzBuzz class',
             ),
-            git_importer.Commit(
+            input_.Commit(
                 '7299cd3',
                 timestamp_1,
                 'Issue #12: add the LinkedList class',
             ),
-            git_importer.Commit(
+            input_.Commit(
                 'b05b839',
                 timestamp_2,
                 'Issue #5: add the FizzBuzz class',
             ),
-            git_importer.Commit(
+            input_.Commit(
                 '54f532c',
                 timestamp_3,
                 'Issue #12: add the LinkedList class',
@@ -190,12 +191,12 @@ class TestProcessGitHistory(unittest.TestCase):
     def test_commits_with_same_issues_marks(self):
         timestamp = datetime.datetime(2017, 5, 5)
         self.assertEqual(git_importer.process_git_history([
-            git_importer.Commit(
+            input_.Commit(
                 '4306595',
                 timestamp,
                 'Issue #5: add the FizzBuzz class',
             ),
-            git_importer.Commit(
+            input_.Commit(
                 '7299cd3',
                 timestamp,
                 'Issue #5: add the LinkedList class',
@@ -208,12 +209,12 @@ class TestProcessGitHistory(unittest.TestCase):
     def test_commits_with_some_issues_marks(self):
         timestamp = datetime.datetime(2017, 5, 5)
         self.assertEqual(git_importer.process_git_history([
-            git_importer.Commit(
+            input_.Commit(
                 '4306595',
                 timestamp,
                 'Issue #5, issue #12: add the FizzBuzz class',
             ),
-            git_importer.Commit(
+            input_.Commit(
                 '7299cd3',
                 timestamp,
                 'Issue #5, issue #12: add the LinkedList class',
