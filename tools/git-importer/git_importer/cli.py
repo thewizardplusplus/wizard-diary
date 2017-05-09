@@ -6,6 +6,7 @@ import tzlocal
 
 def parse_options():
     parser = argparse.ArgumentParser(
+        prog=__package__.replace('_', '-'),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
