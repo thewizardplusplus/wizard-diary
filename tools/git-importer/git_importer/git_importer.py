@@ -1,4 +1,3 @@
-import argparse
 import datetime
 import itertools
 import collections
@@ -7,10 +6,11 @@ import sys
 import operator
 import logging
 
-import parsedatetime
 import tzlocal
 import git
 import xerox
+
+from . import cli
 
 class Commit:
     def __init__(self, hash_, timestamp, message):
@@ -32,55 +32,6 @@ ANSI_CODES = {
     'blue': '34',
     'magenta': '35',
 }
-
-def parse_timestamp(value):
-    try:
-        timestamp = datetime.datetime.strptime(value, '%Y-%m-%d')
-    except Exception:
-        try:
-            timestamp = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
-        except Exception:
-            timestamp, status = parsedatetime.Calendar().parseDT(value)
-            if status == 0:
-                raise argparse.ArgumentTypeError(
-                    'timestamp {} is incorrect'.format(value),
-                )
-
-    return LOCAL_TIME_ZONE.localize(timestamp, is_dst=None)
-
-def parse_options():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        '-r',
-        '--repo',
-        default='.',
-        help='path to the repository',
-    )
-    parser.add_argument(
-        '-R',
-        '--revs',
-        default='HEAD',
-        help='revisions specifier in the git-rev-parse command format',
-    )
-    parser.add_argument(
-        '-s',
-        '--start',
-        type=parse_timestamp,
-        help='a start timestamp of the repository log ' \
-            + 'in ISO 8601 or human-readable formats',
-    )
-    parser.add_argument('-p', '--project', required=True, help='project name')
-    parser.add_argument('-o', '--output', help='output path')
-    parser.add_argument(
-        '-V',
-        '--verbose',
-        action='store_true',
-        help='verbose logging',
-    )
-
-    return parser.parse_args()
 
 def ansi(code, text):
     return '\x1b[{}m{}\x1b[m'.format(ANSI_CODES[code], text)
@@ -269,7 +220,7 @@ def main():
             level=logging.INFO,
         )
 
-        options = parse_options()
+        options = cli.parse_options()
         history = read_git_history(
             options.repo,
             options.revs,
