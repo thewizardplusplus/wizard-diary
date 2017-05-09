@@ -347,7 +347,7 @@ class TestFormatGitHistory(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-        }), '''# Test Project
+        }, False), '''# Test Project
 
 ## 2017-05-05
 
@@ -366,7 +366,7 @@ Test Project, issue #12, add the FizzBuzz class
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-        }), '''# Test Project
+        }, False), '''# Test Project
 
 ## 2017-05-05
 
