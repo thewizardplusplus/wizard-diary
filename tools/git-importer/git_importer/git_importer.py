@@ -102,7 +102,7 @@ def read_git_history(
     start_timestamp,
     verbose,
 ):
-    logging.info('read git history')
+    logging.info(ansi('bold', 'read git history'))
 
     return [
         read_commit(commit, verbose)
@@ -137,7 +137,7 @@ def process_commit_message(commit_hash, message, verbose):
     return data
 
 def process_git_history(commits, verbose):
-    logging.info('process git history')
+    logging.info(ansi('bold', 'process git history'))
 
     data = collections.defaultdict(lambda: collections.defaultdict(list))
     for commit in commits:
@@ -162,7 +162,7 @@ def unique_everseen(iterable):
         yield element
 
 def unique_git_history(data, verbose):
-    logging.info('unique git history')
+    logging.info(ansi('bold', 'unique git history'))
 
     unique_data = collections.defaultdict(dict)
     for date, issues_marks in data.items():
@@ -225,7 +225,7 @@ def format_issues_marks(project, date, issues_marks, verbose):
     ))
 
 def format_git_history(project, data, verbose):
-    logging.info('format git history')
+    logging.info(ansi('bold', 'format git history'))
 
     return '# {}\n\n'.format(project) + '\n\n'.join(
         format_issues_marks(project, date, issues_marks, verbose)
@@ -236,12 +236,12 @@ def format_git_history(project, data, verbose):
     )
 
 def copy_git_history(representation):
-    logging.info('copy git history')
+    logging.info(ansi('bold', 'copy git history'))
 
     xerox.copy(representation)
 
 def output_git_history(output_path, representation):
-    logging.info('output git history')
+    logging.info(ansi('bold', 'output git history'))
 
     with open(output_path + '.md', 'w') as output_file:
         output_file.write(representation + '\n')
@@ -255,7 +255,7 @@ def main():
             format=' '.join([
                 ansi('black', '%(asctime)s'),
                 ansi('green', '[%(levelname)s]'),
-                ansi('bold', '%(message)s'),
+                '%(message)s',
             ]),
             level=logging.INFO,
         )
