@@ -2,7 +2,6 @@ import unittest
 import datetime
 import sys
 
-from . import git_importer
 from . import input_
 from . import process
 from . import format_

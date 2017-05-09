@@ -1,7 +1,7 @@
 import sys
 
-from . import cli
 from . import log
+from . import cli
 from . import input_
 from . import process
 from . import format_

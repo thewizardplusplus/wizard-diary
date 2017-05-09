@@ -1,1 +1,1 @@
-from .git_importer import main
+from .main import main
