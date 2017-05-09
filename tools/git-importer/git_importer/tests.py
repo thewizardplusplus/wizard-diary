@@ -8,31 +8,47 @@ class TestProcessCommitMessage(unittest.TestCase):
     def test_empty_message(self):
         expected_result = {}
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             '',
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             '  \n',
+            False,
         ), expected_result)
 
     def test_merge_message(self):
         expected_result = {}
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             "Merge branch 'development'\n",
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             "Merge branch 'issue-23' into development\n",
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             "Merge the branch 'issue-23' into the branch 'development'\n",
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             "  Merge branch 'development'\n",
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             "  Merge branch 'issue-23' into development\n",
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             "  Merge the branch 'issue-23' into the branch 'development'\n",
+            False,
         ), expected_result)
 
     def test_message_without_issue_mark(self):
@@ -40,10 +56,14 @@ class TestProcessCommitMessage(unittest.TestCase):
             git_importer.SPECIAL_ISSUE: ['update the change log'],
         }
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             'Update the change log\n',
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             '  Update the change log\n',
+            False,
         ), expected_result)
 
     def test_multiline_message(self):
@@ -51,33 +71,45 @@ class TestProcessCommitMessage(unittest.TestCase):
             'revert "Issue #12: add the FizzBuzz class"',
         ]}
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             '''Revert "Issue #12: add the FizzBuzz class"
 
 This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 ''',
+            False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message('''
+        self.assertEqual(git_importer.process_commit_message(
+            '4306595',
+            '''
 
 Revert "Issue #12: add the FizzBuzz class"
 
 This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 ''',
+            False,
         ), expected_result)
-        self.assertEqual(git_importer.process_commit_message('''
+        self.assertEqual(git_importer.process_commit_message(
+            '4306595',
+            '''
 
 {0}Revert "Issue #12: add the FizzBuzz class"{0}
 
 This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
 '''.format('  '),
+            False,
         ), expected_result)
 
     def test_message_with_one_issue_mark(self):
         expected_result = {'issue #12': ['add the FizzBuzz class']}
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             'Issue #12: add the FizzBuzz class\n',
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             '  Issue #12: add the FizzBuzz class\n',
+            False,
         ), expected_result)
 
     def test_message_with_some_issues_marks(self):
@@ -86,10 +118,14 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f9.
             'issue #12': ['add the FizzBuzz class'],
         }
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             'Issue #5, issue #12: add the FizzBuzz class\n',
+            False,
         ), expected_result)
         self.assertEqual(git_importer.process_commit_message(
+            '4306595',
             '  Issue #5, issue #12: add the FizzBuzz class\n',
+            False,
         ), expected_result)
 
 class TestProcessGitHistory(unittest.TestCase):
