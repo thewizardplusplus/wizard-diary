@@ -185,7 +185,12 @@ def unique_git_history(data, verbose):
 def get_dummy_generator(collection):
     return itertools.repeat(' ' * 4, len(collection) - 1)
 
-def format_messages(project_indent, issue_mark, messages):
+def format_messages(project_indent, issue_mark, messages, verbose):
+    if verbose:
+        logging.info('format git history for {}'.format(
+            ansi('blue', issue_mark),
+        ))
+
     return '\n'.join(
         project_indent + issue_indent + message
         for project_indent, issue_indent, message in zip(
@@ -202,25 +207,28 @@ def format_messages(project_indent, issue_mark, messages):
 def get_issue_mark_key(pair):
     return int(pair[0][7:]) if pair[0] != SPECIAL_ISSUE else sys.maxsize
 
-def format_issues_marks(project, issues_marks):
-    return '\n\n'.join(
-        format_messages(project_indent, issue_mark, messages)
+def format_issues_marks(project, date, issues_marks, verbose):
+    formatted_date = format_date(date)
+    if verbose:
+        logging.info('format git history for {}'.format(
+            ansi('magenta', formatted_date),
+        ))
+
+    return '## {}\n\n```\n{}\n```'.format(formatted_date, '\n\n'.join(
+        format_messages(project_indent, issue_mark, messages, verbose)
         for project_indent, (issue_mark, messages) in zip(
             itertools.chain(['{}, '.format(project)], get_dummy_generator(
                 issues_marks,
             )),
             sorted(issues_marks.items(), key=get_issue_mark_key),
         )
-    )
+    ))
 
-def format_git_history(project, data):
+def format_git_history(project, data, verbose):
     logging.info('format git history')
 
     return '# {}\n\n'.format(project) + '\n\n'.join(
-        '## {}\n\n```\n{}\n```'.format(
-            format_date(date),
-            format_issues_marks(project, issues_marks),
-        )
+        format_issues_marks(project, date, issues_marks, verbose)
         for date, issues_marks in sorted(
             data.items(),
             key=operator.itemgetter(0),
@@ -261,7 +269,11 @@ def main():
         )
         data = process_git_history(history, options.verbose)
         unique_data = unique_git_history(data, options.verbose)
-        representation = format_git_history(options.project, unique_data)
+        representation = format_git_history(
+            options.project,
+            unique_data,
+            options.verbose,
+        )
         copy_git_history(representation)
         if options.output is not None:
             output_git_history(options.output, representation)
