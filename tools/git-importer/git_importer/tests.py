@@ -274,6 +274,7 @@ class TestFormatMessages(unittest.TestCase):
             'Test Project, ',
             'issue #12',
             ['add the FizzBuzz class'],
+            False,
         ), 'Test Project, issue #12, add the FizzBuzz class')
 
     def test_some_messages(self):
@@ -284,6 +285,7 @@ class TestFormatMessages(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ],
+            False,
         ), '''Test Project, issue #12, add the FizzBuzz class
         add the LinkedList class''')
 
