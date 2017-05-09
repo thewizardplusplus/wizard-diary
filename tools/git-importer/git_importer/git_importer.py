@@ -29,6 +29,8 @@ ANSI_CODES = {
     'black': '30',
     'green': '32',
     'yellow': '33',
+    'blue': '34',
+    'magenta': '35',
 }
 
 def parse_timestamp(value):
@@ -149,6 +151,9 @@ def process_git_history(commits, verbose):
 
     return data
 
+def format_date(date):
+    return date.strftime('%Y-%m-%d')
+
 # https://docs.python.org/3/library/itertools.html#itertools-recipes
 def unique_everseen(iterable):
     seen = set()
@@ -156,12 +161,23 @@ def unique_everseen(iterable):
         seen.add(element)
         yield element
 
-def unique_git_history(data):
+def unique_git_history(data, verbose):
     logging.info('unique git history')
 
     unique_data = collections.defaultdict(dict)
     for date, issues_marks in data.items():
+        if verbose:
+            formatted_date = format_date(date)
+            logging.info('unique git history for {}'.format(
+                ansi('magenta', formatted_date),
+            ))
+
         for issue_mark, messages in issues_marks.items():
+            if verbose:
+                logging.info('unique git history for {}'.format(
+                    ansi('blue', issue_mark),
+                ))
+
             unique_data[date][issue_mark] = list(unique_everseen(messages))
 
     return unique_data
@@ -202,7 +218,7 @@ def format_git_history(project, data):
 
     return '# {}\n\n'.format(project) + '\n\n'.join(
         '## {}\n\n```\n{}\n```'.format(
-            date.strftime('%Y-%m-%d'),
+            format_date(date),
             format_issues_marks(project, issues_marks),
         )
         for date, issues_marks in sorted(
@@ -244,7 +260,7 @@ def main():
             options.verbose,
         )
         data = process_git_history(history, options.verbose)
-        unique_data = unique_git_history(data)
+        unique_data = unique_git_history(data, options.verbose)
         representation = format_git_history(options.project, unique_data)
         copy_git_history(representation)
         if options.output is not None:
