@@ -110,7 +110,10 @@ def read_git_history(
         )
     ]
 
-def process_commit_message(message):
+def process_commit_message(commit_hash, message, verbose):
+    if verbose:
+        logging.info('process {} commit'.format(ansi('yellow', commit_hash)))
+
     message = message.lstrip().split('\n')[0].rstrip()
     if len(message) == 0 \
         or message.startswith('Merge branch') \
@@ -131,14 +134,16 @@ def process_commit_message(message):
 
     return data
 
-def process_git_history(commits):
+def process_git_history(commits, verbose):
     logging.info('process git history')
 
     data = collections.defaultdict(lambda: collections.defaultdict(list))
     for commit in commits:
         date = commit.timestamp.date()
         for issue_mark, messages in process_commit_message(
+            commit.hash,
             commit.message,
+            verbose,
         ).items():
             data[date][issue_mark].extend(messages)
 
@@ -238,7 +243,7 @@ def main():
             options.start,
             options.verbose,
         )
-        data = process_git_history(history)
+        data = process_git_history(history, options.verbose)
         unique_data = unique_git_history(data)
         representation = format_git_history(options.project, unique_data)
         copy_git_history(representation)
