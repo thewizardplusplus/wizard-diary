@@ -232,13 +232,13 @@ def format_issues_marks(project, date, issues_marks, verbose):
 def format_git_history(project, data, verbose):
     logging.info(ansi('bold', 'format the git history'))
 
-    return '# {}\n\n'.format(project) + '\n\n'.join(
+    return '# {}\n\n{}\n'.format(project, '\n\n'.join(
         format_issues_marks(project, date, issues_marks, verbose)
         for date, issues_marks in sorted(
             data.items(),
             key=operator.itemgetter(0),
         )
-    )
+    ))
 
 def copy_git_history(representation):
     logging.info(ansi('bold', 'copy the git history'))
@@ -249,7 +249,7 @@ def output_git_history(output_path, representation):
     logging.info(ansi('bold', 'output the git history'))
 
     with open(output_path + '.md', 'w') as output_file:
-        output_file.write(representation + '\n')
+        output_file.write(representation)
 
 def main():
     try:
