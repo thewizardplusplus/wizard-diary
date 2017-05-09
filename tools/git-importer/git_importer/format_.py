@@ -3,6 +3,8 @@ import operator
 import itertools
 import sys
 
+import termcolor
+
 from . import log
 from . import process
 
@@ -21,7 +23,7 @@ def _format_issues_marks(project, date, issues_marks, verbose):
     formatted_date = date.strftime('%Y-%m-%d')
     if verbose:
         log.log(logging.DEBUG, 'format the git history for {}'.format(
-            log.ansi('magenta', formatted_date),
+            termcolor.colored(formatted_date, 'magenta'),
         ))
 
     return '## {}\n\n```\n{}\n```'.format(formatted_date, '\n\n'.join(
@@ -37,7 +39,7 @@ def _format_issues_marks(project, date, issues_marks, verbose):
 def _format_messages(project_indent, issue_mark, messages, verbose):
     if verbose:
         log.log(logging.DEBUG, 'format the git history for {}'.format(
-            log.ansi('blue', issue_mark),
+            termcolor.colored(issue_mark, 'blue'),
         ))
 
     return '\n'.join(

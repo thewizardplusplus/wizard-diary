@@ -15,6 +15,7 @@ setuptools.setup(
         'parsedatetime >=2.3, <3.0',
         'tzlocal >=1.4, <2.0',
         'xerox >=0.4.1, <1.0',
+        'termcolor >=1.1.0, <2.0',
     ],
     python_requires='>=3.5, <4.0',
     entry_points={'console_scripts': [

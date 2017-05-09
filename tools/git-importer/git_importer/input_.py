@@ -2,6 +2,7 @@ import logging
 import datetime
 
 import git
+import termcolor
 import tzlocal
 
 from . import log
@@ -32,7 +33,7 @@ def _input_commit(commit, verbose):
     commit_hash = str(commit)[:7]
     if verbose:
         log.log(logging.DEBUG, 'input the {} commit'.format(
-            log.ansi('yellow', commit_hash),
+            termcolor.colored(commit_hash, 'yellow'),
         ))
 
     return Commit(

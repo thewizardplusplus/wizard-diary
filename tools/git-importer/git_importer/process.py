@@ -3,6 +3,8 @@ import logging
 import collections
 import itertools
 
+import termcolor
+
 from . import log
 
 SPECIAL_ISSUE = 'прочее'
@@ -31,13 +33,13 @@ def unique_git_history(data, verbose):
     for date, issues_marks in data.items():
         if verbose:
             log.log(logging.DEBUG, 'unique the git history for {}'.format(
-                log.ansi('magenta', date.strftime('%Y-%m-%d')),
+                termcolor.colored(date.strftime('%Y-%m-%d'), 'magenta'),
             ))
 
         for issue_mark, messages in issues_marks.items():
             if verbose:
                 log.log(logging.DEBUG, 'unique the git history for {}'.format(
-                    log.ansi('blue', issue_mark),
+                    termcolor.colored(issue_mark, 'blue'),
                 ))
 
             unique_data[date][issue_mark] = list(_unique_everseen(messages))
@@ -47,7 +49,7 @@ def unique_git_history(data, verbose):
 def _process_commit_message(commit_hash, message, verbose):
     if verbose:
         log.log(logging.DEBUG, 'process the {} commit'.format(
-            log.ansi('yellow', commit_hash),
+            termcolor.colored(commit_hash, 'yellow'),
         ))
 
     message = message.lstrip().split('\n')[0].rstrip()
