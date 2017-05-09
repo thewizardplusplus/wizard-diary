@@ -30,14 +30,13 @@ def input_git_history(
     ]
 
 def _input_commit(commit, verbose):
-    commit_hash = str(commit)[:7]
     if verbose:
         log.log(logging.DEBUG, 'input the {} commit'.format(
-            termcolor.colored(commit_hash, 'yellow'),
+            termcolor.colored(commit.hexsha, 'yellow'),
         ))
 
     return Commit(
-        commit_hash,
+        commit.hexsha,
         tzlocal.get_localzone().localize(
             datetime.datetime.fromtimestamp(commit.authored_date),
             is_dst=None,
