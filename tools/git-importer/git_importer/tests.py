@@ -241,7 +241,7 @@ class TestUniqueGitHistory(unittest.TestCase):
                 'add the LinkedList class',
             ]},
         }
-        self.assertEqual(git_importer.unique_git_history(data), data)
+        self.assertEqual(git_importer.unique_git_history(data, False), data)
 
     def test_with_duplicates(self):
         timestamp_1 = datetime.datetime(2017, 5, 5)
@@ -257,7 +257,7 @@ class TestUniqueGitHistory(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-        }), {
+        }, False), {
             timestamp_1: {'issue #5': [
                 'add the FizzBuzz class',
                 'add the LinkedList class',
