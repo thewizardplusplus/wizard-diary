@@ -82,6 +82,9 @@ def parse_options():
 
     return parser.parse_args()
 
+def ansi(code, text):
+    return '\x1b[{}m{}\x1b[m'.format(ANSI_CODES[code], text)
+
 def read_commit(commit, verbose):
     commit_hash = str(commit)[:7]
     if verbose:
@@ -247,9 +250,6 @@ def output_git_history(output_path, representation):
 
     with open(output_path + '.md', 'w') as output_file:
         output_file.write(representation + '\n')
-
-def ansi(code, text):
-    return '\x1b[{}m{}\x1b[m'.format(ANSI_CODES.get(code, code), text)
 
 def main():
     try:
