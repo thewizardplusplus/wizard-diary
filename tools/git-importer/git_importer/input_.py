@@ -19,6 +19,7 @@ def input_git_history(repository_path, revisions_specifier, start_timestamp):
         _input_commit(commit)
         for commit in git.Repo(repository_path).iter_commits(
             revisions_specifier,
+            reverse=True,
             **({} if start_timestamp is None else {'after': start_timestamp}),
         )
     ]
