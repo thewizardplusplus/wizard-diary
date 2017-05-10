@@ -1,33 +1,32 @@
-import logging
 import operator
 import itertools
 import sys
 
 import termcolor
 
-from . import log
+from . import logger
 from . import process
 
-def format_git_history(project, data, verbose):
-    log.log(logging.INFO, 'format the git history')
+def format_git_history(project, data):
+    logger.get_logger().info('format the git history')
 
     return '# {}\n\n{}\n'.format(project, '\n\n'.join(
-        _format_issues_marks(project, date, issues_marks, verbose)
+        _format_issues_marks(project, date, issues_marks)
         for date, issues_marks in sorted(
             data.items(),
             key=operator.itemgetter(0),
         )
     ))
 
-def _format_issues_marks(project, date, issues_marks, verbose):
+def _format_issues_marks(project, date, issues_marks):
     formatted_date = date.strftime('%Y-%m-%d')
-    if verbose:
-        log.log(logging.DEBUG, 'format the git history for {}'.format(
-            termcolor.colored(formatted_date, 'magenta'),
-        ))
+    logger.get_logger().debug(
+        'format the git history for ' \
+            + termcolor.colored(formatted_date, 'magenta'),
+    )
 
     return '## {}\n\n```\n{}\n```'.format(formatted_date, '\n\n'.join(
-        _format_messages(project_indent, issue_mark, messages, verbose)
+        _format_messages(project_indent, issue_mark, messages)
         for project_indent, (issue_mark, messages) in zip(
             itertools.chain([project + ', '], _get_dummy_generator(
                 issues_marks,
@@ -36,11 +35,11 @@ def _format_issues_marks(project, date, issues_marks, verbose):
         )
     ))
 
-def _format_messages(project_indent, issue_mark, messages, verbose):
-    if verbose:
-        log.log(logging.DEBUG, 'format the git history for {}'.format(
-            termcolor.colored(issue_mark, 'blue'),
-        ))
+def _format_messages(project_indent, issue_mark, messages):
+    logger.get_logger().debug(
+        'format the git history for ' \
+            + termcolor.colored(issue_mark, 'blue'),
+    )
 
     return '\n'.join(
         project_indent + issue_indent + message

@@ -1,18 +1,17 @@
 import re
-import logging
 import collections
 import itertools
 
 import termcolor
 
-from . import log
+from . import logger
 
 SPECIAL_ISSUE = 'прочее'
 
 _ISSUE_MARK_PATTERN = re.compile(r'issue #\d+(?:, issue #\d+)*:', re.IGNORECASE)
 
-def process_git_history(commits, verbose):
-    log.log(logging.INFO, 'process the git history')
+def process_git_history(commits):
+    logger.get_logger().info('process the git history')
 
     data = collections.defaultdict(lambda: collections.defaultdict(list))
     for commit in commits:
@@ -20,37 +19,36 @@ def process_git_history(commits, verbose):
         for issue_mark, messages in _process_commit_message(
             commit.hash,
             commit.message,
-            verbose,
         ).items():
             data[date][issue_mark].extend(messages)
 
     return data
 
-def unique_git_history(data, verbose):
-    log.log(logging.INFO, 'unique the git history')
+def unique_git_history(data):
+    logger.get_logger().info('unique the git history')
 
     unique_data = collections.defaultdict(dict)
     for date, issues_marks in data.items():
-        if verbose:
-            log.log(logging.DEBUG, 'unique the git history for {}'.format(
-                termcolor.colored(date.strftime('%Y-%m-%d'), 'magenta'),
-            ))
+        logger.get_logger().debug(
+            'unique the git history for ' \
+                + termcolor.colored(date.strftime('%Y-%m-%d'), 'magenta'),
+        )
 
         for issue_mark, messages in issues_marks.items():
-            if verbose:
-                log.log(logging.DEBUG, 'unique the git history for {}'.format(
-                    termcolor.colored(issue_mark, 'blue'),
-                ))
+            logger.get_logger().debug(
+                'unique the git history for ' \
+                    + termcolor.colored(issue_mark, 'blue'),
+            )
 
             unique_data[date][issue_mark] = list(_unique_everseen(messages))
 
     return unique_data
 
-def _process_commit_message(commit_hash, message, verbose):
-    if verbose:
-        log.log(logging.DEBUG, 'process the {} commit'.format(
-            termcolor.colored(commit_hash, 'yellow'),
-        ))
+def _process_commit_message(commit_hash, message):
+    logger.get_logger().debug(
+        'process the %s commit',
+        termcolor.colored(commit_hash, 'yellow'),
+    )
 
     message = message.lstrip().split('\n')[0].rstrip()
     if len(message) == 0 \

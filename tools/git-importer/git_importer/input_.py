@@ -1,11 +1,10 @@
-import logging
 import datetime
 
 import git
 import termcolor
 import tzlocal
 
-from . import log
+from . import logger
 
 class Commit:
     def __init__(self, hash_, timestamp, message):
@@ -13,27 +12,22 @@ class Commit:
         self.timestamp = timestamp
         self.message = message
 
-def input_git_history(
-    repository_path,
-    revisions_specifier,
-    start_timestamp,
-    verbose,
-):
-    log.log(logging.INFO, 'input the git history')
+def input_git_history(repository_path, revisions_specifier, start_timestamp):
+    logger.get_logger().info('input the git history')
 
     return [
-        _input_commit(commit, verbose)
+        _input_commit(commit)
         for commit in git.Repo(repository_path).iter_commits(
             revisions_specifier,
             **({} if start_timestamp is None else {'after': start_timestamp}),
         )
     ]
 
-def _input_commit(commit, verbose):
-    if verbose:
-        log.log(logging.DEBUG, 'input the {} commit'.format(
-            termcolor.colored(commit.hexsha, 'yellow'),
-        ))
+def _input_commit(commit):
+    logger.get_logger().debug(
+        'input the %s commit',
+        termcolor.colored(commit.hexsha, 'yellow'),
+    )
 
     return Commit(
         commit.hexsha,

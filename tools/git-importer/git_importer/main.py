@@ -1,6 +1,6 @@
 import sys
 
-from . import log
+from . import logger
 from . import cli
 from . import input_
 from . import process
@@ -9,21 +9,19 @@ from . import output
 
 def main():
     try:
-        log.init_log()
-
         options = cli.parse_options()
+        logger.init_logger(options.verbose)
+
         history = input_.input_git_history(
             options.repo,
             options.revs,
             options.start,
-            options.verbose,
         )
-        data = process.process_git_history(history, options.verbose)
-        unique_data = process.unique_git_history(data, options.verbose)
+        data = process.process_git_history(history)
+        unique_data = process.unique_git_history(data)
         representation = format_.format_git_history(
             options.project,
             unique_data,
-            options.verbose,
         )
         output.copy_git_history(representation)
         if options.output is not None:

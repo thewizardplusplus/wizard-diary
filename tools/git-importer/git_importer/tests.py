@@ -12,12 +12,10 @@ class TestProcessCommitMessage(unittest.TestCase):
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             '',
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             '  \n',
-            False,
         ), expected_result)
 
     def test_merge_message(self):
@@ -25,32 +23,26 @@ class TestProcessCommitMessage(unittest.TestCase):
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             "Merge branch 'development'\n",
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             "Merge branch 'issue-23' into development\n",
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             "Merge the branch 'issue-23' into the branch 'development'\n",
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             "  Merge branch 'development'\n",
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             "  Merge branch 'issue-23' into development\n",
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             "  Merge the branch 'issue-23' into the branch 'development'\n",
-            False,
         ), expected_result)
 
     def test_message_without_issue_mark(self):
@@ -58,12 +50,10 @@ class TestProcessCommitMessage(unittest.TestCase):
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             'Update the change log\n',
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             '  Update the change log\n',
-            False,
         ), expected_result)
 
     def test_multiline_message(self):
@@ -76,7 +66,6 @@ class TestProcessCommitMessage(unittest.TestCase):
 
 This reverts commit 43065958923a14a05936887ccbb876d9dd5438f98923a14a05936887ccbb876d9dd5438f9.
 ''',
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
@@ -86,7 +75,6 @@ Revert "Issue #12: add the FizzBuzz class"
 
 This reverts commit 43065958923a14a05936887ccbb876d9dd5438f98923a14a05936887ccbb876d9dd5438f9.
 ''',
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
@@ -96,7 +84,6 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f98923a14a05936887ccbb
 
 This reverts commit 43065958923a14a05936887ccbb876d9dd5438f98923a14a05936887ccbb876d9dd5438f9.
 '''.format('  '),
-            False,
         ), expected_result)
 
     def test_message_with_one_issue_mark(self):
@@ -104,12 +91,10 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f98923a14a05936887ccbb
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             'Issue #12: add the FizzBuzz class\n',
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             '  Issue #12: add the FizzBuzz class\n',
-            False,
         ), expected_result)
 
     def test_message_with_some_issues_marks(self):
@@ -120,17 +105,15 @@ This reverts commit 43065958923a14a05936887ccbb876d9dd5438f98923a14a05936887ccbb
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             'Issue #5, issue #12: add the FizzBuzz class\n',
-            False,
         ), expected_result)
         self.assertEqual(process._process_commit_message(
             '43065958923a14a05936887ccbb876d9dd5438f9',
             '  Issue #5, issue #12: add the FizzBuzz class\n',
-            False,
         ), expected_result)
 
 class TestProcessGitHistory(unittest.TestCase):
     def test_empty_commit_list(self):
-        self.assertEqual(process.process_git_history([], False), {})
+        self.assertEqual(process.process_git_history([]), {})
 
     def test_unique_commits(self):
         timestamp_1 = datetime.datetime(2017, 5, 5)
@@ -146,7 +129,7 @@ class TestProcessGitHistory(unittest.TestCase):
                 timestamp_2,
                 'Issue #12: add the LinkedList class',
             ),
-        ], False), {
+        ]), {
             timestamp_1.date(): {'issue #5': ['add the FizzBuzz class']},
             timestamp_2.date(): {'issue #12': ['add the LinkedList class']},
         })
@@ -176,7 +159,7 @@ class TestProcessGitHistory(unittest.TestCase):
                 timestamp_3,
                 'Issue #12: add the LinkedList class',
             ),
-        ], False), {
+        ]), {
             timestamp_1.date(): {
                 'issue #5': ['add the FizzBuzz class'],
                 'issue #12': ['add the LinkedList class'],
@@ -200,7 +183,7 @@ class TestProcessGitHistory(unittest.TestCase):
                 timestamp,
                 'Issue #5: add the LinkedList class',
             ),
-        ], False), {timestamp.date(): {'issue #5': [
+        ]), {timestamp.date(): {'issue #5': [
             'add the FizzBuzz class',
             'add the LinkedList class',
         ]}})
@@ -218,7 +201,7 @@ class TestProcessGitHistory(unittest.TestCase):
                 timestamp,
                 'Issue #5, issue #12: add the LinkedList class',
             ),
-        ], False), {timestamp.date(): {
+        ]), {timestamp.date(): {
             'issue #5': [
                 'add the FizzBuzz class',
                 'add the LinkedList class',
@@ -241,7 +224,7 @@ class TestUniqueGitHistory(unittest.TestCase):
                 'add the LinkedList class',
             ]},
         }
-        self.assertEqual(process.unique_git_history(data, False), data)
+        self.assertEqual(process.unique_git_history(data), data)
 
     def test_with_duplicates(self):
         timestamp_1 = datetime.datetime(2017, 5, 5)
@@ -257,7 +240,7 @@ class TestUniqueGitHistory(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-        }, False), {
+        }), {
             timestamp_1: {'issue #5': [
                 'add the FizzBuzz class',
                 'add the LinkedList class',
@@ -274,7 +257,6 @@ class TestFormatMessages(unittest.TestCase):
             'Test Project, ',
             'issue #12',
             ['add the FizzBuzz class'],
-            False,
         ), 'Test Project, issue #12, add the FizzBuzz class')
 
     def test_some_messages(self):
@@ -285,7 +267,6 @@ class TestFormatMessages(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ],
-            False,
         ), '''Test Project, issue #12, add the FizzBuzz class
         add the LinkedList class''')
 
@@ -307,7 +288,6 @@ class TestFormatIssuesMarks(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-            False,
         ), '''## 2017-05-05
 
 ```
@@ -329,7 +309,6 @@ Test Project, issue #12, add the FizzBuzz class
                     'add the LinkedList class',
                 ],
             },
-            False,
         ), '''## 2017-05-05
 
 ```
@@ -347,7 +326,7 @@ class TestFormatGitHistory(unittest.TestCase):
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-        }, False), '''# Test Project
+        }), '''# Test Project
 
 ## 2017-05-05
 
@@ -367,7 +346,7 @@ Test Project, issue #12, add the FizzBuzz class
                 'add the FizzBuzz class',
                 'add the LinkedList class',
             ]},
-        }, False), '''# Test Project
+        }), '''# Test Project
 
 ## 2017-05-05
 
