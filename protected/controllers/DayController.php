@@ -193,6 +193,11 @@ class DayController extends CController {
 	}
 
 	public function actionImport() {
+		if (isset($_POST['points-description'])) {
+			$import = $this->parseImport($_POST['points-description']);
+			Yii::log(print_r($import, true));
+		}
+
 		$this->render('import');
 	}
 
