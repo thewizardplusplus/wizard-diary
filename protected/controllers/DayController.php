@@ -490,7 +490,7 @@ class DayController extends CController {
 		return $extended_lines;
 	}
 
-	private function importToSql($date, $extended_points) {
+	private function importToSql($date, $extended_points, $append=false) {
 		$escaped_date = Yii::app()->db->quoteValue($date);
 		$deleting_sql = sprintf(
 			'DELETE FROM {{points}} WHERE `date` = %s AND `daily` = FALSE;',
@@ -525,12 +525,19 @@ class DayController extends CController {
 
 		$renumber_sql = Point::getRenumberOrderSql($date);
 
-		return
-			"START TRANSACTION;\n\n"
-			. "$deleting_sql\n\n"
-			. "$points_sql\n\n"
-			. "$renumber_sql\n\n"
-			. "COMMIT;";
+		$sql = '';
+		if (!$append) {
+			$sql = "START TRANSACTION;\n\n"
+				. "$deleting_sql\n\n"
+				. "$points_sql\n\n"
+				. "$renumber_sql\n\n"
+				. "COMMIT;";
+		} else {
+			$sql = "$points_sql\n\n"
+				. "$renumber_sql";
+		}
+
+		return $sql;
 	}
 
 	private function parseImport($points_description) {
@@ -583,9 +590,15 @@ class DayController extends CController {
 				$points_description,
 				$points_numbers[$date]
 			);
-			$sql .= $this->importToSql($date, $extended_points_description);
+			$sql .= $this->importToSql(
+				$date,
+				$extended_points_description,
+				true
+			) . "\n\n";
 		}
 
-		return $sql;
+		return "START TRANSACTION;\n\n"
+			. "$sql"
+			. "COMMIT;";
 	}
 }
