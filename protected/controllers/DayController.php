@@ -195,7 +195,8 @@ class DayController extends CController {
 	public function actionImport() {
 		if (isset($_POST['points-description'])) {
 			$import = $this->parseImport($_POST['points-description']);
-			Yii::log(print_r($import, true));
+			$points_numbers = $this->getPointsNumbers(array_keys($import));
+			Yii::log(print_r($points_numbers, true));
 		}
 
 		$this->render('import');
@@ -553,5 +554,24 @@ class DayController extends CController {
 		}
 
 		return $import;
+	}
+
+	private function getPointsNumbers($dates) {
+		$criteria = new CDbCriteria();
+		$criteria->addInCondition('date', $dates);
+
+		$nonzero_points_numbers = Yii::app()->db->createCommand()
+			->select(array('date', 'COUNT(*) AS number'))
+			->from('{{points}}')
+			->where($criteria->condition)
+			->group(array('date'))
+			->queryAll(true, $criteria->params);
+
+		$points_numbers = array_fill_keys($dates, 0);
+		foreach ($nonzero_points_numbers as $number) {
+			$points_numbers[$number['date']] = $number['number'];
+		}
+
+		return $points_numbers;
 	}
 }
