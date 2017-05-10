@@ -196,7 +196,8 @@ class DayController extends CController {
 		if (isset($_POST['points-description'])) {
 			$import = $this->parseImport($_POST['points-description']);
 			$points_numbers = $this->getPointsNumbers(array_keys($import));
-			Yii::log(print_r($points_numbers, true));
+			$sql = $this->globalImportToSql($import, $points_numbers);
+			Yii::log($sql);
 		}
 
 		$this->render('import');
@@ -573,5 +574,18 @@ class DayController extends CController {
 		}
 
 		return $points_numbers;
+	}
+
+	private function globalImportToSql($global_import, $points_numbers) {
+		$sql = '';
+		foreach ($global_import as $date => $points_description) {
+			$extended_points_description = $this->extendImport(
+				$points_description,
+				$points_numbers[$date]
+			);
+			$sql .= $this->importToSql($date, $extended_points_description);
+		}
+
+		return $sql;
 	}
 }
