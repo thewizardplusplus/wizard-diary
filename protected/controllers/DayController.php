@@ -197,7 +197,7 @@ class DayController extends CController {
 			$import = $this->parseImport($_POST['points-description']);
 			$points_numbers = $this->getPointsNumbers(array_keys($import));
 			$sql = $this->globalImportToSql($import, $points_numbers);
-			Yii::log($sql);
+			Yii::app()->db->createCommand($sql)->execute();
 		}
 
 		$this->render('import');
