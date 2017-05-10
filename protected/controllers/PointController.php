@@ -57,10 +57,6 @@ class PointController extends CController {
 		$model->save();
 	}
 
-	public function actionImport() {
-		$this->render('import');
-	}
-
 	public function actionDelete() {
 		if (isset($_POST['points_ids']) and isset($_POST['points_dates'])) {
 			$this->testPointsIds($_POST['points_ids']);
@@ -82,30 +78,6 @@ class PointController extends CController {
 		}
 
 		return $model;
-	}
-
-	private function parseImport($points_description) {
-		if (false === preg_match_all(
-			'/
-				\#\#\s (\d{4}-\d{2}-\d{2})\r?\n
-				\r?\n
-				```\r?\n
-				((?:.(?!```))*)\r?\n
-				```
-			/xsu',
-			$points_description,
-			$matches,
-			PREG_SET_ORDER
-		)) {
-			throw new CHttpException(500, 'Ошибка парсинга импорта.');
-		}
-
-		$import = array();
-		foreach ($matches as $match) {
-			$import[$match[1]] = $match[2];
-		}
-
-		return $import;
 	}
 
 	private function testPointsIds($points_ids) {

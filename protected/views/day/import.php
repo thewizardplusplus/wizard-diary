@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @var PointController $this
+	 * @var DayController $this
 	 */
 
 	Yii::app()->getClientScript()->registerPackage('ace');
@@ -23,7 +23,7 @@
 	<h4>Импорт пунктов</h4>
 </header>
 
-<?= CHtml::beginForm($this->createUrl('point/import'), 'post', array(
+<?= CHtml::beginForm($this->createUrl('day/import'), 'post', array(
 	'id' => 'import-form',
 )) ?>
 	<div class="form-group">

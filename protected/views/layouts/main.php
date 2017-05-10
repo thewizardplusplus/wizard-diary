@@ -100,7 +100,7 @@
 											),
 											array(
 												'label' => 'Импорт',
-												'url' => array('point/import')
+												'url' => array('day/import')
 											),
 											array(
 												'label' => 'Удаление',

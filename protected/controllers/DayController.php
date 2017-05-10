@@ -192,6 +192,10 @@ class DayController extends CController {
 		);
 	}
 
+	public function actionImport() {
+		$this->render('import');
+	}
+
 	public function getRowClass($date) {
 		$row_class = '';
 		$day = $this->getMyDay($date);
@@ -520,5 +524,29 @@ class DayController extends CController {
 			. "$points_sql\n\n"
 			. "$renumber_sql\n\n"
 			. "COMMIT;";
+	}
+
+	private function parseImport($points_description) {
+		if (false === preg_match_all(
+			'/
+				\#\#\s (\d{4}-\d{2}-\d{2})\r?\n
+				\r?\n
+				```\r?\n
+				((?:.(?!```))*)\r?\n
+				```
+			/xsu',
+			$points_description,
+			$matches,
+			PREG_SET_ORDER
+		)) {
+			throw new CHttpException(500, 'Ошибка парсинга импорта.');
+		}
+
+		$import = array();
+		foreach ($matches as $match) {
+			$import[$match[1]] = $match[2];
+		}
+
+		return $import;
 	}
 }
