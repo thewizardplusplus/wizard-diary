@@ -16,6 +16,7 @@ def main():
             options.repo,
             options.revs,
             options.start,
+            options.author,
         )
         data = process.process_git_history(history)
         unique_data = process.unique_git_history(data)

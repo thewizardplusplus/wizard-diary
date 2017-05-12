@@ -12,13 +12,19 @@ class Commit:
         self.timestamp = timestamp
         self.message = message
 
-def input_git_history(repository_path, revisions_specifier, start_timestamp):
+def input_git_history(
+    repository_path,
+    revisions_specifier,
+    start_timestamp,
+    commits_author,
+):
     logger.get_logger().info('input the git history')
 
     return [
         _input_commit(commit)
         for commit in git.Repo(repository_path).iter_commits(
             revisions_specifier,
+            author=commits_author,
             reverse=True,
             **({} if start_timestamp is None else {'after': start_timestamp}),
         )
