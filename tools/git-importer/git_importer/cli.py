@@ -28,6 +28,12 @@ def parse_options():
         help='a start timestamp of the repository log ' \
             + 'in ISO 8601 or human-readable formats',
     )
+    parser.add_argument(
+        '-a',
+        '--author',
+        default='thewizardplusplus',
+        help='commits author',
+    )
     parser.add_argument('-p', '--project', required=True, help='project name')
     parser.add_argument('-o', '--output', help='output path')
     parser.add_argument(
