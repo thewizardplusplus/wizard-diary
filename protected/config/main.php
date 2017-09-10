@@ -35,6 +35,14 @@ return array(
 				'stats/daily_point_list' => 'stats/dailyPointList',
 				'stats/project_list' => 'stats/projectList',
 				'stats/project_actions' => 'stats/projectActions',
+				'stats/projects/short' => array(
+					'stats/projects',
+					'defaultParams'=>array('tasks_required' => false)
+				),
+				'stats/projects/full' => array(
+					'stats/projects',
+					'defaultParams'=>array('tasks_required' => true)
+				),
 				'mistakes' => 'mistake/list',
 				'spellings' => 'spelling/list',
 				'spelling/delete' => 'spelling/delete',

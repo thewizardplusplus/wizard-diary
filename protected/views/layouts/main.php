@@ -143,8 +143,18 @@
 												)
 											),
 											array(
-												'label' => 'Прогресс проектов',
-												'url' => array('stats/projects')
+												'label' => 'Прогресс проектов (краткий)',
+												'url' => array(
+													'stats/projects',
+													'tasks_required' => false
+												)
+											),
+											array(
+												'label' => 'Прогресс проектов (полный)',
+												'url' => array(
+													'stats/projects',
+													'tasks_required' => true
+												)
 											),
 											array(
 												'label' => '',

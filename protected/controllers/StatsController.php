@@ -148,7 +148,7 @@ class StatsController extends CController {
 		$this->render('points', array('data' => $data, 'mean' => $mean));
 	}
 
-	public function actionProjects() {
+	public function actionProjects($tasks_required = true) {
 		$points = Point::model()->findAll(
 			array('condition' => 'text != "" AND daily = FALSE')
 		);
@@ -284,7 +284,7 @@ class StatsController extends CController {
 			$new_data[$first_key] = array(
 				'start' => date_format($first_first_start, 'c'),
 				'end' => date_format($first_last_end, 'c'),
-				'tasks' => $new_second_keys
+				'tasks' => $tasks_required ? $new_second_keys : array()
 			);
 		}
 		uasort(
