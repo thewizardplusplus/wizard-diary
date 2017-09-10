@@ -396,7 +396,7 @@ class BackupController extends CController {
 	}
 
 	private function saveFileToDropbox($authorization_code, $filename) {
-		$curl = curl_init('https://api.dropbox.com/1/oauth2/token');
+		$curl = curl_init('https://api.dropboxapi.com/oauth2/token');
 		if ($curl === false) {
 			throw new CException('Не удалось инициализировать cURL.');
 		}

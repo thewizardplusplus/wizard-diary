@@ -16,7 +16,7 @@ $(document).ready(
 			backup_icon.show();
 		};
 		var GetAccessToDropbox = function() {
-			var url = 'https://www.dropbox.com/1/oauth2/authorize'
+			var url = 'https://www.dropbox.com/oauth2/authorize'
 				+ '?response_type=code'
 				+ '&client_id=' + app_key
 				+ '&redirect_uri=' + encodeURIComponent(
