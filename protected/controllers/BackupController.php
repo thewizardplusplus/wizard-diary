@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../../dropbox-sdk/Dropbox/autoload.php');
+require_once(__DIR__ . '/../../dropbox-sdk/autoload.php');
 require_once(__DIR__ . '/../../php-diff/Diff.php');
 require_once(__DIR__ . '/../../php-diff/Diff/Renderer/Text/Unified.php');
 
@@ -442,22 +442,17 @@ class BackupController extends CController {
 			);
 		}
 
-		$file = fopen($filename, 'rb');
-		if ($file === false) {
-			throw new CException('Не удалось прочитать бекап с диска.');
-		}
-
-		$dropbox_client = new \Dropbox\Client(
-			$access_data['access_token'],
-			Constants::DROPBOX_APP_NAME
+		$dropbox = new \Kunnu\Dropbox\Dropbox(
+			new \Kunnu\Dropbox\DropboxApp(
+				AccessConstants::DROPBOX_APP_KEY,
+				AccessConstants::DROPBOX_APP_SECRET,
+				$access_data['access_token']
+			)
 		);
-		$dropbox_client->uploadFile(
-			'/' . basename($filename),
-			\Dropbox\WriteMode::add(),
-			$file
+		$dropbox->upload(
+			new \Kunnu\Dropbox\DropboxFile($filename),
+			'/' . basename($filename)
 		);
-
-		fclose($file);
 	}
 
 	private function testFileTimestamp($timestamp) {
