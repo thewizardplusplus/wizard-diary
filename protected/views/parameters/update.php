@@ -145,6 +145,11 @@
 		<?= $form->labelEx($model, 'use_whitelist') ?>
 	</div>
 
+	<div class = "checkbox checkbox-primary">
+		<?= $form->checkBox($model, 'use_2fa') ?>
+		<?= $form->labelEx($model, 'use_2fa') ?>
+	</div>
+
 	<?= CHtml::htmlButton(
 		'<span class = "glyphicon glyphicon-floppy-disk"></span> Сохранить',
 		array(
