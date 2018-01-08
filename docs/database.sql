@@ -41,7 +41,8 @@ CREATE TABLE `diary_parameters` (
 	`session_lifetime_in_min` INT UNSIGNED NOT NULL DEFAULT 12,
 	-- default value - 1 month
 	`access_log_lifetime_in_s` INT UNSIGNED NOT NULL DEFAULT 2592000,
-	`use_whitelist` BOOLEAN NOT NULL DEFAULT TRUE
+	`use_whitelist` BOOLEAN NOT NULL DEFAULT TRUE,
+	`use_2fa` BOOLEAN NOT NULL DEFAULT TRUE
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `diary_accesses`;
