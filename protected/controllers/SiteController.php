@@ -50,8 +50,12 @@ class SiteController extends CController {
 					$_POST['recaptcha_response_field']
 				);
 				if ($result->is_valid) {
-					AccessCode::send($model->need_remember);
-					$this->redirect($this->createUrl('site/accessCode'));
+					if (Parameters::getModel()->use_2fa) {
+						AccessCode::send($model->need_remember);
+						$this->redirect($this->createUrl('site/accessCode'));
+					} else {
+						$this->login($model->need_remember);
+					}
 				} else {
 					$model->addError(
 						'verify_code',
