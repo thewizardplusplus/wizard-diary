@@ -6,6 +6,7 @@ class ParametersForm extends CFormModel {
 	public $session_lifetime_in_min;
 	public $access_log_lifetime_in_s;
 	public $use_whitelist = true;
+	public $use_2fa = true;
 
 	public function __construct() {
 		parent::__construct();
@@ -15,6 +16,7 @@ class ParametersForm extends CFormModel {
 		$this->access_log_lifetime_in_s =
 			Parameters::getModel()->access_log_lifetime_in_s;
 		$this->use_whitelist = Parameters::getModel()->use_whitelist;
+		$this->use_2fa = Parameters::getModel()->use_2fa;
 	}
 
 	public function rules() {
@@ -67,7 +69,9 @@ class ParametersForm extends CFormModel {
 						. 'не больше {max}.'
 			),
 			array('use_whitelist', 'boolean'),
-			array('use_whitelist', 'default', 'value' => 1)
+			array('use_whitelist', 'default', 'value' => 1),
+			array('use_2fa', 'boolean'),
+			array('use_2fa', 'default', 'value' => 1)
 		);
 	}
 
@@ -77,7 +81,8 @@ class ParametersForm extends CFormModel {
 			'password_copy' => 'Пароль (копия)',
 			'session_lifetime_in_min' => 'Время жизни сессии, мин',
 			'access_log_lifetime_in_s' => 'Время жизни лога доступа, с',
-			'use_whitelist' => 'Использовать белый список'
+			'use_whitelist' => 'Использовать белый список',
+			'use_2fa' => 'Использовать 2FA'
 		);
 	}
 
@@ -91,6 +96,7 @@ class ParametersForm extends CFormModel {
 		$model->session_lifetime_in_min = $this->session_lifetime_in_min;
 		$model->access_log_lifetime_in_s = $this->access_log_lifetime_in_s;
 		$model->use_whitelist = $this->use_whitelist;
+		$model->use_2fa = $this->use_2fa;
 		$model->save();
 	}
 }
