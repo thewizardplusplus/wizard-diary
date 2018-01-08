@@ -97,20 +97,9 @@ class SiteController extends CController {
 			$model->attributes = $_POST['AccessCodeForm'];
 			$result = $model->validate();
 			if ($result) {
-				$result = Yii::app()->user->login(
-					new DummyUserIdentity(),
-					AccessCode::isNeedUserRemember()
-						? Parameters::getModel()->session_lifetime_in_min * 60
-						: 0
-				);
-				if ($result) {
+				$this->login(AccessCode::isNeedUserRemember(), function() {
 					AccessCode::clean();
-
-					$user_info = new UserInfo;
-					$user_info->save();
-
-					$this->redirect(Yii::app()->user->returnUrl);
-				}
+				});
 			}
 		}
 
@@ -132,5 +121,24 @@ class SiteController extends CController {
 	public function actionLogout() {
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+
+	private function login($is_need_remember, $prehandler = null) {
+		$result = Yii::app()->user->login(
+			new DummyUserIdentity(),
+			$is_need_remember
+				? Parameters::getModel()->session_lifetime_in_min * 60
+				: 0
+		);
+		if ($result) {
+			if (!is_null($prehandler)) {
+				$prehandler();
+			}
+
+			$user_info = new UserInfo;
+			$user_info->save();
+
+			$this->redirect(Yii::app()->user->returnUrl);
+		}
 	}
 }
