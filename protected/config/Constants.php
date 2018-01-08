@@ -6,7 +6,7 @@ class Constants extends AccessConstants {
 	const DEBUG = false;
 	const TRACE_LEVEL = 5;
 	const APP_NAME = 'Wizard Diary';
-	const APP_VERSION = 'v7.1';
+	const APP_VERSION = 'v7.2';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const DEFAULT_PASSWORD = 'admin';
 	const COPYRIGHT_START_YEAR = 2014;
