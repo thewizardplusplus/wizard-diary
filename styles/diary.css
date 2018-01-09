@@ -55,20 +55,6 @@ form .panel :last-child {
 	margin-bottom: 0;
 }
 
-/* reCAPTCHA styles. */
-#recaptcha_image,
-.recaptcha-refresh {
-	margin-bottom: 10px;
-}
-
-#recaptcha_image {
-	max-width: 100%;
-}
-
-.recaptcha-refresh {
-	color: #428bca;
-}
-
 /* AJAX request process animation styles. */
 .age-points-button img,
 .save-day-button img,
