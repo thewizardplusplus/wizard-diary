@@ -1,5 +1,10 @@
 <?php
 
+Yii::setPathOfAlias(
+	'JsonApi',
+	Yii::getPathOfAlias('application.components.JsonApi')
+);
+
 class LoginForm extends CFormModel {
 	public $password;
 	public $verify_code;
@@ -36,8 +41,16 @@ class LoginForm extends CFormModel {
 
 	public function verifyRecaptcha($attribute, $parameters) {
 		try {
-			Yii::log($this->verify_code);
-			throw new Exception('Тест Тьюринга не пройден.');
+			$response = \JsonApi\Request::post(
+				'https://www.google.com/recaptcha/api/siteverify',
+				array(
+					'secret' => Constants::RECAPTCHA_PRIVATE_KEY,
+					'response' => $this->verify_code
+				)
+			);
+			if (!$response->success) {
+				throw new Exception('Тест Тьюринга не пройден.');
+			}
 		} catch (Exception $exception) {
 			$this->addError('verify_code', $exception->getMessage());
 		}
