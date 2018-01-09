@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DIR__ . '/../../recaptcha/recaptchalib.php');
-
 class SiteController extends CController {
 	public function filters() {
 		return array('accessControl', 'postOnly + logout');
@@ -38,29 +36,12 @@ class SiteController extends CController {
 		if (isset($_POST['LoginForm'])) {
 			$model->attributes = $_POST['LoginForm'];
 			$result = $model->validate();
-			if (
-				$result
-				and isset($_POST['recaptcha_challenge_field'])
-				and isset($_POST['recaptcha_response_field'])
-			) {
-				$result = recaptcha_check_answer(
-					Constants::RECAPTCHA_PRIVATE_KEY,
-					$_SERVER['REMOTE_ADDR'],
-					$_POST['recaptcha_challenge_field'],
-					$_POST['recaptcha_response_field']
-				);
-				if ($result->is_valid) {
-					if (Parameters::getModel()->use_2fa) {
-						AccessCode::send($model->need_remember);
-						$this->redirect($this->createUrl('site/accessCode'));
-					} else {
-						$this->login($model->need_remember);
-					}
+			if ($result) {
+				if (Parameters::getModel()->use_2fa) {
+					AccessCode::send($model->need_remember);
+					$this->redirect($this->createUrl('site/accessCode'));
 				} else {
-					$model->addError(
-						'verify_code',
-						'Тест Тьюринга не пройден.'
-					);
+					$this->login($model->need_remember);
 				}
 			}
 		}
