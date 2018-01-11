@@ -9,7 +9,7 @@ class Constants extends AccessConstants {
 	const APP_VERSION = 'v7.2';
 	const DATABASE_TABLE_PREFIX = 'diary_';
 	const DEFAULT_PASSWORD = 'admin';
-	const COPYRIGHT_START_YEAR = 2014;
+	const COPYRIGHT_START_YEAR = 2013;
 	const DAYS_IN_MY_YEAR = 300;
 	const DAYS_IN_MY_STREAK = 12;
 	// relatively at /protected/controllers
