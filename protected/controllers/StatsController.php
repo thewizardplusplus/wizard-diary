@@ -294,8 +294,8 @@ class StatsController extends CController {
 			}
 		);
 		$data = array(
-			'start' => date_format($global_start, 'c'),
-			'end' => date_format($global_end, 'c'),
+			'start' => !is_null($global_start) ? date_format($global_start, 'c') : null,
+			'end' => !is_null($global_end) ? date_format($global_end, 'c') : null,
 			'data' => $new_data
 		);
 
