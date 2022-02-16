@@ -1,10 +1,10 @@
 <?php
 
 class AccessConstants {
-	const DATABASE_HOST = 'localhost';
+	const DATABASE_HOST = 'mysql';
 	const DATABASE_NAME = 'diary';
-	const DATABASE_USER = 'root';
-	const DATABASE_PASSWORD = '';
+	const DATABASE_USER = 'diary';
+	const DATABASE_PASSWORD = 'diary';
 	const RECAPTCHA_PUBLIC_KEY = '6Lcm7_kSAAAAABWsfXQjmzXIc867ukoIpLi5m9X2';
 	const RECAPTCHA_PRIVATE_KEY = '6Lcm7_kSAAAAAFpu9z5F2uEbbldK--dNXSZ-ZFq1';
 	const DROPBOX_APP_NAME = 'wizard-diary-debug';

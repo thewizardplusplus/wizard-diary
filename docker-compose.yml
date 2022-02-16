@@ -1,0 +1,27 @@
+version: "3"
+services:
+  wizard-diary:
+    build: .
+    ports:
+      - 80:80
+    command:
+      - /usr/local/bin/wait-for-it.sh
+      - mysql:3306
+      - --
+      - apache2-foreground
+
+  mysql:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: diary
+      MYSQL_PASSWORD: diary
+      MYSQL_DATABASE: diary
+    ports:
+      - 3306:3306
+      - 33060:33060
+
+  adminer:
+    image: adminer:4.8.1
+    ports:
+      - 9090:8080
