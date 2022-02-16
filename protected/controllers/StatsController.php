@@ -791,6 +791,6 @@ class StatsController extends CController {
 		$collector = new PrefixForestMapper();
 		$tails = $collector->process($prefix_forest->root);
 
-		return $tails['children'];
+		return isset($tails['children']) ? $tails['children'] : array();
 	}
 }
