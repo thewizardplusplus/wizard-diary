@@ -177,11 +177,15 @@ class BackupController extends CController {
 		$elapsed_time = microtime(true) - $start_time;
 		$backup->create_duration = $elapsed_time;
 
+		$has_difference = false;
 		$backups = $this->getBackupList($base_backup_path);
-		$file = $this->getBackupDate($backups[0]);
-		$previous_file = $this->getBackupDate($backups[1]);
-		$difference = $this->getBackupsDiff($previous_file, $file);
-		$backup->has_difference = strlen($difference) > 0;
+		if (count($backups) >= 2) {
+			$file = $this->getBackupDate($backups[0]);
+			$previous_file = $this->getBackupDate($backups[1]);
+			$difference = $this->getBackupsDiff($previous_file, $file);
+			$has_difference = strlen($difference) > 0;
+		}
+		$backup->has_difference = $has_difference;
 
 		$backup->save();
 
