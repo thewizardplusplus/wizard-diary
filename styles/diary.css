@@ -437,6 +437,11 @@ a.state-initial:focus {
 	}
 }
 
+#achievements-list .empty,
+#future-achievements-list .empty {
+	font-style: italic;
+}
+
 .achievement-view {
 	margin-bottom: 10px;
 	padding: 10px;

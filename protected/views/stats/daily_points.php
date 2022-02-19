@@ -52,5 +52,5 @@
 <div class = "stats-view daily-points"></div>
 
 <p class = "stats-view empty-label">
-	Нет пунктов.
+	Нет ежедневных пунктов.
 </p>

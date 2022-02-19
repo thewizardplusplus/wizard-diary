@@ -50,5 +50,5 @@
 <div class = "stats-view projects"></div>
 
 <p class = "stats-view empty-label">
-	Нет пунктов.
+	Нет проектов.
 </p>
