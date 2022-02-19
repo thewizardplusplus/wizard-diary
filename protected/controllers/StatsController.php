@@ -296,7 +296,8 @@ class StatsController extends CController {
 		$data = array(
 			'start' => !is_null($global_start) ? date_format($global_start, 'c') : null,
 			'end' => !is_null($global_end) ? date_format($global_end, 'c') : null,
-			'data' => $new_data
+			'data' => $new_data,
+			'with_tasks' => $tasks_required
 		);
 
 		$this->render('projects', array('data' => $data));
