@@ -95,7 +95,12 @@ $(document).ready(
 										);
 
 										global_data = JSON.parse(data);
-										GetAccessToDropbox();
+
+										if (SAVE_BACKUPS_TO_DROPBOX) {
+											GetAccessToDropbox();
+										} else {
+											FinishAnimation();
+										}
 									}
 								}
 							);
@@ -105,7 +110,12 @@ $(document).ready(
 								CSRF_TOKEN,
 								function(data) {
 									global_data = data;
-									GetAccessToDropbox();
+
+									if (SAVE_BACKUPS_TO_DROPBOX) {
+										GetAccessToDropbox();
+									} else {
+										FinishAnimation();
+									}
 								},
 								'json'
 							).fail(BackupUtils.error);
