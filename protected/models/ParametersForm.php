@@ -7,6 +7,7 @@ class ParametersForm extends CFormModel {
 	public $access_log_lifetime_in_s;
 	public $use_whitelist = true;
 	public $use_2fa = true;
+	public $save_backups_to_dropbox = true;
 
 	public function __construct() {
 		parent::__construct();
@@ -17,6 +18,8 @@ class ParametersForm extends CFormModel {
 			Parameters::getModel()->access_log_lifetime_in_s;
 		$this->use_whitelist = Parameters::getModel()->use_whitelist;
 		$this->use_2fa = Parameters::getModel()->use_2fa;
+		$this->save_backups_to_dropbox =
+			Parameters::getModel()->save_backups_to_dropbox;
 	}
 
 	public function rules() {
@@ -71,7 +74,9 @@ class ParametersForm extends CFormModel {
 			array('use_whitelist', 'boolean'),
 			array('use_whitelist', 'default', 'value' => 1),
 			array('use_2fa', 'boolean'),
-			array('use_2fa', 'default', 'value' => 1)
+			array('use_2fa', 'default', 'value' => 1),
+			array('save_backups_to_dropbox', 'boolean'),
+			array('save_backups_to_dropbox', 'default', 'value' => 1)
 		);
 	}
 
@@ -82,7 +87,8 @@ class ParametersForm extends CFormModel {
 			'session_lifetime_in_min' => 'Время жизни сессии, мин',
 			'access_log_lifetime_in_s' => 'Время жизни лога доступа, с',
 			'use_whitelist' => 'Использовать белый список',
-			'use_2fa' => 'Использовать 2FA'
+			'use_2fa' => 'Использовать 2FA',
+			'save_backups_to_dropbox' => 'Сохранять бекапы в Dropbox'
 		);
 	}
 
@@ -97,6 +103,7 @@ class ParametersForm extends CFormModel {
 		$model->access_log_lifetime_in_s = $this->access_log_lifetime_in_s;
 		$model->use_whitelist = $this->use_whitelist;
 		$model->use_2fa = $this->use_2fa;
+		$model->save_backups_to_dropbox = $this->save_backups_to_dropbox;
 		$model->save();
 	}
 }

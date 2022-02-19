@@ -150,6 +150,11 @@
 		<?= $form->labelEx($model, 'use_2fa') ?>
 	</div>
 
+	<div class = "checkbox checkbox-primary">
+		<?= $form->checkBox($model, 'save_backups_to_dropbox') ?>
+		<?= $form->labelEx($model, 'save_backups_to_dropbox') ?>
+	</div>
+
 	<?= CHtml::htmlButton(
 		'<span class = "glyphicon glyphicon-floppy-disk"></span> Сохранить',
 		array(
