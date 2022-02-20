@@ -2,6 +2,7 @@
 docs/
 resources/
 tools/
+!tools/.htaccess
 !tools/access_code_finder.sh
 !tools/wait-for-it.sh
 .dockerignore
