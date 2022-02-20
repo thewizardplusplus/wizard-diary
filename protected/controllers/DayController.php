@@ -41,6 +41,7 @@ class DayController extends CController {
 			)
 			->from('{{points}}')
 			->group('date')
+			->order('date')
 			->queryAll();
 		$days = DateCompleter::complete(
 			$days,
