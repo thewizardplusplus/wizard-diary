@@ -14,5 +14,8 @@ COPY --chown=www-data:www-data \
 
 USER www-data:www-data
 RUN rm --force tools/wait-for-it.sh \
-  && mkdir --parents assets protected/runtime \
+  && mkdir --parents assets dumps protected/runtime \
+  && find . -type f -exec chmod 0444 '{}' \; \
+  && find . -type d -exec chmod 0555 '{}' \; \
+  && chmod u+w assets dumps protected/runtime \
   && chmod u+x tools/access_code_finder.sh
