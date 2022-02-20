@@ -49,23 +49,21 @@ class PointFormatter {
 		$text = preg_replace('/\s-(?:>|&gt;)\s/', ' &#10148; ', $text);
 		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
 		$text = preg_replace_callback(
-			'/\(key\s([^\)]+)\)/',
+			'/\((key|code)\s([^\)]+)\)/',
 			function($matches) {
-				return sprintf('<kbd>%s</kbd>', trim($matches[1]));
+				switch ($matches[1]) {
+				case 'key':
+					$tag = 'kbd';
+					break;
+				case 'code':
+					$tag = 'code';
+					break;
+				}
+
+				return sprintf('<%1$s>%2$s</%1$s>', $tag, trim($matches[2]));
 			},
 			$text
 		);
-
-		if (substr_count($text, ',') >= 2) {
-			$levels = array_map('trim', explode(',', $text));
-			$point_tail = implode(', ', array_slice($levels, 2));
-			$point_tail = preg_replace(
-				'/(\.?[a-z0-9_]+(?:(?:\.|::)[a-z0-9_]+)*(?:\(\)|\+\+|#)?)/i',
-				'<code>$1</code>',
-				$point_tail
-			);
-			$text = sprintf('%s, %s, %s', $levels[0], $levels[1], $point_tail);
-		}
 
 		if (!empty($text)) {
 			$text .= ';';

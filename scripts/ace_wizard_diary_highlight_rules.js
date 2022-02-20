@@ -30,11 +30,6 @@ define(
 						regex: '^[^,]+,'
 					},
 					{
-						// identifiers
-						token: 'comment.line.wizard-diary',
-						regex: '\\.?\\w+(?:(?:\\.|::)\\w+)*(?:\\(\\)|\\+\\+|#)?'
-					},
-					{
 						// double-quoted string
 						token: 'string.quoted.double.wizard-diary',
 						regex: '"(?:\\\\.|[^"])*"'
@@ -45,13 +40,13 @@ define(
 						regex: '\\s->?\\s'
 					},
 					{
-						// operator `(key Key)`
+						// operators `(key Key)` and `(code Code)`
 						token: [
 							'keyword.operator.wizard-diary',
 							'constant.language.wizard-diary',
 							'keyword.operator.wizard-diary'
 						],
-						regex: '(\\(key\\s)([^\\)]+)(\\))'
+						regex: '(\\((?:key|code)\\s)([^\\)]+)(\\))'
 					}
 				]
 			};
