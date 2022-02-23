@@ -18,4 +18,4 @@ RUN rm --force tools/wait-for-it.sh \
   && find . -type f -exec chmod 0444 '{}' \; \
   && find . -type d -exec chmod 0555 '{}' \; \
   && chmod u+w assets dumps protected/runtime \
-  && chmod u+x tools/access_code_finder.sh
+  && chmod u+x protected/yiic tools/access_code_finder.sh

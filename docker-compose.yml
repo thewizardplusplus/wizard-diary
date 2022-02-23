@@ -2,6 +2,7 @@ version: "3"
 services:
   wizard-diary:
     build: .
+    container_name: wizard-diary
     ports:
       - 80:80
     command:
@@ -25,3 +26,9 @@ services:
     image: adminer:4.8.1
     ports:
       - 9090:8080
+
+  ofelia:
+    image: mcuadros/ofelia:v0.3.6
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./tools/ofelia_config.ini:/etc/ofelia/config.ini:ro
