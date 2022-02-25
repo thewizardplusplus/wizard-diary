@@ -40,7 +40,7 @@ class PointFormatter {
 
 		$text = str_replace('&quot;', '"', $text);
 		$text = preg_replace(
-			'/"([^"]*)"/',
+			'/"((?:\\\\.|[^"])*)"/',
 			'&laquo;$1&raquo;',
 			$text
 		);
@@ -49,7 +49,7 @@ class PointFormatter {
 		$text = preg_replace('/\s-(?:>|&gt;)\s/', ' &#10148; ', $text);
 		$text = preg_replace('/\s-\s/', ' &mdash; ', $text);
 		$text = preg_replace_callback(
-			'/\((key|code)\s([^\)]+)\)/',
+			'/\((key|code)\s((?:\\\\.|[^\)])+)\)/',
 			function($matches) {
 				switch ($matches[1]) {
 				case 'key':
@@ -64,6 +64,7 @@ class PointFormatter {
 			},
 			$text
 		);
+		$text = preg_replace('/\\\\(.)/', '$1', $text);
 
 		if (!empty($text)) {
 			$text .= ';';

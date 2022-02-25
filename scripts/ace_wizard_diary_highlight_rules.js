@@ -46,7 +46,7 @@ define(
 							'constant.language.wizard-diary',
 							'keyword.operator.wizard-diary'
 						],
-						regex: '(\\((?:key|code)\\s)([^\\)]+)(\\))'
+						regex: '(\\((?:key|code)\\s)((?:\\\\.|[^\\)])+)(\\))'
 					}
 				]
 			};
