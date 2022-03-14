@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'mysql2'
 require 'optparse'
 require 'pathname'
 require 'rexml/document'
+
+require 'mysql2'
 require 'clipboard'
 
 DEFAULT_TABLE_PREFIX = 'diary_'
