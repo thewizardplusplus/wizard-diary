@@ -198,7 +198,7 @@ def outputSql sql, options
 	if !options[:quiet]
 		puts sql
 	end
-	if !options[:no_transaction]
+	if !options[:no_clipboard]
 		Clipboard.copy sql
 	end
 end
