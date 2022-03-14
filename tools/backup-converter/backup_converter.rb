@@ -142,33 +142,33 @@ def parseOptions
 	OptionParser.new do |option_parser|
 		option_parser.program_name = Pathname.new($0).basename
 		option_parser.banner =
-			"Usage: #{option_parser.program_name} [options] filename"
+			"Usage: #{option_parser.program_name} [options] <filename>"
 
 		option_parser.on(
 			'-p PREFIX',
 			'--prefix PREFIX',
-			' - table name prefix;'
+			%Q{ - table name prefix (default: "#{DEFAULT_TABLE_PREFIX}");}
 		) do |prefix|
 			options[:prefix] = prefix
 		end
 		option_parser.on(
 			'-t',
 			'--no-transaction',
-			' - disable a transaction using;'
+			' - disable transaction use;'
 		) do |prefix|
 			options[:no_transaction] = true
 		end
 		option_parser.on(
 			'-q',
 			'--quiet',
-			' - disable a printing to stdout;'
+			' - disable printing to stdout;'
 		) do |prefix|
 			options[:quiet] = true
 		end
 		option_parser.on(
 			'-c',
 			'--no-clipboard',
-			' - disable a copying to clipboard.'
+			' - disable copying to clipboard.'
 		) do |prefix|
 			options[:no_clipboard] = true
 		end
