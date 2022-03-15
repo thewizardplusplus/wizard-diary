@@ -10,10 +10,10 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$pspells = array(
-			$this->initPspell('ru'),
-			$this->initPspell('en', 'american')
-		);
+		$pspells = $this->initPspells(array(
+			array('name' => 'ru'),
+			array('name' => 'en', 'variety' => 'american')
+		));
 		$points = $this->collectPointList($pspells);
 		$data_provider = new CArrayDataProvider(
 			$points,
@@ -60,10 +60,10 @@ class MistakeController extends CController {
 			$lines
 		);
 
-		$pspells = array(
-			$this->initPspell('ru'),
-			$this->initPspell('en', 'american')
-		);
+		$pspells = $this->initPspells(array(
+			array('name' => 'ru'),
+			array('name' => 'en', 'variety' => 'american')
+		));
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
 			function($words) use ($pspells, $spellings) {
@@ -228,13 +228,19 @@ class MistakeController extends CController {
 		return $result;
 	}
 
-	private function initPspell($language, $language_variety = '') {
-		$pspell = pspell_new($language, $language_variety, '', 'utf-8', PSPELL_FAST);
-		if ($pspell === false) {
-			throw new CException('Не удалось инициализировать Pspell.');
+	private function initPspells($languages) {
+		$pspells = array();
+		foreach ($languages as $language) {
+			$variety = isset($language['variety']) ? $language['variety'] : '';
+			$pspell = pspell_new($language['name'], $variety, '', 'utf-8', PSPELL_FAST);
+			if ($pspell === false) {
+				throw new CException('Не удалось инициализировать Pspell.');
+			}
+
+			$pspells[] = $pspell;
 		}
 
-		return $pspell;
+		return $pspells;
 	}
 
 	private function checkWord($pspells, $word) {
