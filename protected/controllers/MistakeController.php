@@ -46,7 +46,7 @@ class MistakeController extends CController {
 		$word_lines = array_map(
 			function($line) {
 				preg_match_all(
-					'/\b[а-яё]+\b/iu',
+					Spelling::WORD_PATTERN,
 					$line,
 					$matches,
 					PREG_OFFSET_CAPTURE
@@ -144,7 +144,7 @@ class MistakeController extends CController {
 			function($point) use($pspell, $spellings) {
 				$counter = 0;
 				$point['text'] = preg_replace_callback(
-					'/\b[а-яё]+\b/iu',
+					Spelling::WORD_PATTERN,
 					function($matches) use ($pspell, $spellings, &$counter) {
 						$result = '';
 						$word = $matches[0];
