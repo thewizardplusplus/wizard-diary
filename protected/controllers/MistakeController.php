@@ -10,7 +10,7 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$pspell = $this->initPspell();
+		$pspell = $this->initPspell('ru');
 		$points = $this->collectPointList($pspell);
 		$data_provider = new CArrayDataProvider(
 			$points,
@@ -57,7 +57,7 @@ class MistakeController extends CController {
 			$lines
 		);
 
-		$pspell = $this->initPspell();
+		$pspell = $this->initPspell('ru');
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
 			function($words) use ($pspell, $spellings) {
@@ -222,8 +222,8 @@ class MistakeController extends CController {
 		return $result;
 	}
 
-	private function initPspell() {
-		$pspell = pspell_new('ru', '', '', 'utf-8', PSPELL_FAST);
+	private function initPspell($language) {
+		$pspell = pspell_new($language, '', '', 'utf-8', PSPELL_FAST);
 		if ($pspell === false) {
 			throw new CException('Не удалось инициализировать Pspell.');
 		}
