@@ -1,7 +1,7 @@
 <?php
 
 class Spelling extends CActiveRecord {
-	const WORD_PATTERN = '/\b[а-яё]+\b/iu';
+	const WORD_PATTERN = '/\b[a-zа-яё]+\b/iu';
 
 	public static function model($class_name = __CLASS__) {
 		return parent::model($class_name);
