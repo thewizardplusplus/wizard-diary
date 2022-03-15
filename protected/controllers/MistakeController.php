@@ -10,8 +10,9 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$pspell = $this->initPspell('ru');
-		$points = $this->collectPointList($pspell);
+		$pspell_ru = $this->initPspell('ru');
+		$pspell_en = $this->initPspell('en', 'american');
+		$points = $this->collectPointList($pspell_ru, $pspell_en);
 		$data_provider = new CArrayDataProvider(
 			$points,
 			array(
@@ -133,7 +134,7 @@ class MistakeController extends CController {
 		return sprintf("%d %s", $number, $unit);
 	}
 
-	private function collectPointList($pspell) {
+	private function collectPointList($pspell_ru, $pspell_en) {
 		$points = Yii::app()
 			->db
 			->createCommand()
@@ -143,16 +144,17 @@ class MistakeController extends CController {
 		$spellings = $this->getSpellings();
 
 		$points = array_map(
-			function($point) use($pspell, $spellings) {
+			function($point) use($pspell_ru, $pspell_en, $spellings) {
 				$counter = 0;
 				$point['text'] = preg_replace_callback(
 					Spelling::WORD_PATTERN,
-					function($matches) use ($pspell, $spellings, &$counter) {
+					function($matches) use ($pspell_ru, $pspell_en, $spellings, &$counter) {
 						$result = '';
 						$word = $matches[0];
 						if (
 							in_array($word, $spellings)
-							or pspell_check($pspell, $word)
+							or pspell_check($pspell_ru, $word)
+							or pspell_check($pspell_en, $word)
 						) {
 							$result = $word;
 						} else {
