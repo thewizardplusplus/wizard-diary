@@ -131,10 +131,7 @@ class MistakeController extends CController {
 		return sprintf("%d %s", $number, $unit);
 	}
 
-	private static $pspell_languages = array(
-		array('name' => 'ru'),
-		array('name' => 'en', 'variety' => 'american')
-	);
+	private static $pspell_languages = array('ru', 'en_US');
 
 	private function collectPointList($pspells) {
 		$points = Yii::app()
@@ -230,8 +227,7 @@ class MistakeController extends CController {
 	private function initPspells($languages) {
 		$pspells = array();
 		foreach ($languages as $language) {
-			$variety = isset($language['variety']) ? $language['variety'] : '';
-			$pspell = pspell_new($language['name'], $variety, '', 'utf-8', PSPELL_FAST);
+			$pspell = pspell_new($language, '', '', 'utf-8', PSPELL_FAST);
 			if ($pspell === false) {
 				throw new CException('Не удалось инициализировать Pspell.');
 			}
