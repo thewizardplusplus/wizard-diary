@@ -10,10 +10,7 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$pspells = $this->initPspells(array(
-			array('name' => 'ru'),
-			array('name' => 'en', 'variety' => 'american')
-		));
+		$pspells = $this->initPspells(self::$pspell_languages);
 		$points = $this->collectPointList($pspells);
 		$data_provider = new CArrayDataProvider(
 			$points,
@@ -60,10 +57,7 @@ class MistakeController extends CController {
 			$lines
 		);
 
-		$pspells = $this->initPspells(array(
-			array('name' => 'ru'),
-			array('name' => 'en', 'variety' => 'american')
-		));
+		$pspells = $this->initPspells(self::$pspell_languages);
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
 			function($words) use ($pspells, $spellings) {
@@ -136,6 +130,11 @@ class MistakeController extends CController {
 
 		return sprintf("%d %s", $number, $unit);
 	}
+
+	private static $pspell_languages = array(
+		array('name' => 'ru'),
+		array('name' => 'en', 'variety' => 'american')
+	);
 
 	private function collectPointList($pspells) {
 		$points = Yii::app()
