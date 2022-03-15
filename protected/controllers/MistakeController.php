@@ -10,9 +10,11 @@ class MistakeController extends CController {
 	}
 
 	public function actionList() {
-		$pspell_ru = $this->initPspell('ru');
-		$pspell_en = $this->initPspell('en', 'american');
-		$points = $this->collectPointList($pspell_ru, $pspell_en);
+		$pspells = array(
+			$this->initPspell('ru'),
+			$this->initPspell('en', 'american')
+		);
+		$points = $this->collectPointList($pspells);
 		$data_provider = new CArrayDataProvider(
 			$points,
 			array(
@@ -58,19 +60,20 @@ class MistakeController extends CController {
 			$lines
 		);
 
-		$pspell_ru = $this->initPspell('ru');
-		$pspell_en = $this->initPspell('en', 'american');
+		$pspells = array(
+			$this->initPspell('ru'),
+			$this->initPspell('en', 'american')
+		);
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
-			function($words) use ($pspell_ru, $pspell_en, $spellings) {
+			function($words) use ($pspells, $spellings) {
 				return array_filter(
 					$words[0],
-					function($word) use ($pspell_ru, $pspell_en, $spellings) {
+					function($word) use ($pspells, $spellings) {
 						$word = $word[0];
 						return
 							(!in_array($word, $spellings)
-							and !pspell_check($pspell_ru, $word)
-							and !pspell_check($pspell_en, $word));
+							and !$this->checkWord($pspells, $word));
 					}
 				);
 			},
@@ -134,7 +137,7 @@ class MistakeController extends CController {
 		return sprintf("%d %s", $number, $unit);
 	}
 
-	private function collectPointList($pspell_ru, $pspell_en) {
+	private function collectPointList($pspells) {
 		$points = Yii::app()
 			->db
 			->createCommand()
@@ -144,17 +147,16 @@ class MistakeController extends CController {
 		$spellings = $this->getSpellings();
 
 		$points = array_map(
-			function($point) use($pspell_ru, $pspell_en, $spellings) {
+			function($point) use($pspells, $spellings) {
 				$counter = 0;
 				$point['text'] = preg_replace_callback(
 					Spelling::WORD_PATTERN,
-					function($matches) use ($pspell_ru, $pspell_en, $spellings, &$counter) {
+					function($matches) use ($pspells, $spellings, &$counter) {
 						$result = '';
 						$word = $matches[0];
 						if (
 							in_array($word, $spellings)
-							or pspell_check($pspell_ru, $word)
-							or pspell_check($pspell_en, $word)
+							or $this->checkWord($pspells, $word)
 						) {
 							$result = $word;
 						} else {
@@ -233,6 +235,16 @@ class MistakeController extends CController {
 		}
 
 		return $pspell;
+	}
+
+	private function checkWord($pspells, $word) {
+		foreach ($pspells as $pspell) {
+			if (pspell_check($pspell, $word)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private function getSpellings() {
