@@ -1,7 +1,7 @@
 FROM php:8.0.15-apache-bullseye
 
 RUN apt-get update \
-  && apt-get install --assume-yes libpspell-dev aspell-ru \
+  && apt-get install --assume-yes libpspell-dev aspell-ru aspell-en \
   && rm --recursive --force /var/lib/apt/lists/* \
   && a2enmod rewrite \
   && docker-php-ext-install pdo_mysql pspell
