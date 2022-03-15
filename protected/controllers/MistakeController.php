@@ -222,8 +222,8 @@ class MistakeController extends CController {
 		return $result;
 	}
 
-	private function initPspell($language) {
-		$pspell = pspell_new($language, '', '', 'utf-8', PSPELL_FAST);
+	private function initPspell($language, $language_variety = '') {
+		$pspell = pspell_new($language, $language_variety, '', 'utf-8', PSPELL_FAST);
 		if ($pspell === false) {
 			throw new CException('Не удалось инициализировать Pspell.');
 		}
