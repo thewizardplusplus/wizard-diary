@@ -57,17 +57,19 @@ class MistakeController extends CController {
 			$lines
 		);
 
-		$pspell = $this->initPspell('ru');
+		$pspell_ru = $this->initPspell('ru');
+		$pspell_en = $this->initPspell('en', 'american');
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
-			function($words) use ($pspell, $spellings) {
+			function($words) use ($pspell_ru, $pspell_en, $spellings) {
 				return array_filter(
 					$words[0],
-					function($word) use ($pspell, $spellings) {
+					function($word) use ($pspell_ru, $pspell_en, $spellings) {
 						$word = $word[0];
 						return
 							(!in_array($word, $spellings)
-							and !pspell_check($pspell, $word));
+							and !pspell_check($pspell_ru, $word)
+							and !pspell_check($pspell_en, $word));
 					}
 				);
 			},
