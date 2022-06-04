@@ -1,8 +1,11 @@
 FROM php:8.0.15-apache-bullseye
 
 RUN apt-get update \
-  && apt-get install --assume-yes libpspell-dev aspell-ru aspell-en \
+  && apt-get install --assume-yes \
+    libcap2-bin \
+    libpspell-dev aspell-ru aspell-en \
   && rm --recursive --force /var/lib/apt/lists/* \
+  && setcap 'CAP_NET_BIND_SERVICE=+ep' "$(which apache2)" \
   && a2enmod rewrite \
   && docker-php-ext-install pdo_mysql pspell
 
