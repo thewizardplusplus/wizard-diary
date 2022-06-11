@@ -159,7 +159,7 @@ class DayController extends CController {
 				$_POST['points_description'],
 				$number_of_daily_points
 			);
-			$sql = $this->importToSql($date, $points_description);
+			$sql = $this->importToSql($date, array(), $points_description);
 			Yii::app()->db->createCommand($sql)->execute();
 
 			return;
@@ -428,6 +428,58 @@ class DayController extends CController {
 		return $points_description;
 	}
 
+	private function extendImportOfDailyPoints($daily_points_description) {
+		$daily_points_description = rtrim($daily_points_description);
+		$lines = explode("\n", $daily_points_description);
+
+		return array_map(
+			function($line) {
+				$line = rtrim($line);
+
+				if (false === preg_match('/^-\s\[([ x])\]\s(.*)$/', $line, $matches)) {
+					throw new CHttpException(
+						500,
+						'Ошибка парсинга импорта ежедневного пункта.'
+					);
+				}
+
+				switch ($matches[1]) {
+					case ' ':
+						$state = 'NOT_SATISFIED';
+						break;
+					case 'x':
+						$state = 'SATISFIED';
+						break;
+				}
+
+				$text = $matches[2];
+				if ($text == '-') {
+					$state = 'INITIAL';
+					$text = '';
+				}
+
+				$result = preg_match('/^~~(.*)~~$/', $text, $matches);
+				if ($result === false) {
+					throw new CHttpException(
+						500,
+						'Ошибка парсинга текста импорта ежедневного пункта.'
+					);
+				}
+				if ($result === 1) {
+					$state = 'CANCELED';
+					$text = $matches[1];
+				}
+
+				if (!empty($text) && substr($text, -1) == ';') {
+					$text = substr($text, 0, -1);
+				}
+
+				return array('text' => $text, 'state' => $state);
+			},
+			$lines
+		);
+	}
+
 	private function extendImportOfPoints(
 		$points_description,
 		$number_of_daily_points
@@ -491,7 +543,12 @@ class DayController extends CController {
 		return $extended_lines;
 	}
 
-	private function importToSql($date, $extended_points, $append=false) {
+	private function importToSql(
+		$date,
+		$extended_daily_points,
+		$extended_points,
+		$append=false
+	) {
 		$escaped_date = Yii::app()->db->quoteValue($date);
 		$deleting_sql = sprintf(
 			'DELETE FROM {{points}} WHERE `date` = %s AND `daily` = FALSE;',
@@ -596,10 +653,13 @@ class DayController extends CController {
 	private function globalImportToSql($global_import, $points_numbers) {
 		$sql = '';
 		foreach ($global_import as $date => $import) {
+			$extended_daily_points_description =
+				$this->extendImportOfDailyPoints($import['daily_points']);
 			$extended_points_description =
 				$this->extendImportOfPoints($import['points'], $points_numbers[$date]);
 			$sql .= $this->importToSql(
 				$date,
+				$extended_daily_points_description,
 				$extended_points_description,
 				true
 			) . "\n\n";
