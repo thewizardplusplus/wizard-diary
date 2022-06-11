@@ -555,7 +555,23 @@ class DayController extends CController {
 			$escaped_date
 		);
 
-		$order = Constants::MAXIMAL_ORDER_VALUE - 2 * count($extended_points);
+		$order = Constants::MAXIMAL_ORDER_VALUE
+			- 2 * (count($extended_daily_points) + count($extended_points));
+		$daily_points_sql_lines = array_map(
+			function($extended_daily_point) use ($escaped_date, &$order) {
+				$sql_line = sprintf(
+					'(%s, %s, "%s", TRUE, %d)',
+					$escaped_date,
+					Yii::app()->db->quoteValue($extended_daily_point['text']),
+					$extended_daily_point['state'],
+					$order
+				);
+				$order += 2;
+
+				return $sql_line;
+			},
+			$extended_daily_points
+		);
 		$points_sql_lines = array_map(
 			function($extended_point) use ($escaped_date, &$order) {
 				$sql_line = sprintf(
@@ -572,6 +588,15 @@ class DayController extends CController {
 			$extended_points
 		);
 
+		$daily_points_sql = '';
+		if (!empty($daily_points_sql_lines)) {
+			$daily_points_sql = sprintf(
+				"INSERT INTO `{{points}}` (`date`, `text`, `state`, `daily`, `order`)\n"
+					. "VALUES\n\t%s;",
+				implode(",\n\t", $daily_points_sql_lines)
+			);
+		}
+
 		$points_sql = '';
 		if (!empty($points_sql_lines)) {
 			$points_sql = sprintf(
@@ -587,11 +612,13 @@ class DayController extends CController {
 		if (!$append) {
 			$sql = "START TRANSACTION;\n\n"
 				. "$deleting_sql\n\n"
+				. "$daily_points_sql\n\n"
 				. "$points_sql\n\n"
 				. "$renumber_sql\n\n"
 				. "COMMIT;";
 		} else {
-			$sql = "$points_sql\n\n"
+			$sql = "$daily_points_sql\n\n"
+				. "$points_sql\n\n"
 				. "$renumber_sql";
 		}
 
