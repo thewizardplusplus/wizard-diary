@@ -155,7 +155,7 @@ class DayController extends CController {
 				)
 			);
 
-			$points_description = $this->extendImport(
+			$points_description = $this->extendImportOfPoints(
 				$_POST['points_description'],
 				$number_of_daily_points
 			);
@@ -428,7 +428,7 @@ class DayController extends CController {
 		return $points_description;
 	}
 
-	private function extendImport(
+	private function extendImportOfPoints(
 		$points_description,
 		$number_of_daily_points
 	) {
@@ -546,9 +546,15 @@ class DayController extends CController {
 			'/
 				\#\#\s (\d{4}-\d{2}-\d{2})\r?\n
 				\r?\n
-				```\r?\n
-				((?:.(?!```))*)\r?\n
-				```
+				(
+					(?:-[^\r\n]*\r?\n)*
+					(?:\r?\n)?
+				)?
+				(?:
+					```\r?\n
+					((?:.(?!```))*)\r?\n
+					```
+				)?
 			/xsu',
 			$points_description,
 			$matches,
@@ -559,7 +565,10 @@ class DayController extends CController {
 
 		$import = array();
 		foreach ($matches as $match) {
-			$import[$match[1]] = $match[2];
+			$import[$match[1]] = array(
+				'daily_points' => isset($match[2]) ? $match[2] : '',
+				'points' => isset($match[3]) ? $match[3] : ''
+			);
 		}
 
 		return $import;
@@ -586,11 +595,9 @@ class DayController extends CController {
 
 	private function globalImportToSql($global_import, $points_numbers) {
 		$sql = '';
-		foreach ($global_import as $date => $points_description) {
-			$extended_points_description = $this->extendImport(
-				$points_description,
-				$points_numbers[$date]
-			);
+		foreach ($global_import as $date => $import) {
+			$extended_points_description =
+				$this->extendImportOfPoints($import['points'], $points_numbers[$date]);
 			$sql .= $this->importToSql(
 				$date,
 				$extended_points_description,
