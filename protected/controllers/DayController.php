@@ -430,6 +430,10 @@ class DayController extends CController {
 
 	private function extendImportOfDailyPoints($daily_points_description) {
 		$daily_points_description = rtrim($daily_points_description);
+		if (empty($daily_points_description)) {
+			return array();
+		}
+
 		$lines = explode("\n", $daily_points_description);
 
 		return array_map(
