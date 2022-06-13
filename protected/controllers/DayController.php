@@ -678,8 +678,10 @@ class DayController extends CController {
 		foreach ($global_import as $date => $import) {
 			$extended_daily_points_description =
 				$this->extendImportOfDailyPoints($import['daily_points']);
-			$extended_points_description =
-				$this->extendImportOfPoints($import['points'], $points_numbers[$date]);
+			$extended_points_description = $this->extendImportOfPoints(
+				$import['points'],
+				$points_numbers[$date] + count($extended_daily_points_description)
+			);
 			$sql .= $this->importToSql(
 				$date,
 				$extended_daily_points_description,
