@@ -45,12 +45,14 @@ class MistakeController extends CController {
 		$lines = explode("\n", $_POST['text']);
 		$word_lines = array_map(
 			function($line) {
-				preg_match_all(
+				if (false === preg_match_all(
 					Spelling::WORD_PATTERN,
 					$line,
 					$matches,
 					PREG_OFFSET_CAPTURE
-				);
+				)) {
+					throw new CHttpException(500, 'Ошибка парсинга строки текста.');
+				}
 
 				return $matches;
 			},

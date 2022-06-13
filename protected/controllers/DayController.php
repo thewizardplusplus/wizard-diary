@@ -436,7 +436,7 @@ class DayController extends CController {
 			function($line) {
 				$line = rtrim($line);
 
-				if (false === preg_match('/^-\s\[([ x])\]\s(.*)$/', $line, $matches)) {
+				if (!preg_match('/^-\s\[([ x])\]\s(.*)$/', $line, $matches)) {
 					throw new CHttpException(
 						500,
 						'Ошибка парсинга импорта ежедневного пункта.'
@@ -457,15 +457,7 @@ class DayController extends CController {
 					$state = 'INITIAL';
 					$text = '';
 				}
-
-				$result = preg_match('/^~~(.*)~~$/', $text, $matches);
-				if ($result === false) {
-					throw new CHttpException(
-						500,
-						'Ошибка парсинга текста импорта ежедневного пункта.'
-					);
-				}
-				if ($result === 1) {
+				if (preg_match('/^~~(.*)~~$/', $text, $matches)) {
 					$state = 'CANCELED';
 					$text = $matches[1];
 				}
