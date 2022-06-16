@@ -57,7 +57,11 @@ class PointController extends CController {
 		$model->save();
 	}
 
-	public function actionDelete() {
+	public function actionUpdateBatch() {
+		throw new CHttpException(500, 'Not yet implemented.');
+	}
+
+	public function actionDeleteBatch() {
 		if (isset($_POST['points_ids']) and isset($_POST['points_dates'])) {
 			$this->testPointsIds($_POST['points_ids']);
 			$this->testPointsDates($_POST['points_dates']);
@@ -68,7 +72,7 @@ class PointController extends CController {
 			$this->redirect($this->createUrl('day/list'));
 		}
 
-		$this->render('delete');
+		$this->render('delete_batch');
 	}
 
 	private function loadModel($id) {

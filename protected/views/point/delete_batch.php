@@ -46,7 +46,7 @@
 
 <div class = "clearfix points-found-controls-view">
 	<?= CHtml::beginForm(
-		$this->createUrl('point/delete'),
+		$this->createUrl('point/deleteBatch'),
 		'post',
 		array('class' => 'form-inline pull-right delete-points-form')
 	) ?>

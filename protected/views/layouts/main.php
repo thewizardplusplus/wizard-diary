@@ -106,12 +106,22 @@
 												)
 											),
 											array(
+												'label' => '',
+												'itemOptions' => array(
+													'class' => 'divider'
+												)
+											),
+											array(
 												'label' => 'Импорт',
 												'url' => array('day/import')
 											),
 											array(
+												'label' => 'Изменение',
+												'url' => array('point/updateBatch')
+											),
+											array(
 												'label' => 'Удаление',
-												'url' => array('point/delete')
+												'url' => array('point/deleteBatch')
 											)
 										),
 										'htmlOptions' => array(
