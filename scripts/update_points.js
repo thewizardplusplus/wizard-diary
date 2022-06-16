@@ -94,7 +94,8 @@ $(document).ready(
 				points_found_empty_view.hide();
 
 				points_found_controls_view.show();
-				quantity_label_plural_form.toggle(points_quantity != 1);
+				quantity_label_plural_form
+					.toggle((points_quantity % 10) != 1 || points_quantity == 11);
 				var points_unit = GetPointUnit(points_quantity);
 				points_quantity_view.text(points_quantity + ' ' + points_unit);
 				var days_unit = GetDayUnit(points_dates.length);
