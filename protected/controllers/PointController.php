@@ -58,7 +58,14 @@ class PointController extends CController {
 	}
 
 	public function actionUpdateBatch() {
-		throw new CHttpException(500, 'Not yet implemented.');
+		if (isset($_POST['points_ids']) and isset($_POST['points_dates'])) {
+			$this->testPointsIds($_POST['points_ids']);
+			$this->testPointsDates($_POST['points_dates']);
+
+			throw new CHttpException(500, 'Not yet implemented.');
+		}
+
+		$this->render('update_batch');
 	}
 
 	public function actionDeleteBatch() {
