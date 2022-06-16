@@ -61,7 +61,8 @@
 	<?= CHtml::endForm() ?>
 
 	<p class = "pull-left">
-		Найдено <strong><span class="points-quantity-view"></span></strong>
+		Найден<span class="quantity-label-plural-form">о</span>
+		<strong><span class="points-quantity-view"></span></strong>
 		в <strong><span class="days-quantity-view"></span></strong>.
 	</p>
 </div>
