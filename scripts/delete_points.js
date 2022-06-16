@@ -167,6 +167,7 @@ $(document).ready(
 			function() {
 				search_input.val('');
 				search_input.focus();
+				search_input.keyup();
 			}
 		);
 
