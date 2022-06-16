@@ -95,7 +95,7 @@ $(document).ready(
 
 		tree.on(
 			'select_node.jstree',
-			function (event, data) {
+			function(event, data) {
 				var points_text = GetSelectedPoints(
 					data.instance,
 					data.selected
@@ -110,7 +110,7 @@ $(document).ready(
 
 		search_form.on(
 			'submit',
-			function (event) {
+			function(event) {
 				event.preventDefault();
 				event.stopPropagation();
 				return false;
@@ -120,7 +120,7 @@ $(document).ready(
 		var search_timer = null;
 		var search_input = $('.search-input', search_form);
 		search_input.keyup(
-			function () {
+			function() {
 				clearTimeout(search_timer);
 
 				var self = $(this);

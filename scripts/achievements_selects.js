@@ -61,7 +61,7 @@ $(document).ready(
 		);
 
 		$('.achievements-selects-form').submit(
-			function (event) {
+			function(event) {
 				event.preventDefault();
 				event.stopPropagation();
 				return false;

@@ -13,11 +13,13 @@ class PointController extends CController {
 		return array(array('allow', 'users' => array('admin')), array('deny'));
 	}
 
-	public function actionFind($query) {
+	public function actionFind($query, $search_from_beginning) {
 		$points = Point::model()->findAll(
 			array(
 				'select' => array('id', 'date', 'text', 'daily'),
-				'condition' => 'LEFT(text, CHAR_LENGTH(:query)) = :query',
+				'condition' => $search_from_beginning == 'true'
+					? 'LEFT(text, CHAR_LENGTH(:query)) = :query'
+					: 'INSTR(CAST(text AS BINARY), CAST(:query AS BINARY)) != 0',
 				'params' => array('query' => $query),
 				'order' => 'date DESC, `order`'
 			)

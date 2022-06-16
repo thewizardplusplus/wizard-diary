@@ -3,6 +3,10 @@
 	 * @var PointController $this
 	 */
 
+	Yii::app()->getClientScript()->registerPackage('jquery.ui');
+	Yii::app()->getClientScript()->registerPackage(
+		'awesome-bootstrap-checkbox'
+	);
 	Yii::app()->getClientScript()->registerPackage('jstree');
 
 	Yii::app()->getClientScript()->registerScriptFile(
@@ -41,6 +45,15 @@
 				<span class = "glyphicon glyphicon-remove"></span>
 			</div>
 		</div>
+	</div>
+
+	<div class = "checkbox checkbox-primary">
+		<?= CHtml::checkBox(
+			'search_from_beginning',
+			true,
+			array('class' => 'search-from-beginning')
+		) ?>
+		<?= CHtml::label('Поиск с начала', 'search_from_beginning') ?>
 	</div>
 </form>
 

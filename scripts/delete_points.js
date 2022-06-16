@@ -8,7 +8,7 @@ $(document).ready(
 		var search_points_form = $('.search-points-form');
 		search_points_form.on(
 			'submit',
-			function (event) {
+			function(event) {
 				event.preventDefault();
 				event.stopPropagation();
 				return false;
@@ -121,7 +121,7 @@ $(document).ready(
 		};
 
 		var find_url = search_points_form.data('find-url');
-		var FindPosts = function(query) {
+		var FindPosts = function(query, search_from_beginning) {
 			query = query.trim();
 			if (query.length == 0) {
 				points_found_empty_view.hide();
@@ -136,7 +136,7 @@ $(document).ready(
 
 			$.get(
 				find_url,
-				{query: query},
+				{query: query, search_from_beginning: search_from_beginning},
 				function(points) {
 					search_points_form.removeClass('loading');
 					ProcessPoints(points);
@@ -146,16 +146,25 @@ $(document).ready(
 		};
 
 		var search_input = $('.search-input', search_points_form);
+		var ForceSearch = function() {
+			search_input.focus();
+			search_input.keyup();
+		};
+		var search_from_beginning_checkbox =
+			$('.search-from-beginning', search_points_form);
+		search_from_beginning_checkbox.change(ForceSearch);
 		var search_timer = null;
 		search_input.keyup(
-			function () {
+			function() {
 				clearTimeout(search_timer);
 
 				var self = $(this);
 				search_timer = setTimeout(
 					function() {
 						var query = self.val();
-						FindPosts(query);
+						var search_from_beginning =
+							search_from_beginning_checkbox.prop('checked');
+						FindPosts(query, search_from_beginning);
 					},
 					SEARCH_DELAY
 				);
@@ -166,8 +175,7 @@ $(document).ready(
 		clean_button.click(
 			function() {
 				search_input.val('');
-				search_input.focus();
-				search_input.keyup();
+				ForceSearch();
 			}
 		);
 
