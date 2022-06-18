@@ -183,29 +183,24 @@ $(document).ready(
 
 		var delete_points_form = $('.delete-points-form');
 		var AddDataToForm = function(form, data_name, data) {
+			form.append(
+				'<input '
+					+ 'type = "hidden" '
+					+ 'name = "' + data_name + '" '
+					+ 'value = "' + data + '" />'
+			);
+		};
+		var AddArrayDataToForm = function(form, data_name, data) {
 			for (var i = 0; i < data.length; i++) {
-				form.append(
-					'<input '
-						+ 'type = "hidden" '
-						+ 'name = "' + data_name + '[]" '
-						+ 'value = "' + data[i] + '" />'
-				);
+				AddDataToForm(form, data_name + '[]', data[i]);
 			}
 		};
 		$('.delete-button', delete_points_form).click(
 			function() {
 				DeletePointsDialog.show(
 					function() {
-						AddDataToForm(
-							delete_points_form,
-							'points_ids',
-							points_ids
-						);
-						AddDataToForm(
-							delete_points_form,
-							'points_dates',
-							points_dates
-						);
+						AddArrayDataToForm(delete_points_form, 'points_ids', points_ids);
+						AddArrayDataToForm(delete_points_form, 'points_dates', points_dates);
 
 						delete_points_form.submit();
 					}

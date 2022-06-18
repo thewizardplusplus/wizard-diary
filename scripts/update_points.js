@@ -193,28 +193,29 @@ $(document).ready(
 
 		var update_points_form = $('.update-points-form');
 		var AddDataToForm = function(form, data_name, data) {
+			form.append(
+				'<input '
+					+ 'type = "hidden" '
+					+ 'name = "' + data_name + '" '
+					+ 'value = "' + data + '" />'
+			);
+		};
+		var AddArrayDataToForm = function(form, data_name, data) {
 			for (var i = 0; i < data.length; i++) {
-				form.append(
-					'<input '
-						+ 'type = "hidden" '
-						+ 'name = "' + data_name + '[]" '
-						+ 'value = "' + data[i] + '" />'
-				);
+				AddDataToForm(form, data_name + '[]', data[i]);
 			}
 		};
 		$('.update-button', update_points_form).click(
 			function() {
 				UpdatePointsDialog.show(
 					function() {
+						AddArrayDataToForm(update_points_form, 'points_ids', points_ids);
+						AddDataToForm(update_points_form, 'query', search_input.val());
+						AddDataToForm(update_points_form, 'replacement', replacement_input.val());
 						AddDataToForm(
 							update_points_form,
-							'points_ids',
-							points_ids
-						);
-						AddDataToForm(
-							update_points_form,
-							'points_dates',
-							points_dates
+							'search_from_beginning',
+							search_from_beginning_checkbox.prop('checked').toString()
 						);
 
 						update_points_form.submit();
