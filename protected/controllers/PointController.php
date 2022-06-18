@@ -18,7 +18,8 @@ class PointController extends CController {
 			array(
 				'select' => array('id', 'date', 'text', 'daily'),
 				'condition' => $search_from_beginning == 'true'
-					? 'LEFT(text, CHAR_LENGTH(:query)) = :query'
+					? 'LEFT(CAST(text AS BINARY), CHAR_LENGTH(:query)) '
+						. '= CAST(:query AS BINARY)'
 					: 'INSTR(CAST(text AS BINARY), CAST(:query AS BINARY)) != 0',
 				'params' => array('query' => $query),
 				'order' => 'date DESC, `order`'
