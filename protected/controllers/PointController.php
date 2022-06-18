@@ -68,7 +68,14 @@ class PointController extends CController {
 		) {
 			$this->testPointsIds($_POST['points_ids']);
 
-			throw new CHttpException(500, 'Not yet implemented.');
+			$this->updatePosts(
+				$_POST['points_ids'],
+				$_POST['query'],
+				$_POST['replacement'],
+				$_POST['search_from_beginning']
+			);
+
+			$this->redirect($this->createUrl('day/list'));
 		}
 
 		$this->render('update_batch');
@@ -117,6 +124,34 @@ class PointController extends CController {
 				throw new CHttpException(400, 'Некорректный запрос.');
 			}
 		}
+	}
+
+	private function updatePosts(
+		$points_ids,
+		$query,
+		$replacement,
+		$search_from_beginning
+	) {
+		$criteria = new CDbCriteria();
+		$criteria->addInCondition('id', $points_ids);
+
+		Point::model()->updateAll(
+			array(
+				'text' => new CDbExpression(
+					$search_from_beginning == 'true'
+						? 'INSERT('
+								. 'text, '
+								. 'INSTR(CAST(text AS BINARY), CAST(:query AS BINARY)), '
+								. 'CHAR_LENGTH(:query), '
+								. ':replacement'
+							. ')'
+						: 'REPLACE(text, :query, :replacement)',
+					array('query' => $query, 'replacement' => $replacement)
+				)
+			),
+			$criteria->condition,
+			$criteria->params
+		);
 	}
 
 	private function deletePosts($points_ids) {
