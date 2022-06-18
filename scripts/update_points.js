@@ -47,7 +47,11 @@ $(document).ready(
 
 			return unit;
 		};
-		var PreparePointsData = function(points) {
+		var PreparePointsData = function(points, search_options) {
+			var replacement_tag = `
+				<mark class="bg-danger">${search_options.query}</mark>
+				<mark class="replacement bg-success">${search_options.replacement}</mark>
+			`;
 			var points_data = {};
 			for (var i = 0; i < points.length; i++) {
 				var point = points[i];
@@ -62,7 +66,9 @@ $(document).ready(
 
 				points_data[point.date].children.push(
 					{
-						text: point.text,
+						text: search_options.search_from_beginning
+							? point.text.replace(search_options.query, replacement_tag)
+							: point.text.replaceAll(search_options.query, replacement_tag),
 						icon: point.daily
 							? 'glyphicon glyphicon-calendar'
 							: 'glyphicon glyphicon-file'
@@ -77,7 +83,7 @@ $(document).ready(
 				}
 			);
 		};
-		var ProcessPoints = function(points) {
+		var ProcessPoints = function(points, search_options) {
 			var points_quantity = points.length;
 			if (points_quantity == 0) {
 				points_ids = [];
@@ -103,7 +109,7 @@ $(document).ready(
 
 				points_found_view.show();
 				points_found_view.jstree('destroy');
-				var points_data = PreparePointsData(points);
+				var points_data = PreparePointsData(points, search_options);
 				points_found_view.jstree(
 					{
 						core: {
@@ -122,9 +128,9 @@ $(document).ready(
 		};
 
 		var find_url = search_points_form.data('find-url');
-		var FindPosts = function(query, search_from_beginning) {
-			query = query.trim();
-			if (query.length == 0) {
+		var FindPosts = function(search_options) {
+			search_options.query = search_options.query.trim();
+			if (search_options.query.length == 0) {
 				points_found_empty_view.hide();
 
 				points_found_controls_view.hide();
@@ -137,10 +143,10 @@ $(document).ready(
 
 			$.get(
 				find_url,
-				{query: query, search_from_beginning: search_from_beginning},
+				{...search_options, replacement: undefined},
 				function(points) {
 					search_points_form.removeClass('loading');
-					ProcessPoints(points);
+					ProcessPoints(points, search_options);
 				},
 				'json'
 			).fail(AjaxErrorDialog.handler);
@@ -151,6 +157,7 @@ $(document).ready(
 			search_input.focus();
 			search_input.keyup();
 		};
+		var replacement_input = $('.replacement-input', search_points_form);
 		var search_from_beginning_checkbox =
 			$('.search-from-beginning', search_points_form);
 		search_from_beginning_checkbox.change(ForceSearch);
@@ -163,12 +170,19 @@ $(document).ready(
 				search_timer = setTimeout(
 					function() {
 						var query = self.val();
+						var replacement = replacement_input.val();
 						var search_from_beginning =
 							search_from_beginning_checkbox.prop('checked');
-						FindPosts(query, search_from_beginning);
+						FindPosts({query, replacement, search_from_beginning});
 					},
 					SEARCH_DELAY
 				);
+			}
+		);
+		replacement_input.keyup(
+			function() {
+				var replacement = $(this).val();
+				$('.replacement').text(replacement);
 			}
 		);
 
@@ -181,13 +195,13 @@ $(document).ready(
 			}
 		);
 
-		var replacement_input = $('.replacement-input', search_points_form);
 		var replacement_input_cleaning_button =
 			$('.replacement-input-cleaning-button', search_points_form);
 		replacement_input_cleaning_button.click(
 			function() {
 				replacement_input.val('');
 				replacement_input.focus();
+				replacement_input.keyup();
 			}
 		);
 

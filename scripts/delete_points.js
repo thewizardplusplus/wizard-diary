@@ -122,9 +122,9 @@ $(document).ready(
 		};
 
 		var find_url = search_points_form.data('find-url');
-		var FindPosts = function(query, search_from_beginning) {
-			query = query.trim();
-			if (query.length == 0) {
+		var FindPosts = function(search_options) {
+			search_options.query = search_options.query.trim();
+			if (search_options.query.length == 0) {
 				points_found_empty_view.hide();
 
 				points_found_controls_view.hide();
@@ -137,7 +137,7 @@ $(document).ready(
 
 			$.get(
 				find_url,
-				{query: query, search_from_beginning: search_from_beginning},
+				search_options,
 				function(points) {
 					search_points_form.removeClass('loading');
 					ProcessPoints(points);
@@ -165,7 +165,7 @@ $(document).ready(
 						var query = self.val();
 						var search_from_beginning =
 							search_from_beginning_checkbox.prop('checked');
-						FindPosts(query, search_from_beginning);
+						FindPosts({query, search_from_beginning});
 					},
 					SEARCH_DELAY
 				);
