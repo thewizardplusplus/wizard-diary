@@ -172,8 +172,9 @@ $(document).ready(
 			}
 		);
 
-		var clean_button = $('.clean-button', search_points_form);
-		clean_button.click(
+		var search_input_cleaning_button =
+			$('.search-input-cleaning-button', search_points_form);
+		search_input_cleaning_button.click(
 			function() {
 				search_input.val('');
 				ForceSearch();

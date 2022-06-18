@@ -41,7 +41,7 @@
 			<input
 				class = "form-control search-input"
 				placeholder = "Поиск..." />
-			<div class = "input-group-addon clean-button">
+			<div class = "input-group-addon search-input-cleaning-button">
 				<span class = "glyphicon glyphicon-remove"></span>
 			</div>
 		</div>

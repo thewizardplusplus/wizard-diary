@@ -41,7 +41,21 @@
 			<input
 				class = "form-control search-input"
 				placeholder = "Поиск..." />
-			<div class = "input-group-addon clean-button">
+			<div class = "input-group-addon search-input-cleaning-button">
+				<span class = "glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
+	</div>
+
+	<div class = "form-group">
+		<div class = "input-group">
+			<div class = "input-group-addon">
+				<span class = "glyphicon glyphicon-pencil"></span>
+			</div>
+			<input
+				class = "form-control replacement-input"
+				placeholder = "Замена..." />
+			<div class = "input-group-addon replacement-input-cleaning-button">
 				<span class = "glyphicon glyphicon-remove"></span>
 			</div>
 		</div>

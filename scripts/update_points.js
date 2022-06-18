@@ -172,11 +172,22 @@ $(document).ready(
 			}
 		);
 
-		var clean_button = $('.clean-button', search_points_form);
-		clean_button.click(
+		var search_input_cleaning_button =
+			$('.search-input-cleaning-button', search_points_form);
+		search_input_cleaning_button.click(
 			function() {
 				search_input.val('');
 				ForceSearch();
+			}
+		);
+
+		var replacement_input = $('.replacement-input', search_points_form);
+		var replacement_input_cleaning_button =
+			$('.replacement-input-cleaning-button', search_points_form);
+		replacement_input_cleaning_button.click(
+			function() {
+				replacement_input.val('');
+				replacement_input.focus();
 			}
 		);
 
