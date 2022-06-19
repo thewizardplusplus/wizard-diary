@@ -76,7 +76,7 @@ form .panel :last-child {
 }
 
 .selected td {
-	background-color: #D9EDF7 !important;
+	background-color: #d9edf7 !important;
 }
 
 /* Navigation bar styles. */
@@ -222,7 +222,7 @@ a.state-initial:focus {
 .stats-view.daily-points .graph-frame,
 .stats-view.points .graph-frame {
 	background-color: #428bca;
-	border: 1px solid #dddddd;
+	border: 1px solid #ddd;
 	border-radius: 4px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 }
@@ -255,7 +255,7 @@ a.state-initial:focus {
 
 .stats-view.projects .timeline-frame {
 	background-color: #428bca;
-	border: 1px solid #dddddd;
+	border: 1px solid #ddd;
 	border-radius: 4px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 }
@@ -299,7 +299,7 @@ a.state-initial:focus {
 
 .stats-view.project-list {
 	background-color: #fcf8e3;
-	border: 1px solid #dddddd;
+	border: 1px solid #ddd;
 	border-radius: 4px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 	overflow: hidden;
@@ -348,7 +348,7 @@ a.state-initial:focus {
 .points-found-view {
 	display: none;
 	background-color: #fcf8e3;
-	border: 1px solid #dddddd;
+	border: 1px solid #ddd;
 	border-radius: 4px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 	overflow: hidden;
@@ -361,6 +361,11 @@ a.state-initial:focus {
 .points-found-view .glyphicon-calendar,
 .points-found-view .glyphicon-file {
 	color: #5cb85c;
+}
+
+.points-found-view mark {
+	border: 1px solid #ddd;
+	border-radius: 4px;
 }
 
 /* Header with button styles. */

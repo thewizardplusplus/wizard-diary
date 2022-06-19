@@ -48,10 +48,15 @@ $(document).ready(
 			return unit;
 		};
 		var PreparePointsData = function(points, search_options) {
-			var replacement_tag = `
+			var marked_replacement = `
 				<mark class="bg-danger">${search_options.query}</mark>
-				<mark class="replacement bg-success">${search_options.replacement}</mark>
+				<mark class="replacement-mark bg-success${
+					search_options.replacement.length == 0 ? ' hidden' : ''
+				}">
+					${search_options.replacement}
+				</mark>
 			`;
+
 			var points_data = {};
 			for (var i = 0; i < points.length; i++) {
 				var point = points[i];
@@ -67,8 +72,8 @@ $(document).ready(
 				points_data[point.date].children.push(
 					{
 						text: search_options.search_from_beginning
-							? point.text.replace(search_options.query, replacement_tag)
-							: point.text.replaceAll(search_options.query, replacement_tag),
+							? point.text.replace(search_options.query, marked_replacement)
+							: point.text.replaceAll(search_options.query, marked_replacement),
 						icon: point.daily
 							? 'glyphicon glyphicon-calendar'
 							: 'glyphicon glyphicon-file'
@@ -180,8 +185,15 @@ $(document).ready(
 		);
 		replacement_input.keyup(
 			function() {
+				var replacement_marks = $('.replacement-mark');
 				var replacement = $(this).val();
-				$('.replacement').text(replacement);
+				if (replacement.length != 0) {
+					replacement_marks
+						.removeClass('hidden')
+						.text(replacement);
+				} else {
+					replacement_marks.addClass('hidden');
+				}
 			}
 		);
 
