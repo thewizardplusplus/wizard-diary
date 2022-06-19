@@ -47,7 +47,9 @@ $(document).ready(
 
 			return unit;
 		};
-		var PreparePointsData = function(points) {
+		var PreparePointsData = function(points, search_options) {
+			var marked_query = `<mark class="bg-success">${search_options.query}</mark>`;
+
 			var points_data = {};
 			for (var i = 0; i < points.length; i++) {
 				var point = points[i];
@@ -62,7 +64,9 @@ $(document).ready(
 
 				points_data[point.date].children.push(
 					{
-						text: point.text,
+						text: search_options.search_from_beginning
+							? point.text.replace(search_options.query, marked_query)
+							: point.text.replaceAll(search_options.query, marked_query),
 						icon: point.daily
 							? 'glyphicon glyphicon-calendar'
 							: 'glyphicon glyphicon-file'
@@ -77,7 +81,7 @@ $(document).ready(
 				}
 			);
 		};
-		var ProcessPoints = function(points) {
+		var ProcessPoints = function(points, search_options) {
 			var points_quantity = points.length;
 			if (points_quantity == 0) {
 				points_ids = [];
@@ -103,7 +107,7 @@ $(document).ready(
 
 				points_found_view.show();
 				points_found_view.jstree('destroy');
-				var points_data = PreparePointsData(points);
+				var points_data = PreparePointsData(points, search_options);
 				points_found_view.jstree(
 					{
 						core: {
@@ -139,7 +143,7 @@ $(document).ready(
 				search_options,
 				function(points) {
 					search_points_form.removeClass('loading');
-					ProcessPoints(points);
+					ProcessPoints(points, search_options);
 				},
 				'json'
 			).fail(AjaxErrorDialog.handler);
