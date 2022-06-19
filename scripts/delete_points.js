@@ -123,7 +123,6 @@ $(document).ready(
 
 		var find_url = search_points_form.data('find-url');
 		var FindPosts = function(search_options) {
-			search_options.query = search_options.query.trim();
 			if (search_options.query.length == 0) {
 				points_found_empty_view.hide();
 
@@ -162,7 +161,7 @@ $(document).ready(
 				var self = $(this);
 				search_timer = setTimeout(
 					function() {
-						var query = self.val();
+						var query = self.val().trim();
 						var search_from_beginning =
 							search_from_beginning_checkbox.prop('checked');
 						FindPosts({query, search_from_beginning});
