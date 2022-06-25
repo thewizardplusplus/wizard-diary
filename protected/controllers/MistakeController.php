@@ -238,9 +238,20 @@ class MistakeController extends CController {
 			return true;
 		}
 
-		foreach ($pspells as $pspell) {
-			if (pspell_check($pspell, $word)) {
-				return true;
+		// split words written in camel case into separate sub-words
+		// (https://stackoverflow.com/a/7729790)
+		$subWords = preg_split(
+			'/
+				(?: (?<=[a-z]) (?=[A-Z]) ) # split "fooFoo" into ["foo", "Foo"]
+				| (?: (?<=[A-Z]) (?=[A-Z][a-z]) ) # split "FOOFoo" into ["FOO", "Foo"]
+			/x',
+			$word
+		);
+		foreach ($subWords as $subWord) {
+			foreach ($pspells as $pspell) {
+				if (pspell_check($pspell, $subWord)) {
+					return true;
+				}
 			}
 		}
 
