@@ -234,7 +234,7 @@ class MistakeController extends CController {
 	}
 
 	private function checkWord($pspells, $spellings, $word) {
-		if (in_array($word, $spellings)) {
+		if (in_array(mb_strtolower($word, 'utf-8'), $spellings)) {
 			return true;
 		}
 
@@ -253,7 +253,7 @@ class MistakeController extends CController {
 			Spelling::model()
 			->findAll(array('select' => array('word')));
 		foreach ($spellings_objects as $spelling_object) {
-			$spellings[] = $spelling_object->word;
+			$spellings[] = mb_strtolower($spelling_object->word, 'utf-8');
 		}
 
 		return $spellings;
