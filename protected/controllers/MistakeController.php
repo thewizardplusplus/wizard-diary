@@ -66,10 +66,7 @@ class MistakeController extends CController {
 				return array_filter(
 					$words[0],
 					function($word) use ($pspells, $spellings) {
-						$word = $word[0];
-						return
-							(!in_array($word, $spellings)
-							and !$this->checkWord($pspells, $word));
+						return !$this->checkWord($pspells, $spellings, $word[0]);
 					}
 				);
 			},
@@ -93,8 +90,7 @@ class MistakeController extends CController {
 							),
 							'end' => array(
 								'line' => $line_counter,
-								'offset' => $offset
-									+ mb_strlen($word[0], 'utf-8')
+								'offset' => $offset + mb_strlen($word[0], 'utf-8')
 							)
 						);
 					},
@@ -152,10 +148,7 @@ class MistakeController extends CController {
 					function($matches) use ($pspells, $spellings, &$counter) {
 						$result = '';
 						$word = $matches[0];
-						if (
-							in_array($word, $spellings)
-							or $this->checkWord($pspells, $word)
-						) {
+						if ($this->checkWord($pspells, $spellings, $word)) {
 							$result = $word;
 						} else {
 							$result =
@@ -240,7 +233,11 @@ class MistakeController extends CController {
 		return $pspells;
 	}
 
-	private function checkWord($pspells, $word) {
+	private function checkWord($pspells, $spellings, $word) {
+		if (in_array($word, $spellings)) {
+			return true;
+		}
+
 		foreach ($pspells as $pspell) {
 			if (pspell_check($pspell, $word)) {
 				return true;
