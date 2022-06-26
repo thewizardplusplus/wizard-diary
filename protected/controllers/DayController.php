@@ -165,6 +165,14 @@ class DayController extends CController {
 			return;
 		}
 
+		$daily_points = Point::model()->findAll(
+			array(
+				'select' => array('text', 'state'),
+				'condition' => 'date = :date AND `daily` = TRUE',
+				'params' => array('date' => $date),
+				'order' => '`order`'
+			)
+		);
 		$points = Point::model()->findAll(
 			array(
 				'select' => array('text'),
@@ -174,7 +182,13 @@ class DayController extends CController {
 			)
 		);
 
+		$daily_points_description = $this->prepareDailyImport($daily_points);
 		$points_description = $this->prepareImport($points);
+		$total_points_description =
+			trim($daily_points_description . "\n" . $points_description);
+		if (!empty($total_points_description)) {
+			$total_points_description .= "\n";
+		}
 		$encoded_date = CHtml::encode($date);
 		$stats = $this->getStats($date);
 		$point_hierarchy = $this->getPointHierarchy();
@@ -182,7 +196,7 @@ class DayController extends CController {
 		$this->render(
 			'update',
 			array(
-				'points_description' => $points_description,
+				'points_description' => $total_points_description,
 				'my_date' => DateFormatter::formatMyDate($date),
 				'date' => DateFormatter::formatDate($encoded_date),
 				'raw_date' => CHtml::encode($encoded_date),

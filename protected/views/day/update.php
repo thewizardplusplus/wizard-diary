@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * @var DayController $this
-	 * @var CArrayDataProvider $data_provider
+	 * @var string $points_description
 	 * @var string $my_date
 	 * @var string $date
 	 * @var string $raw_date
