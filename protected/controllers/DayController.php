@@ -377,6 +377,32 @@ class DayController extends CController {
 		return array('hierarchy' => $hierarchy, 'tails' => $tails);
 	}
 
+	private function prepareDailyImport($daily_points) {
+		$daily_points_description = implode("\n", array_map(
+			function($daily_point) {
+				$text = trim($daily_point->text);
+				if (empty($text)) {
+					$text = '-';
+				}
+				if (substr($text, -1) == ';') {
+					$text = substr($text, 0, -1);
+				}
+				if ($daily_point->state == 'CANCELED') {
+					$text = '~~' . $text . '~~';
+				}
+
+				$state_mark = $daily_point->state == 'SATISFIED' ? 'x' : ' ';
+				return '- [' . $state_mark . '] ' . $text;
+			},
+			$daily_points
+		));
+		if (!empty($daily_points_description)) {
+			$daily_points_description .= "\n";
+		}
+
+		return $daily_points_description;
+	}
+
 	private function prepareImport($points) {
 		$points_description = '';
 		$last_parts = array();
