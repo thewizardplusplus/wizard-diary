@@ -148,18 +148,25 @@ class DayController extends CController {
 		$this->testLineNumber($line);
 
 		if (isset($_POST['points_description'])) {
-			$number_of_daily_points = Point::model()->count(
-				array(
-					'condition' => 'date = :date AND `daily` = TRUE',
-					'params' => array('date' => $date)
-				)
-			);
-
-			$points_description = $this->extendImportOfPoints(
+			if (!preg_match(
+				'/
+					( (?:-[^\r\n]*\r?\n)* )
+					(?:\r?\n)*
+					( (?:[^\r\n]*\r?\n)* )
+				/xu',
 				$_POST['points_description'],
-				$number_of_daily_points
+				$matches
+			)) {
+				throw new CHttpException(500, 'Ошибка парсинга описания дня.');
+			}
+
+			$sql = $this->globalImportToSql(
+				array($date => array(
+					'daily_points' => isset($matches[1]) ? $matches[1] : '',
+					'points' => isset($matches[2]) ? $matches[2] : ''
+				)),
+				array($date => 0)
 			);
-			$sql = $this->importToSql($date, array(), $points_description);
 			Yii::app()->db->createCommand($sql)->execute();
 
 			return;
@@ -518,7 +525,7 @@ class DayController extends CController {
 
 	private function extendImportOfPoints(
 		$points_description,
-		$number_of_daily_points
+		$number_of_existent_points
 	) {
 		$lines = explode("\n", $points_description);
 
@@ -572,7 +579,7 @@ class DayController extends CController {
 				count($extended_lines) - 1
 			);
 		}
-		if (!empty($extended_lines) and $number_of_daily_points > 0) {
+		if (!empty($extended_lines) and $number_of_existent_points > 0) {
 			array_unshift($extended_lines, '');
 		}
 
