@@ -165,7 +165,8 @@ class DayController extends CController {
 					'daily_points' => isset($matches[1]) ? $matches[1] : '',
 					'points' => isset($matches[2]) ? $matches[2] : ''
 				)),
-				array($date => 0)
+				array($date => 0),
+				true
 			);
 			Yii::app()->db->createCommand($sql)->execute();
 
@@ -218,7 +219,7 @@ class DayController extends CController {
 		if (isset($_POST['points-description'])) {
 			$import = $this->parseImport($_POST['points-description']);
 			$points_numbers = $this->getPointsNumbers(array_keys($import));
-			$sql = $this->globalImportToSql($import, $points_numbers);
+			$sql = $this->globalImportToSql($import, $points_numbers, false);
 			Yii::app()->db->createCommand($sql)->execute();
 		}
 
@@ -590,13 +591,17 @@ class DayController extends CController {
 		$date,
 		$extended_daily_points,
 		$extended_points,
-		$append=false
+		$preliminary_deleting
 	) {
 		$escaped_date = Yii::app()->db->quoteValue($date);
-		$deleting_sql = sprintf(
-			'DELETE FROM {{points}} WHERE `date` = %s AND `daily` = FALSE;',
-			$escaped_date
-		);
+
+		$deleting_sql = '';
+		if ($preliminary_deleting) {
+			$deleting_sql = sprintf(
+				'DELETE FROM {{points}} WHERE `date` = %s;',
+				$escaped_date
+			);
+		}
 
 		$order = Constants::MAXIMAL_ORDER_VALUE
 			- 2 * (count($extended_daily_points) + count($extended_points));
@@ -651,21 +656,10 @@ class DayController extends CController {
 
 		$renumber_sql = Point::getRenumberOrderSql($date);
 
-		$sql = '';
-		if (!$append) {
-			$sql = "START TRANSACTION;\n\n"
-				. "$deleting_sql\n\n"
-				. "$daily_points_sql\n\n"
-				. "$points_sql\n\n"
-				. "$renumber_sql\n\n"
-				. "COMMIT;";
-		} else {
-			$sql = "$daily_points_sql\n\n"
-				. "$points_sql\n\n"
-				. "$renumber_sql";
-		}
-
-		return $sql;
+		return "$deleting_sql\n\n"
+			. "$daily_points_sql\n\n"
+			. "$points_sql\n\n"
+			. "$renumber_sql";
 	}
 
 	private function parseImport($points_description) {
@@ -720,7 +714,11 @@ class DayController extends CController {
 		return $points_numbers;
 	}
 
-	private function globalImportToSql($global_import, $points_numbers) {
+	private function globalImportToSql(
+		$global_import,
+		$points_numbers,
+		$preliminary_deleting
+	) {
 		$sql = '';
 		foreach ($global_import as $date => $import) {
 			$extended_daily_points_description =
@@ -733,7 +731,7 @@ class DayController extends CController {
 				$date,
 				$extended_daily_points_description,
 				$extended_points_description,
-				true
+				$preliminary_deleting
 			) . "\n\n";
 		}
 
