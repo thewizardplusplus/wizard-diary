@@ -476,16 +476,16 @@ class DayController extends CController {
 		return $points_description;
 	}
 
-	private function extendImportOfDailyPoints($daily_points_description) {
+	private function extendImportOfDailyPoints($date, $daily_points_description) {
 		$daily_points_description = rtrim($daily_points_description);
 		if (empty($daily_points_description)) {
 			return array();
 		}
 
+		$current_date = date('Y-m-d');
 		$lines = explode("\n", $daily_points_description);
-
 		return array_map(
-			function($line) {
+			function($line) use ($date, $current_date) {
 				$line = rtrim($line);
 
 				if (!preg_match('/^-\s\[([ x])\]\s(.*)$/', $line, $matches)) {
@@ -497,7 +497,7 @@ class DayController extends CController {
 
 				switch ($matches[1]) {
 					case ' ':
-						$state = 'NOT_SATISFIED';
+						$state = $date != $current_date ? 'NOT_SATISFIED' : 'INITIAL';
 						break;
 					case 'x':
 						$state = 'SATISFIED';
@@ -722,7 +722,7 @@ class DayController extends CController {
 		$sql = '';
 		foreach ($global_import as $date => $import) {
 			$extended_daily_points_description =
-				$this->extendImportOfDailyPoints($import['daily_points']);
+				$this->extendImportOfDailyPoints($date, $import['daily_points']);
 			$extended_points_description = $this->extendImportOfPoints(
 				$import['points'],
 				$points_numbers[$date] + count($extended_daily_points_description)
