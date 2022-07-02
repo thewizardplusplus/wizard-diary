@@ -468,16 +468,28 @@ $(document).ready(
 		};
 
 		var daily_point_prefix_pattern = /^-\s\[[\sx]\]/;
+		var number_of_daily_points_view = $('.number-of-daily-points-view');
 		var number_of_points_view = $('.number-of-points-view');
 		var SetNumberOfPoints = function(points_description) {
+			var points_description_lines = points_description.split('\n');
+			var daily_points =
+				points_description_lines
+				.filter(
+					function(line) {
+						return line.trim().length != 0
+							&& daily_point_prefix_pattern.test(line)
+							&& line.replace(daily_point_prefix_pattern, '').trim() != '-';
+					}
+				);
 			var points =
-				points_description
-				.split('\n')
+				points_description_lines
 				.filter(
 					function(line) {
 						return line.trim().length != 0 && !daily_point_prefix_pattern.test(line);
 					}
 				);
+
+			number_of_daily_points_view.text(daily_points.length);
 
 			var number_of_points = points.length;
 			number_of_points_view.text(

@@ -128,7 +128,9 @@
 
 	<p class = "pull-left unimportant-text italic-text">
 		<?= $this->formatSatisfiedCounter($stats['satisfied']) ?>
-		<?= $stats['daily'] ?>+<span class = "number-of-points-view"><?=
+		<span class = "number-of-daily-points-view"><?=
+			$stats['daily']
+		?></span>+<span class = "number-of-points-view"><?=
 			PointFormatter::formatNumberOfPoints($stats['projects'])
 		?></span>
 	</p>
