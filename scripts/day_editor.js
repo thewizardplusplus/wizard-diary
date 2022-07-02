@@ -467,6 +467,7 @@ $(document).ready(
 			}
 		};
 
+		var daily_point_prefix_pattern = /^-\s\[[\sx]\]/;
 		var number_of_points_view = $('.number-of-points-view');
 		var SetNumberOfPoints = function(points_description) {
 			var points =
@@ -474,7 +475,7 @@ $(document).ready(
 				.split('\n')
 				.filter(
 					function(line) {
-						return line.trim().length != 0;
+						return line.trim().length != 0 && !daily_point_prefix_pattern.test(line);
 					}
 				);
 
