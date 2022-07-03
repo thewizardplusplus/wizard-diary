@@ -468,9 +468,30 @@ $(document).ready(
 		};
 
 		var daily_point_prefix_pattern = /^-\s\[([\sx])\]/;
+		var day_completed_flag = $('.day-completed-flag');
+		var day_completed_inner_flag = $('span.glyphicon', day_completed_flag);
 		var day_satisfied_view = $('.day-satisfied-view');
 		var number_of_daily_points_view = $('.number-of-daily-points-view');
 		var number_of_points_view = $('.number-of-points-view');
+		var UpdateDayCompletedFlag = function(is_day_completed) {
+			if (is_day_completed) {
+				day_completed_flag
+					.attr('title', 'Завершён')
+					.removeClass('label-primary')
+					.addClass('label-success');
+				day_completed_inner_flag
+					.removeClass('glyphicon-unchecked')
+					.addClass('glyphicon-check');
+			} else {
+				day_completed_flag
+					.attr('title', 'Не завершён')
+					.removeClass('label-success')
+					.addClass('label-primary');
+				day_completed_inner_flag
+					.removeClass('glyphicon-check')
+					.addClass('glyphicon-unchecked');
+			}
+		};
 		var UpdateDaySatisfiedView = function(factor) {
 			var text = '&mdash;';
 			if (factor != -1) {
@@ -530,12 +551,14 @@ $(document).ready(
 			var number_of_daily_points = daily_points.length;
 			var number_of_not_canceled_daily_points =
 				number_of_daily_points - counters.canceled;
+			var is_day_completed = counters.initial == 0;
 			var factor_of_satisfied_daily_points =
 				number_of_daily_points == 0 || number_of_not_canceled_daily_points == 0
 					? 1
-					: counters.initial != 0
+					: !is_day_completed
 						? -1
 						: counters.satisfied / number_of_not_canceled_daily_points;
+			UpdateDayCompletedFlag(is_day_completed);
 			UpdateDaySatisfiedView(factor_of_satisfied_daily_points);
 
 			number_of_daily_points_view.text(number_of_daily_points);
