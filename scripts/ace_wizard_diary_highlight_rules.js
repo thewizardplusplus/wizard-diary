@@ -19,20 +19,29 @@ define(
 					{
 						// first and second hierarchy levels
 						token: [
+							'keyword.operator.wizard-diary',
 							'keyword.control.wizard-diary',
 							'variable.language.wizard-diary'
 						],
-						regex: '^([^,]+,|\\s{4})([^,]+,)'
+						regex: '^(-\\s\\[[\\sx]\\]\\s)?([^,~]+,|\\s{4})([^,]+,)'
 					},
 					{
 						// only first hierarchy level
-						token: 'keyword.control.wizard-diary',
-						regex: '^[^,]+,'
+						token: [
+							'keyword.operator.wizard-diary',
+							'keyword.control.wizard-diary'
+						],
+						regex: '^(-\\s\\[[\\sx]\\]\\s)?([^,~]+,)'
 					},
 					{
 						// double-quoted string
 						token: 'string.quoted.double.wizard-diary',
 						regex: '"(?:\\\\.|[^"])*"'
+					},
+					{
+						// canceled text
+						token: 'markup.italic.wizard-diary',
+						regex: '~~.*?~~'
 					},
 					{
 						// operators `-` and `->`
@@ -47,6 +56,11 @@ define(
 							'keyword.operator.wizard-diary'
 						],
 						regex: '(\\((?:key|code)\\s)((?:\\\\.|[^\\)])+)(\\))'
+					},
+					{
+						// operators `- [ ]` and `- [x]`
+						token: 'keyword.operator.wizard-diary',
+						regex: '^-\\s\\[[\\sx]\\]\\s'
 					}
 				]
 			};
