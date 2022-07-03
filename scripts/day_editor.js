@@ -467,9 +467,19 @@ $(document).ready(
 			}
 		};
 
-		var daily_point_prefix_pattern = /^-\s\[[\sx]\]/;
+		var daily_point_prefix_pattern = /^-\s\[([\sx])\]/;
+		var day_satisfied_view = $('.day-satisfied-view');
 		var number_of_daily_points_view = $('.number-of-daily-points-view');
 		var number_of_points_view = $('.number-of-points-view');
+		var UpdateDaySatisfiedView = function(factor) {
+			var text = '&mdash;';
+			if (factor != -1) {
+				text =
+					(factor * 100).toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '%';
+			}
+
+			day_satisfied_view.html(text);
+		};
 		var SetNumberOfPoints = function(points_description) {
 			var points_description_lines = points_description.split('\n');
 			var daily_points =
@@ -489,7 +499,46 @@ $(document).ready(
 					}
 				);
 
-			number_of_daily_points_view.text(daily_points.length);
+			var counters = {satisfied: 0, not_satisfied: 0, canceled: 0, initial: 0};
+			daily_points.forEach(
+				function(daily_point) {
+					var state = undefined;
+					switch (daily_point_prefix_pattern.exec(daily_point)[1]) {
+						case ' ':
+							var current_date =
+								new Date().toISOString().slice(0, 10).split('-').reverse().join('.');
+							state =
+								day_satisfied_view.data('date') != current_date
+									? 'not_satisfied'
+									: 'initial';
+							break;
+						case 'x':
+							state = 'satisfied';
+							break;
+					}
+
+					var daily_point_text =
+						daily_point.replace(daily_point_prefix_pattern, '').trim();
+					if (/~~.*~~/.test(daily_point_text)) {
+						state = 'canceled';
+					}
+
+					counters[state]++;
+				}
+			);
+
+			var number_of_daily_points = daily_points.length;
+			var number_of_not_canceled_daily_points =
+				number_of_daily_points - counters.canceled;
+			var factor_of_satisfied_daily_points =
+				number_of_daily_points == 0 || number_of_not_canceled_daily_points == 0
+					? 1
+					: counters.initial != 0
+						? -1
+						: counters.satisfied / number_of_not_canceled_daily_points;
+			UpdateDaySatisfiedView(factor_of_satisfied_daily_points);
+
+			number_of_daily_points_view.text(number_of_daily_points);
 
 			var number_of_points = points.length;
 			number_of_points_view.text(

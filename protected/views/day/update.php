@@ -127,7 +127,9 @@
 	</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
-		<?= $this->formatSatisfiedCounter($stats['satisfied']) ?>
+		<span class = "day-satisfied-view" data-date = "<?= $date ?>">
+			<?= $this->formatSatisfiedCounter($stats['satisfied']) ?>
+		</span>
 		<span class = "number-of-daily-points-view"><?=
 			$stats['daily']
 		?></span>+<span class = "number-of-points-view"><?=
