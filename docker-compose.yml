@@ -10,6 +10,7 @@ services:
       - mysql:3306
       - --
       - apache2-foreground
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.0.28
@@ -21,14 +22,17 @@ services:
     ports:
       - 3306:3306
       - 33060:33060
+    restart: unless-stopped
 
   adminer:
     image: adminer:4.8.1
     ports:
       - 9090:8080
+    restart: unless-stopped
 
   ofelia:
     image: mcuadros/ofelia:v0.3.6
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./tools/ofelia_config.ini:/etc/ofelia/config.ini:ro
+    restart: unless-stopped
