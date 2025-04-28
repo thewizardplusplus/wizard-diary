@@ -10,6 +10,10 @@ services:
       - mysql:3306
       - --
       - apache2-foreground
+    volumes:
+      - ./data/wizard-diary/assets:/var/www/html/assets
+      - ./data/wizard-diary/dumps:/var/www/html/dumps
+      - ./data/wizard-diary/runtime:/var/www/html/protected/runtime
     restart: unless-stopped
 
   mysql:
@@ -22,6 +26,8 @@ services:
     ports:
       - 3306:3306
       - 33060:33060
+    volumes:
+      - ./data/mysql:/var/lib/mysql
     # https://stackoverflow.com/a/55706057
     cap_add:
       - SYS_NICE
