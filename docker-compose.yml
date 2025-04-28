@@ -22,6 +22,9 @@ services:
     ports:
       - 3306:3306
       - 33060:33060
+    # https://stackoverflow.com/a/55706057
+    cap_add:
+      - SYS_NICE
     restart: unless-stopped
 
   adminer:
