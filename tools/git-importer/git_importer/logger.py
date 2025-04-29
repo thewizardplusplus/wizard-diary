@@ -27,7 +27,7 @@ def get_logger():
 def init_logger(verbose):
     handler = logging.StreamHandler()
     handler.setFormatter(Formatter(
-        fmt=termcolor.colored('%(asctime)s', 'grey') \
+        fmt=termcolor.colored('%(asctime)s', 'grey', attrs=['dark']) \
             + ' %(levelname)s %(message)s',
     ))
 
