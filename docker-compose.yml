@@ -49,4 +49,5 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./tools/ofelia_config.ini:/etc/ofelia/config.ini:ro
+      - ./data/ofelia:/var/log/ofelia
     restart: unless-stopped
