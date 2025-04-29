@@ -21,7 +21,9 @@ def main():
             many=True,
         ))
 
-        import_representation = "dummy"
+        import_representation = \
+            processing.format_habit_repetitions_by_date_to_markdown(habit_repetitions_by_date)
+        logger.get_logger().debug(import_representation)
 
         output.copy_import_representation(import_representation)
         if options.output is not None:
