@@ -21,6 +21,7 @@ services:
   mysql:
     image: mysql:8.0.28
     environment:
+      TZ: "${TZ:-Etc/UTC}"
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_USER: diary
       MYSQL_PASSWORD: diary
