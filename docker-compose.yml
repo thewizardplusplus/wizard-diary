@@ -44,6 +44,8 @@ services:
 
   ofelia:
     image: mcuadros/ofelia:v0.3.6
+    environment:
+      TZ: "${TZ:-Etc/UTC}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./tools/ofelia_config.ini:/etc/ofelia/config.ini:ro
