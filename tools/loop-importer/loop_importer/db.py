@@ -10,7 +10,7 @@ def load_habits_from_db(db_path: str) -> List[models.Habit]:
     with closing(sqlite3.connect(db_path)) as conn:
         conn.row_factory = sqlite3.Row
 
-        result = conn.execute('SELECT id, name, archived FROM Habits')
+        result = conn.execute('SELECT id, name, position, archived FROM Habits')
         for row in result.fetchall():
             habit_id = row['id']
             if not isinstance(habit_id, int):
@@ -20,6 +20,10 @@ def load_habits_from_db(db_path: str) -> List[models.Habit]:
             if not isinstance(name, str):
                 raise ValueError(f'invalid type for the habit name: {name}')
 
+            position = row['position']
+            if not isinstance(position, int):
+                raise ValueError(f'invalid type for the habit position: {position}')
+
             archived = row['archived']
             if archived not in (0, 1):
                 raise ValueError(f'invalid value for the archived flag: {archived}')
@@ -27,6 +31,7 @@ def load_habits_from_db(db_path: str) -> List[models.Habit]:
             habits[habit_id] = models.Habit(
                 id=habit_id,
                 name=name,
+                position=position,
                 is_archived=bool(archived),
                 repetitions=[]
             )

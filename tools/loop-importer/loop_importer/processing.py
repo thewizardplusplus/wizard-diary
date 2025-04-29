@@ -10,6 +10,7 @@ def group_habit_repetitions_by_date(habits: List[models.Habit]) -> models.HabitR
             habit_repetitions_by_date[repetition.date].append(models.HabitRepetition(
                 habit_id=habit.id,
                 habit_name=habit.name,
+                habit_position=habit.position,
                 is_habit_archived=habit.is_archived,
                 value=repetition.value
             ))
@@ -26,7 +27,7 @@ def format_habit_repetitions_by_date_to_markdown(
 
         for habit_repetition in sorted(
             habit_repetitions_by_date[date],
-            key=lambda habit_repetition: habit_repetition.habit_id,
+            key=lambda habit_repetition: habit_repetition.habit_position,
         ):
             checkbox = '[ ]'
             if habit_repetition.value == models.RepetitionValue.YES:

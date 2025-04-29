@@ -26,6 +26,7 @@ class Repetition(dataclasses_json.DataClassJsonMixin):
 class Habit(dataclasses_json.DataClassJsonMixin):
     id: int
     name: str
+    position: int
     repetitions: List[Repetition]
     is_archived: bool
 
@@ -33,6 +34,7 @@ class Habit(dataclasses_json.DataClassJsonMixin):
 class HabitRepetition(dataclasses_json.DataClassJsonMixin):
     habit_id: int
     habit_name: str
+    habit_position: int
     is_habit_archived: bool
     value: RepetitionValue
 
