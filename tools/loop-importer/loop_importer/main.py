@@ -3,11 +3,16 @@ import sys
 from . import logger
 from . import cli
 from . import output
+from . import db
+from . import models
 
 def main():
     try:
         options = cli.parse_options()
         logger.init_logger(options.verbose)
+
+        habits = db.load_habits_from_db(options.db)
+        logger.get_logger().debug(models.Habit.schema().dumps(habits, many=True))
 
         import_representation = "dummy"
 
