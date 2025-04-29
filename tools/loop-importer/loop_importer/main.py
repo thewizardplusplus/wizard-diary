@@ -1,5 +1,6 @@
 import sys
 import dataclasses
+import re
 from typing import List
 from itertools import islice
 
@@ -54,7 +55,13 @@ def main():
             habit_repetitions_by_date,
         )
 
-        import_representation = 'dummy'
+        import_representation = processing.format_habit_repetitions_by_date_to_markdown(
+            habit_repetitions_by_date,
+        )
+        _debug_log(
+            'import representation (given in part):\n',
+            '\n'.join(re.split(r'\n(?=#)', import_representation)[:_MAX_COUNT]),
+        )
 
         output.copy_import_representation(import_representation)
         if options.output is not None:
