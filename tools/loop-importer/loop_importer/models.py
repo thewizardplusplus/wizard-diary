@@ -1,7 +1,7 @@
 import datetime
 from enum import IntEnum
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Dict
 
 import dataclasses_json
 import marshmallow.fields
@@ -32,3 +32,18 @@ class Habit(dataclasses_json.DataClassJsonMixin):
     position: int
     repetitions: List[Repetition]
     is_archived: bool
+
+@dataclass
+class HabitRepetition(dataclasses_json.DataClassJsonMixin):
+    habit_id: int
+    habit_name: str
+    habit_position: int
+    is_habit_archived: bool
+    value: RepetitionValue
+
+HabitRepetitionsByDate = Dict[datetime.date, List[HabitRepetition]]
+
+@dataclass
+class HabitRepetitionsByDateItem(dataclasses_json.DataClassJsonMixin):
+    habit_repetitions: List[HabitRepetition]
+    date: datetime.date = _date_field()

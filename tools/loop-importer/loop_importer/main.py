@@ -1,6 +1,7 @@
 import sys
 import dataclasses
 from typing import List
+from itertools import islice
 
 import dataclasses_json
 import termcolor
@@ -10,6 +11,7 @@ from . import cli
 from . import output
 from . import db
 from . import models
+from . import processing
 
 _MAX_COUNT = 2
 
@@ -23,6 +25,18 @@ def _debug_log_items(
 ):
     _debug_log(prefix, item_cls.schema().dumps(items, many=True))
 
+def _debug_log_habit_repetitions_by_date(
+    prefix: str,
+    habit_repetitions_by_date: models.HabitRepetitionsByDate,
+    max_count: int = _MAX_COUNT,
+):
+    item_cls = models.HabitRepetitionsByDateItem
+    items = (
+        item_cls(habit_repetitions=habit_repetitions[:max_count], date=date)
+        for date, habit_repetitions in islice(habit_repetitions_by_date.items(), max_count)
+    )
+    _debug_log_items(prefix, item_cls, sorted(items, key=lambda item: item.date))
+
 def main():
     try:
         options = cli.parse_options()
@@ -33,6 +47,12 @@ def main():
             dataclasses.replace(habit, repetitions=habit.repetitions[:_MAX_COUNT])
             for habit in habits[:_MAX_COUNT]
         ])
+
+        habit_repetitions_by_date = processing.group_habit_repetitions_by_date(habits)
+        _debug_log_habit_repetitions_by_date(
+            'habit repetitions by date (given in part): ',
+            habit_repetitions_by_date,
+        )
 
         import_representation = 'dummy'
 
