@@ -1,5 +1,10 @@
 <?php
 
+$time_zone = getenv('TZ');
+if (!empty($time_zone)) {
+	ini_set('date.timezone', $time_zone);
+}
+
 define('YII_BEGIN_TIME', microtime(true));
 
 require_once(__DIR__ . '/protected/config/Constants.php');

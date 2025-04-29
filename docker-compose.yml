@@ -3,6 +3,8 @@ services:
   wizard-diary:
     build: .
     container_name: wizard-diary
+    environment:
+      TZ: "${TZ:-Etc/UTC}"
     ports:
       - 80:80
     command:
