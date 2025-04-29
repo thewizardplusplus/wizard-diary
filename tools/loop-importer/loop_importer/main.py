@@ -15,9 +15,9 @@ def main():
         habits = db.load_habits_from_db(options.db)
         logger.get_logger().debug(models.Habit.schema().dumps(habits, many=True))
 
-        habits_by_date = processing.group_habits_by_date(habits)
-        logger.get_logger().debug(models.HabitsByDateItem.schema().dumps(
-            models.iterate_over_habits_by_date(habits_by_date),
+        habit_repetitions_by_date = processing.group_habit_repetitions_by_date(habits)
+        logger.get_logger().debug(models.HabitRepetitionsByDateItem.schema().dumps(
+            models.iterate_over_habit_repetitions_by_date(habit_repetitions_by_date),
             many=True,
         ))
 

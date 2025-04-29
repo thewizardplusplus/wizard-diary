@@ -29,11 +29,18 @@ class Habit(dataclasses_json.DataClassJsonMixin):
     repetitions: List[Repetition]
     is_archived: bool
 
-HabitsByDate = Dict[datetime.date, List[Habit]]
+@dataclass
+class HabitRepetition(dataclasses_json.DataClassJsonMixin):
+    habit_id: int
+    habit_name: str
+    is_habit_archived: bool
+    value: RepetitionValue
+
+HabitRepetitionsByDate = Dict[datetime.date, List[HabitRepetition]]
 
 @dataclass
-class HabitsByDateItem(dataclasses_json.DataClassJsonMixin):
-    habits: List[Habit]
+class HabitRepetitionsByDateItem(dataclasses_json.DataClassJsonMixin):
+    habit_repetitions: List[HabitRepetition]
     date: datetime.date = field(
         metadata=dataclasses_json.config(
             encoder=lambda date: date.isoformat(),
@@ -41,11 +48,13 @@ class HabitsByDateItem(dataclasses_json.DataClassJsonMixin):
         ),
     )
 
-def iterate_over_habits_by_date(habits_by_date: HabitsByDate) -> Iterable[HabitsByDateItem]:
+def iterate_over_habit_repetitions_by_date(
+    habit_repetitions_by_date: HabitRepetitionsByDate,
+) -> Iterable[HabitRepetitionsByDateItem]:
     return sorted(
         (
-            HabitsByDateItem(habits=habits, date=date)
-            for date, habits in habits_by_date.items()
+            HabitRepetitionsByDateItem(habit_repetitions=habit_repetitions, date=date)
+            for date, habit_repetitions in habit_repetitions_by_date.items()
         ),
         key=lambda item: item.date,
     )
