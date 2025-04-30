@@ -55,6 +55,15 @@ def main():
             habit_repetitions_by_date,
         )
 
+        habit_repetitions_by_date = processing.remove_habit_repetitions_before_they_start(
+            habits,
+            habit_repetitions_by_date,
+        )
+        _debug_log_habit_repetitions_by_date(
+            'removed habit repetitions before they start (given in part): ',
+            habit_repetitions_by_date,
+        )
+
         import_representation = processing.format_habit_repetitions_by_date_to_markdown(
             habit_repetitions_by_date,
         )
