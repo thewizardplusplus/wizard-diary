@@ -64,6 +64,15 @@ def main():
             habit_repetitions_by_date,
         )
 
+        habit_repetitions_by_date = processing.remove_archived_habit_repetitions(
+            habits,
+            habit_repetitions_by_date,
+        )
+        _debug_log_habit_repetitions_by_date(
+            'removed archived habit repetitions (given in part): ',
+            habit_repetitions_by_date,
+        )
+
         import_representation = processing.format_habit_repetitions_by_date_to_markdown(
             habit_repetitions_by_date,
         )
