@@ -21,6 +21,15 @@ def main():
             many=True,
         ))
 
+        habit_repetitions_by_date = processing.remove_habit_repetitions_before_they_start(
+            habits,
+            habit_repetitions_by_date,
+        )
+        logger.get_logger().debug(models.HabitRepetitionsByDateItem.schema().dumps(
+            models.iterate_over_habit_repetitions_by_date(habit_repetitions_by_date),
+            many=True,
+        ))
+
         import_representation = \
             processing.format_habit_repetitions_by_date_to_markdown(habit_repetitions_by_date)
         logger.get_logger().debug(import_representation)
