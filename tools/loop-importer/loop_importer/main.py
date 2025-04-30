@@ -75,6 +75,7 @@ def main():
 
         import_representation = processing.format_habit_repetitions_by_date_to_markdown(
             habit_repetitions_by_date,
+            options.ids,
         )
         _debug_log(
             'import representation (given in part):\n',

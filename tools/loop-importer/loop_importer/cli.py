@@ -6,6 +6,7 @@ def parse_options():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument('-d', '--db', required=True, help='DB path')
+    parser.add_argument('-i', '--ids', type=int, nargs='+', help='separator predecessor IDs')
     parser.add_argument('-o', '--output', help='output path')
     parser.add_argument('-V', '--verbose', action='store_true', help='verbose logging')
 
