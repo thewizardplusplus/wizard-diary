@@ -3,6 +3,8 @@ from typing import List, Optional
 
 from . import models
 
+_SEPARATOR = '- [ ] -'
+
 def group_habit_repetitions_by_date(habits: List[models.Habit]) -> models.HabitRepetitionsByDate:
     habit_repetitions_by_id_and_date = defaultdict(dict)
     for habit in habits:
@@ -92,6 +94,8 @@ def format_habit_repetitions_by_date_to_markdown(
         lines.append(f'## {date.isoformat()}')
         lines.append('')
 
+        previous_prefix = None
+        has_trailing_separator = False
         for index, habit_repetition in enumerate(sorted(
             habit_repetitions_by_date[date],
             key=lambda habit_repetition: habit_repetition.habit_position,
@@ -104,11 +108,19 @@ def format_habit_repetitions_by_date_to_markdown(
             if habit_repetition.value == models.RepetitionValue.SKIP:
                 name = f'~~{name}~~'
 
+            prefix, _, _ = habit_repetition.habit_name.partition(',')
+            if prefix.strip() != previous_prefix and index != 0 and not has_trailing_separator:
+                lines.append(_SEPARATOR)
+            previous_prefix = prefix.strip()
+
             lines.append(f'- {checkbox} {name}')
+            has_trailing_separator = False
+
             if separator_predecessor_ids is not None \
                 and habit_repetition.habit_id in separator_predecessor_ids \
                 and index != len(habit_repetitions_by_date[date])-1:
-                lines.append('- [ ] -')
+                lines.append(_SEPARATOR)
+                has_trailing_separator = True
         lines.append('')
 
     return '\n'.join(lines).strip()
