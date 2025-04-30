@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List
+from typing import List, Optional
 
 from . import models
 
@@ -85,16 +85,17 @@ def remove_archived_habit_repetitions(
 
 def format_habit_repetitions_by_date_to_markdown(
     habit_repetitions_by_date: models.HabitRepetitionsByDate,
+    separator_predecessor_ids: Optional[List[int]] = None,
 ) -> str:
     lines = []
     for date in sorted(habit_repetitions_by_date):
         lines.append(f'## {date.isoformat()}')
         lines.append('')
 
-        for habit_repetition in sorted(
+        for index, habit_repetition in enumerate(sorted(
             habit_repetitions_by_date[date],
             key=lambda habit_repetition: habit_repetition.habit_position,
-        ):
+        )):
             checkbox = '[ ]'
             if habit_repetition.value == models.RepetitionValue.YES:
                 checkbox = '[x]'
@@ -104,6 +105,10 @@ def format_habit_repetitions_by_date_to_markdown(
                 name = f'~~{name}~~'
 
             lines.append(f'- {checkbox} {name}')
+            if separator_predecessor_ids is not None \
+                and habit_repetition.habit_id in separator_predecessor_ids \
+                and index != len(habit_repetitions_by_date[date])-1:
+                lines.append('- [ ] -')
         lines.append('')
 
     return '\n'.join(lines).strip()
