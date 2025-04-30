@@ -33,6 +33,31 @@ def group_habit_repetitions_by_date(habits: List[models.Habit]) -> models.HabitR
         for date, habit_repetitions_by_id in habit_repetitions_by_id_and_date.items()
     }
 
+def remove_habit_repetitions_before_they_start(
+    habits: List[models.Habit],
+    habit_repetitions_by_date: models.HabitRepetitionsByDate,
+) -> models.HabitRepetitionsByDate:
+    not_yet_started_habit_names = {habit.name for habit in habits}
+
+    filtered_habit_repetitions_by_date = {}
+    for date in sorted(habit_repetitions_by_date):
+        filtered_habit_repetitions = []
+        for habit_repetition in habit_repetitions_by_date[date]:
+            if habit_repetition.value != models.RepetitionValue.YES \
+                and habit_repetition.habit_name in not_yet_started_habit_names:
+                continue
+
+            if habit_repetition.value == models.RepetitionValue.YES:
+                not_yet_started_habit_names.discard(habit_repetition.habit_name)
+
+            filtered_habit_repetitions.append(habit_repetition)
+        if not filtered_habit_repetitions:
+            continue
+
+        filtered_habit_repetitions_by_date[date] = filtered_habit_repetitions
+
+    return filtered_habit_repetitions_by_date
+
 def format_habit_repetitions_by_date_to_markdown(
     habit_repetitions_by_date: models.HabitRepetitionsByDate,
 ) -> str:
