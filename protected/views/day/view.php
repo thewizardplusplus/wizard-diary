@@ -58,6 +58,23 @@
 	</p>
 </header>
 
+<header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-default pull-left"
+		href = "<?= $this->createUrl('day/view', array(
+			'date' => date('Y-m-d', strtotime('-1 day', strtotime($raw_date)))
+		)) ?>">
+		<span class = "glyphicon glyphicon-chevron-left"></span> Назад
+	</a>
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?= $this->createUrl('day/view', array(
+			'date' => date('Y-m-d', strtotime('+1 day', strtotime($raw_date)))
+		)) ?>">
+		<span class = "glyphicon glyphicon-chevron-right"></span> Вперёд
+	</a>
+</header>
+
 <div class = "table-responsive">
 	<?php $this->widget(
 		'zii.widgets.grid.CGridView',
