@@ -19,4 +19,5 @@ setuptools.setup(
     entry_points={'console_scripts': [
         '{} = {}:main'.format(project_name, package_name),
     ]},
+    test_suite='{}.tests'.format(package_name),
 )
