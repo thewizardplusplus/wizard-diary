@@ -1,9 +1,36 @@
+import datetime
 from collections import defaultdict
-from typing import List, Optional
+from typing import Iterable, Set, List, Optional
 
 from . import models
 
 _SEPARATOR = '- [ ] -'
+
+def _filter_habit_repetitions(
+    habit_repetitions_by_date: models.HabitRepetitionsByDate,
+    dates_to_analyze: Iterable[datetime.date],
+    habit_names_to_analyze: Set[str],
+) -> models.HabitRepetitionsByDate:
+    copied_habit_names_to_analyze = habit_names_to_analyze.copy()
+
+    filtered_habit_repetitions_by_date = {}
+    for date in dates_to_analyze:
+        filtered_habit_repetitions = []
+        for habit_repetition in habit_repetitions_by_date[date]:
+            if habit_repetition.value != models.RepetitionValue.YES \
+                and habit_repetition.habit_name in copied_habit_names_to_analyze:
+                continue
+
+            if habit_repetition.value == models.RepetitionValue.YES:
+                copied_habit_names_to_analyze.discard(habit_repetition.habit_name)
+
+            filtered_habit_repetitions.append(habit_repetition)
+        if not filtered_habit_repetitions:
+            continue
+
+        filtered_habit_repetitions_by_date[date] = filtered_habit_repetitions
+
+    return filtered_habit_repetitions_by_date
 
 def group_habit_repetitions_by_date(habits: List[models.Habit]) -> models.HabitRepetitionsByDate:
     habit_repetitions_by_id_and_date = defaultdict(dict)
@@ -39,51 +66,21 @@ def remove_habit_repetitions_before_they_start(
     habits: List[models.Habit],
     habit_repetitions_by_date: models.HabitRepetitionsByDate,
 ) -> models.HabitRepetitionsByDate:
-    not_yet_started_habit_names = {habit.name for habit in habits}
-
-    filtered_habit_repetitions_by_date = {}
-    for date in sorted(habit_repetitions_by_date):
-        filtered_habit_repetitions = []
-        for habit_repetition in habit_repetitions_by_date[date]:
-            if habit_repetition.value != models.RepetitionValue.YES \
-                and habit_repetition.habit_name in not_yet_started_habit_names:
-                continue
-
-            if habit_repetition.value == models.RepetitionValue.YES:
-                not_yet_started_habit_names.discard(habit_repetition.habit_name)
-
-            filtered_habit_repetitions.append(habit_repetition)
-        if not filtered_habit_repetitions:
-            continue
-
-        filtered_habit_repetitions_by_date[date] = filtered_habit_repetitions
-
-    return filtered_habit_repetitions_by_date
+    return _filter_habit_repetitions(
+        habit_repetitions_by_date=habit_repetitions_by_date,
+        dates_to_analyze=sorted(habit_repetitions_by_date),
+        habit_names_to_analyze={habit.name for habit in habits},
+    )
 
 def remove_archived_habit_repetitions(
     habits: List[models.Habit],
     habit_repetitions_by_date: models.HabitRepetitionsByDate,
 ) -> models.HabitRepetitionsByDate:
-    archived_habit_names = {habit.name for habit in habits if habit.is_archived}
-
-    filtered_habit_repetitions_by_date = {}
-    for date in reversed(sorted(habit_repetitions_by_date)):
-        filtered_habit_repetitions = []
-        for habit_repetition in habit_repetitions_by_date[date]:
-            if habit_repetition.value != models.RepetitionValue.YES \
-                and habit_repetition.habit_name in archived_habit_names:
-                continue
-
-            if habit_repetition.value == models.RepetitionValue.YES:
-                archived_habit_names.discard(habit_repetition.habit_name)
-
-            filtered_habit_repetitions.append(habit_repetition)
-        if not filtered_habit_repetitions:
-            continue
-
-        filtered_habit_repetitions_by_date[date] = filtered_habit_repetitions
-
-    return filtered_habit_repetitions_by_date
+    return _filter_habit_repetitions(
+        habit_repetitions_by_date=habit_repetitions_by_date,
+        dates_to_analyze=reversed(sorted(habit_repetitions_by_date)),
+        habit_names_to_analyze={habit.name for habit in habits if habit.is_archived},
+    )
 
 def format_habit_repetitions_by_date_to_markdown(
     habit_repetitions_by_date: models.HabitRepetitionsByDate,
