@@ -90,6 +90,10 @@ class TestGroupHabitRepetitionsByDate(base_test_case.BaseTestCase):
                 self._create_habit_repetition(id=1, name='one', value=models.RepetitionValue.YES),
                 self._create_habit_repetition(id=2, name='two', value=models.RepetitionValue.YES),
             ],
+            date(2025, 1, 3): [
+                self._create_habit_repetition(id=1, name='one', value=models.RepetitionValue.NO),
+                self._create_habit_repetition(id=2, name='two', value=models.RepetitionValue.NO),
+            ],
             date(2025, 1, 4): [
                 self._create_habit_repetition(id=1, name='one', value=models.RepetitionValue.YES),
                 self._create_habit_repetition(id=2, name='two', value=models.RepetitionValue.YES),
