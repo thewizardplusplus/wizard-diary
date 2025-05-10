@@ -44,7 +44,12 @@ def group_habit_repetitions_by_date(habits: List[models.Habit]) -> models.HabitR
                 value=repetition.value,
             )
 
-    for habit_repetitions_by_id in habit_repetitions_by_id_and_date.values():
+    min_date = min(habit_repetitions_by_id_and_date)
+    max_date = max(habit_repetitions_by_id_and_date)
+
+    date = min_date
+    while date <= max_date:
+        habit_repetitions_by_id = habit_repetitions_by_id_and_date[date]
         for habit in habits:
             if habit.id in habit_repetitions_by_id:
                 continue
@@ -56,6 +61,8 @@ def group_habit_repetitions_by_date(habits: List[models.Habit]) -> models.HabitR
                 is_habit_archived=habit.is_archived,
                 value=models.RepetitionValue.NO,
             )
+
+        date += datetime.timedelta(days=1)
 
     return {
         date: list(habit_repetitions_by_id.values())
