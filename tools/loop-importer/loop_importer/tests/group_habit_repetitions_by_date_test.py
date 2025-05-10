@@ -1,13 +1,10 @@
-import unittest
 from datetime import date
-from typing import List
 
+from . import base_test_case
 from .. import models
 from .. import processing
 
-_POSITION_OFFSET = 100
-
-class TestGroupHabitRepetitionsByDate(unittest.TestCase):
+class TestGroupHabitRepetitionsByDate(base_test_case.BaseTestCase):
     def test_without_skipping_repetitions(self) -> None:
         habit_repetitions_by_date = processing.group_habit_repetitions_by_date([
             self._create_habit(id=1, name='one', repetition_dates=[
@@ -102,32 +99,6 @@ class TestGroupHabitRepetitionsByDate(unittest.TestCase):
                 self._create_habit_repetition(id=2, name='two', value=models.RepetitionValue.YES),
             ],
         })
-
-    def _create_habit(self, id: int, name: str, repetition_dates: List[date]) -> models.Habit:
-        return models.Habit(
-            id=id,
-            name=name,
-            position=id + _POSITION_OFFSET,
-            is_archived=id % 2 == 0,
-            repetitions=[
-                models.Repetition(habit_id=id, date=date, value=models.RepetitionValue.YES)
-                for date in repetition_dates
-            ]
-        )
-
-    def _create_habit_repetition(
-        self,
-        id: int,
-        name: str,
-        value: models.RepetitionValue,
-    ) -> models.HabitRepetition:
-        return models.HabitRepetition(
-            habit_id=id,
-            habit_name=name,
-            habit_position=id + _POSITION_OFFSET,
-            is_habit_archived=id % 2 == 0,
-            value=value,
-        )
 
     def _sort_habit_repetitions(
         self,
