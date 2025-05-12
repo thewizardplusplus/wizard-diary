@@ -34,11 +34,12 @@ class BaseTestCase(unittest.TestCase):
         id: int,
         name: str,
         value: models.RepetitionValue,
+        position: Optional[int] = None,
     ) -> models.HabitRepetition:
         return models.HabitRepetition(
             habit_id=id,
             habit_name=name,
-            habit_position=id + _POSITION_OFFSET,
+            habit_position=position if position is not None else id + _POSITION_OFFSET,
             is_habit_archived=id % 2 == 0,
             value=value,
         )
