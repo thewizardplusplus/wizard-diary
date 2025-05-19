@@ -24,3 +24,6 @@ declare -r access_code="$(
 		| awk '{print $NF}'
 )"
 echo "info: detected the access code \"$access_code\""
+if command -v xclip >/dev/null 2>&1; then
+	echo -n "$access_code" | xclip -selection clipboard
+fi
