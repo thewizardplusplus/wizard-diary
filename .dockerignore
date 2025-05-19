@@ -1,4 +1,5 @@
 .git/
+data/
 docs/
 resources/
 tools/
@@ -6,5 +7,6 @@ tools/
 !tools/access_code_finder.sh
 !tools/wait-for-it.sh
 .dockerignore
+.gitignore
 docker-compose.yml
 Dockerfile
