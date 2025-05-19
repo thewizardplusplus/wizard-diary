@@ -5,6 +5,8 @@
 	 * @var string $my_date
 	 * @var string $date
 	 * @var string $raw_date
+	 * @var array $prev_day
+	 * @var array $next_day
 	 * @var array $stats
 	 */
 
@@ -56,6 +58,24 @@
 			PointFormatter::formatNumberOfPoints($stats['projects'])
 		?>
 	</p>
+</header>
+
+<header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-default pull-left"
+		href = "<?= !is_null($prev_day) ? $prev_day['url'] : '#' ?>"
+		<?= !is_null($prev_day)
+			? 'title = "' . $prev_day['my_date'] . ' / ' . $prev_day['date'] . '"'
+			: '' ?>
+		<?= is_null($prev_day) ? 'disabled = "disabled"' : '' ?>>
+		<span class = "glyphicon glyphicon-chevron-left"></span> Назад
+	</a>
+	<a
+		class = "btn btn-default pull-right"
+		href = "<?= $next_day['url'] ?>"
+		title = "<?= $next_day['my_date'] ?> / <?= $next_day['date'] ?>">
+		Вперёд <span class = "glyphicon glyphicon-chevron-right"></span>
+	</a>
 </header>
 
 <div class = "table-responsive">

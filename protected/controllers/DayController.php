@@ -131,6 +131,8 @@ class DayController extends CController {
 				'my_date' => DateFormatter::formatMyDate($date),
 				'date' => DateFormatter::formatDate($encoded_date),
 				'raw_date' => CHtml::encode($encoded_date),
+				'prev_day' => $this->createDayUrlWithOffset($date, '-1 day'),
+				'next_day' => $this->createDayUrlWithOffset($date, '+1 day'),
 				'stats' => $stats
 			)
 		);
@@ -738,5 +740,18 @@ class DayController extends CController {
 		return "START TRANSACTION;\n\n"
 			. "$sql"
 			. "COMMIT;";
+	}
+
+	private function createDayUrlWithOffset($day, $offset) {
+		$target_date = date('Y-m-d', strtotime($offset, strtotime($day)));
+		if ($target_date < DateFormatter::getStartDate()) {
+			return null;
+		}
+
+		return array(
+			'my_date' => DateFormatter::formatMyDate($target_date),
+			'date' => DateFormatter::formatDate(CHtml::encode($target_date)),
+			'url' => $this->createUrl('day/view', array('date' => $target_date))
+		);
 	}
 }
