@@ -106,6 +106,10 @@
 												)
 											),
 											array(
+												'label' => 'Обычные',
+												'url' => array('day/list')
+											),
+											array(
 												'label' => '',
 												'itemOptions' => array(
 													'class' => 'divider'

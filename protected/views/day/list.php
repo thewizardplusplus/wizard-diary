@@ -3,23 +3,21 @@
 	 * @var DayController $this
 	 * @var CArrayDataProvider $data_provider
 	 * @var array $daily_stats
-	 * @var int $rest_days
-	 * @var int $rest_days_prefix
+	 * @var string $rest_days_prefix
+	 * @var string $rest_days
 	 * @var string $target_date
 	 * @var string $target_my_date
 	 */
 
-	$this->pageTitle = Yii::app()->name . ' - Дни';
+	$this->pageTitle = Yii::app()->name . ' - Обычные пункты';
 ?>
 
 <p class = "unimportant-text italic-text without-bottom-margin">
-	От текущей дюжины <?= $rest_days_prefix ?>
-	<strong><?= $rest_days ?></strong>.
+	От текущей дюжины <?= $rest_days_prefix ?> <strong><?= $rest_days ?></strong>.
 </p>
 <p class = "unimportant-text italic-text">
-	Текущая дюжина закончится <strong><time title = "<?= $target_date ?>"><?=
-		$target_my_date
-	?></time></strong>.
+	Текущая дюжина закончится
+	<strong><time title = "<?= $target_date ?>"><?= $target_my_date ?></time></strong>.
 </p>
 
 <div class = "table-responsive clearfix">

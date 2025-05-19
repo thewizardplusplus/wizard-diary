@@ -75,31 +75,47 @@ class DayController extends CController {
 		$daily_stats = StatsController::collectDailyStats();
 
 		$current_date = date('Y-m-d');
-		$day = $this->getMyDay($current_date);
 
-		$rest_days = $day % Constants::DAYS_IN_MY_STREAK;
-		$rest_days =
-			$rest_days != 0
-				? $rest_days
-				: Constants::DAYS_IN_MY_STREAK;
-		$rest_days = Constants::DAYS_IN_MY_STREAK - $rest_days + 1;
+		$elapsed_days = $this->getMyDay($current_date) % Constants::DAYS_IN_MY_STREAK;
+		$rest_days = $elapsed_days == 0 ? 1 : Constants::DAYS_IN_MY_STREAK - $elapsed_days + 1;
 
-		$target_date = date_add(
-			date_create($current_date),
-			DateInterval::createFromDateString(
-				sprintf('%d day', $rest_days - 1)
+		$target_date =
+			date_add(
+				date_create($current_date),
+				DateInterval::createFromDateString(sprintf('%d day', $rest_days - 1))
 			)
-		);
-		$target_date = $target_date->format('Y-m-d');
+			->format('Y-m-d');
 
 		$this->render(
 			'list',
 			array(
 				'data_provider' => $data_provider,
 				'daily_stats' => $daily_stats,
-				'rest_days_prefix' => DayFormatter::formatRestDaysPrefix(
-					$rest_days
-				),
+				'rest_days_prefix' => DayFormatter::formatRestDaysPrefix($rest_days),
+				'rest_days' => DayFormatter::formatCompletedDays($rest_days),
+				'target_date' => DateFormatter::formatDate($target_date),
+				'target_my_date' => DateFormatter::formatMyDate($target_date)
+			)
+		);
+	}
+
+	public function actionCalendar() {
+		$current_date = date('Y-m-d');
+
+		$elapsed_days = $this->getMyDay($current_date) % Constants::DAYS_IN_MY_STREAK;
+		$rest_days = $elapsed_days == 0 ? 1 : Constants::DAYS_IN_MY_STREAK - $elapsed_days + 1;
+
+		$target_date =
+			date_add(
+				date_create($current_date),
+				DateInterval::createFromDateString(sprintf('%d day', $rest_days - 1))
+			)
+			->format('Y-m-d');
+
+		$this->render(
+			'calendar',
+			array(
+				'rest_days_prefix' => DayFormatter::formatRestDaysPrefix($rest_days),
 				'rest_days' => DayFormatter::formatCompletedDays($rest_days),
 				'target_date' => DateFormatter::formatDate($target_date),
 				'target_my_date' => DateFormatter::formatMyDate($target_date)

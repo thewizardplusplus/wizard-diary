@@ -76,7 +76,7 @@ class PointController extends CController {
 				$_POST['search_from_beginning']
 			);
 
-			$this->redirect($this->createUrl('day/list'));
+			$this->redirect($this->createUrl('day/calendar'));
 		}
 
 		$this->render('update_batch');
@@ -90,7 +90,7 @@ class PointController extends CController {
 			$this->deletePosts($_POST['points_ids']);
 			$this->deleteSeparatorsDuplicates($_POST['points_dates']);
 
-			$this->redirect($this->createUrl('day/list'));
+			$this->redirect($this->createUrl('day/calendar'));
 		}
 
 		$this->render('delete_batch');

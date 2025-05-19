@@ -3,7 +3,7 @@
 return array(
 	'name' => Constants::APP_NAME,
 	'basePath' => __DIR__ . '/..',
-	'defaultController' => 'day/list',
+	'defaultController' => 'day/calendar',
 	'language' => 'ru',
 	'preload' => array('log'),
 	'import' => array(
@@ -21,6 +21,7 @@ return array(
 			'rules' => array(
 				'login' => 'site/login',
 				'access_code' => 'site/accessCode',
+				'calendar' => 'day/calendar',
 				'days' => 'day/list',
 				'day/<date:\d{4}(?:-\d{2}){2}>' => 'day/view',
 				'day/<date:\d{4}(?:-\d{2}){2}>/update/line:<line:\d+>' =>
