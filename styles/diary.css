@@ -12,6 +12,10 @@
 	padding: 0 !important;
 }
 
+.grid-view .item-wrapper {
+	overflow-x: auto;
+}
+
 .table {
 	margin: 0;
 }
