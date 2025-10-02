@@ -11,7 +11,7 @@
 
 <header class = "page-header clearfix header-with-button">
 	<a
-		class = "btn btn-default pull-right"
+		class = "btn btn-default pull-right current-difference-button"
 		href = "<?= $this->createUrl(
 			'backup/currentDiff',
 			array('file' => $last_backup_date)
