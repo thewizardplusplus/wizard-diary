@@ -467,7 +467,7 @@ $(document).ready(
 			}
 		};
 
-		var daily_point_prefix_pattern = /^-\s\[([\sx])\]/;
+		var daily_point_prefix_pattern = /^-\s\[([?\sx])\]/;
 		var day_completed_flag = $('.day-completed-flag');
 		var day_completed_inner_flag = $('span.glyphicon', day_completed_flag);
 		var day_satisfied_view = $('.day-satisfied-view');
@@ -523,15 +523,10 @@ $(document).ready(
 			var counters = {satisfied: 0, not_satisfied: 0, canceled: 0, initial: 0};
 			daily_points.forEach(
 				function(daily_point) {
-					var state = undefined;
+					var state = 'initial';
 					switch (daily_point_prefix_pattern.exec(daily_point)[1]) {
 						case ' ':
-							var current_date =
-								new Date().toISOString().slice(0, 10).split('-').reverse().join('.');
-							state =
-								day_satisfied_view.data('date') != current_date
-									? 'not_satisfied'
-									: 'initial';
+							state = 'not_satisfied';
 							break;
 						case 'x':
 							state = 'satisfied';
