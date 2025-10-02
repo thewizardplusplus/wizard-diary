@@ -10,6 +10,7 @@ $(document).ready(
 		var processing_animation_image = $('img', create_backup_button);
 		var backup_icon = $('span', create_backup_button);
 		var backup_list = $('#backup-list');
+		var current_difference_button = $('.current-difference-button');
 		var FinishAnimation = function() {
 			create_backup_button.prop('disabled', false);
 			processing_animation_image.hide();
@@ -47,6 +48,7 @@ $(document).ready(
 					data,
 					function() {
 						FinishAnimation();
+						current_difference_button.attr('disabled', 'disabled');
 
 						if (backup_list.length) {
 							backup_list.yiiGridView(
@@ -100,6 +102,7 @@ $(document).ready(
 											GetAccessToDropbox();
 										} else {
 											FinishAnimation();
+											current_difference_button.attr('disabled', 'disabled');
 										}
 									}
 								}
@@ -115,6 +118,7 @@ $(document).ready(
 										GetAccessToDropbox();
 									} else {
 										FinishAnimation();
+										current_difference_button.attr('disabled', 'disabled');
 									}
 								},
 								'json'
