@@ -415,7 +415,11 @@ class DayController extends CController {
 					$text = '~~' . $text . '~~';
 				}
 
-				$state_mark = $daily_point->state == 'SATISFIED' ? 'x' : ' ';
+				$state_mark = $daily_point->state == 'SATISFIED'
+					? 'x'
+					: ($daily_point->state == 'NOT_SATISFIED'
+						? ' '
+						: '?');
 				return '- [' . $state_mark . '] ' . $text;
 			},
 			$daily_points
@@ -478,28 +482,28 @@ class DayController extends CController {
 		return $points_description;
 	}
 
-	private function extendImportOfDailyPoints($date, $daily_points_description) {
+	private function extendImportOfDailyPoints($daily_points_description) {
 		$daily_points_description = rtrim($daily_points_description);
 		if (empty($daily_points_description)) {
 			return array();
 		}
 
-		$current_date = date('Y-m-d');
 		$lines = explode("\n", $daily_points_description);
 		return array_map(
-			function($line) use ($date, $current_date) {
+			function($line) {
 				$line = rtrim($line);
 
-				if (!preg_match('/^-\s\[([ x])\]\s(.*)$/', $line, $matches)) {
+				if (!preg_match('/^-\s\[([? x])\]\s(.*)$/', $line, $matches)) {
 					throw new CHttpException(
 						500,
 						'Ошибка парсинга импорта ежедневного пункта.'
 					);
 				}
 
+				$state = 'INITIAL';
 				switch ($matches[1]) {
 					case ' ':
-						$state = $date != $current_date ? 'NOT_SATISFIED' : 'INITIAL';
+						$state = 'NOT_SATISFIED';
 						break;
 					case 'x':
 						$state = 'SATISFIED';
@@ -724,7 +728,7 @@ class DayController extends CController {
 		$sql = '';
 		foreach ($global_import as $date => $import) {
 			$extended_daily_points_description =
-				$this->extendImportOfDailyPoints($date, $import['daily_points']);
+				$this->extendImportOfDailyPoints($import['daily_points']);
 			$extended_points_description = $this->extendImportOfPoints(
 				$import['points'],
 				$points_numbers[$date] + count($extended_daily_points_description)
