@@ -31,7 +31,7 @@
 		array(
 			'id' => 'backup-list',
 			'dataProvider' => $data_provider,
-			'template' => '{items} {summary} {pager}',
+			'template' => '<div class="item-wrapper">{items}</div> {summary} {pager}',
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
