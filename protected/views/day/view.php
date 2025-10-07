@@ -18,11 +18,28 @@
 		CHtml::asset('scripts/finishing_dialog.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/finishing.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
 
 <header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-danger pull-right finishing-button"
+		href = "#"
+		data-finishing-url = "<?=
+			$this->createUrl('day/finishing', array('date' => $raw_date))
+		?>"
+		<?= $stats['completed'] ? 'disabled = "disabled"' : '' ?>>
+		<img
+			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-remove-sign"></span>
+		<span>Завершить</span>
+	</a>
 	<a
 		class = "btn btn-default pull-right"
 		href = "<?=
