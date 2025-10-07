@@ -30,6 +30,7 @@
 	<a
 		class = "btn btn-danger pull-right finishing-button"
 		href = "#"
+		title = "Завершить"
 		data-finishing-url = "<?=
 			$this->createUrl('day/finishing', array('date' => $raw_date))
 		?>"
@@ -41,14 +42,16 @@
 			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
 			alt = "..." />
 		<span class = "glyphicon glyphicon-remove-sign"></span>
-		<span>Завершить</span>
+		<span class = "hidden-xs">Завершить</span>
 	</a>
 	<a
 		class = "btn btn-default pull-right"
 		href = "<?=
 			$this->createUrl('day/update', array('date' => $raw_date))
-		?>">
-		<span class = "glyphicon glyphicon-pencil"></span> Изменить
+		?>"
+		title = "Изменить">
+		<span class = "glyphicon glyphicon-pencil"></span>
+		<span class = "hidden-xs">Изменить</span>
 	</a>
 
 	<h4 class = "clearfix">
@@ -92,13 +95,15 @@
 			? 'title = "' . $prev_day['my_date'] . ' / ' . $prev_day['date'] . '"'
 			: '' ?>
 		<?= is_null($prev_day) ? 'disabled = "disabled"' : '' ?>>
-		<span class = "glyphicon glyphicon-chevron-left"></span> Назад
+		<span class = "glyphicon glyphicon-chevron-left"></span>
+		<span class = "hidden-xs">Назад</span>
 	</a>
 	<a
 		class = "btn btn-default pull-right"
 		href = "<?= $next_day['url'] ?>"
 		title = "<?= $next_day['my_date'] ?> / <?= $next_day['date'] ?>">
-		Вперёд <span class = "glyphicon glyphicon-chevron-right"></span>
+		<span class = "hidden-xs">Вперёд</span>
+		<span class = "glyphicon glyphicon-chevron-right"></span>
 	</a>
 </header>
 
