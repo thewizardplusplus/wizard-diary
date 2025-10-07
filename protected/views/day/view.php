@@ -14,6 +14,10 @@
 		CHtml::asset('scripts/point_list.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/finishing_dialog.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
