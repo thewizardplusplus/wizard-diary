@@ -26,6 +26,7 @@ return array(
 				'day/<date:\d{4}(?:-\d{2}){2}>/update/line:<line:\d+>' =>
 					'day/update',
 				'day/<date:\d{4}(?:-\d{2}){2}>/update' => 'day/update',
+				'day/<date:\d{4}(?:-\d{2}){2}>/finishing' => 'day/finishing',
 				'daily_points' => 'dailyPoint/list',
 				'daily_points/update' => 'dailyPoint/update',
 				'import_points' => 'day/import',

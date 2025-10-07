@@ -6,7 +6,7 @@ class DayController extends CController {
 	const ONE_LEVEL_EDITOR_INDENT = '    ';
 
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + stats');
+		return array('accessControl', 'ajaxOnly + stats, finishing');
 	}
 
 	public function accessRules() {
@@ -226,6 +226,38 @@ class DayController extends CController {
 		}
 
 		$this->render('import');
+	}
+
+	public function actionFinishing($date) {
+		$this->testDate($date);
+
+		$stats = $this->getStats($date);
+		if ($stats['completed']) {
+			throw new CHttpException(400, 'День уже завершён.');
+		}
+
+		$points = Point::model()->findAll(array(
+			'select' => array('id', 'daily'),
+			'condition' => 'date = :date '
+				. 'AND `state` = \'INITIAL\' '
+				. 'AND LENGTH(`text`) > 0',
+			'params' => array('date' => $date)
+		));
+
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			foreach ($points as $point) {
+				$point->state = $point->daily ? 'NOT_SATISFIED' : 'SATISFIED';
+				if (!$point->save()) {
+					throw new CHttpException(500, 'Ошибка сохранения пункта.');
+				}
+			}
+
+			$transaction->commit();
+		} catch(Exception $exception) {
+			$transaction->rollback();
+			throw $exception;
+		}
 	}
 
 	public function getRowClass($date) {
