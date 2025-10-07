@@ -1,6 +1,9 @@
+var FinishingButton = {};
+
 $(document).ready(function () {
   var finishing_button = $(".finishing-button");
   var finishing_url = finishing_button.data("finishing-url");
+  var stats_url = finishing_button.data("stats-url");
   var processing_animation_image = $("img", finishing_button);
   var finishing_icon = $("span", finishing_button);
   var point_list = $("#point-list");
@@ -29,4 +32,19 @@ $(document).ready(function () {
       FinishingDialog.hide();
     });
   });
+
+  FinishingButton = {
+    update: function () {
+      $.get(
+        stats_url,
+        function (data) {
+          finishing_button.attr(
+            "disabled",
+            data.completed == "1" ? "disabled" : null
+          );
+        },
+        "json"
+      ).fail(AjaxErrorDialog.handler);
+    },
+  };
 });
