@@ -55,24 +55,9 @@
 	<h4 class = "clearfix">
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
-		<span
-			class = "label label-<?=
-				$stats['completed']
-					? 'success'
-					: 'primary'
-			?> day-completed-flag"
-			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>"
-			data-stats-url = "<?=
-				$this->createUrl('day/stats', array('date' => $raw_date))
-			?>">
-			<span
-				class = "glyphicon glyphicon-<?=
-					$stats['completed']
-						? 'check'
-						: 'unchecked'
-				?>">
-			</span>
-		</span>
+		<?php $this->widget('application.widgets.DayStateWidget', array(
+			'stats' => $stats
+		)); ?>
 	</h4>
 
 	<p class = "pull-left unimportant-text italic-text">
