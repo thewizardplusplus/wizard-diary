@@ -473,22 +473,35 @@ $(document).ready(
 		var day_satisfied_view = $('.day-satisfied-view');
 		var number_of_daily_points_view = $('.number-of-daily-points-view');
 		var number_of_points_view = $('.number-of-points-view');
-		var UpdateDayCompletedFlag = function(is_day_completed) {
-			if (is_day_completed) {
+		var UpdateDayCompletedFlag = function(counters) {
+			var is_completed = counters.initial == 0;
+			var is_skipped = is_completed
+				&& counters.canceled == counters.total
+				&& counters.total > 0;
+
+			if (is_skipped) {
+				day_completed_flag
+					.attr('title', 'Пропущен')
+					.removeClass('label-primary label-success')
+					.addClass('label-default');
+				day_completed_inner_flag
+					.removeClass('glyphicon-unchecked glyphicon-check')
+					.addClass('glyphicon-modal-window');
+			} else if (is_completed) {
 				day_completed_flag
 					.attr('title', 'Завершён')
-					.removeClass('label-primary')
+					.removeClass('label-primary label-default')
 					.addClass('label-success');
 				day_completed_inner_flag
-					.removeClass('glyphicon-unchecked')
+					.removeClass('glyphicon-unchecked glyphicon-modal-window')
 					.addClass('glyphicon-check');
 			} else {
 				day_completed_flag
 					.attr('title', 'Не завершён')
-					.removeClass('label-success')
+					.removeClass('label-success label-default')
 					.addClass('label-primary');
 				day_completed_inner_flag
-					.removeClass('glyphicon-check')
+					.removeClass('glyphicon-check glyphicon-modal-window')
 					.addClass('glyphicon-unchecked');
 			}
 		};
@@ -553,7 +566,7 @@ $(document).ready(
 					: !is_day_completed
 						? -1
 						: counters.satisfied / number_of_not_canceled_daily_points;
-			UpdateDayCompletedFlag(is_day_completed);
+			UpdateDayCompletedFlag({...counters, total: number_of_daily_points});
 			UpdateDaySatisfiedView(factor_of_satisfied_daily_points);
 
 			number_of_daily_points_view.text(number_of_daily_points);

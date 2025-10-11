@@ -6,21 +6,34 @@ $(document).ready(
 		var day_completed_inner_flag = $('span.glyphicon', day_completed_flag);
 		var stats_url = day_completed_flag.data('stats-url');
 		var UpdateDayCompletedFlag = function(data) {
-			if (data.completed == '1') {
+			var is_completed = data.completed == '1';
+			var is_skipped = is_completed
+				&& data.skipped == '1'
+				&& parseInt(data.daily, 10) > 0;
+
+			if (is_skipped) {
+				day_completed_flag
+					.attr('title', 'Пропущен')
+					.removeClass('label-primary label-success')
+					.addClass('label-default');
+				day_completed_inner_flag
+					.removeClass('glyphicon-unchecked glyphicon-check')
+					.addClass('glyphicon-modal-window');
+			} else if (is_completed) {
 				day_completed_flag
 					.attr('title', 'Завершён')
-					.removeClass('label-primary')
+					.removeClass('label-primary label-default')
 					.addClass('label-success');
 				day_completed_inner_flag
-					.removeClass('glyphicon-unchecked')
+					.removeClass('glyphicon-unchecked glyphicon-modal-window')
 					.addClass('glyphicon-check');
 			} else {
 				day_completed_flag
 					.attr('title', 'Не завершён')
-					.removeClass('label-success')
+					.removeClass('label-success label-default')
 					.addClass('label-primary');
 				day_completed_inner_flag
-					.removeClass('glyphicon-check')
+					.removeClass('glyphicon-check glyphicon-modal-window')
 					.addClass('glyphicon-unchecked');
 			}
 		};
