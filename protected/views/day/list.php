@@ -34,32 +34,7 @@
 			'selectableRows' => 0,
 			'enableHistory' => true,
 			'columns' => array(
-				array(
-					'type' => 'raw',
-					'value' =>
-						'"<span '
-							. 'class = \"'
-								. 'label '
-								. 'label-"'
-									. '. ($data["completed"]'
-										. '? "success"'
-										. ': "primary") . " '
-								. 'day-completed-flag\" '
-							. 'title = \""'
-								. '. ($data["completed"]'
-									. '? "Завершён"'
-									. ': "Не завершён") . "\">'
-							. '<span '
-								. 'class = \"glyphicon glyphicon-"'
-									. '. ($data["completed"]'
-										. '? "check"'
-										. ': "unchecked") . "\">'
-							. '</span>'
-						. '</span>"',
-					'htmlOptions' => array(
-						'class' => 'day-completed-flag-column'
-					)
-				),
+				array('class' => 'DayStateColumn'),
 				array(
 					'type' => 'raw',
 					'value' =>
