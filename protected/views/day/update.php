@@ -94,21 +94,9 @@
 	<h4 class = "clearfix day-editor-header">
 		<time title = "<?= $date ?>"><?= $my_date ?></time>
 
-		<span
-			class = "label label-<?=
-				$stats['completed']
-					? 'success'
-					: 'primary'
-			?> day-completed-flag"
-			title = "<?= $stats['completed'] ? 'Завершён' : 'Не завершён' ?>">
-			<span
-				class = "glyphicon glyphicon-<?=
-					$stats['completed']
-						? 'check'
-						: 'unchecked'
-				?>">
-			</span>
-		</span>
+		<?php $this->widget('application.widgets.DayStateWidget', array(
+			'stats' => $stats
+		)); ?>
 		<span
 			class = "label label-success saved-flag"
 			title = "Сохранено">

@@ -324,6 +324,9 @@ class DayController extends CController {
 					'NOT MAX('
 							. '`state` = \'INITIAL\' AND LENGTH(`text`) > 0'
 						. ') AS \'completed\'',
+					'NOT MAX('
+							. '`daily` = TRUE AND `state` != \'CANCELED\' AND LENGTH(`text`) > 0'
+						. ') AS \'skipped\'',
 					'SUM('
 							. 'CASE '
 								. 'WHEN `daily` = TRUE AND LENGTH(`text`) > 0 '
@@ -369,6 +372,7 @@ class DayController extends CController {
 			$row = array(
 				'date' => $date,
 				'completed' => true,
+				'skipped' => false,
 				'daily' => 0,
 				'satisfied' => 100,
 				'not_canceled' => 0,
