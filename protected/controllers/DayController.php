@@ -6,7 +6,7 @@ class DayController extends CController {
 	const ONE_LEVEL_EDITOR_INDENT = '    ';
 
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + stats, finishing');
+		return array('accessControl', 'ajaxOnly + stats, finishing, skipping');
 	}
 
 	public function accessRules() {
@@ -262,6 +262,65 @@ class DayController extends CController {
 			$transaction->rollback();
 			throw $exception;
 		}
+	}
+
+	public function actionSkipping($date) {
+		$this->testDate($date);
+
+		$stats = $this->getStats($date);
+		if ($stats['completed']) {
+			throw new CHttpException(400, 'День уже завершён.');
+		}
+
+		$points = Point::model()->findAll(array(
+			'condition' => 'date = :date',
+			'params' => array('date' => $date),
+			'order' => '`order`'
+		));
+
+		$next_date = $this->shiftDate($date, '+1 day');
+		if (Point::model()->exists(
+			'date = :date AND `state` != \'INITIAL\'',
+			array('date' => $next_date)
+		)) {
+			throw new CHttpException(500, 'Следующий день уже содержит отмеченные пункты.');
+		}
+
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			Point::model()->deleteAllByAttributes(array('date' => $next_date));
+
+			foreach ($points as $point) {
+				$next_point = new Point();
+				$next_point->date = $next_date;
+				$next_point->text = $point->text;
+				$next_point->state = $point->state;
+				$next_point->daily = $point->daily;
+				$next_point->order = $point->order;
+
+				if (!$next_point->save()) {
+					throw new CHttpException(500, 'Ошибка сохранения пункта.');
+				}
+			}
+
+			foreach ($points as $point) {
+				if (strlen($point->text) == 0) {
+					continue;
+				}
+
+				$point->state = $point->daily ? 'CANCELED' : 'SATISFIED';
+				if (!$point->save()) {
+					throw new CHttpException(500, 'Ошибка сохранения пункта.');
+				}
+			}
+
+			$transaction->commit();
+		} catch(Exception $exception) {
+			$transaction->rollback();
+			throw $exception;
+		}
+
+		DailyPointsAdder::addDailyPoints($next_date);
 	}
 
 	public function getRowClass($date) {
@@ -786,8 +845,12 @@ class DayController extends CController {
 			. "COMMIT;";
 	}
 
+	private function shiftDate($date, $offset) {
+		return date('Y-m-d', strtotime($offset, strtotime($date)));
+	}
+
 	private function createDayUrlWithOffset($day, $offset) {
-		$target_date = date('Y-m-d', strtotime($offset, strtotime($day)));
+		$target_date = $this->shiftDate($day, $offset);
 		if ($target_date < DateFormatter::getStartDate()) {
 			return null;
 		}
