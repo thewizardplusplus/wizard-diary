@@ -22,6 +22,10 @@
 		CHtml::asset('scripts/finishing.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/skipping_dialog.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
