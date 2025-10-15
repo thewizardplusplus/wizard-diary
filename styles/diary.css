@@ -63,7 +63,8 @@ form .panel :last-child {
 .age-points-button img,
 .save-day-button img,
 .create-backup-button img,
-.finishing-button img {
+.finishing-button img,
+.skipping-button img {
 	display: none;
 	height: 18px;
 }

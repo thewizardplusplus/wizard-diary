@@ -26,11 +26,32 @@
 		CHtml::asset('scripts/skipping_dialog.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/skipping.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
 
 <header class = "page-header clearfix header-with-button">
+	<a
+		class = "btn btn-danger pull-right skipping-button"
+		href = "#"
+		title = "Пропустить"
+		data-skipping-url = "<?=
+			$this->createUrl('day/skipping', array('date' => $raw_date))
+		?>"
+		data-stats-url = "<?=
+			$this->createUrl('day/stats', array('date' => $raw_date))
+		?>"
+		<?= $stats['completed'] ? 'disabled = "disabled"' : '' ?>>
+		<img
+			src = "<?= Yii::app()->request->baseUrl ?>/images/processing-icon.gif"
+			alt = "..." />
+		<span class = "glyphicon glyphicon-minus-sign"></span>
+		<span class = "hidden-xs">Пропустить</span>
+	</a>
 	<a
 		class = "btn btn-danger pull-right finishing-button"
 		href = "#"
@@ -125,6 +146,7 @@
 				'function() {'
 					. 'PointList.afterUpdate();'
 					. 'FinishingButton.update();'
+					. 'SkippingButton.update();'
 				. '}',
 			'ajaxUpdateError' =>
 				'function(xhr, text_status) {'
