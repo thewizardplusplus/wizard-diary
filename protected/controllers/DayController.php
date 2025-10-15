@@ -6,7 +6,7 @@ class DayController extends CController {
 	const ONE_LEVEL_EDITOR_INDENT = '    ';
 
 	public function filters() {
-		return array('accessControl', 'ajaxOnly + stats, finishing');
+		return array('accessControl', 'ajaxOnly + stats, finishing, skipping');
 	}
 
 	public function accessRules() {
@@ -262,6 +262,17 @@ class DayController extends CController {
 			$transaction->rollback();
 			throw $exception;
 		}
+	}
+
+	public function actionSkipping($date) {
+		$this->testDate($date);
+
+		$stats = $this->getStats($date);
+		if ($stats['completed']) {
+			throw new CHttpException(400, 'День уже завершён.');
+		}
+
+		throw new CHttpException(400, 'Ещё не реализовано.');
 	}
 
 	public function getRowClass($date) {
