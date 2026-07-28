@@ -272,7 +272,68 @@ class DayController extends CController {
 			throw new CHttpException(400, 'День уже завершён.');
 		}
 
-		throw new CHttpException(400, 'Ещё не реализовано.');
+		$points = Point::model()->findAll(array(
+			'condition' => 'date = :date AND LENGTH(`text`) > 0',
+			'params' => array('date' => $date)
+		));
+
+		$daily_points_by_texts = array();
+		foreach ($points as $point) {
+			if ($point->daily) {
+				$daily_points_by_texts[$point->text] = $point;
+			}
+		}
+
+		$next_date = $this->shiftDate($date, '+1 day');
+		$next_points = Point::model()->findAll(array(
+			'select' => array('id', 'text', 'state', 'daily'),
+			'condition' => 'date = :date AND LENGTH(`text`) > 0',
+			'params' => array('date' => $next_date)
+		));
+
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			if (count($next_points) == 0) {
+				foreach ($points as $point) {
+					$new_next_point = new Point();
+					$new_next_point->date = $next_date;
+					$new_next_point->text = $point->text;
+					$new_next_point->state = $point->state;
+					$new_next_point->daily = $point->daily;
+					$new_next_point->order = $point->order;
+
+					if (!$new_next_point->save()) {
+						throw new CHttpException(500, 'Ошибка сохранения пункта.');
+					}
+				}
+			} else {
+				foreach ($next_points as $next_point) {
+					if ($next_point->state != 'INITIAL') {
+						throw new CHttpException(500, 'Следующий день уже содержит отмеченные пункты.');
+					}
+
+					if ($next_point->daily && array_key_exists($next_point->text, $daily_points_by_texts)) {
+						$daily_point = $daily_points_by_texts[$next_point->text];
+						$next_point->state = $daily_point->state;
+						if (!$next_point->save()) {
+							throw new CHttpException(500, 'Ошибка сохранения ежедневного пункта.');
+						}
+					}
+				}
+			}
+
+			foreach ($points as $point) {
+				$point->state = $point->daily ? 'CANCELED' : 'SATISFIED';
+				if (!$point->save()) {
+					throw new CHttpException(500, 'Ошибка сохранения пункта.');
+				}
+			}
+
+			$transaction->commit();
+		} catch(Exception $exception) {
+			$transaction->rollback();
+			throw $exception;
+		}
 	}
 
 	public function getRowClass($date) {
@@ -797,8 +858,12 @@ class DayController extends CController {
 			. "COMMIT;";
 	}
 
+	private function shiftDate($date, $offset) {
+		return date('Y-m-d', strtotime($offset, strtotime($date)));
+	}
+
 	private function createDayUrlWithOffset($day, $offset) {
-		$target_date = date('Y-m-d', strtotime($offset, strtotime($day)));
+		$target_date = $this->shiftDate($day, $offset);
 		if ($target_date < DateFormatter::getStartDate()) {
 			return null;
 		}
