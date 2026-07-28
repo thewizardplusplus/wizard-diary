@@ -7,6 +7,21 @@ set -o nounset
 declare -r DEFAULT_REMOTE="origin"
 declare -r DEFAULT_BRANCH="master"
 
+echo "info: updating system packages..." >&2
+
+export DEBIAN_FRONTEND=noninteractive
+if apt-get update; then
+	apt-get \
+		--assume-yes \
+		--option Dpkg::Options::="--force-confdef" \
+		--option Dpkg::Options::="--force-confold" \
+		upgrade
+	apt-get --assume-yes --purge autoremove
+	apt-get --assume-yes clean
+else
+	echo "warning: apt-get update failed (network or lock issue)" >&2
+fi
+
 echo "info: current commit: $(git rev-parse --short HEAD)" >&2
 echo -e "info: current status:\n$(git status | sed 's/^/  /')" >&2
 
