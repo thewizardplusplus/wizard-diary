@@ -10,6 +10,10 @@
 	 * @var array $stats
 	 */
 
+	Yii::app()->getClientScript()->registerCssFile(
+		CHtml::asset('styles/btn_gray.css')
+	);
+
 	Yii::app()->getClientScript()->registerScriptFile(
 		CHtml::asset('scripts/point_list.js'),
 		CClientScript::POS_HEAD
@@ -40,7 +44,7 @@
 
 <header class = "page-header clearfix header-with-button">
 	<a
-		class = "btn btn-danger pull-right title-responsive skipping-button"
+		class = "btn btn-gray pull-right title-responsive skipping-button"
 		href = "#"
 		title = "Пропустить"
 		data-skipping-url = "<?=
