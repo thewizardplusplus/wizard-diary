@@ -54,7 +54,7 @@ class MistakeController extends CController {
 					throw new CHttpException(500, 'Ошибка парсинга строки текста.');
 				}
 
-				return $matches;
+				return $matches[0];
 			},
 			$lines
 		);
@@ -62,13 +62,18 @@ class MistakeController extends CController {
 		$pspells = $this->initPspells(self::$pspell_languages);
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
-			function($words) use ($pspells, $spellings) {
-				return array_filter(
-					$words[0],
-					function($word) use ($pspells, $spellings) {
-						return !$this->checkWord($pspells, $spellings, $word[0]);
+			function($word_line) use ($pspells, $spellings) {
+				$mistakes = array();
+				foreach ($word_line as $word) {
+					$misspelled_parts =
+						$this->findMisspelledParts($pspells, $spellings, $word[0]);
+					foreach ($misspelled_parts as $misspelled_part) {
+						$misspelled_part[1] += $word[1];
+						$mistakes[] = $misspelled_part;
 					}
-				);
+				}
+
+				return $mistakes;
 			},
 			$word_lines
 		);
@@ -76,25 +81,19 @@ class MistakeController extends CController {
 		$line_counter = 0;
 		$mistakes = array();
 		array_map(
-			function($words) use (&$mistakes, $lines, &$line_counter) {
+			function($mistake_line) use (&$mistakes, $lines, &$line_counter) {
 				array_map(
-					function($word) use (&$mistakes, $lines, $line_counter) {
-						$offset = mb_strlen(
-							substr($lines[$line_counter], 0, $word[1]),
-							'utf-8'
-						);
+					function($misspelled_part) use (&$mistakes, $lines, $line_counter) {
+						$mistake_prefix =
+							substr($lines[$line_counter], 0, $misspelled_part[1]);
+						$start = mb_strlen($mistake_prefix, 'utf-8');
+						$end = $start + mb_strlen($misspelled_part[0], 'utf-8');
 						$mistakes[] = array(
-							'start' => array(
-								'line' => $line_counter,
-								'offset' => $offset
-							),
-							'end' => array(
-								'line' => $line_counter,
-								'offset' => $offset + mb_strlen($word[0], 'utf-8')
-							)
+							'start' => array('line' => $line_counter, 'offset' => $start),
+							'end' => array('line' => $line_counter, 'offset' => $end)
 						);
 					},
-					$words
+					$mistake_line
 				);
 
 				$line_counter++;
@@ -132,8 +131,7 @@ class MistakeController extends CController {
 	private static $pspell_languages = array('ru', 'en_US');
 
 	private function collectPointList($pspells) {
-		$points = Yii::app()
-			->db
+		$points = Yii::app()->db
 			->createCommand()
 			->from('{{points}}')
 			->where('text != ""')
@@ -146,13 +144,18 @@ class MistakeController extends CController {
 				$point['text'] = preg_replace_callback(
 					Spelling::WORD_PATTERN,
 					function($matches) use ($pspells, $spellings, &$counter) {
-						$result = '';
 						$word = $matches[0];
-						if ($this->checkWord($pspells, $spellings, $word)) {
-							$result = $word;
-						} else {
-							$result =
-								'<mark>' . $word . '</mark>'
+						$misspelled_parts =
+							$this->findMisspelledParts($pspells, $spellings, $word);
+
+						$result = '';
+						$position = 0;
+						foreach ($misspelled_parts as $misspelled_part) {
+							$counter++;
+
+							$result .=
+								substr($word, $position, $misspelled_part[1] - $position)
+								. '<mark>' . $misspelled_part[0] . '</mark>'
 								. '<button '
 									. 'class = "'
 										. 'btn '
@@ -160,20 +163,16 @@ class MistakeController extends CController {
 										. 'btn-xs '
 										. 'blue-button '
 										. 'add-word-button'
-									.'" '
-									. 'data-word = "'
-										. CHtml::encode($word)
 									. '" '
+									. 'data-word = "' . CHtml::encode($misspelled_part[0]) . '" '
 									. 'title = "Добавить в словарь">'
-									. '<span '
-										. 'class = "glyphicon glyphicon-plus">'
-									. '</span>'
+									. '<span class = "glyphicon glyphicon-plus"></span>'
 								. '</button>';
 
-							$counter++;
+							$position = $misspelled_part[1] + strlen($misspelled_part[0]);
 						}
 
-						return $result;
+						return $result . substr($word, $position);
 					},
 					$point['text']
 				);
@@ -233,29 +232,42 @@ class MistakeController extends CController {
 		return $pspells;
 	}
 
-	private function checkWord($pspells, $spellings, $word) {
+	private function findMisspelledParts($pspells, $spellings, $word) {
 		if (in_array(mb_strtolower($word, 'utf-8'), $spellings)) {
-			return true;
+			return array();
 		}
 
 		// split words written in camel case into separate sub-words
 		// (https://stackoverflow.com/a/7729790)
-		$subWords = preg_split(
+		$sub_words = preg_split(
 			'/
 				(?: (?<=[a-z]) (?=[A-Z]) ) # split "fooFoo" into ["foo", "Foo"]
 				| (?: (?<=[A-Z]) (?=[A-Z][a-z]) ) # split "FOOFoo" into ["FOO", "Foo"]
 			/x',
-			$word
+			$word,
+			-1,
+			PREG_SPLIT_OFFSET_CAPTURE
 		);
-		foreach ($subWords as $subWord) {
+
+		$misspelled_parts = array();
+		foreach ($sub_words as $sub_word) {
+			if (in_array(mb_strtolower($sub_word[0], 'utf-8'), $spellings)) {
+				continue;
+			}
+
+			$correct = false;
 			foreach ($pspells as $pspell) {
-				if (pspell_check($pspell, $subWord)) {
-					return true;
+				if (pspell_check($pspell, $sub_word[0])) {
+					$correct = true;
+					break;
 				}
+			}
+			if (!$correct) {
+				$misspelled_parts[] = $sub_word;
 			}
 		}
 
-		return false;
+		return $misspelled_parts;
 	}
 
 	private function getSpellings() {
