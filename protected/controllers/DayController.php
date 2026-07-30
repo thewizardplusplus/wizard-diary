@@ -273,43 +273,41 @@ class DayController extends CController {
 		}
 
 		$points = Point::model()->findAll(array(
-			'condition' => 'date = :date AND LENGTH(`text`) > 0',
-			'params' => array('date' => $date)
+			'condition' => 'date = :date',
+			'params' => array('date' => $date),
+			'order' => '`order`'
 		));
-
-		$daily_points_by_texts = array();
-		foreach ($points as $point) {
-			if ($point->daily) {
-				$daily_points_by_texts[$point->text] = $point;
-			}
-		}
 
 		$next_date = $this->shiftDate($date, '+1 day');
-		DailyPointsAdder::addDailyPoints($next_date);
-
-		$next_points = Point::model()->findAll(array(
-			'select' => array('id', 'text', 'state', 'daily'),
-			'condition' => 'date = :date AND LENGTH(`text`) > 0',
-			'params' => array('date' => $next_date)
-		));
+		if (Point::model()->exists(
+			'date = :date AND `state` != \'INITIAL\'',
+			array('date' => $next_date)
+		)) {
+			throw new CHttpException(500, 'Следующий день уже содержит отмеченные пункты.');
+		}
 
 		$transaction = Yii::app()->db->beginTransaction();
 		try {
-			foreach ($next_points as $next_point) {
-				if ($next_point->state != 'INITIAL') {
-					throw new CHttpException(500, 'Следующий день уже содержит отмеченные пункты.');
-				}
+			Point::model()->deleteAllByAttributes(array('date' => $next_date));
 
-				if ($next_point->daily && array_key_exists($next_point->text, $daily_points_by_texts)) {
-					$daily_point = $daily_points_by_texts[$next_point->text];
-					$next_point->state = $daily_point->state;
-					if (!$next_point->save()) {
-						throw new CHttpException(500, 'Ошибка сохранения ежедневного пункта.');
-					}
+			foreach ($points as $point) {
+				$next_point = new Point();
+				$next_point->date = $next_date;
+				$next_point->text = $point->text;
+				$next_point->state = $point->state;
+				$next_point->daily = $point->daily;
+				$next_point->order = $point->order;
+
+				if (!$next_point->save()) {
+					throw new CHttpException(500, 'Ошибка сохранения пункта.');
 				}
 			}
 
 			foreach ($points as $point) {
+				if (strlen($point->text) == 0) {
+					continue;
+				}
+
 				$point->state = $point->daily ? 'CANCELED' : 'SATISFIED';
 				if (!$point->save()) {
 					throw new CHttpException(500, 'Ошибка сохранения пункта.');
@@ -321,6 +319,8 @@ class DayController extends CController {
 			$transaction->rollback();
 			throw $exception;
 		}
+
+		DailyPointsAdder::addDailyPoints($next_date);
 	}
 
 	public function getRowClass($date) {
