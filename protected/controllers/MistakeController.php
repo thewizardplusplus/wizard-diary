@@ -63,12 +63,18 @@ class MistakeController extends CController {
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
 			function($words) use ($pspells, $spellings) {
-				return array_filter(
-					$words[0],
-					function($word) use ($pspells, $spellings) {
-						return !$this->checkWord($pspells, $spellings, $word[0]);
+				$mistakes = array();
+				foreach ($words[0] as $word) {
+					foreach (
+						$this->findMisspelledParts($pspells, $spellings, $word[0])
+						as $part
+					) {
+						$part[1] += $word[1];
+						$mistakes[] = $part;
 					}
-				);
+				}
+
+				return $mistakes;
 			},
 			$word_lines
 		);
@@ -148,11 +154,14 @@ class MistakeController extends CController {
 					function($matches) use ($pspells, $spellings, &$counter) {
 						$result = '';
 						$word = $matches[0];
-						if ($this->checkWord($pspells, $spellings, $word)) {
-							$result = $word;
-						} else {
-							$result =
-								'<mark>' . $word . '</mark>'
+						$position = 0;
+						foreach (
+							$this->findMisspelledParts($pspells, $spellings, $word)
+							as $part
+						) {
+							$result .= substr($word, $position, $part[1] - $position);
+							$result .=
+								'<mark>' . $part[0] . '</mark>'
 								. '<button '
 									. 'class = "'
 										. 'btn '
@@ -162,7 +171,7 @@ class MistakeController extends CController {
 										. 'add-word-button'
 									.'" '
 									. 'data-word = "'
-										. CHtml::encode($word)
+										. CHtml::encode($part[0])
 									. '" '
 									. 'title = "Добавить в словарь">'
 									. '<span '
@@ -171,7 +180,9 @@ class MistakeController extends CController {
 								. '</button>';
 
 							$counter++;
+							$position = $part[1] + strlen($part[0]);
 						}
+						$result .= substr($word, $position);
 
 						return $result;
 					},
@@ -233,29 +244,41 @@ class MistakeController extends CController {
 		return $pspells;
 	}
 
-	private function checkWord($pspells, $spellings, $word) {
+	private function findMisspelledParts($pspells, $spellings, $word) {
 		if (in_array(mb_strtolower($word, 'utf-8'), $spellings)) {
-			return true;
+			return array();
 		}
 
 		// split words written in camel case into separate sub-words
 		// (https://stackoverflow.com/a/7729790)
-		$subWords = preg_split(
+		$sub_words = preg_split(
 			'/
 				(?: (?<=[a-z]) (?=[A-Z]) ) # split "fooFoo" into ["foo", "Foo"]
 				| (?: (?<=[A-Z]) (?=[A-Z][a-z]) ) # split "FOOFoo" into ["FOO", "Foo"]
 			/x',
-			$word
+			$word,
+			-1,
+			PREG_SPLIT_OFFSET_CAPTURE
 		);
-		foreach ($subWords as $subWord) {
+		$misspelled_parts = array();
+		foreach ($sub_words as $sub_word) {
+			if (in_array(mb_strtolower($sub_word[0], 'utf-8'), $spellings)) {
+				continue;
+			}
+
+			$correct = false;
 			foreach ($pspells as $pspell) {
-				if (pspell_check($pspell, $subWord)) {
-					return true;
+				if (pspell_check($pspell, $sub_word[0])) {
+					$correct = true;
+					break;
 				}
+			}
+			if (!$correct) {
+				$misspelled_parts[] = $sub_word;
 			}
 		}
 
-		return false;
+		return $misspelled_parts;
 	}
 
 	private function getSpellings() {
