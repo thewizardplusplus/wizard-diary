@@ -30,13 +30,17 @@
 		CHtml::asset('scripts/skipping.js'),
 		CClientScript::POS_HEAD
 	);
+	Yii::app()->getClientScript()->registerScriptFile(
+		CHtml::asset('scripts/title_responsive.js'),
+		CClientScript::POS_HEAD
+	);
 
 	$this->pageTitle = Yii::app()->name . ' - ' . $my_date;
 ?>
 
 <header class = "page-header clearfix header-with-button">
 	<a
-		class = "btn btn-danger pull-right skipping-button"
+		class = "btn btn-danger pull-right title-responsive skipping-button"
 		href = "#"
 		title = "Пропустить"
 		data-skipping-url = "<?=
@@ -53,7 +57,7 @@
 		<span class = "hidden-xs">Пропустить</span>
 	</a>
 	<a
-		class = "btn btn-danger pull-right finishing-button"
+		class = "btn btn-danger pull-right title-responsive finishing-button"
 		href = "#"
 		title = "Завершить"
 		data-finishing-url = "<?=
@@ -70,7 +74,7 @@
 		<span class = "hidden-xs">Завершить</span>
 	</a>
 	<a
-		class = "btn btn-default pull-right"
+		class = "btn btn-default pull-right title-responsive"
 		href = "<?=
 			$this->createUrl('day/update', array('date' => $raw_date))
 		?>"
