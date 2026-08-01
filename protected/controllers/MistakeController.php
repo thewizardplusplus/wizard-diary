@@ -65,12 +65,11 @@ class MistakeController extends CController {
 			function($words) use ($pspells, $spellings) {
 				$mistakes = array();
 				foreach ($words[0] as $word) {
-					foreach (
-						$this->findMisspelledParts($pspells, $spellings, $word[0])
-						as $part
-					) {
-						$part[1] += $word[1];
-						$mistakes[] = $part;
+					$misspelled_parts =
+						$this->findMisspelledParts($pspells, $spellings, $word[0]);
+					foreach ($misspelled_parts as $misspelled_part) {
+						$misspelled_part[1] += $word[1];
+						$mistakes[] = $misspelled_part;
 					}
 				}
 
@@ -138,8 +137,7 @@ class MistakeController extends CController {
 	private static $pspell_languages = array('ru', 'en_US');
 
 	private function collectPointList($pspells) {
-		$points = Yii::app()
-			->db
+		$points = Yii::app()->db
 			->createCommand()
 			->from('{{points}}')
 			->where('text != ""')
@@ -152,16 +150,18 @@ class MistakeController extends CController {
 				$point['text'] = preg_replace_callback(
 					Spelling::WORD_PATTERN,
 					function($matches) use ($pspells, $spellings, &$counter) {
-						$result = '';
 						$word = $matches[0];
+						$misspelled_parts =
+							$this->findMisspelledParts($pspells, $spellings, $word);
+
+						$result = '';
 						$position = 0;
-						foreach (
-							$this->findMisspelledParts($pspells, $spellings, $word)
-							as $part
-						) {
-							$result .= substr($word, $position, $part[1] - $position);
+						foreach ($misspelled_parts as $misspelled_part) {
+							$counter++;
+
 							$result .=
-								'<mark>' . $part[0] . '</mark>'
+								substr($word, $position, $misspelled_part[1] - $position)
+								. '<mark>' . $misspelled_part[0] . '</mark>'
 								. '<button '
 									. 'class = "'
 										. 'btn '
@@ -169,22 +169,16 @@ class MistakeController extends CController {
 										. 'btn-xs '
 										. 'blue-button '
 										. 'add-word-button'
-									.'" '
-									. 'data-word = "'
-										. CHtml::encode($part[0])
 									. '" '
+									. 'data-word = "' . CHtml::encode($misspelled_part[0]) . '" '
 									. 'title = "Добавить в словарь">'
-									. '<span '
-										. 'class = "glyphicon glyphicon-plus">'
-									. '</span>'
+									. '<span class = "glyphicon glyphicon-plus"></span>'
 								. '</button>';
 
-							$counter++;
-							$position = $part[1] + strlen($part[0]);
+							$position = $misspelled_part[1] + strlen($misspelled_part[0]);
 						}
-						$result .= substr($word, $position);
 
-						return $result;
+						return $result . substr($word, $position);
 					},
 					$point['text']
 				);
@@ -260,6 +254,7 @@ class MistakeController extends CController {
 			-1,
 			PREG_SPLIT_OFFSET_CAPTURE
 		);
+
 		$misspelled_parts = array();
 		foreach ($sub_words as $sub_word) {
 			if (in_array(mb_strtolower($sub_word[0], 'utf-8'), $spellings)) {
