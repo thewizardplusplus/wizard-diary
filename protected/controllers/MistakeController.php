@@ -54,7 +54,7 @@ class MistakeController extends CController {
 					throw new CHttpException(500, 'Ошибка парсинга строки текста.');
 				}
 
-				return $matches;
+				return $matches[0];
 			},
 			$lines
 		);
@@ -62,9 +62,9 @@ class MistakeController extends CController {
 		$pspells = $this->initPspells(self::$pspell_languages);
 		$spellings = $this->getSpellings();
 		$mistake_lines = array_map(
-			function($words) use ($pspells, $spellings) {
+			function($word_line) use ($pspells, $spellings) {
 				$mistakes = array();
-				foreach ($words[0] as $word) {
+				foreach ($word_line as $word) {
 					$misspelled_parts =
 						$this->findMisspelledParts($pspells, $spellings, $word[0]);
 					foreach ($misspelled_parts as $misspelled_part) {
@@ -81,25 +81,19 @@ class MistakeController extends CController {
 		$line_counter = 0;
 		$mistakes = array();
 		array_map(
-			function($words) use (&$mistakes, $lines, &$line_counter) {
+			function($mistake_line) use (&$mistakes, $lines, &$line_counter) {
 				array_map(
-					function($word) use (&$mistakes, $lines, $line_counter) {
-						$offset = mb_strlen(
-							substr($lines[$line_counter], 0, $word[1]),
-							'utf-8'
-						);
+					function($misspelled_part) use (&$mistakes, $lines, $line_counter) {
+						$mistake_prefix =
+							substr($lines[$line_counter], 0, $misspelled_part[1]);
+						$start = mb_strlen($mistake_prefix, 'utf-8');
+						$end = $start + mb_strlen($misspelled_part[0], 'utf-8');
 						$mistakes[] = array(
-							'start' => array(
-								'line' => $line_counter,
-								'offset' => $offset
-							),
-							'end' => array(
-								'line' => $line_counter,
-								'offset' => $offset + mb_strlen($word[0], 'utf-8')
-							)
+							'start' => array('line' => $line_counter, 'offset' => $start),
+							'end' => array('line' => $line_counter, 'offset' => $end)
 						);
 					},
-					$words
+					$mistake_line
 				);
 
 				$line_counter++;
