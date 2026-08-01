@@ -157,8 +157,8 @@ google.setOnLoadCallback(
 		var DrawFunction = function() {
 			timeline.draw(data_table);
 			timeline.setVisibleChartRange(
-				// 24 days from the end date
-				new Date(end_date.getTime() - 24 * 24 * 60 * 60 * 1000),
+				// 69 days from the end date
+				new Date(end_date.getTime() - 69 * 24 * 60 * 60 * 1000),
 				end_date
 			);
 		};
