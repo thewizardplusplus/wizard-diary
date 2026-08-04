@@ -15,6 +15,7 @@ def _date_field():
     )
 
 class RepetitionValue(IntEnum):
+    UNKNOWN = -1
     NO = 0
     YES = 2
     SKIP = 3

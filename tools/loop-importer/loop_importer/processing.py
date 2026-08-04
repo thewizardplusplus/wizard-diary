@@ -104,8 +104,11 @@ def format_habit_repetitions_by_date_to_markdown(
             habit_repetitions_by_date[date],
             key=lambda habit_repetition: habit_repetition.habit_position,
         )):
-            checkbox = '[ ]'
-            if habit_repetition.value == models.RepetitionValue.YES:
+            checkbox = '[?]'
+            if habit_repetition.value == models.RepetitionValue.NO \
+                or habit_repetition.value == models.RepetitionValue.SKIP:
+                checkbox = '[ ]'
+            elif habit_repetition.value == models.RepetitionValue.YES:
                 checkbox = '[x]'
 
             name = habit_repetition.habit_name

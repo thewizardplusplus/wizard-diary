@@ -13,6 +13,7 @@ class TestLoadHabitsFromDB(unittest.TestCase):
         os.remove(self.temp_db_path)
 
     def test_successful_load(self):
+        unknown = models.RepetitionValue.UNKNOWN
         no = models.RepetitionValue.NO
         yes = models.RepetitionValue.YES
         skip = models.RepetitionValue.SKIP
@@ -23,9 +24,11 @@ class TestLoadHabitsFromDB(unittest.TestCase):
                 (1, self._create_timestamp(date(2025, 1, 1)), yes.value),
                 (1, self._create_timestamp(date(2025, 1, 2)), skip.value),
                 (1, self._create_timestamp(date(2025, 1, 3)), no.value),
-                (2, self._create_timestamp(date(2025, 1, 4)), yes.value),
-                (2, self._create_timestamp(date(2025, 1, 5)), skip.value),
-                (2, self._create_timestamp(date(2025, 1, 6)), no.value),
+                (1, self._create_timestamp(date(2025, 1, 4)), unknown.value),
+                (2, self._create_timestamp(date(2025, 1, 5)), yes.value),
+                (2, self._create_timestamp(date(2025, 1, 6)), skip.value),
+                (2, self._create_timestamp(date(2025, 1, 7)), no.value),
+                (2, self._create_timestamp(date(2025, 1, 8)), unknown.value),
             ],
         )
 
@@ -40,6 +43,7 @@ class TestLoadHabitsFromDB(unittest.TestCase):
                     models.Repetition(habit_id=1, date=date(2025, 1, 1), value=yes),
                     models.Repetition(habit_id=1, date=date(2025, 1, 2), value=skip),
                     models.Repetition(habit_id=1, date=date(2025, 1, 3), value=no),
+                    models.Repetition(habit_id=1, date=date(2025, 1, 4), value=unknown),
                 ],
                 is_archived=False,
             ),
@@ -48,9 +52,10 @@ class TestLoadHabitsFromDB(unittest.TestCase):
                 name='two',
                 position=102,
                 repetitions=[
-                    models.Repetition(habit_id=2, date=date(2025, 1, 4), value=yes),
-                    models.Repetition(habit_id=2, date=date(2025, 1, 5), value=skip),
-                    models.Repetition(habit_id=2, date=date(2025, 1, 6), value=no),
+                    models.Repetition(habit_id=2, date=date(2025, 1, 5), value=yes),
+                    models.Repetition(habit_id=2, date=date(2025, 1, 6), value=skip),
+                    models.Repetition(habit_id=2, date=date(2025, 1, 7), value=no),
+                    models.Repetition(habit_id=2, date=date(2025, 1, 8), value=unknown),
                 ],
                 is_archived=True,
             ),
